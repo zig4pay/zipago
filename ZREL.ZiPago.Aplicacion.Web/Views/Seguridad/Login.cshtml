@@ -1,0 +1,109 @@
+﻿@model ZREL.ZiPago.Aplicacion.Web.Models.Seguridad.UsuarioViewModel
+
+@{
+    ViewData["Title"] = "Inicio de Sesion";
+}
+<div class="container">
+
+    <form id="frmLogin">
+        <div id="loginBox" style="margin-top:80px;" class="mainbox col-md-4 col-md-offset-4 col-sm-8 col-sm-offset-2">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <div class="panel-title"><strong>Ingrese a ZiPago</strong></div>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label for="txtCorreo">Id ZiPago:</label>
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="fa fa-envelope"></i>
+                            </div>
+                            <input type="email" id="txtCorreo" name="txtCorreo" class="form-control" placeholder="Correo Electr&oacute;nico" maxlength="100" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtClave">Clave:</label>
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="fa fa-lock"></i>
+                            </div>
+                            <input type="password" id="txtClave" name="txtClave" class="form-control" placeholder="Contrase&ntilde;a" required>
+                        </div>
+                    </div>
+                    <div id="divBtnLogin" class="form-group">
+                        <div class="col-sm-8 control">
+                        </div>
+                        <div class="col-sm-4 control">
+                            <a id="btnLogin" href="#" class="btn btn-success">Ingresar</a>
+                        </div>
+                    </div>
+                    <div id="divProgress" style="display:none;" class="styleProgress">
+                        <img src="~/img/ajax-loader.gif" />&nbsp;<span style="vertical-align:middle;">Procesando ...</span>
+                    </div>
+                    <div id="divSpace" class="form-group control">
+                        <br />
+                        <br />
+                    </div>
+                    <div class="form-group">
+                        <div style="border-top: 1px solid#888; padding-top:15px; font-size:85%">
+                            <div class="col-sm-6" style="text-align:left; padding-left:0;">
+                                <a href="#" id="btnOlvidoClave">¿Olvidaste tu clave?</a>
+                            </div>
+                            <div class="col-sm-6 control" style="text-align:right; padding-right:0;">
+                                <a asp-controller="Seguridad" asp-action="UsuarioRegistrar">¿Nuevo en ZiPago?</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div id="olvidoClaveBox" style="margin-top:80px; display:none;" class="mainbox  col-md-4 col-md-offset-4 col-sm-8 col-sm-offset-2" >
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="panel-title"><strong>Recuperacion de Clave</strong></div>
+            </div>
+            <div class="panel-body">                
+                <div class="form-group">
+                    Ingrese su Id ZiPago (dirección de correo electrónico).<br />
+                    Se enviará a su correo el procedimiento a traves del cual podrá recuperar su contraseña.
+                </div>                
+                <div class="form-group">
+                    <label for="txtCorreo">Id ZiPago:</label>
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="fa fa-envelope"></i>
+                        </div>
+                        <input type="email" id="txtCorreo" name="txtCorreo" class="form-control" placeholder="Correo Electr&oacute;nico" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-6">
+                    </div>
+                    <div class="col-sm-6">
+                        <a id="btnRecuperar" href="#" class="btn btn-success">Recuperar clave</a>
+                    </div>
+                </div>
+                <div class="form-group control">
+                    <br />
+                    <br />
+                </div>
+                <div class="form-group">
+                    <div style="border-top: 1px solid#888; padding-top:15px; font-size:85%">
+                        <div class="col-sm-6">                            
+                        </div>
+                        <div class="col-sm-6 control" style="text-align:right; padding-right:0;">
+                            <a id="btnRegresaLogin" href="#">Ingrese a ZiPago</a>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+        </div>
+    </div>
+
+</div>
+
+<script src="~/js/jquery-2.2.4.min.js"></script>
+<script src="~/js/jquery.validate.min.js"></script>
+<script src="~/js/Seguridad/login.js"></script>

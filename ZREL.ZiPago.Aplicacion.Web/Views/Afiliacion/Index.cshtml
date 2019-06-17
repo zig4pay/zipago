@@ -1,0 +1,487 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+<div class="image-container set-full-height">
+
+    <!--   Big container   -->
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+
+                <!--      Wizard container        -->
+                <div class="wizard-container">
+                    <!--        You can switch ' data-color="orange" '  with one of the next bright colors: "blue", "green", "orange", "red"          -->
+                    <div class="card wizard-card" data-color="orange" id="wizardProfile">
+                        <form action="">
+
+                            <div class="wizard-header">
+                                <h3>
+                                    <b>Afiliate a ZiPago</b><br>
+                                    <small>Sigue los pasos e ingresa la siguiente informacion:</small>
+                                </h3>
+                            </div>
+
+                            <div class="wizard-navigation">
+                                <ul>
+                                    <li><a href="#about" data-toggle="tab">Paso 1</a></li>
+                                    <li><a href="#account" data-toggle="tab">Paso 2</a></li>
+                                    <li><a href="#address" data-toggle="tab">Paso 3</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="tab-content">
+                                <div class="tab-pane" id="about">
+                                    <div class="row">
+                                        <h3 class="info-text"> Registro de Usuario ZiPago </h3>
+                                        <div class="col-sm-10 col-sm-offset-1">
+
+                                            <div class="form-group row">
+                                                <div class="col-sm-2">
+                                                    <label for="txtIdZiPago1">Id ZiPago:</label>
+                                                </div>
+                                                <div class="col-sm-10">
+                                                    <input id="txtIdZiPago1" type="text" class="form-control" value="Nombre de Usuario ZiPago" disabled>
+                                                </div>
+                                            </div>
+                                            <hr />
+                                            
+                                            <div class="form-group row">
+                                                <div class="col-sm-2">
+                                                    <label>Tipo de Persona</label>
+                                                </div>
+                                                <div class="col-sm-2 form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="optPersona" id="optPersonaJuridica" value="option2" checked>
+                                                    <label class="label-radio" for="optPersonaJuridica">Juridica</label>
+                                                </div>
+                                                <div class="col-sm-2 form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="optPersona" id="optPersonaNatural" value="option1">
+                                                    <label class="label-radio" for="optPersonaNatural">Natural</label>
+                                                </div>
+                                                <div class="col-sm-6"></div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <div class="col-sm-2">
+                                                    <label>Rubro de Negocio:</label>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <select id="cboRubro" class="form-control">
+                                                        <option value="...">...</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-1">
+                                                    <label>Otro:</label>
+                                                </div>
+                                                <div class="col-sm-5">
+                                                    <input id="txtOtroRubro" type="text" class="form-control" placeholder="Rubro o Sector al cual pertenece el negocio">
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <div class="form-group row">
+                                                    <div class="col-sm-2">
+                                                        <label for="txtRUC">RUC:</label>
+                                                    </div>
+                                                    <div class="col-sm-10">
+                                                        <input id="txtRUC" type="text" class="form-control" placeholder="Numero de Registro Unico de Contribuyente">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <div class="col-sm-2">
+                                                        <label for="txtRUC">Razon Social:</label>
+                                                    </div>
+                                                    <div class="col-sm-10">
+                                                        <input id="txtRUC" type="text" class="form-control" placeholder="Razon Social segun SUNAT">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <hr />
+                                                <div class="form-group row">
+                                                    <label><strong>Contacto: </strong></label>
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <div class="form-group row">
+                                                    <div class="col-sm-2">
+                                                        <label for="txtDNI">DNI:</label>
+                                                    </div>
+                                                    <div class="col-sm-10">
+                                                        <input id="txtDNI" type="text" class="form-control" placeholder="Numero de Documento Nacional de Identidad">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <div class="col-sm-2">
+                                                    <label for="txtNombres">Nombres:</label>
+                                                </div>
+                                                <div class="col-sm-10">
+                                                    <input id="txtNombres" type="text" class="form-control" placeholder="Nombres">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-sm-2">
+                                                    <label for="txtApellidoPaterno">Apellido Paterno:</label>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <input id="txtApellidoPaterno" type="text" class="form-control" placeholder="Apellido Paterno">
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <label for="txtApellidoMaterno">Apellido Materno:</label>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <input id="txtApellidoMaterno" type="text" class="form-control" placeholder="Apellido Materno">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-sm-2">
+                                                    <label>Sexo:</label>
+                                                </div>
+                                                <div class="col-sm-2 form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="optSexo" id="optMasculino" value="option1">
+                                                    <label class="label-radio" for="optMasculino">Masculino</label>
+                                                </div>
+                                                <div class="col-sm-2 form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="optSexo" id="optFemenino" value="option2">
+                                                    <label class="label-radio" for="optFemenino">Femenino</label>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <label for="txtFechaNacimiento">Fecha de Nacimiento:</label>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <input id="txtFechaNacimiento" type="date" class="form-control" placeholder="dd/mm/yyyy">
+                                                </div>
+                                            </div>
+
+                                            <hr />
+                                            <div class="form-group row">
+                                                <label><strong>Domicilio: </strong></label>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-sm-2">
+                                                    <label for="cboDepartamento">Departamento:</label>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <select id="cboDepartamento" class="form-control">
+                                                        <option value="...">...</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <label for="cboProvincia">Provincia:</label>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <select id="cboProvincia" class="form-control">
+                                                        <option value="...">...</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-sm-2">
+                                                    <label for="cboDistrito">Distrito:</label>
+                                                </div>
+                                                <div class="col-sm-10">
+                                                    <select id="cboDistrito" class="form-control">
+                                                        <option value="...">...</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-sm-2">
+                                                    <label for="txtVia">Via:</label>
+                                                </div>
+                                                <div class="col-sm-10">
+                                                    <input id="txtVia" type="text" class="form-control" placeholder="Nombre de la Via">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-sm-2">
+                                                    <label for="txtDireccion">Direccion:</label>
+                                                </div>
+                                                <div class="col-sm-10">
+                                                    <input id="txtDireccion" type="text" class="form-control" placeholder="Direccion">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-sm-2">
+                                                    <label for="txtReferencia">Referencia:</label>
+                                                </div>
+                                                <div class="col-sm-10">
+                                                    <input id="txtReferencia" type="text" class="form-control" placeholder="Referencia para ubicar la direccion">
+                                                </div>
+                                            </div>
+                                            <hr />
+                                            <div class="form-group form-check">                                                
+                                                <label class="form-check-label" for="chkAcepto"><a href="#">Ver los terminos y condiciones aceptados.</a></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane" id="account">
+                                    <div class="row">
+                                        <h3 class="info-text"> Registre sus cuentas bancarias </h3>
+
+                                        <div class="col-sm-10 col-sm-offset-1">
+
+                                            <div class="col-sm-12">
+                                                <div class="form-group row">
+                                                    <div class="col-sm-2">
+                                                        <label for="txtIdZiPago2">Id ZiPago:</label>
+                                                    </div>
+                                                    <div class="col-sm-10">
+                                                        <input id="txtIdZiPago2" type="text" class="form-control" value="Nombre de Usuario ZiPago" disabled>
+                                                    </div>
+                                                </div>
+                                                <hr />
+                                            </div>
+                                            
+                                            <div class="col-sm-12">
+
+                                                <div class="form-group row">
+                                                    <div class="col-sm-2">
+                                                        <label for="cboBanco">Banco:</label>
+                                                    </div>
+                                                    <div class="col-sm-8">
+                                                        <select id="cboBanco" class="form-control">
+                                                            <option value="...">...</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <button>
+                                                            Anadir Cuenta Bancaria
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <div class="col-sm-2">
+                                                        <label for="txtIdComercio">Tipo de Cuenta:</label>
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <select id="cboTipoCuenta" class="form-control">
+                                                            <option value="...">...</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <label>Moneda:</label>
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <select id="cboMoneda" class="form-control">
+                                                            <option value="S">Soles S/</option>
+                                                            <option value="D">Dolares $/</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <div class="col-sm-2">
+                                                        <label for="txtNroCuenta">Numero de Cuenta Bancaria:</label>
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <input id="txtNroCuenta" type="text" class="form-control" placeholder="Nro. de Cta. Bancaria">
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <label for="txtCCI">Codigo de Cuenta Interbacario - CCI:</label>
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <input id="txtCCI" type="text" class="form-control" placeholder="Codigo CCI">
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                    </div>
+                                                </div>
+
+                                                <hr />
+                                            </div>
+
+                                            <div class="col-sm-12">
+                                                <table id="tblCuentas" class="table table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">Banco</th>
+                                                            <th scope="col">Tipo de Cuenta</th>
+                                                            <th scope="col">Moneda</th>
+                                                            <th scope="col">Numero de Cuenta</th>
+                                                            <th scope="col">Codigo Cta. Interbancario - CCI</th>
+                                                            <th scope="col">Accion</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <th scope="row">BCP</th>
+                                                            <td>Ahorros</td>
+                                                            <td>Soles</td>
+                                                            <td>1002004578</td>                                                            
+                                                            <td>12345678901234567890</td>                                                            
+                                                            <td></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane" id="address">
+                                    <div class="row">
+                                        <h3 class="info-text"> Registre su comercio </h3>
+
+                                        <div class="col-sm-10 col-sm-offset-1">
+
+                                            <div class="col-sm-12">
+                                                <div class="form-group row">
+                                                    <div class="col-sm-2">
+                                                        <label for="txtIdZiPago3">Id ZiPago:</label>
+                                                    </div>
+                                                    <div class="col-sm-10">
+                                                        <input id="txtIdZiPago3" type="text" class="form-control" value="Nombre de Usuario ZiPago" disabled>
+                                                    </div>
+                                                </div>
+                                                <hr />
+                                            </div>
+                                            
+                                            <div class="col-sm-12">
+
+                                                <div class="form-group row">
+                                                    <div class="col-sm-2">
+                                                        <label for="txtIdComercio">Id Comercio:</label>
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <input id="txtIdComercio" type="text" class="form-control" placeholder="Codigo del Comercio">                                                        
+                                                    </div>
+                                                    <div class="col-sm-5">                                                        
+                                                        <small class="text-primary">Dato por el cual se realizara la busqueda en los bancos.</small>
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <button>
+                                                            Anadir Comercio
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <div class="col-sm-2">
+                                                        <label for="txtDesComercio">Descripcion:</label>
+                                                    </div>
+                                                    <div class="col-sm-8">
+                                                        <input id="txtDesComercio" type="text" class="form-control" placeholder="Descripcion del Comercio">
+                                                        <small class="text-primary">Descripcion a mostrar en el banco.</small>
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <div class="col-sm-2">
+                                                        <label for="txtCorreoNotificacion">Correo de Notificacion:</label>
+                                                    </div>
+                                                    <div class="col-sm-8">
+                                                        <input id="txtCorreoNotificacion" type="email" class="form-control" placeholder="Correo electronico">
+                                                        <small class="text-primary">Correo electronico al cual se remitiran las notificaciones.</small>
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                    </div>
+                                                </div>
+                                                <hr />
+
+                                                <div class="form-group row">
+                                                    <label><strong>Cuenta Bancaria: </strong></label>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <div class="col-sm-2">
+                                                        <label for="cboBanco2">Banco:</label>
+                                                    </div>
+                                                    <div class="col-sm-10">
+                                                        <select id="cboBanco2" class="form-control">
+                                                            <option value="...">...</option>
+                                                        </select>
+                                                    </div>                                                    
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <div class="col-sm-2">
+                                                        <label for="txtIdComercio">Cuenta Bancaria:</label>
+                                                    </div>
+                                                    <div class="col-sm-10">
+                                                        <select id="cboCuenta" class="form-control">
+                                                            <option value="...">Cta de Ahorros - Soles - Nro Cta: 102035487962 - CCI: 12345678901234567890</option>
+                                                            <option value="...">Cta. Corriente - Dolares - Nro Cta: 904578487962 - CCI: 01234567890123456789</option>
+                                                        </select>
+                                                    </div>                                                    
+                                                </div>
+
+                                                <hr />
+                                            </div>
+
+                                            <div class="col-sm-12">
+
+                                                <table id="tblComercios" class="table table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">Id Comercio</th>
+                                                            <th scope="col">Descripcion Comercio</th>
+                                                            <th scope="col">Correo notificacion</th>
+                                                            <th scope="col">Banco</th>
+                                                            <th scope="col">Tipo Cta.</th>
+                                                            <th scope="col">Moneda</th>
+                                                            <th scope="col">Nro. Cta. Bancaria</th>
+                                                            <th scope="col">CCI</th>
+                                                            <th scope="col">Confirmado?</th>
+                                                            <th scope="col">Accion</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <th scope="row">REAL101</th>
+                                                            <td>Edificio Real 101</td>
+                                                            <td>101@real.com</td>
+                                                            <td>Banco de Credito del Peru</td>
+                                                            <td>Ahorros</td>
+                                                            <td>Soles</td>
+                                                            <td>1002004578</td>
+                                                            <td>12345678901234567890</td>
+                                                            <td>Si</td>
+                                                            <td></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="wizard-footer height-wizard">
+                                <div class="pull-right">
+                                    <input type='button' class='btn btn-next btn-fill btn-warning btn-wd btn-sm' name='next' value='Siguiente' />
+                                    <input type='button' class='btn btn-finish btn-fill btn-warning btn-wd btn-sm' name='finish' value='Registrar' />
+                                </div>
+                                <div class="pull-left">
+                                    <input type='button' class='btn btn-previous btn-fill btn-default btn-wd btn-sm' name='previous' value='Previo' />
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div> <!-- wizard container -->
+            </div>
+        </div><!-- end row -->
+    </div> <!--  big container -->
+
+    <div class="footer">
+        <div class="container">
+
+        </div>
+    </div>
+
+</div>
