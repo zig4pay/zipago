@@ -9,5 +9,6 @@ namespace ZREL.ZiPago.Aplicacion.Web.Models.Settings
     {
         public string ZZiPagoUrl { get; set; }
         public string UsuarioZiPago_Autenticar { get; set; }
+        public string UsuarioZiPago_Registrar { get; set; }
     }
 }

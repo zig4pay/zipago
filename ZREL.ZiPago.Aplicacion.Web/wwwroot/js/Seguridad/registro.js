@@ -3,22 +3,39 @@
 
         var $validator = $("#frmRegistro").validate({
             rules: {
-                txtNombres : "required",
-                txtApellidos: "required",
-                txtCorreo: {
-                    required: true,
+                nombresusuario : "required",
+                apellidosusuario: "required",
+                clave1: {
+                    required: true,                    
                     email: true
                 },
-                txtClave: "required",
-                txtConfirmeClave: "required",
-                chkAcepto: "required"
+                clave2: {
+                    required: true,                    
+                    minlength: 8
+                },
+                confirmeclave: {
+                    required: true,                    
+                    equalTo: "#clave2"
+                },
+                chkAcepto: {
+                    required: true
+                }
             },
             messages: {
-                txtNombres: ".",
-                txtApellidos: ".",
-                txtClave: "",
-                txtConfirmeClave: "",
-                chkAcepto:""
+                nombresusuario: "Por favor ingrese sus nombres.",
+                apellidosusuario: "Por favor ingrese sus apellidos.",
+                clave1: {
+                    required: "Por favor ingrese una cuenta de correo electronica.",
+                    email: "Por favor ingrese una cuenta de correo electronica valida."
+                },
+                clave2: {
+                    required: "Por favor ingrese una contrasena.",
+                    minlength: "La contrasena debe contener por lo menos 8 caracteres."                    
+                },                
+                confirmeclave: {
+                    equalTo: "La contrasena ingresada no coincide."
+                },
+                chkAcepto:"Es necesario que revise y acepte los terminos y condiciones."
             }
         });
 
@@ -28,12 +45,10 @@
         return false;
     });
 
-    $('#btnLogin').click(function () {
-        var $valid = $('#frmLogin').valid();
+    $('#btnRegistrar').click(function () {
+        var $valid = $('#frmRegistro').valid();
         if (!$valid) {
-            return false;
-        } else {
-            AutenticarUsuario();
+            return false;        
         }
     });
 

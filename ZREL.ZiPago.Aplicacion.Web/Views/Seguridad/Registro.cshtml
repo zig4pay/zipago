@@ -1,9 +1,11 @@
-﻿@{
+﻿@model ZREL.ZiPago.Aplicacion.Web.Models.Seguridad.UsuarioViewModel
+
+@{
     ViewData["Title"] = "Registro";
 }
 <div class="container">
 
-    <form id="frmRegistro">
+    <form id="frmRegistro" asp-controller="Seguridad" asp-action="UsuarioRegistrar" method="post">
 
         <div id="registroBox" style="margin-top:80px;" class="mainbox col-md-4 col-md-offset-4 col-sm-8 col-sm-offset-2">
             <div class="panel panel-info">
@@ -12,65 +14,66 @@
                 </div>
                 <div class="panel-body">
                     <div class="form-group">
-                        <label>Nombres:</label>
+                        <label for="nombresusuario">@Html.DisplayNameFor(m => m.NombresUsuario):</label>
                         <div class="input-group">
                             <div class="input-group-addon">
                                 <i class="fa fa-user"></i>
                             </div>
-                            <input type="text" name="txtNombres" id="txtNombres" class="form-control" placeholder="Nombres del Usuario" required>
+                            <input type="text" name="nombresusuario" id="nombresusuario" class="form-control" placeholder="Nombres del Usuario" asp-for="NombresUsuario">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Apellidos:</label>
+                        <label for="apellidosusuario">@Html.DisplayNameFor(m => m.ApellidosUsuario):</label>
                         <div class="input-group">
                             <div class="input-group-addon">
                                 <i class="fa fa-user"></i>
                             </div>
-                            <input type="text" name="txtApellidos" id="txtApellidos" class="form-control" placeholder="Apellidos del Usuario" required>
+                            <input type="text" name="apellidosusuario" id="apellidosusuario" class="form-control" placeholder="Apellidos del Usuario" asp-for="ApellidosUsuario">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Id ZiPago:</label>
+                        <label for="clave1">@Html.DisplayNameFor(m => m.Clave1):</label>
                         <div class="input-group">
                             <div class="input-group-addon">
                                 <i class="fa fa-envelope"></i>
                             </div>
-                            <input type="email" name="txtCorreo" id="txtCorreo" class="form-control" placeholder="Correo electr&oacute;nico" required>
+                            <input type="email" name="clave1" id="clave1" class="form-control" placeholder="Correo electr&oacute;nico" asp-for="Clave1">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Clave:</label>
+                        <label for="clave2">@Html.DisplayNameFor(m => m.Clave2):</label>
                         <div class="input-group">
                             <div class="input-group-addon">
                                 <i class="fa fa-lock"></i>
                             </div>
-                            <input type="password" name="txtClave" id="txtClave" class="form-control" placeholder="Contrase&ntilde;a" required>
+                            <input type="password" name="clave2" id="clave2" class="form-control" placeholder="Contrase&ntilde;a" asp-for="Clave2">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Confirme Clave:</label>
+                        <label for="confirmeclave">Confirme Clave:</label>
                         <div class="input-group">
                             <div class="input-group-addon">
                                 <i class="fa fa-lock"></i>
                             </div>
-                            <input type="password" name="txtConfirmeClave" id="txtConfirmeClave" class="form-control" placeholder="Vuelva a ingresar la Contrase&ntilde;a" required>
+                            <input type="password" name="confirmeclave" id="confirmeclave" class="form-control" placeholder="Vuelva a ingresar la Contrase&ntilde;a">
                         </div>
                     </div>
 
                     <div class="form-group form-check">
-                        <input type="checkbox" class="form-check-input" name="chkAcepto" id="chkAcepto" required>
-                        <label class="form-check-label" for="chkAcepto"><a href="#" data-toggle="modal" data-target="#scrollmodal">Acepto los terminos y condiciones.</a></label>
+                        <input type="checkbox" class="form-check-input" name="chkAcepto" id="chkAcepto">
+                        <label class="form-check-label"><a href="#" data-toggle="modal" data-target="#scrollmodal">Acepto los terminos y condiciones.</a></label>
                     </div>
 
                     <div class="form-group">
                         <div class="col-sm-8 control">
                         </div>
                         <div class="col-sm-4 control">
-                            <a id="btnRegistrar" href="#" class="btn btn-success">Registrar</a>
+                            <button type="submit" id="btnRegistrar" class="btn btn-success">Registrar</button>
                         </div>
-                    </div>
+                    </div>                    
                     <div class="form-group control">
                         <br />
+                        @Html.ValidationMessage("ErrorRegistro", "", new { @class = "text-danger" })
                         <br />
                     </div>
                     <div class="form-group">
@@ -118,11 +121,15 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-primary">Aceptar</button>
+                        <button id="btnCancel" name="btnCancel" type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancelar</button>
+                        <button id="btnAceptar" name="btnAceptar" type="button" class="btn btn-primary">Aceptar</button>
                     </div>
                 </div>
             </div>
         </div>
     </form>
 </div>
+
+<script src="~/js/jquery-2.2.4.min.js"></script>
+<script src="~/js/jquery.validate.min.js"></script>
+<script src="~/js/Seguridad/registro.js"></script>

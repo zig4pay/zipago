@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NLog;
 using System.Threading.Tasks;
 using ZREL.ZiPago.Entidad.Seguridad;
 using ZREL.ZiPago.Negocio.Contracts;
@@ -26,13 +27,28 @@ namespace ZREL.ZiPago.Servicio.WebAPI.Controllers.Seguridad
         [Route("Autenticar")]
         public async Task<IActionResult> AutenticarAsync([FromBody] UsuarioZiPago entidad) {
 
-            var logger = NLog.LogManager.GetCurrentClassLogger();            
+            var logger = LogManager.GetCurrentClassLogger();            
             logger.Info("[{0}] | UsuarioZiPago: [{1}] | Inicio.", nameof(AutenticarAsync), entidad.Clave1);
             
             var response = await oIUsuarioZiPagoService.AutenticarUsuarioZiPagoAsync(logger, entidad);
             
             return response.ToHttpResponse();
 
+        }
+
+        [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        [Route("Registrar")]
+        public async Task<IActionResult> RegistrarAsync([FromBody] UsuarioZiPago entidad) {
+
+            var logger = LogManager.GetCurrentClassLogger();
+            logger.Info("[{0}] | UsuarioZiPago: [{1}] | Inicio.", nameof(RegistrarAsync), entidad.Clave1);
+
+            var response = await oIUsuarioZiPagoService.RegistrarUsuarioZiPagoAsync(logger, entidad);
+
+            return response.ToHttpResponse();
         }
 
     }

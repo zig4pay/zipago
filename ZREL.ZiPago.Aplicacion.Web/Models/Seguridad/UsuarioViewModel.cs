@@ -22,39 +22,16 @@ namespace ZREL.ZiPago.Aplicacion.Web.Models.Seguridad
 
         [Required]
         [Display(Name = "Apellidos")]
+        [DataMember]
         public string ApellidosUsuario { get; set; }
 
         [Required]
         [Display(Name = "Nombres")]
+        [DataMember]
         public string NombresUsuario { get; set; }
 
-        public string CodigoRubroNegocio { get; set; }
-
-        public string CodigoTipoPersona { get; set; }
-
-        public string CodigoTipoDocumento { get; set; }
-
-        public string NumeroDocumento { get; set; }
-
-        public string RazonSocial { get; set; }
-
-        public string ApellidoPaterno { get; set; }
-
-        public string ApellidoMaterno { get; set; }
-
-        public string Nombres { get; set; }
-
-        public string Sexo { get; set; }
-
-        public DateTime? FechaNacimiento { get; set; }
-
-        public string TelefonoMovil { get; set; }
-
-        public string TelefonoFijo { get; set; }
-
+        [DataMember]
         public string AceptoTerminos { get; set; }
 
-        public string Activo { get; set; }
-        
     }
 }

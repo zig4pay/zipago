@@ -10,5 +10,7 @@ namespace ZREL.ZiPago.Negocio.Contracts
     public interface IUsuarioZiPagoService : IService
     {
         Task<ISingleResponse<UsuarioZiPago>> AutenticarUsuarioZiPagoAsync(NLog.Logger logger, UsuarioZiPago entidad);
+
+        Task<ISingleResponse<UsuarioZiPago>> RegistrarUsuarioZiPagoAsync(NLog.Logger logger, UsuarioZiPago entidad);
     }
 }

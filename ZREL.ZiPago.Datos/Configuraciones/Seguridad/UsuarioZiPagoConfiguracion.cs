@@ -21,9 +21,9 @@ namespace ZREL.ZiPago.Datos.Configuraciones.Seguridad
             builder.Property(p => p.ApellidosUsuario).HasColumnType("varchar(200)").IsRequired();            
             builder.Property(p => p.NombresUsuario).HasColumnType("varchar(100)").IsRequired();
             builder.Property(p => p.CodigoRubroNegocio).HasColumnType("varchar(20)");
-            builder.Property(p => p.CodigoTipoPersona).HasColumnType("varchar(20)").IsRequired();
-            builder.Property(p => p.CodigoTipoDocumento).HasColumnType("varchar(20)").IsRequired();
-            builder.Property(p => p.NumeroDocumento).HasColumnType("varchar(11)").IsRequired();
+            builder.Property(p => p.CodigoTipoPersona).HasColumnType("varchar(20)");
+            builder.Property(p => p.CodigoTipoDocumento).HasColumnType("varchar(20)");
+            builder.Property(p => p.NumeroDocumento).HasColumnType("varchar(11)");
             builder.Property(p => p.RazonSocial).HasColumnType("varchar(100)");
             builder.Property(p => p.Nombres).HasColumnType("varchar(100)");
             builder.Property(p => p.ApellidoPaterno).HasColumnType("varchar(100)");
@@ -35,7 +35,7 @@ namespace ZREL.ZiPago.Datos.Configuraciones.Seguridad
             builder.Property(p => p.AceptoTerminos).HasColumnType("char(1)").IsRequired();
             builder.Property(p => p.Activo).HasColumnType("char(1)").IsRequired();
             builder.Property(p => p.FechaCreacion).HasColumnType("datetime").IsRequired();
-            builder.Property(p => p.FechaActualizacion).HasColumnType("datetime").IsRequired();
+            builder.Property(p => p.FechaActualizacion).HasColumnType("datetime");
         }
     }
 }
