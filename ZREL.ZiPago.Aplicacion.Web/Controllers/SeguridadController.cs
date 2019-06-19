@@ -32,25 +32,51 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
         public async Task<IActionResult> UsuarioAutenticar(UsuarioViewModel model)
         {
 
-            ResponseModel<UsuarioViewModel> response;
+            ResponseModel<UsuarioViewModel> response = new ResponseModel<UsuarioViewModel>();
 
             var logger = NLog.LogManager.GetCurrentClassLogger();
             logger.Info("[{0}] | UsuarioViewModel: [{1}] | Inicio.", nameof(UsuarioAutenticar), model.Clave1);
 
             try
             {
-                model.Clave2 = Criptografia.Encriptar(model.Clave2);
 
-                var requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, ApiClientSettings.UsuarioZiPago_Autenticar));
-                response = await ApiClientFactory.Instance.PostAsync<UsuarioViewModel>(requestUrl, model);
+                if (ModelState.IsValid) {
+                    model.Clave2 = Criptografia.Encriptar(model.Clave2);
 
-                return Json(response);
+                    var requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, ApiClientSettings.UsuarioZiPago_Autenticar));
+                    response = await ApiClientFactory.Instance.PostAsync<UsuarioViewModel>(requestUrl, model);
 
+                    if (response.Mensaje == "1")
+                    {
+                        logger.Info("[{0}] | UsuarioViewModel: [{1}] | Realizado.", nameof(UsuarioAutenticar), model.Clave1);
+                        return View("~/Views/Afiliacion/Registro.cshtml", response.Model);
+                    }
+                    else
+                    {
+                        if (response.HizoError)
+                        {
+                            ModelState.AddModelError("ErrorLogin", response.MensajeError);
+                            logger.Error("[{0}] | UsuarioViewModel: [{1}] | Error: {2}.", nameof(UsuarioAutenticar), model.Clave1, response.MensajeError);
+                        } else {
+                            ModelState.AddModelError("ErrorLogin", response.Mensaje);
+                            logger.Info("[{0}] | UsuarioViewModel: [{1}] | " + response.Mensaje, nameof(UsuarioAutenticar), model.Clave1);
+                        }                        
+                        return View("~/Views/Seguridad/Login.cshtml");
+                    }
+                }
+                else
+                {
+                    return View("~/Views/Seguridad/Login.cshtml");
+                }                
+                //return Json(response);
             }
             catch (Exception ex)
-            {
+            {                
+                response.HizoError = true;
+                response.MensajeError = ex.ToString();
                 logger.Error("[{0}] | UsuarioViewModel: [{1}] | Excepcion: {2}.", nameof(UsuarioAutenticar), model.Clave1, ex.ToString());
-                return BadRequest();
+                ModelState.AddModelError("ErrorRegistro", ex.Message);
+                return View("~/Views/Seguridad/Login.cshtml");
             }
         }
 
@@ -82,7 +108,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
 
                     if (!response.HizoError) {                        
                         logger.Info("[{0}] | UsuarioViewModel: [{1}] | Realizado.", nameof(UsuarioRegistrar), model.Clave1);
-                        return View("~/Views/Afiliacion/Index.cshtml", response.Model);                        
+                        return View("~/Views/Afiliacion/Registro.cshtml", response.Model);                        
                     }
                     else {                        
                         logger.Info("[{0}] | UsuarioViewModel: [{1}] | " + response.Mensaje, nameof(UsuarioRegistrar), model.Clave1);

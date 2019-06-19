@@ -4,15 +4,18 @@
 
         var $validator = $("#frmLogin").validate({
             rules: {
-                txtCorreo: {
+                clave1: {
                     required: true,
                     email: true
                 },
-                txtClave: "required"
+                clave2: "required"
             },
             messages: {
-                txtCorreo: "Por favor ingrese una cuenta de correo electronico valida.",
-                txtClave: "Por favor ingrese su contrasena."
+                clave1: {
+                    required: "Por favor ingrese su cuenta de correo electronico.",
+                    email: "Por favor ingrese una cuenta de correo electronico valida."
+                },
+                clave2: "Por favor ingrese su contrasena."
             }
         });
 
@@ -26,9 +29,7 @@
         var $valid = $('#frmLogin').valid();
         if (!$valid) {            
             return false;
-        } else {
-            AutenticarUsuario();
-        }
+        }        
     });
 
     $('#btnOlvidoClave').click(function () {
@@ -49,45 +50,4 @@ function MostrarRecuperarClave(valor) {
         $('#olvidoClaveBox').hide();
         $('#loginBox').show();
     }
-}
-
-function AutenticarUsuario() {
-
-    var UsuarioViewModel = new Object();
-    UsuarioViewModel.Clave1 = document.getElementById('txtCorreo').value;
-    UsuarioViewModel.Clave2 = document.getElementById('txtClave').value;
-    var DTO = { 'model': UsuarioViewModel };
-
-    $.ajax(
-        {
-            url: 'Seguridad/UsuarioAutenticar',
-            type: "POST",
-            data: DTO,
-            datatype: 'json',
-            ContentType: 'application/json;utf-8',
-            beforeSend: function () {
-                $('#divBtnLogin').hide();
-                $('#divSpace').hide();
-                $('#divProgress').show();
-            },
-            success: function (resp) {
-                if (resp.Mensaje == "1") {
-                    window.location.href = "Afiliacion/Index";
-                } else {
-                    alert('Error al validar usuario: ' + resp.MensajeError);
-                }                
-            },
-            failure: function (data) {
-                alert('Error al validar usuario:' + data.responseText);
-            },
-            error: function (data) {
-                alert('Error al validar usuario:' + data.responseText);
-            },
-            complete: function () {
-                $('#divBtnLogin').show();
-                $('#divSpace').show();
-                $('#divProgress').hide();
-            }
-        });
-
 }

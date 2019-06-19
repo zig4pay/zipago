@@ -19,4 +19,9 @@
     <ProjectReference Include="..\ZREL.ZiPago.Libreria\ZREL.ZiPago.Libreria.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Folder Include="Models\Afiliacion\" />
+  </ItemGroup>
+
 </Project>

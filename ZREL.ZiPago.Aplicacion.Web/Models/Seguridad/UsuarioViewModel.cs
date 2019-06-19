@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
 namespace ZREL.ZiPago.Aplicacion.Web.Models.Seguridad
@@ -7,6 +6,9 @@ namespace ZREL.ZiPago.Aplicacion.Web.Models.Seguridad
     [DataContract]
     public class UsuarioViewModel
     {
+
+        [DataMember]
+        public int IdUsuarioZiPago { get; set; }
 
         [Required]
         [EmailAddress]
@@ -19,13 +21,11 @@ namespace ZREL.ZiPago.Aplicacion.Web.Models.Seguridad
         [Display(Name = "Clave")]
         [DataMember]
         public string Clave2 { get; set; }
-
-        [Required]
+                
         [Display(Name = "Apellidos")]
         [DataMember]
         public string ApellidosUsuario { get; set; }
-
-        [Required]
+                
         [Display(Name = "Nombres")]
         [DataMember]
         public string NombresUsuario { get; set; }

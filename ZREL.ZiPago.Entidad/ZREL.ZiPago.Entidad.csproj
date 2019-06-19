@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <Folder Include="Afiliacion\" />
-    <Folder Include="Comun\" />
   </ItemGroup>
 
 </Project>

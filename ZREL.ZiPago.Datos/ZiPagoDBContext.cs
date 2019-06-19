@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ZREL.ZiPago.Entidad.Seguridad;
+using ZREL.ZiPago.Datos.Configuraciones.Comun;
 using ZREL.ZiPago.Datos.Configuraciones.Seguridad;
-using System.Collections.Generic;
-using System.Text;
+using ZREL.ZiPago.Entidad.Comun;
+using ZREL.ZiPago.Entidad.Seguridad;
 
 namespace ZREL.ZiPago.Datos
 {
@@ -14,11 +14,15 @@ namespace ZREL.ZiPago.Datos
         }
 
         public DbSet<UsuarioZiPago> UsuariosZiPago { get; set; }
+        public DbSet<TablaDetalle> TablasDetalle { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
 
             modelBuilder
-                .ApplyConfiguration(new UsuarioZiPagoConfiguracion());
+                .ApplyConfiguration(new UsuarioZiPagoConfiguracion())
+                .ApplyConfiguration(new TablaDetalleConfiguracion())
+                ;
+
 
             base.OnModelCreating(modelBuilder);
 
