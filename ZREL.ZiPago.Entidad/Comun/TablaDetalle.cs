@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace ZREL.ZiPago.Entidad.Comun
@@ -11,7 +12,7 @@ namespace ZREL.ZiPago.Entidad.Comun
         {
 
         }
-
+                
         public string Cod_Tabla { get; set; }
         public string Valor { get; set; }
         public string Descr_Valor { get; set; }

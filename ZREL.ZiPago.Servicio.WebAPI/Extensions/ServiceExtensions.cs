@@ -7,6 +7,7 @@ using ZREL.ZiPago.Negocio;
 using ZREL.ZiPago.Negocio.Contracts;
 using ZREL.ZiPago.Negocio.Seguridad;
 using Microsoft.Extensions.Configuration;
+using ZREL.ZiPago.Negocio.Comun;
 
 namespace ZREL.ZiPago.Servicio.WebAPI.Extensions
 {
@@ -27,6 +28,8 @@ namespace ZREL.ZiPago.Servicio.WebAPI.Extensions
         public static void ConfigureRepository(this IServiceCollection services)
         {
             services.Add(new ServiceDescriptor(typeof(IUsuarioZiPagoService), typeof(UsuarioZiPagoService), ServiceLifetime.Transient));
+            services.Add(new ServiceDescriptor(typeof(IBancoZiPagoService), typeof(BancoZiPagoService), ServiceLifetime.Transient));
+            services.Add(new ServiceDescriptor(typeof(ITablaDetalleService), typeof(TablaDetalleService), ServiceLifetime.Transient));
         }
 
         public static void ConfigureEF(this IServiceCollection services, IConfiguration configuration) {

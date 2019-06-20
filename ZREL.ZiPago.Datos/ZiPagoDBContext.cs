@@ -15,14 +15,15 @@ namespace ZREL.ZiPago.Datos
 
         public DbSet<UsuarioZiPago> UsuariosZiPago { get; set; }
         public DbSet<TablaDetalle> TablasDetalle { get; set; }
+        public DbSet<BancoZiPago> BancosZiPago { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
 
             modelBuilder
                 .ApplyConfiguration(new UsuarioZiPagoConfiguracion())
                 .ApplyConfiguration(new TablaDetalleConfiguracion())
+                .ApplyConfiguration(new BancoZiPagoConfiguracion())
                 ;
-
 
             base.OnModelCreating(modelBuilder);
 
