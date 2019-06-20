@@ -11,10 +11,10 @@ Begin Tran
 	   [Clave2]	                  varchar(500)	   Not Null,
       [ApellidosUsuario]	      varchar(200)	   Not Null,
       [NombresUsuario]	         varchar(100)	   Not Null,
-      [CodigoRubroNegocio]	      varchar(20)       Not Null,
-	   [CodigoTipoPersona]	      varchar(20)       Not Null,
-	   [CodigoTipoDocumento]      varchar(20)       Not Null,
-	   [NumeroDocumento]	         varchar(11)	      Not Null,
+      [CodigoRubroNegocio]	      varchar(20)       Null,
+	   [CodigoTipoPersona]	      varchar(20)       Null,
+	   [CodigoTipoDocumento]      varchar(20)       Null,
+	   [NumeroDocumento]	         varchar(11)	      Null,
 	   [RazonSocial]	            varchar(100)	   Null,
 	   [ApellidoPaterno]	         varchar(100)	   Null,
 	   [ApellidoMaterno]	         varchar(100)	   Null,
@@ -26,7 +26,7 @@ Begin Tran
       [AceptoTerminos]           char(1)           Not Null,
 	   [Activo]	                  char(1)	         Not Null,
 	   [FechaCreacion]	         datetime	         Not Null,
-	   [FechaActualizacion]       datetime	         Not Null
+	   [FechaActualizacion]       datetime	         Null
       
       CONSTRAINT [PK_USUARIOZIPAGO] PRIMARY KEY CLUSTERED 
       (
@@ -114,6 +114,21 @@ Begin Tran
       )
    )
    
+   CREATE TABLE [dbo].[UBIGEOZIPAGO](
+	   [IdUbigeoZiPago]     Int Identity(1,1) Not Null,
+      [CodigoUbigeo]       varchar(6)        Not Null,
+      [CodigoUbigeoPadre]  varchar(6)        Null,
+      [Nombre]             varchar(50)       Not Null,
+      [Activo]	            char(1)	         Not Null,
+      [FechaCreacion]	   datetime	         Not Null,
+      [FechaActualizacion]	datetime	         Null
+            	   
+      CONSTRAINT [PK_UBIGEOZIPAGO] PRIMARY KEY CLUSTERED 
+      (
+	      [IdUbigeoZiPago]
+      )
+   )
+
    CREATE UNIQUE INDEX IX_USUARIOZIPAGO_01
       ON [USUARIOZIPAGO] (Clave1)
    
