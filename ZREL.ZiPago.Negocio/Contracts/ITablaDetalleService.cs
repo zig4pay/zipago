@@ -7,6 +7,6 @@ namespace ZREL.ZiPago.Negocio.Contracts
 {
     public interface ITablaDetalleService : IService
     {
-        Task<ListResponse<TablaDetalle>> ListarTablaDetalleAsync(Logger logger, TablaDetalle entidad); 
+        Task<ListResponse<TablaDetalle>> ListarTablaDetalleAsync(Logger logger, string CodTabla); 
     }
 }

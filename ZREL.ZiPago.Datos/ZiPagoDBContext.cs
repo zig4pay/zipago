@@ -16,6 +16,7 @@ namespace ZREL.ZiPago.Datos
         public DbSet<UsuarioZiPago> UsuariosZiPago { get; set; }
         public DbSet<TablaDetalle> TablasDetalle { get; set; }
         public DbSet<BancoZiPago> BancosZiPago { get; set; }
+        public DbSet<UbigeoZiPago> UbigeosZiPago { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
 
@@ -23,6 +24,7 @@ namespace ZREL.ZiPago.Datos
                 .ApplyConfiguration(new UsuarioZiPagoConfiguracion())
                 .ApplyConfiguration(new TablaDetalleConfiguracion())
                 .ApplyConfiguration(new BancoZiPagoConfiguracion())
+                .ApplyConfiguration(new UbigeoZiPagoConfiguracion())
                 ;
 
             base.OnModelCreating(modelBuilder);

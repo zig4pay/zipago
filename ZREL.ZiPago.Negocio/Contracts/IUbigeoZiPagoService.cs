@@ -5,8 +5,10 @@ using ZREL.ZiPago.Negocio.Responses;
 
 namespace ZREL.ZiPago.Negocio.Contracts
 {
-    public interface IBancoZiPagoService
+    public interface IUbigeoZiPagoService
     {
-        Task<ListResponse<BancoZiPago>> ListarBancoZiPagoAsync(Logger logger);
+
+        Task<ListResponse<UbigeoZiPago>> ListarUbigeoZiPagoAsync(Logger logger, string CodigoUbigeoPadre);
+        
     }
 }

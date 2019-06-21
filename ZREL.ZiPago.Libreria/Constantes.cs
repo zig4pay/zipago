@@ -6,14 +6,17 @@ namespace ZREL.ZiPago.Libreria
 {
     public static class Constantes
     {
+
         //[TD_TABLA_TABLAS]
         public const string strCodTablaRubroNegocio = "RUBRO_NEGOCIO";
-        public const string strCodTablaDepartamento = "DEPARTAMENTO";
-        public const string strCodTablaProvincia = "PROVINCIA";
-        public const string strCodTablaDistrito = "DISTRITO";
+
         public const string strCodTablaTipoCuenta = "TIPO_CUENTA";
+
         public const string strCodTablaTipoMoneda = "TIPO_MONEDA";
-    
+
+        public const string strCodTablaTipoPersona = "TIPO_PERSONA";
+        public const string strTipoPersonaJuridica = "01";
+        
         //SEGURIDAD_USUARIO_REGISTRAR
         public const string strMensajeUsuarioIncorrecto = "El usuario o contrasena ingresados son incorrectos.";
         public const string strMensajeUsuarioRegistrado = "Usuario registrado correctamente.";
@@ -23,8 +26,6 @@ namespace ZREL.ZiPago.Libreria
         public const string strUsuarioZiPago_Activo = "A";
         public const string strUsuarioZiPago_NoActivo = "N";
         public const string strUsuarioZiPago_AceptoTerminos = "S";
-
         
-                
     }
 }

@@ -20,18 +20,18 @@ namespace ZREL.ZiPago.Servicio.WebAPI.Controllers.Comun
             oITablaDetalleService = ITablaDetalleService;
         }
 
-        [HttpGet]
+        [HttpGet("{CodTabla}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        [Route("Listar")]
-        public async Task<IActionResult> ListarAsync([FromBody] TablaDetalle entidad)
+        [Route("Listar/{CodTabla}")]
+        public async Task<IActionResult> ListarAsync(string CodTabla)
         {
 
             var logger = LogManager.GetCurrentClassLogger();
-            logger.Info("[{0}] | BancoZiPago: [Listar] | Inicio.", nameof(ListarAsync));
+            logger.Info("[{0}] | TablaDetalle: [Listar] | Inicio.", nameof(ListarAsync));
 
-            var response = await oITablaDetalleService.ListarTablaDetalleAsync(logger, entidad);
+            var response = await oITablaDetalleService.ListarTablaDetalleAsync(logger, CodTabla);
 
             return response.ToHttpResponse();
 

@@ -19,14 +19,22 @@ namespace ZREL.ZiPago.Aplicacion.Web.Clients
             httpClient = new HttpClient();
         }
 
-        public async Task<T> GetAsync<T>(Uri requestUrl)
+        public async Task<ResponseModel<T>> GetAsync<T>(Uri requestUrl)
         {
             var response = await httpClient.GetAsync(requestUrl, HttpCompletionOption.ResponseHeadersRead);
             response.EnsureSuccessStatusCode();
             var data = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<T>(data);
+            return JsonConvert.DeserializeObject<ResponseModel<T>>(data);
         }
-                
+
+        public async Task<ResponseListModel<T>> GetListAsync<T>(Uri requestUrl)
+        {
+            var response = await httpClient.GetAsync(requestUrl, HttpCompletionOption.ResponseHeadersRead);
+            response.EnsureSuccessStatusCode();
+            var data = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<ResponseListModel<T>>(data);
+        }
+
         public  async Task<ResponseModel<T>> PostAsync<T>(Uri requestUrl, T content)
         {
             var response = await httpClient.PostAsync(requestUrl.ToString(), CreateHttpContent<T>(content));

@@ -28,10 +28,14 @@ namespace ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion
         [DataMember]
         public string NombresUsuario { get; set; }
 
+        public List<TablaDetalle> RubroNegocio { get; set; }
+
         [DataMember]
         public string CodigoRubroNegocio { get; set; }
-
+        
         public string OtroRubroNegocio { get; set; }
+
+        public List<TablaDetalle> TipoPersona { get; set; }
 
         [DataMember]
         public string CodigoTipoPersona { get; set; }
@@ -72,23 +76,21 @@ namespace ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion
 
         [DataMember]
         public string AceptoTerminos { get; set; }        
-        
-        public List<TablaDetalle> RubroNegocio { get; set; }
-
-        public List<TablaDetalle> Departamento { get; set; }
-
-        public List<TablaDetalle> Provincia { get; set; }
-
-        public List<TablaDetalle> Distrito { get; set; }
-
+                
         [DataMember]
         public int IdDomicilioZiPago { get; set; }
+
+        public List<UbigeoZiPago> Departamento { get; set; }
 
         [DataMember]
         public string CodigoDepartamento { get; set; }
 
+        public List<UbigeoZiPago> Provincia { get; set; }
+
         [DataMember]
         public string CodigoProvincia { get; set; }
+
+        public List<UbigeoZiPago> Distrito { get; set; }
 
         [DataMember]
         public string CodigoDistrito { get; set; }

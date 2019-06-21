@@ -17,14 +17,12 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
     public class SeguridadController : Controller
     {
 
-        private readonly IOptions<ApiClientSettingsModel> apiClientSettingsModel;
+        private readonly IOptions<ApiClientSettingsModel> apiClient;
 
         public SeguridadController(IOptions<ApiClientSettingsModel> app)
         {
-            apiClientSettingsModel = app;
-            ApiClientSettings.ZZiPagoUrl = apiClientSettingsModel.Value.ZZiPagoUrl;
-            ApiClientSettings.UsuarioZiPago_Autenticar = apiClientSettingsModel.Value.UsuarioZiPago_Autenticar;
-            ApiClientSettings.UsuarioZiPago_Registrar = apiClientSettingsModel.Value.UsuarioZiPago_Registrar;
+            apiClient = app;
+            ApiClientSettings.ZZiPagoUrl = apiClient.Value.ZZiPagoUrl;            
         }
 
         [HttpPost]
@@ -43,13 +41,15 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
                 if (ModelState.IsValid) {
                     model.Clave2 = Criptografia.Encriptar(model.Clave2);
 
-                    var requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, ApiClientSettings.UsuarioZiPago_Autenticar));
+                    var requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, apiClient.Value.UsuarioZiPago_Autenticar));
                     response = await ApiClientFactory.Instance.PostAsync<UsuarioViewModel>(requestUrl, model);
 
                     if (response.Mensaje == "1")
                     {
                         logger.Info("[{0}] | UsuarioViewModel: [{1}] | Realizado.", nameof(UsuarioAutenticar), model.Clave1);
-                        return View("~/Views/Afiliacion/Registro.cshtml", response.Model);
+
+                        return RedirectToAction("Iniciar", "Afiliacion", response.Model);
+                        //return View("~/Views/Afiliacion/Registro.cshtml", response.Model);
                     }
                     else
                     {
@@ -103,17 +103,18 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
                 {
                     model.Clave2 = Criptografia.Encriptar(model.Clave2);
                     model.AceptoTerminos = Constantes.strUsuarioZiPago_AceptoTerminos;
-                    var requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, apiClientSettingsModel.Value.UsuarioZiPago_Registrar));
+                    var requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, apiClient.Value.UsuarioZiPago_Registrar));
                     response = await ApiClientFactory.Instance.PostAsync<UsuarioViewModel>(requestUrl, model);
 
                     if (!response.HizoError) {                        
                         logger.Info("[{0}] | UsuarioViewModel: [{1}] | Realizado.", nameof(UsuarioRegistrar), model.Clave1);
-                        return View("~/Views/Afiliacion/Registro.cshtml", response.Model);                        
+                        return RedirectToAction("Iniciar", "Afiliacion", response.Model);
+                        //return View("~/Views/Afiliacion/Registro.cshtml", response.Model);                        
                     }
                     else {                        
                         logger.Info("[{0}] | UsuarioViewModel: [{1}] | " + response.Mensaje, nameof(UsuarioRegistrar), model.Clave1);
                         ModelState.AddModelError("ErrorRegistro", response.MensajeError);
-                        return View("~/Views/Seguridad/Registro.cshtml");                                                
+                        return View("~/Views/Seguridad/Registro.cshtml");
                     }
                 }
                 else {
@@ -130,8 +131,6 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
             }
 
         }
-
-        
 
     }
 }

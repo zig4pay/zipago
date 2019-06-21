@@ -17,17 +17,17 @@ namespace ZREL.ZiPago.Negocio.Comun
 
         }
 
-        public async Task<ListResponse<TablaDetalle>> ListarTablaDetalleAsync(Logger logger, TablaDetalle entidad)
+        public async Task<ListResponse<TablaDetalle>> ListarTablaDetalleAsync(Logger logger, string CodTabla)
         {
             ListResponse<TablaDetalle> response = new ListResponse<TablaDetalle>();
-            logger.Info("[{0}] | TablaDetalle: [{1}] | Inicio.", nameof(ListarTablaDetalleAsync), entidad.Cod_Tabla);
+            logger.Info("[{0}] | TablaDetalle: [{1}] | Inicio.", nameof(ListarTablaDetalleAsync), CodTabla);
             try
             {
-                var query = DbContext.TablasDetalle.Where(item => item.Cod_Tabla == entidad.Cod_Tabla).OrderBy(item => item.Descr_Valor);
+                var query = DbContext.TablasDetalle.Where(item => item.Cod_Tabla == CodTabla).OrderBy(item => item.Descr_Valor);
 
                 response.Model = await query.ToListAsync();
 
-                logger.Info("[{0}] | TablaDetalle: [{1}] | Mensaje: [Realizado].", nameof(ListarTablaDetalleAsync), entidad.Cod_Tabla);
+                logger.Info("[{0}] | TablaDetalle: [{1}] | Mensaje: [Realizado].", nameof(ListarTablaDetalleAsync), CodTabla);
             }
             catch (Exception ex)
             {

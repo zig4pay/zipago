@@ -30,6 +30,7 @@ namespace ZREL.ZiPago.Servicio.WebAPI.Extensions
             services.Add(new ServiceDescriptor(typeof(IUsuarioZiPagoService), typeof(UsuarioZiPagoService), ServiceLifetime.Transient));
             services.Add(new ServiceDescriptor(typeof(IBancoZiPagoService), typeof(BancoZiPagoService), ServiceLifetime.Transient));
             services.Add(new ServiceDescriptor(typeof(ITablaDetalleService), typeof(TablaDetalleService), ServiceLifetime.Transient));
+            services.Add(new ServiceDescriptor(typeof(IUbigeoZiPagoService), typeof(UbigeoZiPagoService), ServiceLifetime.Transient));
         }
 
         public static void ConfigureEF(this IServiceCollection services, IConfiguration configuration) {
