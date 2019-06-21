@@ -71,7 +71,7 @@ Begin Tran
 	   [IdCuentaBancaria]   Int Identity(1,1) Not Null,
       [IdBancoZiPago]	   int               Not Null,
       [NumeroCuenta]	      varchar(20)	      Not Null,
-      [TipoCuenta]	      varchar(100)	   Not Null,
+      [CodigoTipoCuenta]	varchar(20)	      Not Null,
       [CCI]	               char(20)	         Not Null,
       [Activo]	            char(1)	         Not Null,
       [FechaCreacion]	   datetime	         Not Null,
