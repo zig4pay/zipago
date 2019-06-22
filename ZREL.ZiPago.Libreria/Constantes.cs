@@ -26,6 +26,9 @@ namespace ZREL.ZiPago.Libreria
         public const string strUsuarioZiPago_Activo = "A";
         public const string strUsuarioZiPago_NoActivo = "N";
         public const string strUsuarioZiPago_AceptoTerminos = "S";
-        
+
+        //UBIGEO
+        public const string strUbigeoZiPago_Departamentos = "00";
+
     }
 }

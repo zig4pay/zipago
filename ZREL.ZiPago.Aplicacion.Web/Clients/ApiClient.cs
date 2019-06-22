@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using ZREL.ZiPago.Aplicacion.Web.Models.Response;
+using ZREL.ZiPago.Entidad;
 
 namespace ZREL.ZiPago.Aplicacion.Web.Clients
 {
@@ -33,6 +34,15 @@ namespace ZREL.ZiPago.Aplicacion.Web.Clients
             response.EnsureSuccessStatusCode();
             var data = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<ResponseListModel<T>>(data);
+        }
+
+        public async Task<string> GetJsonAsync (Uri requestUrl)
+        {
+            var response = await httpClient.GetAsync(requestUrl, HttpCompletionOption.ResponseHeadersRead);
+            response.EnsureSuccessStatusCode();
+            var data = await response.Content.ReadAsStringAsync();
+
+            return JsonConvert.SerializeObject(data);
         }
 
         public  async Task<ResponseModel<T>> PostAsync<T>(Uri requestUrl, T content)

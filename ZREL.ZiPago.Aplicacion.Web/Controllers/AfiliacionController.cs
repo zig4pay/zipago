@@ -31,7 +31,9 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
         public async Task<IActionResult> Iniciar(UsuarioViewModel model) {
 
             RegistroViewModel registroModel = new RegistroViewModel();
-            ResponseListModel<TablaDetalle> responseTD = new ResponseListModel<TablaDetalle>(); ;
+            ResponseListModel<TablaDetalle> responseTD ;
+            ResponseListModel<UbigeoZiPago> response = new ResponseListModel<UbigeoZiPago>();
+            ResponseListModel<BancoZiPago> responseBanco = new ResponseListModel<BancoZiPago>();
             Uri requestUrl;
 
             try
@@ -41,7 +43,8 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
                 registroModel.NombresUsuario = model.NombresUsuario;
                 registroModel.ApellidosUsuario = model.ApellidosUsuario;
                 registroModel.AceptoTerminos = model.AceptoTerminos;
-                
+
+                responseTD = new ResponseListModel<TablaDetalle>();
                 requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, apiClient.Value.TablaDetalle_Listar) + Constantes.strCodTablaTipoPersona);                
                 responseTD = await ApiClientFactory.Instance.GetListAsync<TablaDetalle>(requestUrl);
                 registroModel.TipoPersona = responseTD.Model;
@@ -52,8 +55,25 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
                 responseTD = await ApiClientFactory.Instance.GetListAsync<TablaDetalle>(requestUrl);
                 registroModel.RubroNegocio = responseTD.Model;
 
+                requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, apiClient.Value.UbigeoZiPago_Listar) + Constantes.strUbigeoZiPago_Departamentos);
+                response = await ApiClientFactory.Instance.GetListAsync<UbigeoZiPago>(requestUrl);
+                registroModel.Departamento = response.Model;
 
-                
+                requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, apiClient.Value.BancoZiPago_Listar));
+                responseBanco = await ApiClientFactory.Instance.GetListAsync<BancoZiPago>(requestUrl);
+                registroModel.Banco = responseBanco.Model;
+
+                responseTD = new ResponseListModel<TablaDetalle>();
+                requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, apiClient.Value.TablaDetalle_Listar) + Constantes.strCodTablaTipoCuenta);
+                responseTD = await ApiClientFactory.Instance.GetListAsync<TablaDetalle>(requestUrl);
+                registroModel.TipoCuenta = responseTD.Model;
+
+                responseTD = new ResponseListModel<TablaDetalle>();
+                requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, apiClient.Value.TablaDetalle_Listar) + Constantes.strCodTablaTipoMoneda);
+                responseTD = await ApiClientFactory.Instance.GetListAsync<TablaDetalle>(requestUrl);
+                registroModel.Moneda = responseTD.Model;
+
+
             }
             catch (Exception ex)
             {
@@ -62,5 +82,27 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
 
             return View("~/Views/Afiliacion/Registro.cshtml",registroModel);
         }
+
+        [HttpGet]
+        public async Task<JsonResult> ListarPorUbigeo(string strCodigoUbigeo) {
+
+            JsonResult response;
+            Uri requestUrl;
+            ResponseListModel<UbigeoZiPago> responseUbigeo = new ResponseListModel<UbigeoZiPago>();
+
+            try
+            {
+                requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, apiClient.Value.UbigeoZiPago_Listar) + strCodigoUbigeo);
+                responseUbigeo = await ApiClientFactory.Instance.GetListAsync<UbigeoZiPago>(requestUrl);
+                response = Json(responseUbigeo.Model);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return response;
+        }
+
     }
 }

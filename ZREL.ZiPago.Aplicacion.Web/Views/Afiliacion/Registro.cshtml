@@ -1,5 +1,4 @@
 ﻿@model ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion.RegistroViewModel
-@*@model ZREL.ZiPago.Aplicacion.Web.Models.Seguridad.UsuarioViewModel*@
 
 @{
     ViewData["Title"] = "Afiliacion";
@@ -162,13 +161,13 @@
                                                     <label for="codigodepartamento">Departamento:</label>
                                                 </div>
                                                 <div class="col-sm-4">
-                                                    <select id="codigodepartamento" asp-for="CodigoDepartamento" asp-items="@(new SelectList(Model.Departamento,"Valor", "Descr_Valor"))" class="form-control"></select>
+                                                    <select id="codigodepartamento" asp-for="CodigoDepartamento" asp-items="@(new SelectList(Model.Departamento,"CodigoUbigeo", "Nombre"))" class="form-control"></select>
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <label for="codigoprovincia">Provincia:</label>
                                                 </div>
                                                 <div class="col-sm-4">
-                                                    @*<select id="codigoprovincia" asp-for="CodigoProvincia" asp-items="@(new SelectList(Model.Provincia,"valor", "descr_Valor"))" class="form-control"></select>*@
+                                                    <select id="codigoprovincia" name="codigoprovincia" asp-for="CodigoProvincia" class="form-control"></select>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -176,7 +175,7 @@
                                                     <label for="codigodistrito">Distrito:</label>
                                                 </div>
                                                 <div class="col-sm-10">
-                                                    @*<select id="codigodistrito" asp-for="CodigoDistrito" asp-items="@(new SelectList(Model.Distrito,"valor", "descr_Valor"))" class="form-control"></select>*@
+                                                    <select id="codigodistrito" name="codigodistrito" asp-for="CodigoDistrito" class="form-control"></select>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -220,10 +219,10 @@
                                             <div class="col-sm-12">
                                                 <div class="form-group row">
                                                     <div class="col-sm-2">
-                                                        <label for="txtIdZiPago2">Id ZiPago:</label>
+                                                        <label for="clave1">@Html.DisplayNameFor(m => m.Clave1):</label>
                                                     </div>
                                                     <div class="col-sm-10">
-                                                        <input id="txtIdZiPago2" type="text" class="form-control" value="Nombre de Usuario ZiPago" disabled>
+                                                        <input id="clave1" name="clave1" type="text" class="form-control" asp-for="Clave1" disabled>
                                                     </div>
                                                 </div>
                                                 <hr />
@@ -236,34 +235,27 @@
                                                         <label for="cboBanco">Banco:</label>
                                                     </div>
                                                     <div class="col-sm-8">
-                                                        <select id="cboBanco" class="form-control">
-                                                            <option value="...">...</option>
-                                                        </select>
+                                                        <select id="idbancozipago" name="idbancozipago" asp-for="IdBancoZiPago" asp-items="@(new SelectList(Model.Banco,"IdBancoZiPago", "NombreLargo"))" class="form-control"></select>
                                                     </div>
                                                     <div class="col-sm-2">
-                                                        <button>
-                                                            Anadir Cuenta Bancaria
-                                                        </button>
+                                                        <a id="btnAnadirCta" class="btn btn-default">
+                                                            Anadir <br /> Cuenta <br /> Bancaria
+                                                        </a>
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group row">
                                                     <div class="col-sm-2">
-                                                        <label for="txtIdComercio">Tipo de Cuenta:</label>
+                                                        <label for="codigotipocuenta">Tipo de Cuenta:</label>
                                                     </div>
                                                     <div class="col-sm-3">
-                                                        <select id="cboTipoCuenta" class="form-control">
-                                                            <option value="...">...</option>
-                                                        </select>
+                                                        <select id="codigotipocuenta" name="codigotipocuenta" asp-for="CodigoTipoCuenta" asp-items="@(new SelectList(Model.TipoCuenta,"Valor", "Descr_Valor"))" class="form-control"></select>
                                                     </div>
                                                     <div class="col-sm-2">
-                                                        <label>Moneda:</label>
+                                                        <label for="codigomoneda">Moneda:</label>
                                                     </div>
                                                     <div class="col-sm-3">
-                                                        <select id="cboMoneda" class="form-control">
-                                                            <option value="S">Soles S/</option>
-                                                            <option value="D">Dolares $/</option>
-                                                        </select>
+                                                        <select id="codigomoneda" name="codigomoneda" asp-for="CodigoMoneda" asp-items="@(new SelectList(Model.Moneda,"Valor", "Descr_Valor"))" class="form-control"></select>
                                                     </div>
                                                     <div class="col-sm-2">
                                                     </div>
@@ -271,16 +263,16 @@
 
                                                 <div class="form-group row">
                                                     <div class="col-sm-2">
-                                                        <label for="txtNroCuenta">Numero de Cuenta Bancaria:</label>
+                                                        <label for="numerocuenta">@Html.DisplayNameFor(m => m.NumeroCuenta):</label>
                                                     </div>
                                                     <div class="col-sm-3">
-                                                        <input id="txtNroCuenta" type="text" class="form-control" placeholder="Nro. de Cta. Bancaria">
+                                                        <input id="numerocuenta" name="numerocuenta" type="text" asp-for="NumeroCuenta" class="form-control" placeholder="Nro. de Cta. Bancaria">
                                                     </div>
                                                     <div class="col-sm-2">
-                                                        <label for="txtCCI">Codigo de Cuenta Interbacario - CCI:</label>
+                                                        <label for="cci">@Html.DisplayNameFor(m => m.CCI):</label>
                                                     </div>
                                                     <div class="col-sm-3">
-                                                        <input id="txtCCI" type="text" class="form-control" placeholder="Codigo CCI">
+                                                        <input id="cci" name="cci" type="text" asp-for="CCI" class="form-control" placeholder="Codigo CCI">
                                                     </div>
                                                     <div class="col-sm-2">
                                                     </div>
@@ -293,8 +285,11 @@
                                                 <table id="tblCuentas" class="table table-hover">
                                                     <thead>
                                                         <tr>
+                                                            <th scope="col" style="display:none;">CodigoBanco</th>
                                                             <th scope="col">Banco</th>
+                                                            <th scope="col" style="display:none;">CodigoTipoCuenta</th>
                                                             <th scope="col">Tipo de Cuenta</th>
+                                                            <th scope="col" style="display:none;">CodigoMoneda</th>
                                                             <th scope="col">Moneda</th>
                                                             <th scope="col">Numero de Cuenta</th>
                                                             <th scope="col">Codigo Cta. Interbancario - CCI</th>
@@ -302,14 +297,6 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
-                                                            <th scope="row">BCP</th>
-                                                            <td>Ahorros</td>
-                                                            <td>Soles</td>
-                                                            <td>1002004578</td>
-                                                            <td>12345678901234567890</td>
-                                                            <td></td>
-                                                        </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -328,10 +315,10 @@
                                             <div class="col-sm-12">
                                                 <div class="form-group row">
                                                     <div class="col-sm-2">
-                                                        <label for="txtIdZiPago3">Id ZiPago:</label>
+                                                        <label for="clave1">@Html.DisplayNameFor(m => m.Clave1):</label>
                                                     </div>
                                                     <div class="col-sm-10">
-                                                        <input id="txtIdZiPago3" type="text" class="form-control" value="Nombre de Usuario ZiPago" disabled>
+                                                        <input id="clave1" name="clave1" type="text" class="form-control" asp-for="Clave1" disabled>
                                                     </div>
                                                 </div>
                                                 <hr />
@@ -390,9 +377,7 @@
                                                         <label for="cboBanco2">Banco:</label>
                                                     </div>
                                                     <div class="col-sm-10">
-                                                        <select id="cboBanco2" class="form-control">
-                                                            <option value="...">...</option>
-                                                        </select>
+                                                        <select id="idbancozipago" asp-for="IdBancoZiPago" asp-items="@(new SelectList(Model.Banco,"IdBancoZiPago", "NombreLargo"))" class="form-control"></select>
                                                     </div>
                                                 </div>
 

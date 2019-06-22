@@ -17,6 +17,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Models.Settings
         //Comun
         public string BancoZiPago_Listar { get; set; }
         public string TablaDetalle_Listar { get; set; }
+        public string UbigeoZiPago_Listar { get; set; }
 
     }
 }

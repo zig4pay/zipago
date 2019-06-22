@@ -9,12 +9,16 @@ namespace ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion
     [DataContract]
     public class RegistroViewModel
     {
+        //-----------------------------------------------------//
+        //Usuario
+        //-----------------------------------------------------//
         [Required]
         [DataMember]
         public int IdUsuarioZiPago { get; set; }
 
         [Required]
         [EmailAddress]
+        [Display(Name = "Id ZiPago")]
         [DataMember]
         public string Clave1 { get; set; }
         
@@ -75,8 +79,11 @@ namespace ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion
         public string TelefonoFijo { get; set; }
 
         [DataMember]
-        public string AceptoTerminos { get; set; }        
-                
+        public string AceptoTerminos { get; set; }
+
+        //-----------------------------------------------------//
+        //Domicilio
+        //-----------------------------------------------------//
         [DataMember]
         public int IdDomicilioZiPago { get; set; }
 
@@ -104,5 +111,40 @@ namespace ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion
         [DataMember]
         public string Referencia { get; set; }
 
+        //-----------------------------------------------------//
+        //Cuenta Bancaria
+        //-----------------------------------------------------//
+        public List<BancoZiPago> Banco { get; set; }
+
+        public int IdBancoZiPago { get; set; }
+
+        [DataMember]
+        [Display(Name = "Numero de Cuenta Bancaria")]
+        public string NumeroCuenta { get; set; }
+
+        public List<TablaDetalle> TipoCuenta { get; set; }
+
+        public string CodigoTipoCuenta { get; set; }
+
+        [DataMember]
+        [Display(Name = "Codigo de Cuenta Interbancario - CCI")]
+        public string CCI { get; set; }
+
+        //-----------------------------------------------------//
+        //Comercio
+        //-----------------------------------------------------//        
+        public string CodigoComercio { get; set; }
+
+        public string Descripcion { get; set; }
+
+        public List<TablaDetalle> Moneda { get; set; }
+
+        public string CodigoMoneda { get; set; }
+
+        public string CorreoNotificacion { get; set; }
+
     }
+
+    
+
 }
