@@ -45,7 +45,7 @@ Begin Tran
       [Referencia]	         varchar(200)	Null,
       [Activo]	               char(1)	      Not Null,
       [FechaCreacion]	      datetime	      Not Null,
-      [FechaActualizacion]	   datetime	      Not Null
+      [FechaActualizacion]	   datetime	      Null
       	   
       CONSTRAINT [PK_DOMICILIOZIPAGO] PRIMARY KEY CLUSTERED 
       (
@@ -59,7 +59,7 @@ Begin Tran
       [NombreCorto]        varchar(20)       Null,
       [Activo]	            char(1)	         Not Null,
       [FechaCreacion]	   datetime	         Not Null,
-      [FechaActualizacion]	datetime	         Not Null
+      [FechaActualizacion]	datetime	         Null
             	   
       CONSTRAINT [PK_BANCOSZIPAGO] PRIMARY KEY CLUSTERED 
       (
@@ -72,10 +72,11 @@ Begin Tran
       [IdBancoZiPago]	   int               Not Null,
       [NumeroCuenta]	      varchar(20)	      Not Null,
       [CodigoTipoCuenta]	varchar(20)	      Not Null,
-      [CCI]	               char(20)	         Not Null,
+      [CodigoTipoMoneda]	varchar(20)	      Not Null,
+      [CCI]	               char(20)	         Null,
       [Activo]	            char(1)	         Not Null,
       [FechaCreacion]	   datetime	         Not Null,
-      [FechaActualizacion]	datetime	         Not Null
+      [FechaActualizacion]	datetime	         Null
       
       CONSTRAINT [PK_CUENTABANCARIAZIPAGO] PRIMARY KEY CLUSTERED 
       (
@@ -87,8 +88,7 @@ Begin Tran
 	   [IdComercioZiPago]   Int Identity(1,1) Not Null,
       [CodigoComercio]     varchar(14)       Not Null,
       [IdUsuarioZiPago]	   int	            Not Null,
-      [Descripcion]	      varchar(30)	      Not Null,
-      [CodigoMoneda]	      varchar(20)       Not Null,
+      [Descripcion]	      varchar(30)	      Not Null,      
       [CorreoNotificacion] varchar(100)	   Not Null,
       [Confirmado]	      char(1)	         Null,
       [Activo]	            char(1)	         Not Null,
