@@ -116,32 +116,14 @@ namespace ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion
         //-----------------------------------------------------//
         public List<BancoZiPago> Banco { get; set; }
 
-        public int IdBancoZiPago { get; set; }
-
-        [DataMember]
-        [Display(Name = "Numero de Cuenta Bancaria")]
-        public string NumeroCuenta { get; set; }
-
         public List<TablaDetalle> TipoCuenta { get; set; }
 
-        public string CodigoTipoCuenta { get; set; }
-
-        [DataMember]
-        [Display(Name = "Codigo de Cuenta Interbancario - CCI")]
-        public string CCI { get; set; }
+        public List<TablaDetalle> Moneda { get; set; }
 
         //-----------------------------------------------------//
         //Comercio
         //-----------------------------------------------------//        
-        public string CodigoComercio { get; set; }
-
-        public string Descripcion { get; set; }
-
-        public List<TablaDetalle> Moneda { get; set; }
-
-        public string CodigoMoneda { get; set; }
-
-        public string CorreoNotificacion { get; set; }
+        
 
     }
 

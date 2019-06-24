@@ -235,11 +235,11 @@
                                                         <label for="cboBanco">Banco:</label>
                                                     </div>
                                                     <div class="col-sm-8">
-                                                        <select id="idbancozipago" name="idbancozipago" asp-for="IdBancoZiPago" asp-items="@(new SelectList(Model.Banco,"IdBancoZiPago", "NombreLargo"))" class="form-control"></select>
+                                                        <select id="idbancozipago" name="idbancozipago" asp-items="@(new SelectList(Model.Banco,"IdBancoZiPago", "NombreLargo"))" class="form-control"></select>
                                                     </div>
                                                     <div class="col-sm-2">
-                                                        <a id="btnAnadirCta" class="btn btn-default">
-                                                            Anadir <br /> Cuenta <br /> Bancaria
+                                                        <a id="btnAnadirCta" class="btn btn-success">
+                                                            Añadir
                                                         </a>
                                                     </div>
                                                 </div>
@@ -249,13 +249,13 @@
                                                         <label for="codigotipocuenta">Tipo de Cuenta:</label>
                                                     </div>
                                                     <div class="col-sm-3">
-                                                        <select id="codigotipocuenta" name="codigotipocuenta" asp-for="CodigoTipoCuenta" asp-items="@(new SelectList(Model.TipoCuenta,"Valor", "Descr_Valor"))" class="form-control"></select>
+                                                        <select id="codigotipocuenta" name="codigotipocuenta" asp-items="@(new SelectList(Model.TipoCuenta,"Valor", "Descr_Valor"))" class="form-control"></select>
                                                     </div>
                                                     <div class="col-sm-2">
                                                         <label for="codigomoneda">Moneda:</label>
                                                     </div>
                                                     <div class="col-sm-3">
-                                                        <select id="codigomoneda" name="codigomoneda" asp-for="CodigoMoneda" asp-items="@(new SelectList(Model.Moneda,"Valor", "Descr_Valor"))" class="form-control"></select>
+                                                        <select id="codigomoneda" name="codigomoneda" asp-items="@(new SelectList(Model.Moneda,"Valor", "Descr_Valor"))" class="form-control"></select>
                                                     </div>
                                                     <div class="col-sm-2">
                                                     </div>
@@ -263,16 +263,16 @@
 
                                                 <div class="form-group row">
                                                     <div class="col-sm-2">
-                                                        <label for="numerocuenta">@Html.DisplayNameFor(m => m.NumeroCuenta):</label>
+                                                        <label for="numerocuenta">Numero de Cuenta Bancaria:</label>
                                                     </div>
                                                     <div class="col-sm-3">
-                                                        <input id="numerocuenta" name="numerocuenta" type="text" asp-for="NumeroCuenta" class="form-control" placeholder="Nro. de Cta. Bancaria">
+                                                        <input id="numerocuenta" name="numerocuenta" type="text" class="form-control" placeholder="Nro. de Cta. Bancaria">
                                                     </div>
                                                     <div class="col-sm-2">
-                                                        <label for="cci">@Html.DisplayNameFor(m => m.CCI):</label>
+                                                        <label for="cci">Codigo de Cuenta Interbancario - CCI:</label>
                                                     </div>
                                                     <div class="col-sm-3">
-                                                        <input id="cci" name="cci" type="text" asp-for="CCI" class="form-control" placeholder="Codigo CCI">
+                                                        <input id="cci" name="cci" type="text" class="form-control" placeholder="Codigo CCI">
                                                     </div>
                                                     <div class="col-sm-2">
                                                     </div>
@@ -328,27 +328,27 @@
 
                                                 <div class="form-group row">
                                                     <div class="col-sm-2">
-                                                        <label for="txtIdComercio">Id Comercio:</label>
+                                                        <label for="codigocomercio">Id Comercio:</label>
                                                     </div>
                                                     <div class="col-sm-3">
-                                                        <input id="txtIdComercio" type="text" class="form-control" placeholder="Codigo del Comercio">
+                                                        <input id="codigocomercio" name="codigocomercio" type="text" class="form-control" placeholder="Codigo del Comercio">
                                                     </div>
                                                     <div class="col-sm-5">
                                                         <small class="text-primary">Dato por el cual se realizara la busqueda en los bancos.</small>
                                                     </div>
                                                     <div class="col-sm-2">
-                                                        <button>
-                                                            Anadir Comercio
+                                                        <button id="btnAnadirComercio" name="btnAnadirComercio">
+                                                            Añadir Comercio
                                                         </button>
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group row">
                                                     <div class="col-sm-2">
-                                                        <label for="txtDesComercio">Descripcion:</label>
+                                                        <label for="descripcionCom">Descripcion:</label>
                                                     </div>
                                                     <div class="col-sm-8">
-                                                        <input id="txtDesComercio" type="text" class="form-control" placeholder="Descripcion del Comercio">
+                                                        <input id="descripcionCom" type="text" class="form-control" placeholder="Descripcion del Comercio">
                                                         <small class="text-primary">Descripcion a mostrar en el banco.</small>
                                                     </div>
                                                     <div class="col-sm-2">
@@ -357,10 +357,10 @@
 
                                                 <div class="form-group row">
                                                     <div class="col-sm-2">
-                                                        <label for="txtCorreoNotificacion">Correo de Notificacion:</label>
+                                                        <label for="correonotificacion">Correo de Notificacion:</label>
                                                     </div>
                                                     <div class="col-sm-8">
-                                                        <input id="txtCorreoNotificacion" type="email" class="form-control" placeholder="Correo electronico">
+                                                        <input id="correonotificacion" name="correonotificacion" type="email" class="form-control" placeholder="Correo electronico">
                                                         <small class="text-primary">Correo electronico al cual se remitiran las notificaciones.</small>
                                                     </div>
                                                     <div class="col-sm-2">
@@ -374,22 +374,19 @@
 
                                                 <div class="form-group row">
                                                     <div class="col-sm-2">
-                                                        <label for="cboBanco2">Banco:</label>
+                                                        <label for="idbancozipago">Banco:</label>
                                                     </div>
                                                     <div class="col-sm-10">
-                                                        <select id="idbancozipago" asp-for="IdBancoZiPago" asp-items="@(new SelectList(Model.Banco,"IdBancoZiPago", "NombreLargo"))" class="form-control"></select>
+                                                        <select id="idbancozipago1" name="idbancozipago1" asp-items="@(new SelectList(Model.Banco,"IdBancoZiPago", "NombreLargo"))" class="form-control"></select>
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group row">
                                                     <div class="col-sm-2">
-                                                        <label for="txtIdComercio">Cuenta Bancaria:</label>
+                                                        <label for="cuentasxbanco">Cuenta Bancaria:</label>
                                                     </div>
                                                     <div class="col-sm-10">
-                                                        <select id="cboCuenta" class="form-control">
-                                                            <option value="...">Cta de Ahorros - Soles - Nro Cta: 102035487962 - CCI: 12345678901234567890</option>
-                                                            <option value="...">Cta. Corriente - Dolares - Nro Cta: 904578487962 - CCI: 01234567890123456789</option>
-                                                        </select>
+                                                        <select id="cuentasxbanco" name="cuentasxbanco" class="form-control"></select>
                                                     </div>
                                                 </div>
 
@@ -397,40 +394,20 @@
                                             </div>
 
                                             <div class="col-sm-12">
-
                                                 <table id="tblComercios" class="table table-hover">
                                                     <thead>
                                                         <tr>
                                                             <th scope="col">Id Comercio</th>
-                                                            <th scope="col">Descripcion Comercio</th>
+                                                            <th scope="col">Descripcion Comercio</th>                                                            
                                                             <th scope="col">Correo notificacion</th>
-                                                            <th scope="col">Banco</th>
-                                                            <th scope="col">Tipo Cta.</th>
-                                                            <th scope="col">Moneda</th>
-                                                            <th scope="col">Nro. Cta. Bancaria</th>
-                                                            <th scope="col">CCI</th>
-                                                            <th scope="col">Confirmado?</th>
+                                                            <th scope="col">Cuenta Bancaria</th>
                                                             <th scope="col">Accion</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <th scope="row">REAL101</th>
-                                                            <td>Edificio Real 101</td>
-                                                            <td>101@real.com</td>
-                                                            <td>Banco de Credito del Peru</td>
-                                                            <td>Ahorros</td>
-                                                            <td>Soles</td>
-                                                            <td>1002004578</td>
-                                                            <td>12345678901234567890</td>
-                                                            <td>Si</td>
-                                                            <td></td>
-                                                        </tr>
+                                                    <tbody>                                                        
                                                     </tbody>
                                                 </table>
-
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
