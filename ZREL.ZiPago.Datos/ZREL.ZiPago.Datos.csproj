@@ -5,9 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Afiliacion\" />
     <Folder Include="Comun\" />
-    <Folder Include="Configuraciones\Afiliacion\" />
   </ItemGroup>
 
   <ItemGroup>

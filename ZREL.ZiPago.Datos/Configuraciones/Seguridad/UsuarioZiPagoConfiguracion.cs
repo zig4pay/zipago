@@ -14,6 +14,9 @@ namespace ZREL.ZiPago.Datos.Configuraciones.Seguridad
             // Set key for entity
             builder.HasKey(p => p.IdUsuarioZiPago);
 
+            // Set identity for entity (auto increment)
+            builder.Property(p => p.IdUsuarioZiPago).UseSqlServerIdentityColumn();
+
             // Set mapping for columns
             builder.Property(p => p.IdUsuarioZiPago).HasColumnType("int").IsRequired();
             builder.Property(p => p.Clave1).HasColumnType("varchar(100)").IsRequired();

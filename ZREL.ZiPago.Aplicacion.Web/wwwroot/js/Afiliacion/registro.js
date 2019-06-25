@@ -67,15 +67,15 @@
                         break;
                     case 5:
                         NomMoneda = $(this).text();
-                        break; 
+                        break;
                     case 6:
                         nroCuenta = $(this).text();
                         break;
                     case 7:
                         nroCCI = $(this).text();
                         break;
-                }                
-            })
+                }
+            });
 
             arrCuentas[pos] = new Array(4);
             arrCuentas[pos][0] = pos;
@@ -83,8 +83,8 @@
             arrCuentas[pos][2] = idMoneda;
             arrCuentas[pos][3] = NomTipoCuenta + " - " + NomMoneda + " - Nro. Cta.: " + nroCuenta + " - CCI: " + nroCCI;
 
-            pos++;            
-        })
+            pos++;
+        });
 
         $("#cuentasxbanco").empty();
 
@@ -108,12 +108,16 @@
     });
 
     $('#btnAnadirComercio').click(function () {
-        if (ValidarCuentas()) {
+        if (ValidarComercios()) {
             AgregarComercios();
         } else {
             alert("Los datos del comercio a ingresar ya se encuentran registrados.");
         }
 
+    });
+
+    $('#finish').click(function () {
+        alert("Registrar");
     });
 
 });
@@ -136,14 +140,14 @@ function ValidarCuentas() {
     $("#tblCuentas tbody tr").each(function (index) {
 
         var idBanco, idTipoCuenta, idMoneda, nroCuenta, nroCCI;
-        
+
         $(this).children("td").each(function (indextd) {
             switch (indextd) {
                 case 0:
                     idBanco = $(this).text();
                     break;
                 case 2:
-                    idTipoCuenta = $(this).text();                    
+                    idTipoCuenta = $(this).text();
                     break;
                 case 4:
                     idMoneda = $(this).text();
@@ -162,11 +166,11 @@ function ValidarCuentas() {
                 $("#numerocuenta").val() == nroCuenta &&
                 $("#cci").val() == nroCCI
             ) {
-                result = false;                
+                result = false;
             }
             //$(this).css("background-color", "#ECF8E0");
-        })                
-    })
+        });
+    });
     return result;
 }
 
@@ -201,45 +205,40 @@ function AgregarCuentas() {
     $("#cci").val("");
 }
 
-
 function ValidarComercios() {
 
     var result = true;
 
-    $("#tblCuentas tbody tr").each(function (index) {
+    $("#tblComercios tbody tr").each(function (index) {
 
-        var idBanco, idTipoCuenta, idMoneda, nroCuenta, nroCCI;
+        var codigocomercio, descripcionCom, correonotificacion, cuenta;
 
         $(this).children("td").each(function (indextd) {
             switch (indextd) {
                 case 0:
-                    idBanco = $(this).text();
+                    codigocomercio = $(this).text();
+                    break;
+                case 1:
+                    descripcionCom = $(this).text();
                     break;
                 case 2:
-                    idTipoCuenta = $(this).text();
+                    correonotificacion = $(this).text();
                     break;
-                case 4:
-                    idMoneda = $(this).text();
-                    break;
-                case 6:
-                    nroCuenta = $(this).text();
-                    break;
-                case 7:
-                    nroCCI = $(this).text();
+                case 3:
+                    cuenta = $(this).text();
                     break;
             }
 
-            if ($("#idbancozipago").val() == idBanco &&
-                $("#codigotipocuenta").val() == idTipoCuenta &&
-                $("#codigomoneda").val() == idMoneda &&
-                $("#numerocuenta").val() == nroCuenta &&
-                $("#cci").val() == nroCCI
+            if ($("#codigocomercio").val() == codigocomercio &&
+                $("#descripcionCom").val() == descripcionCom &&
+                $("#correonotificacion").val() == correonotificacion &&
+                $('select[name="cuentasxbanco"] option:selected').text() == cuenta
             ) {
                 result = false;
             }
             //$(this).css("background-color", "#ECF8E0");
-        })
-    })
+        });
+    });
     return result;
 }
 

@@ -14,10 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\Afiliacion\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\ZREL.ZiPago.Entidad\ZREL.ZiPago.Entidad.csproj" />
     <ProjectReference Include="..\ZREL.ZiPago.Libreria\ZREL.ZiPago.Libreria.csproj" />
     <ProjectReference Include="..\ZREL.ZiPago.Negocio\ZREL.ZiPago.Negocio.csproj" />

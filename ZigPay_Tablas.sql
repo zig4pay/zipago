@@ -35,21 +35,21 @@ Begin Tran
    )
    
    CREATE TABLE [dbo].[DOMICILIOZIPAGO](
-	   [IdUsuarioZiPago]	      Int            Not Null,
-      [IdDomicilioZiPago]	   smallint	      Not Null,
-      [CodigoDepartamento]	   varchar(20)    Not Null,
-      [CodigoProvincia]	      varchar(20)    Not Null,
-      [CodigoDistrito]	      varchar(20)    Not Null,
-      [Via]	                  varchar(80)	   Not Null,
-      [DireccionFacturacion]	varchar(150)   Not Null,
-      [Referencia]	         varchar(200)	Null,
-      [Activo]	               char(1)	      Not Null,
-      [FechaCreacion]	      datetime	      Not Null,
-      [FechaActualizacion]	   datetime	      Null
+	   [IdDomicilioZiPago]	   Int Identity(1,1) Not Null,
+      [IdUsuarioZiPago]	      Int               Not Null,      
+      [CodigoDepartamento]	   varchar(20)       Not Null,
+      [CodigoProvincia]	      varchar(20)       Not Null,
+      [CodigoDistrito]	      varchar(20)       Not Null,
+      [Via]	                  varchar(80)	      Not Null,
+      [DireccionFacturacion]	varchar(150)      Not Null,
+      [Referencia]	         varchar(200)	   Null,
+      [Activo]	               char(1)	         Not Null,
+      [FechaCreacion]	      datetime	         Not Null,
+      [FechaActualizacion]	   datetime	         Null
       	   
       CONSTRAINT [PK_DOMICILIOZIPAGO] PRIMARY KEY CLUSTERED 
       (
-	      [IdUsuarioZiPago], [IdDomicilioZiPago]
+	      [IdDomicilioZiPago]
       )
    )
    
@@ -93,7 +93,7 @@ Begin Tran
       [Confirmado]	      char(1)	         Null,
       [Activo]	            char(1)	         Not Null,
       [FechaCreacion]	   datetime	         Not Null,
-      [FechaActualizacion]	datetime	         Not Null
+      [FechaActualizacion]	datetime	         Null
             	   
       CONSTRAINT [PK_COMERCIOZIPAGO] PRIMARY KEY CLUSTERED 
       (
@@ -106,7 +106,7 @@ Begin Tran
       [IdCuentaBancaria]   Int      Not Null,
       [Activo]	            char(1)	Not Null,
       [FechaCreacion]	   datetime	Not Null,
-      [FechaActualizacion]	datetime	Not Null
+      [FechaActualizacion]	datetime	Null
             	   
       CONSTRAINT [PK_COMERCIOCUENTAZIPAGO] PRIMARY KEY CLUSTERED 
       (
@@ -138,7 +138,6 @@ Begin Tran
    CREATE UNIQUE INDEX IX_COMERCIOZIPAGO_01
       ON [COMERCIOZIPAGO] (CodigoComercio)
    
-
    ALTER TABLE [DOMICILIOZIPAGO]
       ADD CONSTRAINT [FK_USUARIOZIPAGO_DOMICILIOZIPAGO]
          FOREIGN KEY ([IdUsuarioZiPago]) REFERENCES [USUARIOZIPAGO]([IdUsuarioZiPago])
@@ -150,6 +149,15 @@ Begin Tran
    ALTER TABLE [CUENTABANCARIAZIPAGO]
       ADD CONSTRAINT [FK_BANCOZIPAGO_CUENTABANCARIAZIPAGO]
          FOREIGN KEY ([IdBancoZiPago]) REFERENCES [BANCOZIPAGO]([IdBancoZiPago])
+
+   ALTER TABLE [COMERCIOCUENTAZIPAGO]
+      ADD CONSTRAINT [FK_CUENTABANCARIAZIPAGO_COMERCIOCUENTAZIPAGO]
+         FOREIGN KEY ([IdCuentaBancaria]) REFERENCES [CUENTABANCARIAZIPAGO]([IdCuentaBancaria])
+   
+   ALTER TABLE [COMERCIOCUENTAZIPAGO]
+      ADD CONSTRAINT [FK_COMERCIOZIPAGO_COMERCIOCUENTAZIPAGO]
+         FOREIGN KEY ([IdComercioZiPago]) REFERENCES [COMERCIOZIPAGO]([IdComercioZiPago])
+
 
 Commit Tran
 Go

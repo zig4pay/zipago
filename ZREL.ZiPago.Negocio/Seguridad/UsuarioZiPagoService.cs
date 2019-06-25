@@ -58,7 +58,7 @@ namespace ZREL.ZiPago.Negocio.Seguridad
 
                     if (response.Model is null || response.Model.IdUsuarioZiPago == 0)
                     {
-                        entidad.Activo = Constantes.strUsuarioZiPago_Activo;
+                        entidad.Activo = Constantes.strValor_Activo;
                         entidad.FechaCreacion = DateTime.Now;                        
                         DbContext.Add(entidad);
 
