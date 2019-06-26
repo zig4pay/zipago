@@ -12,5 +12,7 @@ namespace ZREL.ZiPago.Negocio.Contracts
 
         Task<IResponse> RegistrarAsync(Logger logger, UsuarioZiPago entidadUsuario, DomicilioZiPago entidadDomicilio, List<ComercioCuentaZiPago> listComercioCuenta);
 
+        Task<ISingleResponse<ComercioZiPago>> ObtenerComercioZiPagoAsync(Logger logger, string codigoComercio);
+
     }
 }

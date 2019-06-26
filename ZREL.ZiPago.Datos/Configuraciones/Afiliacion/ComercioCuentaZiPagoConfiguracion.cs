@@ -22,11 +22,11 @@ namespace ZREL.ZiPago.Datos.Configuraciones.Afiliacion
             builder.Property(p => p.FechaActualizacion).HasColumnType("Datetime");
 
             builder.HasOne(x => x.ComercioZiPago)
-                   .WithMany(x => x.ComercioCuentaZiPago)
+                   .WithMany(x => x.ComerciosCuentasZiPago)
                    .HasForeignKey(x => x.IdComercioZiPago);
 
             builder.HasOne(x => x.CuentaBancariaZiPago)
-                   .WithMany(x => x.ComercioCuentaZiPago)
+                   .WithMany(x => x.ComerciosCuentasZiPago)
                    .HasForeignKey(x => x.IdCuentaBancaria);
 
         }

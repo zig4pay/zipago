@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
+using ZREL.ZiPago.Entidad.Afiliacion;
 using ZREL.ZiPago.Entidad.Comun;
 
 namespace ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion
@@ -121,12 +122,10 @@ namespace ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion
         public List<TablaDetalle> Moneda { get; set; }
 
         //-----------------------------------------------------//
-        //Comercio
-        //-----------------------------------------------------//        
-        
+        //Comercio Cuenta 
+        //-----------------------------------------------------//
+        public List<ComercioCuentaZiPago> ComercioCuenta { get; set; }
 
     }
-
-    
 
 }

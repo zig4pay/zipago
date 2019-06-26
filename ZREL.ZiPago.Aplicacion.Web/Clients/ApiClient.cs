@@ -53,6 +53,14 @@ namespace ZREL.ZiPago.Aplicacion.Web.Clients
             return JsonConvert.DeserializeObject<ResponseModel<T>>(data);
         }
 
+        public async Task<string> PostJsonAsync<T>(Uri requestUrl, T content)
+        {
+            var response = await httpClient.PostAsync(requestUrl.ToString(), CreateHttpContent<T>(content));
+            response.EnsureSuccessStatusCode();
+            var data = await response.Content.ReadAsStringAsync();
+            return JsonConvert.SerializeObject(data);
+        }
+
         public Uri CreateRequestUri(string relativePath, string queryString = "")
         {
             var endpoint = new Uri(BaseEndpoint, relativePath);

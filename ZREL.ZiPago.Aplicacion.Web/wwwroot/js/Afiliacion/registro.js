@@ -51,45 +51,59 @@
         arrCuentas.splice(0, arrCuentas.length);
 
         var pos = 0;
-        var idBanco, NomTipoCuenta, idMoneda, NomMoneda, nroCuenta, nroCCI;
+        var idCuentaAlt, idBanco, nomBanco, idTipoCuenta, NomTipoCuenta, idMoneda, NomMoneda, nroCuenta, nroCCI;
 
         $("#tblCuentas tbody tr").each(function (index) {
             $(this).children("td").each(function (indextd) {
                 switch (indextd) {
                     case 0:
+                        idCuentaAlt = $(this).text();
+                        break;
+                    case 1:
                         idBanco = $(this).text();
                         break;
+                    case 2:
+                        nomBanco = $(this).text();
+                        break;
                     case 3:
-                        NomTipoCuenta = $(this).text();
+                        idTipoCuenta = $(this).text();
                         break;
                     case 4:
-                        idMoneda = $(this).text();
+                        NomTipoCuenta = $(this).text();
                         break;
                     case 5:
-                        NomMoneda = $(this).text();
+                        idMoneda = $(this).text();
                         break;
                     case 6:
-                        nroCuenta = $(this).text();
+                        NomMoneda = $(this).text();
                         break;
                     case 7:
+                        nroCuenta = $(this).text();
+                        break;
+                    case 8:
                         nroCCI = $(this).text();
                         break;
                 }
             });
 
-            arrCuentas[pos] = new Array(4);
-            arrCuentas[pos][0] = pos;
+            arrCuentas[pos] = new Array(7);
+            arrCuentas[pos][0] = idCuentaAlt;
             arrCuentas[pos][1] = idBanco;
-            arrCuentas[pos][2] = idMoneda;
-            arrCuentas[pos][3] = NomTipoCuenta + " - " + NomMoneda + " - Nro. Cta.: " + nroCuenta + " - CCI: " + nroCCI;
+            arrCuentas[pos][2] = nroCuenta;
+            arrCuentas[pos][3] = idTipoCuenta;
+            arrCuentas[pos][4] = idMoneda;
+            arrCuentas[pos][5] = nroCCI;
+            arrCuentas[pos][6] = NomTipoCuenta + " - " + NomMoneda + " - Nro. Cta.: " + nroCuenta + " - CCI: " + nroCCI;
 
             pos++;
         });
 
         $("#cuentasxbanco").empty();
 
+    });
 
-
+    $(document).on('click', '.eliminaComercio', function (event) {
+        $(this).closest('tr').remove();        
     });
 
     $("#idbancozipago1").on("change", function () {
@@ -100,7 +114,7 @@
 
         for (var i = 0; i < arrCuentas.length; i++) {
             if (arrCuentas[i][1] == strCodigoBanco) {
-                $("#cuentasxbanco").append($("<option>").val(cont).text(arrCuentas[i][3]));
+                $("#cuentasxbanco").append($("<option>").val(arrCuentas[i][0]).text(arrCuentas[i][6]));
                 cont++;
             }
         }
@@ -117,12 +131,13 @@
     });
 
     $('#finish').click(function () {
-        alert("Registrar");
+        Registrar();
     });
 
 });
 
 var nroFilas = 0;
+var idCuenta = 0;
 var arrCuentas = new Array(1);
 
 function MostrarDivJuridica(valor) {
@@ -177,8 +192,9 @@ function ValidarCuentas() {
 function AgregarCuentas() {    
 
     nroFilas = $("#tblCuentas tr").length - 1;
-    
+    idCuenta++;
     var htmlTags = '<tr">' +
+        '<td style="display:none;">' + idCuenta + '</td>' +
         '<td style="display:none;">' + $("#idbancozipago").val() + '</td>' +
         '<td>' + $('select[name="idbancozipago"] option:selected').text() + '</td>' +
         '<td style="display:none;">' + $("#codigotipocuenta").val() + '</td>' +
@@ -191,12 +207,15 @@ function AgregarCuentas() {
         '</tr>';
 
     $('#tblCuentas tbody').append(htmlTags);
-        
-    arrCuentas[nroFilas] = new Array(4);
-    arrCuentas[nroFilas][0] = nroFilas;
+    
+    arrCuentas[nroFilas] = new Array(7);
+    arrCuentas[nroFilas][0] = idCuenta;
     arrCuentas[nroFilas][1] = $("#idbancozipago").val();
-    arrCuentas[nroFilas][2] = $("#codigomoneda").val();
-    arrCuentas[nroFilas][3] = $('select[name="codigotipocuenta"] option:selected').text() + " - " +
+    arrCuentas[nroFilas][2] = $("#numerocuenta").val();
+    arrCuentas[nroFilas][3] = $("#codigotipocuenta").val();
+    arrCuentas[nroFilas][4] = $("#codigomoneda").val();
+    arrCuentas[nroFilas][5] = $("#cci").val();
+    arrCuentas[nroFilas][6] = $('select[name="codigotipocuenta"] option:selected').text() + " - " +
         $('select[name="codigomoneda"] option:selected').text() + " - " +
         "Nro. Cta.: " + $("#numerocuenta").val() + " - " +
         "CCI: " + $("#cci").val();
@@ -211,29 +230,16 @@ function ValidarComercios() {
 
     $("#tblComercios tbody tr").each(function (index) {
 
-        var codigocomercio, descripcionCom, correonotificacion, cuenta;
+        var codigocomercio;
 
         $(this).children("td").each(function (indextd) {
             switch (indextd) {
                 case 0:
                     codigocomercio = $(this).text();
-                    break;
-                case 1:
-                    descripcionCom = $(this).text();
-                    break;
-                case 2:
-                    correonotificacion = $(this).text();
-                    break;
-                case 3:
-                    cuenta = $(this).text();
-                    break;
+                    break;                
             }
 
-            if ($("#codigocomercio").val() == codigocomercio &&
-                $("#descripcionCom").val() == descripcionCom &&
-                $("#correonotificacion").val() == correonotificacion &&
-                $('select[name="cuentasxbanco"] option:selected').text() == cuenta
-            ) {
+            if ($("#codigocomercio").val() == codigocomercio) {
                 result = false;
             }
             //$(this).css("background-color", "#ECF8E0");
@@ -245,6 +251,7 @@ function ValidarComercios() {
 function AgregarComercios() {
 
     var htmlTags = '<tr">' +
+        '<td style="display:none;">' + $("#cuentasxbanco").val() + '</td>' +
         '<td>' + $("#codigocomercio").val() + '</td>' +
         '<td>' + $("#descripcionCom").val() + '</td>' +
         '<td>' + $("#correonotificacion").val() + '</td>' +
@@ -259,3 +266,37 @@ function AgregarComercios() {
     $("#correonotificacion").val("");
 }
 
+function Registrar() {
+        
+    var RegistroVM = new Object();
+
+    RegistroVM.IdUsuarioZiPago = $('#idusuariozipago').val();
+    RegistroVM.CodigoRubroNegocio = $('#codigorubronegocio').val();
+    //RegistroVM.CodigoTipoPersona
+
+    var DTO = { 'model': RegistroViewModel };
+
+    $.ajax(
+    {
+        url: '/Afiliacion/Registrar',
+        type: "POST",
+        data: DTO,
+        datatype: 'json',
+        ContentType: 'application/json;utf-8',
+        beforeSend: function () {
+                
+        }
+    })
+    .done(function (resp) {
+        if (resp == "1") {
+            alert('Datos grabados satisfactoriamente.');                                
+        }
+        if (resp.length > 1) {
+            alert('Error al registrar:\n' + resp);                
+        }
+    })
+    .error(function (err) {
+        alert('Error al registrar:\n' + err);            
+    });
+
+}

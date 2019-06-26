@@ -41,6 +41,7 @@
                                                 <div class="col-sm-2">
                                                     <label for="clave1">@Html.DisplayNameFor(m => m.Clave1):</label>
                                                 </div>
+                                                <input id="idusuariozipago" name="idusuariozipago" type="hidden" asp-for="IdUsuarioZiPago" />                                                
                                                 <div class="col-sm-10">
                                                     <input id="clave1" name="clave1" type="text" class="form-control" asp-for="Clave1" disabled>
                                                 </div>
@@ -55,7 +56,7 @@
                                                 {
                                                 <div class="col-sm-2 form-check form-check-inline">
                                                     <input asp-for="CodigoTipoPersona" class="form-check-input" type="radio" id="optPersona@(item.Descr_Valor)" value="@item.Valor" />
-                                                    <label class="label-radio" for="optPersonaJuridica">@item.Descr_Valor</label>
+                                                    <label class="label-radio" for="optPersona@(item.Descr_Valor)">@item.Descr_Valor</label>
                                                 </div>
                                                 }                                                
                                                 <div class="col-sm-6"></div>
@@ -66,7 +67,7 @@
                                                     <label for="codigorubronegocio">Rubro de Negocio:</label>
                                                 </div>
                                                 <div class="col-sm-4">
-                                                    <select id="codigorubronegocio" asp-for="CodigoRubroNegocio" asp-items="@(new SelectList(Model.RubroNegocio,"Valor", "Descr_Valor"))" class="form-control"></select>
+                                                    <select id="codigorubronegocio" name="codigorubronegocio" asp-for="CodigoRubroNegocio" asp-items="@(new SelectList(Model.RubroNegocio,"Valor", "Descr_Valor"))" class="form-control"></select>
                                                 </div>
                                                 <div class="col-sm-1">
                                                     <label for="otrorubronegocio">Otro:</label>
@@ -285,6 +286,7 @@
                                                 <table id="tblCuentas" class="table table-hover">
                                                     <thead>
                                                         <tr>
+                                                            <th scope="col" style="display:none;">IdCuenta</th>
                                                             <th scope="col" style="display:none;">CodigoBanco</th>
                                                             <th scope="col">Banco</th>
                                                             <th scope="col" style="display:none;">CodigoTipoCuenta</th>
@@ -396,9 +398,10 @@
                                             <div class="col-sm-12">
                                                 <table id="tblComercios" class="table table-hover">
                                                     <thead>
-                                                        <tr>
+                                                        <tr>                                                            
+                                                            <th scope="col" style="display:none;">IdCuenta</th>
                                                             <th scope="col">Id Comercio</th>
-                                                            <th scope="col">Descripcion Comercio</th>                                                            
+                                                            <th scope="col">Descripcion</th>
                                                             <th scope="col">Correo notificacion</th>
                                                             <th scope="col">Cuenta Bancaria</th>
                                                             <th scope="col">Accion</th>

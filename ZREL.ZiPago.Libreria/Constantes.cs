@@ -33,5 +33,7 @@ namespace ZREL.ZiPago.Libreria
         //UBIGEO
         public const string strUbigeoZiPago_Departamentos = "00";
 
+        public const string strConsultaRealizada = "Consulta realizada correctamente.";
+        public const string strRegistroRealizado = "Registro realizado correctamente.";
     }
 }
