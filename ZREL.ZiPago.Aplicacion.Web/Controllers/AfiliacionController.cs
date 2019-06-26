@@ -110,7 +110,8 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
 
             JsonResult response;
             Uri requestUrl;
-            
+            ComercioCuentaZiPago comercioCuenta;
+
             try
             {
                 AfiliacionZiPagoRequest request = new AfiliacionZiPagoRequest();
@@ -123,9 +124,19 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
                 usuario.NombresUsuario = model.NombresUsuario;
                 usuario.CodigoRubroNegocio = model.CodigoRubroNegocio;
                 usuario.CodigoTipoPersona = model.CodigoTipoPersona;
-                usuario.CodigoTipoDocumento = model.CodigoTipoDocumento;
-                usuario.NumeroDocumento = model.NumeroDocumento;
-                usuario.RazonSocial = model.RazonSocial;
+
+                if (model.CodigoTipoPersona == Constantes.strTipoPersonaJuridica)
+                {
+                    usuario.CodigoTipoDocumento = Constantes.strTipoDocIdRUC;
+                    usuario.NumeroDocumento = model.NumeroRUC;
+                    usuario.RazonSocial = model.RazonSocial;
+                }
+                else
+                {
+                    usuario.CodigoTipoDocumento = Constantes.strTipoDocIdDNI;
+                    usuario.NumeroDocumento = model.NumeroDNI;                    
+                }
+
                 usuario.ApellidoPaterno = model.ApellidoPaterno;
                 usuario.ApellidoMaterno = model.ApellidoMaterno;
                 usuario.Nombres = model.Nombres;
@@ -133,8 +144,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
                 usuario.FechaNacimiento = model.FechaNacimiento;
                 usuario.TelefonoMovil = model.TelefonoMovil;
                 usuario.TelefonoFijo = model.TelefonoFijo;
-                usuario.AceptoTerminos = model.AceptoTerminos;
-
+                
                 domicilio.IdUsuarioZiPago = model.IdUsuarioZiPago;
                 domicilio.CodigoDepartamento = model.CodigoDepartamento;
                 domicilio.CodigoProvincia = model.CodigoProvincia;
@@ -142,10 +152,29 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
                 domicilio.Via = model.Via;
                 domicilio.DireccionFacturacion = model.DireccionFacturacion;
                 domicilio.Referencia = model.Referencia;
-                
+
+                //----------------Luego mover a Servicio (Negocio)
+                domicilio.Activo = Constantes.strValor_Activo;
+                domicilio.FechaCreacion = DateTime.Now;
+
                 request.EntidadUsuario = usuario;
                 request.EntidadDomicilio = domicilio;
-                request.ListComercioCuenta = model.ComercioCuenta;
+
+                foreach (CuentaBancariaZiPago cuenta in model.CuentasBancariaZiPago)
+                {                    
+                    foreach (ComercioZiPago comercio in model.ComerciosZiPago)
+                    {
+                        if (comercio.CodigoCuenta == cuenta.CodigoCuenta)
+                        {
+                            comercioCuenta = new ComercioCuentaZiPago
+                            {
+                                ComercioZiPago = comercio,
+                                CuentaBancariaZiPago = cuenta                                
+                            };
+                            request.ListComercioCuenta.Add(comercioCuenta);
+                        }
+                    }
+                }
 
                 requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, apiClient.Value.AfiliacionZiPago_Registrar));                
                 response = Json(await ApiClientFactory.Instance.PostJsonAsync<AfiliacionZiPagoRequest>(requestUrl, request));

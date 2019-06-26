@@ -10,6 +10,6 @@ namespace ZREL.ZiPago.Aplicacion.Web.Request
 
         public DomicilioZiPago EntidadDomicilio { get; set; }
 
-        public List<ComercioCuentaZiPago> ListComercioCuenta { get; set; }
+        public List<ComercioCuentaZiPago> ListComercioCuenta { get; set; } = new List<ComercioCuentaZiPago>();
     }
 }

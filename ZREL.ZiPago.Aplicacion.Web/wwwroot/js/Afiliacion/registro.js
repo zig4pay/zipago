@@ -252,6 +252,7 @@ function AgregarComercios() {
 
     var htmlTags = '<tr">' +
         '<td style="display:none;">' + $("#cuentasxbanco").val() + '</td>' +
+        '<td style="display:none;">' + $("#idusuariozipago").val() + '</td>' +
         '<td>' + $("#codigocomercio").val() + '</td>' +
         '<td>' + $("#descripcionCom").val() + '</td>' +
         '<td>' + $("#correonotificacion").val() + '</td>' +
@@ -268,13 +269,114 @@ function AgregarComercios() {
 
 function Registrar() {
         
-    var RegistroVM = new Object();
+    var RegistroVM = new Object();    
+    var arrComercio = new Array(1);
+    var arrCuenta = new Array(1);
+    var CodigoCuenta, IdBancoZiPago, NumeroCuenta, CodigoTipoCuenta, CodigoTipoMoneda, CCI;
+    var CodigoComercio, IdUsuarioZiPago, Descripcion, CorreoNotificacion;
+    var Cont = 0;
+    
+    $("#tblComercios tbody tr").each(function (index) {
 
+        $(this).children("td").each(function (indextd) {
+            switch (indextd) {
+                case 0:
+                    CodigoCuenta = $(this).text();
+                    break;
+                case 1:
+                    IdUsuarioZiPago = $(this).text();
+                    break;
+                case 2:
+                    CodigoComercio = $(this).text();
+                    break;
+                case 3:
+                    Descripcion = $(this).text();
+                    break;
+                case 4:
+                    CorreoNotificacion = $(this).text();
+                    break;
+            }
+        });
+
+        var ComercioZiPago = {
+            CodigoCuenta: CodigoCuenta,
+            CodigoComercio: CodigoComercio,
+            IdUsuarioZiPago: IdUsuarioZiPago,
+            Descripcion: Descripcion,
+            CorreoNotificacion: CorreoNotificacion
+        };
+
+        arrComercio[Cont] = new Array(1);
+        arrComercio[Cont] = ComercioZiPago;
+        Cont++;
+    });            
+
+    Cont = 0;
+
+    $("#tblCuentas tbody tr").each(function (index) {
+
+        $(this).children("td").each(function (indextd) {
+            switch (indextd) {
+                case 0:
+                    CodigoCuenta = $(this).text();
+                    break;
+                case 1:
+                    IdBancoZiPago = $(this).text();
+                    break;                
+                case 3:
+                    CodigoTipoCuenta = $(this).text();
+                    break;
+                case 5:
+                    CodigoTipoMoneda = $(this).text();
+                    break;                
+                case 7:
+                    NumeroCuenta = $(this).text();
+                    break;
+                case 8:
+                    CCI = $(this).text();
+                    break;
+            }
+        });
+
+        var CuentaBancariaZiPago = {
+            CodigoCuenta: CodigoCuenta,
+            IdBancoZiPago: IdBancoZiPago,
+            CodigoTipoCuenta: CodigoTipoCuenta,
+            CodigoTipoMoneda: CodigoTipoMoneda,
+            NumeroCuenta: NumeroCuenta,
+            CCI: CCI
+        };
+
+        arrCuenta[Cont]= new Array(1);
+        arrCuenta[Cont]= CuentaBancariaZiPago;
+
+        Cont++;
+    });
+    
     RegistroVM.IdUsuarioZiPago = $('#idusuariozipago').val();
+    RegistroVM.Clave1 = $('#clave1').val();
     RegistroVM.CodigoRubroNegocio = $('#codigorubronegocio').val();
-    //RegistroVM.CodigoTipoPersona
-
-    var DTO = { 'model': RegistroViewModel };
+    RegistroVM.CodigoTipoPersona = $('input:radio[name=CodigoTipoPersona]:checked').val();
+    RegistroVM.NumeroRUC = $('#numeroruc').val();
+    RegistroVM.NumeroDNI = $('#numerodni').val();
+    RegistroVM.RazonSocial = $('#razonsocial').val();
+    RegistroVM.ApellidoPaterno = $('#apellidopaterno').val();
+    RegistroVM.ApellidoMaterno = $('#apellidomaterno').val();
+    RegistroVM.Nombres = $('#nombres').val();
+    RegistroVM.Sexo = $('input:radio[name=optSexo]:checked').val();    
+    RegistroVM.FechaNacimiento = $('#fechanacimiento').val();
+    RegistroVM.TelefonoMovil = $('#telefonomovil').val();
+    RegistroVM.TelefonoFijo = $('#telefonofijo').val();
+    RegistroVM.CodigoDepartamento = $('#codigodepartamento').val();
+    RegistroVM.CodigoProvincia = $('#codigoprovincia').val();
+    RegistroVM.CodigoDistrito = $('#codigodistrito').val();
+    RegistroVM.Via = $('#via').val();
+    RegistroVM.DireccionFacturacion = $('#direccionfacturacion').val();
+    RegistroVM.Referencia = $('#referencia').val();
+    RegistroVM.ComerciosZiPago = arrComercio;
+    RegistroVM.CuentasBancariaZiPago = arrCuenta;
+    
+    var DTO = { 'model': RegistroVM };
 
     $.ajax(
     {

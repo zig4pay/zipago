@@ -124,8 +124,9 @@ namespace ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion
         //-----------------------------------------------------//
         //Comercio Cuenta 
         //-----------------------------------------------------//
-        public List<ComercioCuentaZiPago> ComercioCuenta { get; set; }
+        public List<ComercioZiPago> ComerciosZiPago { get; set; }
 
+        public List<CuentaBancariaZiPago> CuentasBancariaZiPago { get; set; }
     }
 
 }

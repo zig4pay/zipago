@@ -16,6 +16,8 @@ namespace ZREL.ZiPago.Entidad.Afiliacion
         public DateTime? FechaCreacion { get; set; }
         public DateTime? FechaActualizacion { get; set; }
 
+        public int CodigoCuenta { get; set; }
+        
         public List<ComercioCuentaZiPago> ComerciosCuentasZiPago { get; set; } = new List<ComercioCuentaZiPago>();
 
     }

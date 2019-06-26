@@ -41,7 +41,7 @@
                                                 <div class="col-sm-2">
                                                     <label for="clave1">@Html.DisplayNameFor(m => m.Clave1):</label>
                                                 </div>
-                                                <input id="idusuariozipago" name="idusuariozipago" type="hidden" asp-for="IdUsuarioZiPago" />                                                
+                                                <input id="idusuariozipago" name="idusuariozipago" type="hidden" asp-for="IdUsuarioZiPago" />
                                                 <div class="col-sm-10">
                                                     <input id="clave1" name="clave1" type="text" class="form-control" asp-for="Clave1" disabled>
                                                 </div>
@@ -54,11 +54,11 @@
                                                 </div>
                                                 @foreach (var item in Model.TipoPersona)
                                                 {
-                                                <div class="col-sm-2 form-check form-check-inline">
-                                                    <input asp-for="CodigoTipoPersona" class="form-check-input" type="radio" id="optPersona@(item.Descr_Valor)" value="@item.Valor" />
-                                                    <label class="label-radio" for="optPersona@(item.Descr_Valor)">@item.Descr_Valor</label>
-                                                </div>
-                                                }                                                
+                                                    <div class="col-sm-2 form-check form-check-inline">
+                                                        <input asp-for="CodigoTipoPersona" class="form-check-input" type="radio" id="optPersona@(item.Descr_Valor)" value="@item.Valor" />
+                                                        <label class="label-radio" for="optPersona@(item.Descr_Valor)">@item.Descr_Valor</label>
+                                                    </div>
+                                                }
                                                 <div class="col-sm-6"></div>
                                             </div>
 
@@ -152,6 +152,21 @@
                                                     <input id="fechanacimiento" name="fechanacimiento" type="date" class="form-control" placeholder="dd/mm/yyyy" asp-for="FechaNacimiento">
                                                 </div>
                                             </div>
+                                            <div class="form-group row">
+                                                <div class="col-sm-2">
+                                                    <label for="apellidopaterno">Telefono Fijo:</label>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <input id="telefonomovil" name="telefonomovil" type="text" class="form-control" placeholder="Numero de Telefono Movil" asp-for="TelefonoMovil">
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <label for="apellidomaterno">Telefono Movil:</label>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <input id="telefonofijo" name="telefonofijo" type="text" class="form-control" placeholder="Numero de Telefono Fijo" asp-for="TelefonoFijo">
+                                                </div>
+                                            </div>
+
 
                                             <hr />
                                             <div class="form-group row">
@@ -162,7 +177,7 @@
                                                     <label for="codigodepartamento">Departamento:</label>
                                                 </div>
                                                 <div class="col-sm-4">
-                                                    <select id="codigodepartamento" asp-for="CodigoDepartamento" asp-items="@(new SelectList(Model.Departamento,"CodigoUbigeo", "Nombre"))" class="form-control"></select>
+                                                    <select id="codigodepartamento" name="codigodepartamento" asp-for="CodigoDepartamento" asp-items="@(new SelectList(Model.Departamento,"CodigoUbigeo", "Nombre"))" class="form-control"></select>
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <label for="codigoprovincia">Provincia:</label>
@@ -398,8 +413,9 @@
                                             <div class="col-sm-12">
                                                 <table id="tblComercios" class="table table-hover">
                                                     <thead>
-                                                        <tr>                                                            
+                                                        <tr>
                                                             <th scope="col" style="display:none;">IdCuenta</th>
+                                                            <th scope="col" style="display:none;">IdUsuarioZiPago</th>
                                                             <th scope="col">Id Comercio</th>
                                                             <th scope="col">Descripcion</th>
                                                             <th scope="col">Correo notificacion</th>
