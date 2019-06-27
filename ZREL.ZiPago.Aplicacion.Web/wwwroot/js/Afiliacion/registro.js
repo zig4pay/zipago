@@ -390,12 +390,13 @@ function Registrar() {
         }
     })
     .done(function (resp) {
-        if (resp == "1") {
-            alert('Datos grabados satisfactoriamente.');                                
-        }
-        if (resp.length > 1) {
-            alert('Error al registrar:\n' + resp);                
-        }
+        alert('Registro realizado correctamente.');
+        //if (resp['mensaje'] == "Registro realizado correctamente.") {
+        //    alert('Registro realizado correctamente.');                                
+        //}
+        //if (resp.length > 1) {
+        //    alert('Error al registrar:\n' + resp.mensajeError);                
+        //}
     })
     .error(function (err) {
         alert('Error al registrar:\n' + err);            
