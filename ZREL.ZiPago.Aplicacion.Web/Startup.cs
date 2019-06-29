@@ -28,7 +28,7 @@ namespace ZREL.ZiPago.Aplicacion.Web
             });
             
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.Configure<ApiClientSettingsModel>(Configuration.GetSection("ZRELZiPagoWebApi"));
+            services.Configure<WebSiteSettingsModel>(Configuration.GetSection("ZRELZiPagoWebApi"));
             services.AddCors();
         }
 

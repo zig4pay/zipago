@@ -1,4 +1,7 @@
-﻿@model ZREL.ZiPago.Aplicacion.Web.Models.Seguridad.UsuarioViewModel
+﻿@using Microsoft.Extensions.Configuration
+@using ZREL.ZiPago.Aplicacion.Web.Validation
+@model ZREL.ZiPago.Aplicacion.Web.Models.Seguridad.UsuarioViewModel
+@inject IConfiguration Configuration
 
 @{
     ViewData["Title"] = "Inicio de Sesion";
@@ -38,6 +41,9 @@
                             <button type="submit" id="btnLogin" class="btn btn-success">Ingresar</button>
                         </div>
                     </div>
+                    <div>
+                        @Html.GoogleReCaptcha(Configuration.GetValue<String>("GoogleReCaptcha:SiteKey"))
+                    </div>
                     @Html.ValidationMessage("ErrorLogin", "", new { @class = "text-danger" })
                     <div id="divProgress" style="display:none;" class="styleProgress">
                         <img src="~/img/ajax-loader.gif" />&nbsp;<span style="vertical-align:middle;">Procesando ...</span>
@@ -52,7 +58,7 @@
                                 <a href="#" id="btnOlvidoClave">¿Olvidaste tu clave?</a>
                             </div>
                             <div class="col-sm-6 control" style="text-align:right; padding-right:0;">
-                                <a asp-controller="Seguridad" asp-action="UsuarioRegistrar">¿Nuevo en ZiPago?</a>
+                                <a asp-controller="Seguridad" asp-action="UsuarioRegistrar">¿Eres nuevo en ZiPago?</a>
                             </div>
                         </div>
                     </div>
@@ -61,16 +67,16 @@
         </div>
     </form>
 
-    <div id="olvidoClaveBox" style="margin-top:80px; display:none;" class="mainbox  col-md-4 col-md-offset-4 col-sm-8 col-sm-offset-2" >
+    <div id="olvidoClaveBox" style="margin-top:80px; display:none;" class="mainbox  col-md-4 col-md-offset-4 col-sm-8 col-sm-offset-2">
         <div class="panel panel-info">
             <div class="panel-heading">
                 <div class="panel-title"><strong>Recuperacion de Clave</strong></div>
             </div>
-            <div class="panel-body">                
+            <div class="panel-body">
                 <div class="form-group">
                     Ingrese su Id ZiPago (dirección de correo electrónico).<br />
                     Se enviará a su correo el procedimiento a traves del cual podrá recuperar su contraseña.
-                </div>                
+                </div>
                 <div class="form-group">
                     <label for="txtCorreo">Id ZiPago:</label>
                     <div class="input-group">
@@ -93,14 +99,14 @@
                 </div>
                 <div class="form-group">
                     <div style="border-top: 1px solid#888; padding-top:15px; font-size:85%">
-                        <div class="col-sm-6">                            
+                        <div class="col-sm-6">
                         </div>
                         <div class="col-sm-6 control" style="text-align:right; padding-right:0;">
                             <a id="btnRegresaLogin" href="#">Ingrese a ZiPago</a>
                         </div>
                     </div>
                 </div>
-            </div>            
+            </div>
         </div>
     </div>
 
@@ -109,3 +115,5 @@
 <script src="~/js/jquery-2.2.4.min.js"></script>
 <script src="~/js/jquery.validate.min.js"></script>
 <script src="~/js/Seguridad/login.js"></script>
+<script src='https://www.google.com/recaptcha/api.js'></script>
+

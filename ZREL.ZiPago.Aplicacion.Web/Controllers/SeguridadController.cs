@@ -17,9 +17,9 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
     public class SeguridadController : Controller
     {
 
-        private readonly IOptions<ApiClientSettingsModel> apiClient;
+        private readonly IOptions<WebSiteSettingsModel> apiClient;
 
-        public SeguridadController(IOptions<ApiClientSettingsModel> app)
+        public SeguridadController(IOptions<WebSiteSettingsModel> app)
         {
             apiClient = app;
             ApiClientSettings.ZZiPagoUrl = apiClient.Value.ZZiPagoUrl;            

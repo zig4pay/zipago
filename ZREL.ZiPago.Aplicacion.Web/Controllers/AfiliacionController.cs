@@ -20,9 +20,9 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
     public class AfiliacionController : Controller
     {
 
-        private readonly IOptions<ApiClientSettingsModel> apiClient;
+        private readonly IOptions<WebSiteSettingsModel> apiClient;
 
-        public AfiliacionController(IOptions<ApiClientSettingsModel> app)
+        public AfiliacionController(IOptions<WebSiteSettingsModel> app)
         {
             apiClient = app;
             ApiClientSettings.ZZiPagoUrl = apiClient.Value.ZZiPagoUrl;

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ZREL.ZiPago.Aplicacion.Web.Models.Settings
 {
-    public class ApiClientSettingsModel
+    public class WebSiteSettingsModel
     {
 
         public string ZZiPagoUrl { get; set; }
@@ -23,5 +23,8 @@ namespace ZREL.ZiPago.Aplicacion.Web.Models.Settings
         public string AfiliacionZiPago_Registrar { get; set; }
         public string AfiliacionZiPago_ComercioObtener { get; set; }
 
+        //Google ReCaptcha
+        public string SiteKey { get; set; }
+        public string SecretKey { get; set; }
     }
 }

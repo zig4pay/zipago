@@ -38,5 +38,10 @@ namespace ZREL.ZiPago.Libreria
 
         public const string strConsultaRealizada = "Consulta realizada correctamente.";
         public const string strRegistroRealizado = "Registro realizado correctamente.";
+
+        //Google ReCaptcha
+        public const string GoogleRecaptchaSecretKey = "6Le0OasUAAAAALW4hoX9kXI_61sI-lVxim3MTBlc";
+        public const string GoogleRecaptchaSiteKey = "6Le0OasUAAAAALRk-9Pue53r-TIJib5dWqnHX7w6";
+
     }
 }
