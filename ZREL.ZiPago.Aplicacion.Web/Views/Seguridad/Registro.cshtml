@@ -37,7 +37,7 @@
                             <div class="input-group-addon">
                                 <i class="fa fa-envelope"></i>
                             </div>
-                            <input type="email" name="clave1" id="clave1" class="form-control" placeholder="Correo electr&oacute;nico" asp-for="Clave1">
+                            <input type="text" name="clave1" id="clave1" class="form-control" placeholder="Correo electr&oacute;nico" asp-for="Clave1">
                         </div>
                     </div>
                     <div class="form-group">
@@ -70,18 +70,26 @@
                         <div class="col-sm-4 control">
                             <button type="submit" id="btnRegistrar" class="btn btn-success">Registrar</button>
                         </div>
-                    </div>                    
-                    <div class="form-group control">
+                    </div>
+                    <div id="divSpace" class="form-group control">
                         <br />
-                        @Html.ValidationMessage("ErrorRegistro", "", new { @class = "text-danger" })
                         <br />
+                    </div>
+                    <div>
+                        <div class="g-recaptcha" data-sitekey="@ViewData["ReCaptchaKey"]"></div>
+                    </div>
+                    <div id="errorCaptcha" style="display:none;" class="form-group control text-danger">
+                        Debe marcar la casilla No soy un robot.
+                    </div>
+                    <div class="form-group control">                        
+                        @Html.ValidationMessage("ErrorRegistro", "", new { @class = "text-danger" })                        
                     </div>
                     <div class="form-group">
                         <div style="border-top: 1px solid#888; padding-top:15px; font-size:85%">
                             <div class="col-sm-6">
                             </div>
                             <div class="col-sm-6 control" style="text-align:right; padding-right:0;">
-                                <a asp-controller="Home" asp-action="Index">Ingrese a ZiPago</a>
+                                <a asp-controller="Seguridad" asp-action="UsuarioAutenticar">Ingrese a ZiPago</a>
                             </div>
                         </div>
                     </div>
@@ -133,3 +141,4 @@
 <script src="~/js/jquery-2.2.4.min.js"></script>
 <script src="~/js/jquery.validate.min.js"></script>
 <script src="~/js/Seguridad/registro.js"></script>
+<script src='https://www.google.com/recaptcha/api.js'></script>

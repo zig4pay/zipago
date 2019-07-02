@@ -17,12 +17,18 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
     public class SeguridadController : Controller
     {
 
-        private readonly IOptions<WebSiteSettingsModel> apiClient;
-
+        private readonly IOptions<WebSiteSettingsModel> webSettings;
+        
         public SeguridadController(IOptions<WebSiteSettingsModel> app)
         {
-            apiClient = app;
-            ApiClientSettings.ZZiPagoUrl = apiClient.Value.ZZiPagoUrl;            
+            webSettings = app;
+            ApiClientSettings.ZZiPagoUrl = webSettings.Value.ZZiPagoUrl;            
+        }
+
+        [HttpGet]
+        public IActionResult UsuarioAutenticar() {
+            ViewData["ReCaptchaKey"] = webSettings.Value.SiteKey;
+            return View("~/Views/Seguridad/Login.cshtml");
         }
 
         [HttpPost]
@@ -31,44 +37,59 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
         {
 
             ResponseModel<UsuarioViewModel> response = new ResponseModel<UsuarioViewModel>();
-
             var logger = NLog.LogManager.GetCurrentClassLogger();
+            ViewData["ReCaptchaKey"] = webSettings.Value.SiteKey;
+
             logger.Info("[{0}] | UsuarioViewModel: [{1}] | Inicio.", nameof(UsuarioAutenticar), model.Clave1);
 
             try
             {
 
                 if (ModelState.IsValid) {
-                    model.Clave2 = Criptografia.Encriptar(model.Clave2);
 
-                    var requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, apiClient.Value.UsuarioZiPago_Autenticar));
-                    response = await ApiClientFactory.Instance.PostAsync<UsuarioViewModel>(requestUrl, model);
-
-                    if (response.Mensaje == "1")
+                    if (GoogleReCaptchaValidation.ReCaptchaPassed(
+                            Request.Form["g-recaptcha-response"],
+                            webSettings.Value.SecretKey,
+                            logger)
+                        )
                     {
-                        logger.Info("[{0}] | UsuarioViewModel: [{1}] | Realizado.", nameof(UsuarioAutenticar), model.Clave1);
+                        model.Clave2 = Criptografia.Encriptar(model.Clave2);
 
-                        return RedirectToAction("Iniciar", "Afiliacion", response.Model);
-                        //return View("~/Views/Afiliacion/Registro.cshtml", response.Model);
+                        var requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.UsuarioZiPago_Autenticar));
+                        response = await ApiClientFactory.Instance.PostAsync<UsuarioViewModel>(requestUrl, model);
+
+                        if (response.Mensaje == "1")
+                        {
+                            logger.Info("[{0}] | UsuarioViewModel: [{1}] | Realizado.", nameof(UsuarioAutenticar), model.Clave1);
+
+                            return RedirectToAction("Iniciar", "Afiliacion", response.Model);
+                            //return View("~/Views/Afiliacion/Registro.cshtml", response.Model);
+                        }
+                        else
+                        {
+                            if (response.HizoError)
+                            {
+                                ModelState.AddModelError("ErrorLogin", response.MensajeError);
+                                logger.Error("[{0}] | UsuarioViewModel: [{1}] | Error: {2}.", nameof(UsuarioAutenticar), model.Clave1, response.MensajeError);
+                            }
+                            else
+                            {
+                                ModelState.AddModelError("ErrorLogin", response.Mensaje);
+                                logger.Info("[{0}] | UsuarioViewModel: [{1}] | " + response.Mensaje, nameof(UsuarioAutenticar), model.Clave1);
+                            }
+                            return View("~/Views/Seguridad/Login.cshtml");
+                        }
                     }
                     else
                     {
-                        if (response.HizoError)
-                        {
-                            ModelState.AddModelError("ErrorLogin", response.MensajeError);
-                            logger.Error("[{0}] | UsuarioViewModel: [{1}] | Error: {2}.", nameof(UsuarioAutenticar), model.Clave1, response.MensajeError);
-                        } else {
-                            ModelState.AddModelError("ErrorLogin", response.Mensaje);
-                            logger.Info("[{0}] | UsuarioViewModel: [{1}] | " + response.Mensaje, nameof(UsuarioAutenticar), model.Clave1);
-                        }                        
                         return View("~/Views/Seguridad/Login.cshtml");
                     }
+                    
                 }
                 else
                 {
                     return View("~/Views/Seguridad/Login.cshtml");
-                }                
-                //return Json(response);
+                }                                
             }
             catch (Exception ex)
             {                
@@ -84,6 +105,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
         [AllowAnonymous]
         public IActionResult UsuarioRegistrar()
         {
+            ViewData["ReCaptchaKey"] = webSettings.Value.SiteKey;
             return View("~/Views/Seguridad/Registro.cshtml");
         }
 
@@ -93,29 +115,43 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
         {
 
             ResponseModel<UsuarioViewModel> response = new ResponseModel<UsuarioViewModel>();
-
             var logger = NLog.LogManager.GetCurrentClassLogger();
+            ViewData["ReCaptchaKey"] = webSettings.Value.SiteKey;
+
             logger.Info("[{0}] | UsuarioViewModel: [{1}] | Inicio.", nameof(UsuarioRegistrar), model.Clave1);
 
             try
-            {                
+            {
                 if (ModelState.IsValid)
                 {
-                    model.Clave2 = Criptografia.Encriptar(model.Clave2);
-                    model.AceptoTerminos = Constantes.strUsuarioZiPago_AceptoTerminos;
-                    var requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, apiClient.Value.UsuarioZiPago_Registrar));
-                    response = await ApiClientFactory.Instance.PostAsync<UsuarioViewModel>(requestUrl, model);
+                    
+                    if (GoogleReCaptchaValidation.ReCaptchaPassed(
+                        Request.Form["g-recaptcha-response"],
+                        webSettings.Value.SecretKey,
+                        logger))
+                    {
+                        model.Clave2 = Criptografia.Encriptar(model.Clave2);
+                        model.AceptoTerminos = Constantes.strUsuarioZiPago_AceptoTerminos;
+                        var requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.UsuarioZiPago_Registrar));
+                        response = await ApiClientFactory.Instance.PostAsync<UsuarioViewModel>(requestUrl, model);
 
-                    if (!response.HizoError) {                        
-                        logger.Info("[{0}] | UsuarioViewModel: [{1}] | Realizado.", nameof(UsuarioRegistrar), model.Clave1);
-                        return RedirectToAction("Iniciar", "Afiliacion", response.Model);
-                        //return View("~/Views/Afiliacion/Registro.cshtml", response.Model);                        
+                        if (!response.HizoError)
+                        {
+                            logger.Info("[{0}] | UsuarioViewModel: [{1}] | Realizado.", nameof(UsuarioRegistrar), model.Clave1);
+                            return RedirectToAction("Iniciar", "Afiliacion", response.Model);
+                        }
+                        else
+                        {
+                            logger.Info("[{0}] | UsuarioViewModel: [{1}] | " + response.Mensaje, nameof(UsuarioRegistrar), model.Clave1);
+                            ModelState.AddModelError("ErrorRegistro", response.MensajeError);
+                            return View("~/Views/Seguridad/Registro.cshtml");
+                        }
                     }
-                    else {                        
-                        logger.Info("[{0}] | UsuarioViewModel: [{1}] | " + response.Mensaje, nameof(UsuarioRegistrar), model.Clave1);
-                        ModelState.AddModelError("ErrorRegistro", response.MensajeError);
+                    else
+                    {
                         return View("~/Views/Seguridad/Registro.cshtml");
                     }
+                                                            
                 }
                 else {
                     return View("~/Views/Seguridad/Registro.cshtml");

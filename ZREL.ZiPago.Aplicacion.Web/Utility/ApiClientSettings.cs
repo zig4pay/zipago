@@ -7,8 +7,6 @@ namespace ZREL.ZiPago.Aplicacion.Web.Utility
 {
     public static class ApiClientSettings
     {
-        public static string ZZiPagoUrl { get; set; }
-        public static string UsuarioZiPago_Autenticar { get; set; }
-        public static string UsuarioZiPago_Registrar { get; set; }
+        public static string ZZiPagoUrl { get; set; }        
     }
 }

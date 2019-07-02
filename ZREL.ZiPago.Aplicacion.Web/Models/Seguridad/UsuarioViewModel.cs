@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace ZREL.ZiPago.Aplicacion.Web.Models.Seguridad
 {
     [DataContract]
-    public class UsuarioViewModel : GoogleReCaptchaModelBase
+    public class UsuarioViewModel
     {
 
         [DataMember]

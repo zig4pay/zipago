@@ -1,13 +1,16 @@
 ﻿jQuery(function ($) {
+
+    $.validator.addMethod("validarcorreo", ValidarCorreo);
+
     $(document).ready(function () {
 
-        var $validator = $("#frmRegistro").validate({
+        var $validator = $("#frmRegistro").validate({            
             rules: {
                 nombresusuario : "required",
                 apellidosusuario: "required",
                 clave1: {
-                    required: true,                    
-                    email: true
+                    required: true,
+                    validarcorreo: true
                 },
                 clave2: {
                     required: true,                    
@@ -25,17 +28,18 @@
                 nombresusuario: "Por favor ingrese sus nombres.",
                 apellidosusuario: "Por favor ingrese sus apellidos.",
                 clave1: {
-                    required: "Por favor ingrese una cuenta de correo electronica.",
-                    email: "Por favor ingrese una cuenta de correo electronica valida."
+                    required: "Por favor ingrese una cuenta de correo electrónica.",
+                    validarcorreo: "Por favor ingrese una cuenta de correo electrónica válida."
                 },
                 clave2: {
-                    required: "Por favor ingrese una contrasena.",
-                    minlength: "La contrasena debe contener por lo menos 8 caracteres."                    
+                    required: "Por favor ingrese una contraseña.",
+                    minlength: "La contraseña debe contener por lo menos 8 caracteres."                    
                 },                
                 confirmeclave: {
-                    equalTo: "La contrasena ingresada no coincide."
+                    required: "Por favor ingrese nuevamente su contraseña.",
+                    equalTo: "La contraseña ingresada no coincide."
                 },
-                chkAcepto:"Es necesario que revise y acepte los terminos y condiciones."
+                chkAcepto:"Es necesario que revise y acepte los términos y condiciones."
             }
         });
 
@@ -47,9 +51,45 @@
 
     $('#btnRegistrar').click(function () {
         var $valid = $('#frmRegistro').valid();
-        if (!$valid) {
-            return false;        
+        $('#errorCaptcha').hide();
+        
+        if (!$valid) {                
+            return false;
+        } else {
+            if (!VerificarCaptcha()) {
+                $('#errorCaptcha').show();
+                return false;
+            }
         }
     });
 
+    $('#btnAceptar').click(function () {
+        $('#chkAcepto').prop('checked', true);
+        $('#btnCancel').click();
+    });    
+
 });
+
+function VerificarCaptcha() {
+    var response = grecaptcha.getResponse();
+
+    if (response.length === 0) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function ValidarCorreo(mail) {
+    var respuesta = true;
+    var reg = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    var regOficial = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+
+    if (reg.test(mail) && regOficial.test(mail)) {
+        respuesta = true;
+    }
+    else {
+        respuesta = false;
+    }
+    return respuesta;
+}

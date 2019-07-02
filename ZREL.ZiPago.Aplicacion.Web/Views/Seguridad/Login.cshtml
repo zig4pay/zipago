@@ -1,8 +1,4 @@
-﻿@using Microsoft.Extensions.Configuration
-@using ZREL.ZiPago.Aplicacion.Web.Validation
-@model ZREL.ZiPago.Aplicacion.Web.Models.Seguridad.UsuarioViewModel
-@inject IConfiguration Configuration
-
+﻿@model ZREL.ZiPago.Aplicacion.Web.Models.Seguridad.UsuarioViewModel
 @{
     ViewData["Title"] = "Inicio de Sesion";
 }
@@ -41,19 +37,21 @@
                             <button type="submit" id="btnLogin" class="btn btn-success">Ingresar</button>
                         </div>
                     </div>
-                    <div>
-                        @Html.GoogleReCaptcha(Configuration.GetValue<String>("GoogleReCaptcha:SiteKey"))
-                    </div>
-                    @Html.ValidationMessage("ErrorLogin", "", new { @class = "text-danger" })
-                    <div id="divProgress" style="display:none;" class="styleProgress">
-                        <img src="~/img/ajax-loader.gif" />&nbsp;<span style="vertical-align:middle;">Procesando ...</span>
-                    </div>
                     <div id="divSpace" class="form-group control">
                         <br />
                         <br />
                     </div>
+                    <div>
+                        <div class="g-recaptcha" data-sitekey="@ViewData["ReCaptchaKey"]"></div>
+                    </div>
+                    <div id="errorCaptcha" style="display:none;" class="form-group control text-danger">
+                        Debe marcar la casilla No soy un robot.
+                    </div>
+                    <div class="form-group control">
+                        @Html.ValidationMessage("ErrorLogin", "", new { @class = "text-danger" })
+                    </div>
                     <div class="form-group">
-                        <div style="border-top: 1px solid#888; padding-top:15px; font-size:85%">
+                        <div style="border-top: 1px solid#888; padding-top:10px; font-size:85%">
                             <div class="col-sm-6" style="text-align:left; padding-left:0;">
                                 <a href="#" id="btnOlvidoClave">¿Olvidaste tu clave?</a>
                             </div>
@@ -115,5 +113,4 @@
 <script src="~/js/jquery-2.2.4.min.js"></script>
 <script src="~/js/jquery.validate.min.js"></script>
 <script src="~/js/Seguridad/login.js"></script>
-<script src='https://www.google.com/recaptcha/api.js'></script>
-
+<script src='https://www.google.com/recaptcha/api.js' defer async></script>

@@ -29,6 +29,7 @@ namespace ZREL.ZiPago.Aplicacion.Web
             
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.Configure<WebSiteSettingsModel>(Configuration.GetSection("ZRELZiPagoWebApi"));
+            services.Configure<WebSiteSettingsModel>(Configuration.GetSection("GoogleReCaptcha"));            
             services.AddCors();
         }
 
@@ -54,7 +55,7 @@ namespace ZREL.ZiPago.Aplicacion.Web
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Seguridad}/{action=UsuarioAutenticar}/{id?}");
             });
         }
     }
