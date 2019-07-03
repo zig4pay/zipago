@@ -43,6 +43,9 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
                 registroModel.Clave1 = model.Clave1;
                 registroModel.NombresUsuario = model.NombresUsuario;
                 registroModel.ApellidosUsuario = model.ApellidosUsuario;
+                registroModel.Nombres = model.NombresUsuario;
+                registroModel.ApellidoPaterno = model.ApellidosUsuario.Substring(0, model.ApellidosUsuario.IndexOf(" "));
+                registroModel.ApellidoMaterno = model.ApellidosUsuario.Substring(model.ApellidosUsuario.IndexOf(" ") + 1);
                 registroModel.AceptoTerminos = model.AceptoTerminos;
 
                 responseTD = new ResponseListModel<TablaDetalle>();
@@ -55,25 +58,37 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
                 requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, apiClient.Value.TablaDetalle_Listar) + Constantes.strCodTablaRubroNegocio);
                 responseTD = await ApiClientFactory.Instance.GetListAsync<TablaDetalle>(requestUrl);
                 registroModel.RubroNegocio = responseTD.Model;
+                registroModel.RubroNegocio.Insert(0, new TablaDetalle { Cod_Tabla = Constantes.strCodTablaRubroNegocio,
+                                                                        Valor = "00",
+                                                                        Descr_Valor = "Seleccione"});
 
                 requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, apiClient.Value.UbigeoZiPago_Listar) + Constantes.strUbigeoZiPago_Departamentos);
                 response = await ApiClientFactory.Instance.GetListAsync<UbigeoZiPago>(requestUrl);
                 registroModel.Departamento = response.Model;
+                registroModel.Departamento.Insert(0, new UbigeoZiPago {CodigoUbigeo = "XX",                    
+                                                                       Nombre = "Seleccione"});
 
                 requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, apiClient.Value.BancoZiPago_Listar));
                 responseBanco = await ApiClientFactory.Instance.GetListAsync<BancoZiPago>(requestUrl);
                 registroModel.Banco = responseBanco.Model;
+                registroModel.Banco.Insert(0, new BancoZiPago {IdBancoZiPago = 0,
+                                                               NombreLargo = "Seleccione"});
 
                 responseTD = new ResponseListModel<TablaDetalle>();
                 requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, apiClient.Value.TablaDetalle_Listar) + Constantes.strCodTablaTipoCuenta);
                 responseTD = await ApiClientFactory.Instance.GetListAsync<TablaDetalle>(requestUrl);
                 registroModel.TipoCuenta = responseTD.Model;
+                registroModel.TipoCuenta.Insert(0, new TablaDetalle {Cod_Tabla = Constantes.strCodTablaTipoCuenta,
+                                                                     Valor = "00",
+                                                                     Descr_Valor = "Seleccione"});
 
                 responseTD = new ResponseListModel<TablaDetalle>();
                 requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, apiClient.Value.TablaDetalle_Listar) + Constantes.strCodTablaTipoMoneda);
                 responseTD = await ApiClientFactory.Instance.GetListAsync<TablaDetalle>(requestUrl);
                 registroModel.Moneda = responseTD.Model;
-
+                registroModel.Moneda.Insert(0, new TablaDetalle {Cod_Tabla = Constantes.strCodTablaTipoMoneda,
+                                                                 Valor = "00",
+                                                                 Descr_Valor = "Seleccione"});
 
             }
             catch (Exception ex)

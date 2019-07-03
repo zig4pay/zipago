@@ -20,16 +20,18 @@
         var strCodigoUbigeo = $(this).val();
         $("#codigoprovincia").empty();
         $.getJSON("ListarPorUbigeo", { strCodigoUbigeo: strCodigoUbigeo }, function (data) {
+            $("#codigoprovincia").append($("<option>").val("XX").text("Seleccione"));
             $.each(data, function (i, item) {                
                 $("#codigoprovincia").append($("<option>").val(item.codigoUbigeo).text(item.nombre));
             });
         });
     });
-
+     
     $("#codigoprovincia").on("change", function () {
         var strCodigoUbigeo = $(this).val();
-        $("#codigodistrito").empty();
+        $("#codigodistrito").empty();        
         $.getJSON("ListarPorUbigeo", { strCodigoUbigeo: strCodigoUbigeo }, function (data) {
+            $("#codigodistrito").append($("<option>").val("XX").text("Seleccione"));
             $.each(data, function (i, item) {
                 $("#codigodistrito").append($("<option>").val(item.codigoUbigeo).text(item.nombre));
             });

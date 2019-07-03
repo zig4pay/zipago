@@ -1,22 +1,10 @@
-/*!
-
- =========================================================
- * Bootstrap Wizard - v1.1.1
- =========================================================
- 
- * Product Page: https://www.creative-tim.com/product/bootstrap-wizard
- * Copyright 2017 Creative Tim (http://www.creative-tim.com)
- * Licensed under MIT (https://github.com/creativetimofficial/bootstrap-wizard/blob/master/LICENSE.md)
- 
- =========================================================
- 
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- */
-
-// Get Shit Done Kit Bootstrap Wizard Functions
 
 searchVisible = 0;
 transparent = true;
+
+jQuery(function ($) {
+    $.validator.addMethod("validarseleccion", ValidarSeleccion);
+});
 
 $(document).ready(function(){
 
@@ -25,19 +13,51 @@ $(document).ready(function(){
 
     // Code for the Validator
     var $validator = $('.wizard-card form').validate({
-		  rules: {
-		    firstname: {
-		      required: true,
-		      minlength: 3
-		    },
-		    lastname: {
-		      required: true,
-		      minlength: 3
-		    },
-		    email: {
-		      required: true,
-		      minlength: 3
-		    }
+        rules: {
+            CodigoTipoPersona: "required",
+            codigorubronegocio: {
+                validarseleccion : true
+            },
+            numerodni: {
+                required: true,
+                minlength: 8
+            },
+            nombres: {
+                required: true
+            },
+            apellidopaterno: {
+                required: true
+            },
+            apellidomaterno: {
+                required: true
+            },
+            optSexo: "required",
+            fechanacimiento: "required",
+            codigodepartamento: {
+                validarseleccion: true
+            },
+            codigoprovincia: {
+                validarseleccion: true
+            },
+            codigodistrito: {
+                validarseleccion: true
+            },
+            via: "required",
+            referencia: "required"
+        },
+        messages: {
+            CodigoTipoPersona: "Por favor seleccione el Tipo de Persona correspondiente.",                
+            numerodni: {
+                required: "Por favor ingrese un numero de DNI.",
+                minlength: "Por favor ingrese numero de DNI valido."
+            },
+            nombres: "Por favor ingrese un nombre.",
+            apellidopaterno: "Por favor ingrese un Apellido Paterno",
+            apellidomaterno: "Por favor ingrese un Apellido Materno",
+            optSexo: "Por favor seleccione el sexo correspondiente.",
+            fechanacimiento: "Por favor ingrese una fecha valida",
+            via: "Por favor ingrese una direccion",
+            referencia: "Por favor ingrese una referencia valida"
         }
 	});
 
@@ -207,4 +227,12 @@ function debounce(func, wait, immediate) {
 		}, wait);
 		if (immediate && !timeout) func.apply(context, args);
 	};
-};
+}
+
+function ValidarSeleccion(valor) {
+    if (valor === "" || valor === "00" || valor==="XX" || valor === 0) {
+        return false;
+    } else {
+        return true;
+    }
+}

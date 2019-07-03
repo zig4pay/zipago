@@ -47,7 +47,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
 
                 if (ModelState.IsValid) {
 
-                    if (GoogleReCaptchaValidation.ReCaptchaPassed(
+                    if (await GoogleReCaptchaValidation.ReCaptchaPassed(
                             Request.Form["g-recaptcha-response"],
                             webSettings.Value.SecretKey,
                             logger)
@@ -56,6 +56,9 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
                         model.Clave2 = Criptografia.Encriptar(model.Clave2);
 
                         var requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.UsuarioZiPago_Autenticar));
+
+                        logger.Info("requestUrl: " + requestUrl.ToString());
+
                         response = await ApiClientFactory.Instance.PostAsync<UsuarioViewModel>(requestUrl, model);
 
                         if (response.Mensaje == "1")
@@ -125,7 +128,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
                 if (ModelState.IsValid)
                 {
                     
-                    if (GoogleReCaptchaValidation.ReCaptchaPassed(
+                    if (await GoogleReCaptchaValidation.ReCaptchaPassed(
                         Request.Form["g-recaptcha-response"],
                         webSettings.Value.SecretKey,
                         logger))

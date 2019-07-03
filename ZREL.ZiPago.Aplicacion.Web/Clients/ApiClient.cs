@@ -1,10 +1,10 @@
 ﻿using Newtonsoft.Json;
+using NLog;
 using System;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using ZREL.ZiPago.Aplicacion.Web.Models.Response;
-using ZREL.ZiPago.Entidad;
 
 namespace ZREL.ZiPago.Aplicacion.Web.Clients
 {
@@ -47,9 +47,11 @@ namespace ZREL.ZiPago.Aplicacion.Web.Clients
 
         public  async Task<ResponseModel<T>> PostAsync<T>(Uri requestUrl, T content)
         {
+            var logger = LogManager.GetCurrentClassLogger();
             var response = await httpClient.PostAsync(requestUrl.ToString(), CreateHttpContent<T>(content));
             //response.EnsureSuccessStatusCode();
             var data = await response.Content.ReadAsStringAsync();
+            logger.Info("PostAsync: " + data.ToString());
             return JsonConvert.DeserializeObject<ResponseModel<T>>(data);
         }
 
