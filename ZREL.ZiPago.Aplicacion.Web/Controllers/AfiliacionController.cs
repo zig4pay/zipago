@@ -71,24 +71,33 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
                 requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, apiClient.Value.BancoZiPago_Listar));
                 responseBanco = await ApiClientFactory.Instance.GetListAsync<BancoZiPago>(requestUrl);
                 registroModel.Banco = responseBanco.Model;
-                registroModel.Banco.Insert(0, new BancoZiPago {IdBancoZiPago = 0,
-                                                               NombreLargo = "Seleccione"});
+                registroModel.Banco.Insert(0, new BancoZiPago
+                {
+                    IdBancoZiPago = 0,
+                    NombreLargo = "Seleccione"
+                });
 
                 responseTD = new ResponseListModel<TablaDetalle>();
                 requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, apiClient.Value.TablaDetalle_Listar) + Constantes.strCodTablaTipoCuenta);
                 responseTD = await ApiClientFactory.Instance.GetListAsync<TablaDetalle>(requestUrl);
                 registroModel.TipoCuenta = responseTD.Model;
-                registroModel.TipoCuenta.Insert(0, new TablaDetalle {Cod_Tabla = Constantes.strCodTablaTipoCuenta,
-                                                                     Valor = "00",
-                                                                     Descr_Valor = "Seleccione"});
+                registroModel.TipoCuenta.Insert(0, new TablaDetalle
+                {
+                    Cod_Tabla = Constantes.strCodTablaTipoCuenta,
+                    Valor = "00",
+                    Descr_Valor = "Seleccione"
+                });
 
                 responseTD = new ResponseListModel<TablaDetalle>();
                 requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, apiClient.Value.TablaDetalle_Listar) + Constantes.strCodTablaTipoMoneda);
                 responseTD = await ApiClientFactory.Instance.GetListAsync<TablaDetalle>(requestUrl);
                 registroModel.Moneda = responseTD.Model;
-                registroModel.Moneda.Insert(0, new TablaDetalle {Cod_Tabla = Constantes.strCodTablaTipoMoneda,
-                                                                 Valor = "00",
-                                                                 Descr_Valor = "Seleccione"});
+                registroModel.Moneda.Insert(0, new TablaDetalle
+                {
+                    Cod_Tabla = Constantes.strCodTablaTipoMoneda,
+                    Valor = "00",
+                    Descr_Valor = "Seleccione"
+                });
 
             }
             catch (Exception ex)

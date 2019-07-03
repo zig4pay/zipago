@@ -26,7 +26,7 @@
             });
         });
     });
-     
+    
     $("#codigoprovincia").on("change", function () {
         var strCodigoUbigeo = $(this).val();
         $("#codigodistrito").empty();        
@@ -157,22 +157,22 @@ function ValidarCuentas() {
     $("#tblCuentas tbody tr").each(function (index) {
 
         var idBanco, idTipoCuenta, idMoneda, nroCuenta, nroCCI;
-
+        
         $(this).children("td").each(function (indextd) {
             switch (indextd) {
-                case 0:
+                case 1:
                     idBanco = $(this).text();
                     break;
-                case 2:
+                case 3:
                     idTipoCuenta = $(this).text();
                     break;
-                case 4:
+                case 5:
                     idMoneda = $(this).text();
                     break;
-                case 6:
+                case 7:
                     nroCuenta = $(this).text();
                     break;
-                case 7:
+                case 8:
                     nroCCI = $(this).text();
                     break;
             }
@@ -224,6 +224,46 @@ function AgregarCuentas() {
 
     $("#numerocuenta").val("");
     $("#cci").val("");
+
+    $("#idbancozipago1").empty();
+    $("#idbancozipago1").append($("<option>").val(0).text("Seleccione"));
+
+
+    var idBanco, nombreBanco, existe, nroFila;
+    var arrBancos = [];    
+
+    $("#tblCuentas tbody tr").each(function (index) {
+
+        $(this).children("td").each(function (indextd) {
+            switch (indextd) {
+                case 1:
+                    idBanco = $(this).text();
+                    break;
+                case 2:
+                    nombreBanco = $(this).text();
+                    break;
+            }
+        });
+
+        existe = false;
+        nroFila = arrBancos.length;
+        
+        for (var i = 0; i < nroFila; i++) {
+            if (arrBancos[i][0] === idBanco) {
+                existe = true;  
+                break;
+            }
+        }
+
+        if (!existe) {
+            arrBancos[nroFila] = new Array(2);
+            arrBancos[nroFila][0] = idBanco;
+            arrBancos[nroFila][1] = nombreBanco;
+            $("#idbancozipago1").append($("<option>").val(idBanco).text(nombreBanco));
+        }
+
+    });
+
 }
 
 function ValidarComercios() {
@@ -236,9 +276,9 @@ function ValidarComercios() {
 
         $(this).children("td").each(function (indextd) {
             switch (indextd) {
-                case 0:
+                case 2:
                     codigocomercio = $(this).text();
-                    break;                
+                    break;
             }
 
             if ($("#codigocomercio").val() == codigocomercio) {
