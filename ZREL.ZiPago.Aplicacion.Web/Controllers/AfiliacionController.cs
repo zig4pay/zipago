@@ -129,6 +129,34 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
             return response;
         }
 
+        [HttpGet]
+        public async Task<JsonResult> VerificarExisteComercioZiPago(string strCodigoComercio)
+        {
+            JsonResult response;
+            Uri requestUrl;
+            ResponseModel<ComercioZiPago> responseComercio = new ResponseModel<ComercioZiPago>();
+
+            try
+            {
+                requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, apiClient.Value.AfiliacionZiPago_ComercioObtener) + strCodigoComercio);
+                responseComercio = await ApiClientFactory.Instance.GetAsync<ComercioZiPago>(requestUrl);
+
+                if (!responseComercio.HizoError)
+                {
+                    responseComercio.Mensaje = responseComercio.Model is null ? "NoExiste":"Existe";                    
+                }
+                
+                response = Json(responseComercio);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return response;
+        }
+
+
+
         [HttpPost]
         public async Task<JsonResult> Registrar(RegistroViewModel model) {
 

@@ -21,7 +21,7 @@
         $("#codigoprovincia").empty();
         $.getJSON("ListarPorUbigeo", { strCodigoUbigeo: strCodigoUbigeo }, function (data) {
             $("#codigoprovincia").append($("<option>").val("XX").text("Seleccione"));
-            $.each(data, function (i, item) {                
+            $.each(data, function (i, item) {
                 $("#codigoprovincia").append($("<option>").val(item.codigoUbigeo).text(item.nombre));
             });
         });
@@ -39,10 +39,18 @@
     });
 
     $('#btnAnadirCta').click(function () {
-        if (ValidarCuentas()) {
-            AgregarCuentas();
+
+        if (ValidarDatos()) {
+            if (ValidarCuentasExistentes()) {
+                AgregarCuentas();
+                if ($("#tblCuentas tr").length > 1) {
+                    $(".btn-next").show();
+                }
+            } else {
+                alert("Los datos de la cuenta a ingresar ya se encuentran registrados.");
+            }
         } else {
-            alert("Los datos de la cuenta a ingresar ya se encuentran registrados.");
+            alert("Debe seleccionar un Banco, el Tipo de Cuenta, Moneda e ingresar los numeros de Cuenta y CCI.");
         }
         
     });
@@ -102,10 +110,10 @@
 
         $("#cuentasxbanco").empty();
 
-    });
+        if ($("#tblCuentas tr").length < 2) {
+            $(".btn-next").hide();
+        }
 
-    $(document).on('click', '.eliminaComercio', function (event) {
-        $(this).closest('tr').remove();        
     });
 
     $("#idbancozipago1").on("change", function () {
@@ -120,16 +128,28 @@
                 cont++;
             }
         }
-                        
+
     });
 
     $('#btnAnadirComercio').click(function () {
-        if (ValidarComercios()) {
-            AgregarComercios();
+        if (ValidarDatosComercios()) {
+            
+            if (VerificaExisteComercio()) {
+                alert("12");
+            } else {
+                if (ValidarComercios()) {
+                    AgregarComercios();
+                } else {
+                    alert("Los datos del comercio a ingresar ya se encuentran registrados.");
+                }
+            }           
         } else {
-            alert("Los datos del comercio a ingresar ya se encuentran registrados.");
+            alert("Debe ingresar un Identificador y Descripcion de Comercio, \n un correo electronico para la notificacion \n y seleccionar una cuenta bancaria.");
         }
+    });
 
+    $(document).on('click', '.eliminaComercio', function (event) {
+        $(this).closest('tr').remove();        
     });
 
     $('#finish').click(function () {
@@ -144,13 +164,15 @@ var arrCuentas = new Array(1);
 
 function MostrarDivJuridica(valor) {
     if (valor) {
-        $('#DivJuridica').show();        
+        $('#DivJuridica').show();
+        $('#DivNatural').hide();
     } else {
-        $('#DivJuridica').hide();        
+        $('#DivJuridica').hide();
+        $('#DivNatural').show();
     }
 }
 
-function ValidarCuentas() {
+function ValidarCuentasExistentes() {
 
     var result = true;
     
@@ -188,7 +210,22 @@ function ValidarCuentas() {
             //$(this).css("background-color", "#ECF8E0");
         });
     });
+
     return result;
+}
+
+function ValidarDatos() {    
+
+    if ($("#idbancozipago").val() === 0 ||
+        $("#codigotipocuenta").val() === "00" ||
+        $("#codigomoneda").val() === "00" ||
+        $("#numerocuenta").val().trim() === "" ||
+        $("#cci").val().trim() === "") {
+        return false;
+    } else {
+        return true;
+    }        
+
 }
 
 function AgregarCuentas() {    
@@ -226,11 +263,11 @@ function AgregarCuentas() {
     $("#cci").val("");
 
     $("#idbancozipago1").empty();
+    $("#cuentasxbanco").empty();
     $("#idbancozipago1").append($("<option>").val(0).text("Seleccione"));
-
-
+    
     var idBanco, nombreBanco, existe, nroFila;
-    var arrBancos = [];    
+    var arrBancos = new Array();    
 
     $("#tblCuentas tbody tr").each(function (index) {
 
@@ -266,6 +303,21 @@ function AgregarCuentas() {
 
 }
 
+function ValidarDatosComercios() {
+
+    if ($("#codigocomercio").val().trim() === "" ||
+        $("#descripcionCom").val().trim() === "" ||
+        $("#correonotificacion").val().trim() === "" ||
+        $("#idbancozipago1").val().trim() === 0 ||
+        $("#cuentasxbanco").val() === null
+        ) {
+        return false;
+    } else {
+        return true;
+    }
+
+}
+
 function ValidarComercios() {
 
     var result = true;
@@ -298,15 +350,38 @@ function AgregarComercios() {
         '<td>' + $("#codigocomercio").val() + '</td>' +
         '<td>' + $("#descripcionCom").val() + '</td>' +
         '<td>' + $("#correonotificacion").val() + '</td>' +
-        '<td>' + $('select[name="cuentasxbanco"] option:selected').text() + '</td>' +        
+        '<td>' + $('select[name="idbancozipago1"] option:selected').text() + " - " +
+                 $('select[name="cuentasxbanco"] option:selected').text() + '</td>' +        
         '<td><a id="btnQuitarComercio" class="btn btn-default eliminaComercio"> Quitar </a></td>' +
         '</tr>';
     
     $('#tblComercios tbody').append(htmlTags);
     
     $("#codigocomercio").val("");
-    $("#descripcionCom").val("");
-    $("#correonotificacion").val("");
+    $("#descripcionCom").val("");    
+}
+
+function VerificaExisteComercio() {
+
+    var strCodigoComercio = $("#codigocomercio").val().trim();
+    var result = false;
+
+    $.getJSON("VerificarExisteComercioZiPago", { strCodigoComercio: strCodigoComercio }, function (data) {        
+        $.each(data, function (i, field) {
+
+            if (i==="Mensaje") {
+                if (field==="Existe") {
+                    result = true;
+                } else {
+                    result = false;
+                }
+            }
+            
+        });
+    });
+
+    return result;
+
 }
 
 function Registrar() {

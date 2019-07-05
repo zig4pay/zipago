@@ -7,6 +7,7 @@ jQuery(function ($) {
     $.validator.addMethod("validarrubronegocio", ValidarRubroNegocio);
     $.validator.addMethod("validarruc", ValidarRUC);
     $.validator.addMethod("validarrazonsocial", ValidarRazonSocial);
+    $.validator.addMethod("validaredad", ValidarEdad);
 });
 
 $(document).ready(function(){
@@ -14,6 +15,8 @@ $(document).ready(function(){
     /*  Activate the tooltips      */
     $('[rel="tooltip"]').tooltip();
 
+    $("#correonotificacion").val($("#clave1").val());
+        
     // Code for the Validator
     var $validator = $('.wizard-card form').validate({
         rules: {
@@ -41,7 +44,10 @@ $(document).ready(function(){
                 required: true
             },
             optSexo: "required",
-            fechanacimiento: "required",
+            fechanacimiento: {
+                required: true,
+                validaredad: true
+            },                
             codigodepartamento: {
                 validarseleccion: true
             },
@@ -73,7 +79,10 @@ $(document).ready(function(){
             apellidopaterno: "Por favor ingrese un Apellido Paterno",
             apellidomaterno: "Por favor ingrese un Apellido Materno",
             optSexo: "Por favor seleccione el sexo correspondiente.",
-            fechanacimiento: "Por favor ingrese una fecha valida",
+            fechanacimiento: {
+                required: "Por favor ingrese una fecha valida",
+                validaredad: "Para registrarse debe ser mayor de 18 años."
+            },
             codigodepartamento: {
                 validarseleccion: "Por favor seleccione el Departamento al cual pertenece la direccion."
             },
@@ -95,6 +104,8 @@ $(document).ready(function(){
     $("#telefonomovil").keypress(SoloNumeroTelefonico);
     $("#apellidopaterno").keypress(PermitirSoloLetras);
     $("#apellidomaterno").keypress(PermitirSoloLetras);
+    $("#numerocuenta").keypress(SoloNumeroTelefonico);
+    $("#cci").keypress(SoloNumeroTelefonico);
     
     // Wizard Initialization
     $('.wizard-card').bootstrapWizard({
@@ -102,56 +113,67 @@ $(document).ready(function(){
         'nextSelector': '.btn-next',
         'previousSelector': '.btn-previous',
 
-        onNext: function(tab, navigation, index) {
+        onNext: function (tab, navigation, index) {
+
         	var $valid = $('.wizard-card form').valid();
         	if(!$valid) {
         		$validator.focusInvalid();
         		return false;
-        	}
+            }
+
         },
 
         onInit : function(tab, navigation, index){
 
-          //check number of tabs and fill the entire row
-          var $total = navigation.find('li').length;
-          $width = 100/$total;
-          var $wizard = navigation.closest('.wizard-card');
+            //check number of tabs and fill the entire row
+            var $total = navigation.find('li').length;
+            $width = 100/$total;
+            var $wizard = navigation.closest('.wizard-card');
 
-          $display_width = $(document).width();
+            $display_width = $(document).width();
 
-          if($display_width < 600 && $total > 3){
-              $width = 50;
-          }
-
-           navigation.find('li').css('width',$width + '%');
-           $first_li = navigation.find('li:first-child a').html();
-           $moving_div = $('<div class="moving-tab">' + $first_li + '</div>');
-           $('.wizard-card .wizard-navigation').append($moving_div);
-           refreshAnimation($wizard, index);
-           $('.moving-tab').css('transition','transform 0s');
-       },
-
-        onTabClick : function(tab, navigation, index){
-
-            var $valid = $('.wizard-card form').valid();
-
-            if(!$valid){
-                return false;
-            } else {
-                return true;
+            if($display_width < 600 && $total > 3){
+                $width = 50;
             }
+
+            navigation.find('li').css('width',$width + '%');
+            $first_li = navigation.find('li:first-child a').html();
+            $moving_div = $('<div class="moving-tab">' + $first_li + '</div>');
+            $('.wizard-card .wizard-navigation').append($moving_div);
+            refreshAnimation($wizard, index);
+            $('.moving-tab').css('transition','transform 0s');
         },
 
-        onTabShow: function(tab, navigation, index) {
+        onTabClick: function (tab, navigation, index, selectedIndex) {
+
+            var $valid = $('.wizard-card form').valid();
+            
+            if (!$valid) {
+                return false;
+            } else {
+                if (index === 1 && selectedIndex === 2 && $("#tblCuentas tr").length < 2) {
+                    return false;
+                } else {
+                    return true;
+                }                               
+            }  
+            
+        },      
+
+        onTabShow: function (tab, navigation, index) {
+            
             var $total = navigation.find('li').length;
             var $current = index+1;
 
             var $wizard = navigation.closest('.wizard-card');
 
             // If it's the last tab then hide the last button and show the finish instead
-            if($current >= $total) {
+            if ($current >= $total) {
                 $($wizard).find('.btn-next').hide();
                 $($wizard).find('.btn-finish').show();
+            } else if ($current === 2 && $("#tblCuentas tr").length  < 2) {                
+                $($wizard).find('.btn-next').hide();   
+                $($wizard).find('.btn-finish').hide();
             } else {
                 $($wizard).find('.btn-next').show();
                 $($wizard).find('.btn-finish').hide();
@@ -180,7 +202,7 @@ $(document).ready(function(){
 
             refreshAnimation($wizard, index);
         }
-  	});
+    });
     
     // Prepare the preview for profile picture
     $("#wizard-picture").change(function(){
@@ -319,3 +341,23 @@ function ValidarRazonSocial(valor) {
     }
 }
 
+function ValidarEdad(fecha) {
+
+    var hoy = new Date();
+    var cumpleanos = new Date(fecha);
+    var edad = hoy.getFullYear() - cumpleanos.getFullYear();
+    var m = hoy.getMonth() - cumpleanos.getMonth();
+
+    if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
+        edad--;
+    }
+
+    if (edad < 18) {
+        return false;
+    } else {
+        return true;
+    }
+
+    
+
+}        

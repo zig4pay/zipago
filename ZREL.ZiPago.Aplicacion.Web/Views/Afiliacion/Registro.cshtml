@@ -99,26 +99,29 @@
                                                     <label><strong>Contacto: </strong></label>
                                                 </div>
                                             </div>
-
-                                            <div>
+                                            
+                                            <div id="DivNatural">
+                                                <hr />
                                                 <div class="form-group row">
-                                                    <div class="col-sm-2">
-                                                        <label for="numerodni">DNI:</label>
-                                                    </div>
-                                                    <div class="col-sm-10">
-                                                        <input id="numerodni" name="numerodni" type="text" class="form-control" placeholder="Numero de Documento Nacional de Identidad" asp-for="NumeroDNI" maxlength="8">
-                                                    </div>
+                                                    <label><strong>Datos Personales: </strong></label>
                                                 </div>
                                             </div>
 
-                                            <div class="form-group row">
+                                            <div class="form-group row">                                                
+                                                <div class="col-sm-2">
+                                                    <label for="numerodni">DNI:</label>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <input id="numerodni" name="numerodni" type="text" class="form-control" placeholder="Numero de DNI" asp-for="NumeroDNI" maxlength="8">
+                                                </div>
                                                 <div class="col-sm-2">
                                                     <label for="nombres">Nombres:</label>
                                                 </div>
-                                                <div class="col-sm-10">
+                                                <div class="col-sm-4">
                                                     <input id="nombres" name="nombres" type="text" class="form-control" placeholder="Nombres" asp-for="Nombres">
                                                 </div>
                                             </div>
+                                            
                                             <div class="form-group row">
                                                 <div class="col-sm-2">
                                                     <label for="apellidopaterno">Apellido Paterno:</label>
@@ -251,12 +254,7 @@
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <select id="idbancozipago" name="idbancozipago" asp-items="@(new SelectList(Model.Banco,"IdBancoZiPago", "NombreLargo"))" class="form-control"></select>
-                                                    </div>
-                                                    <div class="col-sm-2">
-                                                        <a id="btnAnadirCta" class="btn btn-success">
-                                                            Añadir
-                                                        </a>
-                                                    </div>
+                                                    </div>                                                    
                                                 </div>
 
                                                 <div class="form-group row">
@@ -290,6 +288,9 @@
                                                         <input id="cci" name="cci" type="text" class="form-control" placeholder="Codigo CCI">
                                                     </div>
                                                     <div class="col-sm-2">
+                                                        <a id="btnAnadirCta" class="btn btn-success">
+                                                            Añadir
+                                                        </a>
                                                     </div>
                                                 </div>
 
@@ -341,7 +342,9 @@
                                             </div>
 
                                             <div class="col-sm-12">
-
+                                                <div class="form-group row">
+                                                    <label><strong>Datos del Comercio: </strong></label>
+                                                </div>
                                                 <div class="form-group row">
                                                     <div class="col-sm-2">
                                                         <label for="codigocomercio">Id Comercio:</label>
@@ -349,13 +352,8 @@
                                                     <div class="col-sm-3">
                                                         <input id="codigocomercio" name="codigocomercio" type="text" class="form-control" placeholder="Codigo del Comercio">
                                                     </div>
-                                                    <div class="col-sm-5">
+                                                    <div class="col-sm-7">
                                                         <small class="text-primary">Dato por el cual se realizara la busqueda en los bancos.</small>
-                                                    </div>
-                                                    <div class="col-sm-2">
-                                                        <a id="btnAnadirComercio" name="btnAnadirComercio" class="btn btn-success">
-                                                            Añadir Comercio
-                                                        </a>
                                                     </div>
                                                 </div>
 
@@ -363,11 +361,9 @@
                                                     <div class="col-sm-2">
                                                         <label for="descripcionCom">Descripcion:</label>
                                                     </div>
-                                                    <div class="col-sm-8">
+                                                    <div class="col-sm-10">
                                                         <input id="descripcionCom" type="text" class="form-control" placeholder="Descripcion del Comercio">
                                                         <small class="text-primary">Descripcion a mostrar en el banco.</small>
-                                                    </div>
-                                                    <div class="col-sm-2">
                                                     </div>
                                                 </div>
 
@@ -375,25 +371,23 @@
                                                     <div class="col-sm-2">
                                                         <label for="correonotificacion">Correo de Notificacion:</label>
                                                     </div>
-                                                    <div class="col-sm-8">
+                                                    <div class="col-sm-10">
                                                         <input id="correonotificacion" name="correonotificacion" type="email" class="form-control" placeholder="Correo electronico">
                                                         <small class="text-primary">Correo electronico al cual se remitiran las notificaciones.</small>
                                                     </div>
-                                                    <div class="col-sm-2">
-                                                    </div>
                                                 </div>
-                                                <hr />
-
                                                 <div class="form-group row">
                                                     <label><strong>Cuenta Bancaria: </strong></label>
                                                 </div>
 
                                                 <div class="form-group row">
                                                     <div class="col-sm-2">
-                                                        <label for="idbancozipago">Banco:</label>
+                                                        <label for="idbancozipago1">Banco:</label>
                                                     </div>
-                                                    <div class="col-sm-10">
+                                                    <div class="col-sm-8">
                                                         <select id="idbancozipago1" name="idbancozipago1" class="form-control"></select>
+                                                    </div>
+                                                    <div class="col-sm-2">                                                        
                                                     </div>
                                                 </div>
 
@@ -401,8 +395,13 @@
                                                     <div class="col-sm-2">
                                                         <label for="cuentasxbanco">Cuenta Bancaria:</label>
                                                     </div>
-                                                    <div class="col-sm-10">
+                                                    <div class="col-sm-8">
                                                         <select id="cuentasxbanco" name="cuentasxbanco" class="form-control"></select>
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <a id="btnAnadirComercio" name="btnAnadirComercio" class="btn btn-success">
+                                                            Añadir
+                                                        </a>
                                                     </div>
                                                 </div>
 
@@ -415,7 +414,7 @@
                                                         <tr>
                                                             <th scope="col" style="display:none;">IdCuenta</th>
                                                             <th scope="col" style="display:none;">IdUsuarioZiPago</th>
-                                                            <th scope="col">Id Comercio</th>
+                                                            <th scope="col">Comercio</th>
                                                             <th scope="col">Descripcion</th>
                                                             <th scope="col">Correo notificacion</th>
                                                             <th scope="col">Cuenta Bancaria</th>

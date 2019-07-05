@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using NLog;
-using ZREL.ZiPago.Entidad.Afiliacion;
-using ZREL.ZiPago.Entidad.Seguridad;
+using System.Threading.Tasks;
 using ZREL.ZiPago.Negocio.Contracts;
 using ZREL.ZiPago.Servicio.WebAPI.Requests;
 using ZREL.ZiPago.Servicio.WebAPI.Responses;
