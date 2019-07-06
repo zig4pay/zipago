@@ -2,9 +2,9 @@
 using ZREL.ZiPago.Entidad.Afiliacion;
 using ZREL.ZiPago.Entidad.Seguridad;
 
-namespace ZREL.ZiPago.Aplicacion.Web.Request
+namespace ZREL.ZiPago.Negocio.Requests
 {
-    public class AfiliacionZiPagoRequest
+    public class AfiliacionRequest
     {
         public UsuarioZiPago EntidadUsuario { get; set; }
 
@@ -12,6 +12,6 @@ namespace ZREL.ZiPago.Aplicacion.Web.Request
 
         public DomicilioZiPago EntidadDomicilio { get; set; }
 
-        public List<ComercioCuentaZiPago> ListComercioCuenta { get; set; } = new List<ComercioCuentaZiPago>();
+        public List<ComercioCuentaZiPago> ListComercioCuenta { get; set; }
     }
 }

@@ -143,8 +143,8 @@ Begin Tran
       ('TIPO_CUENTA', '01', 'Cuenta Corriente'),
       ('TIPO_CUENTA', '02', 'Cuenta de Ahorros'),
       -------------------------------------------------------------------------
-      ('RUBRO_NEGOCIO', '01', 'Restaurantes'),
-      ('RUBRO_NEGOCIO', '02', 'Educacion')
+      ('RUBRO_NEGOCIO', '001', 'Restaurantes'),
+      ('RUBRO_NEGOCIO', '002', 'Educacion')
       -------------------------------------------------------------------------
       
 

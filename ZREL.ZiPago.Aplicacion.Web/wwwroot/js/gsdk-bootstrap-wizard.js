@@ -285,7 +285,7 @@ function debounce(func, wait, immediate) {
 }
 
 function ValidarRubroNegocio(valor) {
-    if (valor === "00" && $("#otrorubronegocio").val().trim() === "") {
+    if (valor === "000" && $("#otrorubronegocio").val().trim() === "") {
         return false;
     } else {
         return true;
@@ -293,7 +293,7 @@ function ValidarRubroNegocio(valor) {
 }
 
 function ValidarSeleccion(valor) {
-    if (valor === "" || valor === "00" || valor === "XX" || valor === 0) {
+    if (valor === "" || valor === "00" || valor === "000" || valor === "XX" || valor === 0) {
         return false;
     } else {
         return true;

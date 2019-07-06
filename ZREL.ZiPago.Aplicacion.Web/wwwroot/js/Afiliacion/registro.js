@@ -132,17 +132,9 @@
     });
 
     $('#btnAnadirComercio').click(function () {
+        $("#ComercioExiste").hide();
         if (ValidarDatosComercios()) {
-            
-            if (VerificaExisteComercio()) {
-                alert("12");
-            } else {
-                if (ValidarComercios()) {
-                    AgregarComercios();
-                } else {
-                    alert("Los datos del comercio a ingresar ya se encuentran registrados.");
-                }
-            }           
+            VerificaExisteComercio();
         } else {
             alert("Debe ingresar un Identificador y Descripcion de Comercio, \n un correo electronico para la notificacion \n y seleccionar una cuenta bancaria.");
         }
@@ -164,11 +156,9 @@ var arrCuentas = new Array(1);
 
 function MostrarDivJuridica(valor) {
     if (valor) {
-        $('#DivJuridica').show();
-        $('#DivNatural').hide();
+        $('#DivJuridica').show();        
     } else {
-        $('#DivJuridica').hide();
-        $('#DivNatural').show();
+        $('#DivJuridica').hide();        
     }
 }
 
@@ -364,35 +354,45 @@ function AgregarComercios() {
 function VerificaExisteComercio() {
 
     var strCodigoComercio = $("#codigocomercio").val().trim();
-    var result = false;
+    var DTO = { 'strCodigoComercio': strCodigoComercio };
 
-    $.getJSON("VerificarExisteComercioZiPago", { strCodigoComercio: strCodigoComercio }, function (data) {        
-        $.each(data, function (i, field) {
-
-            if (i==="Mensaje") {
-                if (field==="Existe") {
-                    result = true;
-                } else {
-                    result = false;
+    $.ajax(
+        {
+            url: '/Afiliacion/VerificarExisteComercioZiPago/' + strCodigoComercio,
+            type: "GET",    
+            data: DTO,
+            datatype: 'json',
+            ContentType: 'application/json;utf-8'
+        })
+        .done(function (resp) {
+            $.each(resp, function (i, field) {                
+                if (i === "Mensaje") {
+                    if (field === "Existe") {
+                        $("#ComercioExiste").show();                    
+                    } else {
+                        if (ValidarComercios()) {
+                            AgregarComercios();
+                        } else {
+                            alert("Los datos del comercio a ingresar ya se encuentran registrados.");
+                        }
+                    }
                 }
-            }
-            
+            });
+        })
+        .error(function (err) {
+            alert('Se ha producido un error al validar el Codigo del Comercio, \n por favor intentelo en unos minutos.');
         });
-    });
-
-    return result;
-
 }
 
 function Registrar() {
-        
+    
     var RegistroVM = new Object();    
     var arrComercio = new Array(1);
     var arrCuenta = new Array(1);
     var CodigoCuenta, IdBancoZiPago, NumeroCuenta, CodigoTipoCuenta, CodigoTipoMoneda, CCI;
     var CodigoComercio, IdUsuarioZiPago, Descripcion, CorreoNotificacion;
     var Cont = 0;
-    
+
     $("#tblComercios tbody tr").each(function (index) {
 
         $(this).children("td").each(function (indextd) {
@@ -429,7 +429,7 @@ function Registrar() {
     });            
 
     Cont = 0;
-
+    
     $("#tblCuentas tbody tr").each(function (index) {
 
         $(this).children("td").each(function (indextd) {
@@ -473,6 +473,7 @@ function Registrar() {
     RegistroVM.IdUsuarioZiPago = $('#idusuariozipago').val();
     RegistroVM.Clave1 = $('#clave1').val();
     RegistroVM.CodigoRubroNegocio = $('#codigorubronegocio').val();
+    RegistroVM.OtroRubroNegocio = $('#otrorubronegocio').val();
     RegistroVM.CodigoTipoPersona = $('input:radio[name=CodigoTipoPersona]:checked').val();
     RegistroVM.NumeroRUC = $('#numeroruc').val();
     RegistroVM.NumeroDNI = $('#numerodni').val();
@@ -501,10 +502,7 @@ function Registrar() {
         type: "POST",
         data: DTO,
         datatype: 'json',
-        ContentType: 'application/json;utf-8',
-        beforeSend: function () {
-                
-        }
+        ContentType: 'application/json;utf-8'
     })
     .done(function (resp) {
         alert('Registro realizado correctamente.');

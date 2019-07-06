@@ -23,7 +23,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Clients
         public async Task<ResponseModel<T>> GetAsync<T>(Uri requestUrl)
         {
             var response = await httpClient.GetAsync(requestUrl, HttpCompletionOption.ResponseHeadersRead);
-            response.EnsureSuccessStatusCode();
+            //response.EnsureSuccessStatusCode();
             var data = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<ResponseModel<T>>(data);
         }

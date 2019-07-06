@@ -27,8 +27,7 @@ namespace ZREL.ZiPago.Datos.Configuraciones.Afiliacion
             builder.Property(p => p.Activo).HasColumnType("char(1)").IsRequired();
             builder.Property(p => p.FechaCreacion).HasColumnType("Datetime").IsRequired();
             builder.Property(p => p.FechaActualizacion).HasColumnType("Datetime");
-
-
+            builder.Ignore(p => p.CodigoCuenta);
 
         }
     }

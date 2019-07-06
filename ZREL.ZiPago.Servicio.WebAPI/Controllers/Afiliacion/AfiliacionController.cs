@@ -2,7 +2,7 @@
 using NLog;
 using System.Threading.Tasks;
 using ZREL.ZiPago.Negocio.Contracts;
-using ZREL.ZiPago.Servicio.WebAPI.Requests;
+using ZREL.ZiPago.Negocio.Requests;
 using ZREL.ZiPago.Servicio.WebAPI.Responses;
 
 namespace ZREL.ZiPago.Servicio.WebAPI.Controllers.Afiliacion
@@ -29,9 +29,9 @@ namespace ZREL.ZiPago.Servicio.WebAPI.Controllers.Afiliacion
         {
 
             var logger = LogManager.GetCurrentClassLogger();
-            logger.Info("[{0}] | UsuarioZiPago: [{1}] | Inicio.", nameof(RegistrarAsync), request.entidadUsuario.Clave1);
+            logger.Info("[{0}] | UsuarioZiPago: [{1}] | Inicio.", nameof(RegistrarAsync), request.EntidadUsuario.Clave1);
 
-            var response = await oIAfiliacionService.RegistrarAsync(logger, request.entidadUsuario, request.entidadDomicilio, request.listComercioCuenta);
+            var response = await oIAfiliacionService.RegistrarAsync(logger, request);
 
             return response.ToHttpResponse();
         }

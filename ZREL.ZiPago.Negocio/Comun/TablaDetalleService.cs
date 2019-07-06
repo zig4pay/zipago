@@ -36,5 +36,44 @@ namespace ZREL.ZiPago.Negocio.Comun
             }
             return response;
         }
+
+        public async Task<bool> VerificarExisteTablaDetalleAsync(Logger logger, string codTabla, string valor) {
+
+            bool result = false;
+            IQueryable<TablaDetalle> response; 
+
+            logger.Info("[{0}] | TablaDetalle: [{1} - {2}] | Inicio.", nameof(VerificarExisteTablaDetalleAsync), codTabla, valor);
+
+            try
+            {
+                var query = DbContext.TablasDetalle.AsNoTracking().Where(item => item.Cod_Tabla == codTabla && item.Valor == valor);
+                response = await Task.Run(() => query);
+                result = response is null ? false : response.Count() > 0 ? true : false;                                
+            }
+            catch (Exception ex)
+            {
+                logger.Error("[{0}] | TablaDetalle: [{1} - {2}] | Error: [{3}].", nameof(ObtenerMaxTablaDetalleAsync), codTabla, valor, ex.ToString());                
+            }
+            return result;
+        }
+
+        public async Task<string> ObtenerMaxTablaDetalleAsync(Logger logger, string CodTabla)
+        {
+            string codigo = "";
+            logger.Info("[{0}] | TablaDetalle: [{1}] | Inicio.", nameof(ObtenerMaxTablaDetalleAsync), CodTabla);
+            try
+            {
+                var query = DbContext.TablasDetalle.AsNoTracking().Where(item => item.Cod_Tabla == CodTabla).Max(item => item.Valor).DefaultIfEmpty('0');
+                codigo = await Task.Run(() => query.ToString());
+
+                logger.Info("[{0}] | TablaDetalle: [{1}] | Mensaje: [Realizado].", nameof(ObtenerMaxTablaDetalleAsync), codigo);
+            }
+            catch (Exception ex)
+            {
+                logger.Error("[{0}] | TablaDetalle: [{1}] | Error: [{2}].", nameof(ObtenerMaxTablaDetalleAsync), CodTabla, ex.ToString());
+            }
+            return codigo;
+        }
+
     }
 }

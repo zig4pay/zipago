@@ -5,15 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Comun\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.4" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ZREL.ZiPago.Entidad\ZREL.ZiPago.Entidad.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Comun\" />
   </ItemGroup>
 
 </Project>

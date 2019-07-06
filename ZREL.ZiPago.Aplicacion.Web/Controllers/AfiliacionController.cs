@@ -59,7 +59,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
                 responseTD = await ApiClientFactory.Instance.GetListAsync<TablaDetalle>(requestUrl);
                 registroModel.RubroNegocio = responseTD.Model;
                 registroModel.RubroNegocio.Insert(0, new TablaDetalle { Cod_Tabla = Constantes.strCodTablaRubroNegocio,
-                                                                        Valor = "00",
+                                                                        Valor = "000",
                                                                         Descr_Valor = "Seleccione"});
 
                 requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, apiClient.Value.UbigeoZiPago_Listar) + Constantes.strUbigeoZiPago_Departamentos);
@@ -154,9 +154,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
             }
             return response;
         }
-
-
-
+               
         [HttpPost]
         public async Task<JsonResult> Registrar(RegistroViewModel model) {
 
@@ -210,6 +208,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
                 domicilio.FechaCreacion = DateTime.Now;
 
                 request.EntidadUsuario = usuario;
+                request.OtroRubroNegocio = model.OtroRubroNegocio;
                 request.EntidadDomicilio = domicilio;
 
                 foreach (CuentaBancariaZiPago cuenta in model.CuentasBancariaZiPago)
@@ -239,7 +238,6 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
             return response;
 
         }
-
 
     }
 }
