@@ -348,7 +348,9 @@ function AgregarComercios() {
     $('#tblComercios tbody').append(htmlTags);
     
     $("#codigocomercio").val("");
-    $("#descripcionCom").val("");    
+    $("#descripcionCom").val("");
+    $("#idbancozipago1").val(0);
+    $("#cuentasxbanco").empty();
 }
 
 function VerificaExisteComercio() {

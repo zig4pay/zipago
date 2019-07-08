@@ -59,12 +59,13 @@ namespace ZREL.ZiPago.Negocio.Comun
 
         public async Task<string> ObtenerMaxTablaDetalleAsync(Logger logger, string CodTabla)
         {
+            //IQueryable<TablaDetalle> response;
             string codigo = "";
             logger.Info("[{0}] | TablaDetalle: [{1}] | Inicio.", nameof(ObtenerMaxTablaDetalleAsync), CodTabla);
             try
             {
-                var query = DbContext.TablasDetalle.AsNoTracking().Where(item => item.Cod_Tabla == CodTabla).Max(item => item.Valor).DefaultIfEmpty('0');
-                codigo = await Task.Run(() => query.ToString());
+                var query = DbContext.TablasDetalle.AsNoTracking().Where(item => item.Cod_Tabla == CodTabla).Max(item => item.Valor);
+                codigo = await Task.Run(() => query);
 
                 logger.Info("[{0}] | TablaDetalle: [{1}] | Mensaje: [Realizado].", nameof(ObtenerMaxTablaDetalleAsync), codigo);
             }
