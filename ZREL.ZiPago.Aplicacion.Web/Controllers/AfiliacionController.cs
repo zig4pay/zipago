@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using NLog;
 using System;
 using System.Globalization;
 using System.Threading.Tasks;
@@ -36,6 +37,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
             ResponseListModel<UbigeoZiPago> response = new ResponseListModel<UbigeoZiPago>();
             ResponseListModel<BancoZiPago> responseBanco = new ResponseListModel<BancoZiPago>();
             Uri requestUrl;
+            int intPos;
 
             try
             {
@@ -44,8 +46,17 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
                 registroModel.NombresUsuario = model.NombresUsuario;
                 registroModel.ApellidosUsuario = model.ApellidosUsuario;
                 registroModel.Nombres = model.NombresUsuario;
-                registroModel.ApellidoPaterno = model.ApellidosUsuario.Substring(0, model.ApellidosUsuario.IndexOf(" "));
-                registroModel.ApellidoMaterno = model.ApellidosUsuario.Substring(model.ApellidosUsuario.IndexOf(" ") + 1);
+
+                intPos = model.ApellidosUsuario.IndexOf(" ");
+                if (intPos > 0)
+                {
+                    registroModel.ApellidoPaterno = model.ApellidosUsuario.Substring(0, intPos);
+                    registroModel.ApellidoMaterno = model.ApellidosUsuario.Substring(intPos + 1);
+                }
+                else
+                {
+                    registroModel.ApellidoPaterno = model.ApellidosUsuario;
+                }
                 registroModel.AceptoTerminos = model.AceptoTerminos;
 
                 responseTD = new ResponseListModel<TablaDetalle>();
@@ -135,23 +146,30 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
             JsonResult response;
             Uri requestUrl;
             ResponseModel<ComercioZiPago> responseComercio = new ResponseModel<ComercioZiPago>();
+            var logger = LogManager.GetCurrentClassLogger();
 
             try
             {
                 requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, apiClient.Value.AfiliacionZiPago_ComercioObtener) + strCodigoComercio);
+                logger.Info("VerificarExisteComercioZiPago requestUrl [{0}]", requestUrl.ToString());
                 responseComercio = await ApiClientFactory.Instance.GetAsync<ComercioZiPago>(requestUrl);
 
                 if (!responseComercio.HizoError)
                 {
-                    responseComercio.Mensaje = responseComercio.Model is null ? "NoExiste":"Existe";                    
+                    logger.Info("VerificarExisteComercioZiPago [1]");
+                    responseComercio.Mensaje = responseComercio.Model is null ? "NoExiste":"Existe";
+                    logger.Info("VerificarExisteComercioZiPago [2]");
                 }
                 
                 response = Json(responseComercio);
+                logger.Info("VerificarExisteComercioZiPago [1]");
             }
             catch (Exception ex)
             {
-                throw ex;
+                response = Json("");
+                logger.Error("VerificarExisteComercioZiPago Error [0]", ex.ToString());
             }
+
             return response;
         }
                

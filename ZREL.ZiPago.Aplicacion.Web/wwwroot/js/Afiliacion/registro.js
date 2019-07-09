@@ -356,13 +356,12 @@ function AgregarComercios() {
 function VerificaExisteComercio() {
 
     var strCodigoComercio = $("#codigocomercio").val().trim();
-    var DTO = { 'strCodigoComercio': strCodigoComercio };
+    //var DTO = { 'strCodigoComercio': strCodigoComercio };
 
     $.ajax(
         {
-            url: '/Afiliacion/VerificarExisteComercioZiPago/' + strCodigoComercio,
-            type: "GET",    
-            data: DTO,
+            url: 'VerificarExisteComercioZiPago/' + strCodigoComercio,
+            type: "GET",                
             datatype: 'json',
             ContentType: 'application/json;utf-8'
         })
@@ -500,7 +499,7 @@ function Registrar() {
 
     $.ajax(
     {
-        url: '/Afiliacion/Registrar',
+        url: 'Registrar/',
         type: "POST",
         data: DTO,
         datatype: 'json',

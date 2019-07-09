@@ -8,9 +8,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
     {
         public IActionResult Index()
         {
-            //return View("~/Views/Seguridad/Registro.cshtml");
-            return View("~/Views/Seguridad/Login.cshtml");
-            //return View("~/Views/Afiliacion/Index.cshtml");
+            return View("~/Views/Home/Index.cshtml");
         }
 
         public IActionResult Privacy()

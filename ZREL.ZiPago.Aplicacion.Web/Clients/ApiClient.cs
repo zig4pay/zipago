@@ -22,9 +22,11 @@ namespace ZREL.ZiPago.Aplicacion.Web.Clients
 
         public async Task<ResponseModel<T>> GetAsync<T>(Uri requestUrl)
         {
+            var logger = LogManager.GetCurrentClassLogger();
             var response = await httpClient.GetAsync(requestUrl, HttpCompletionOption.ResponseHeadersRead);
             //response.EnsureSuccessStatusCode();
             var data = await response.Content.ReadAsStringAsync();
+            logger.Info("GetAsync: " + data.ToString());
             return JsonConvert.DeserializeObject<ResponseModel<T>>(data);
         }
 

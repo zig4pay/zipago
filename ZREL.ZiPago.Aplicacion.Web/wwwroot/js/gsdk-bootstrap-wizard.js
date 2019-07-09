@@ -106,6 +106,7 @@ $(document).ready(function(){
     $("#apellidomaterno").keypress(PermitirSoloLetras);
     $("#numerocuenta").keypress(SoloNumeroTelefonico);
     $("#cci").keypress(SoloNumeroTelefonico);
+    $("#codigocomercio").keypress(PermitirSoloLetrasyNumeros);
     
     // Wizard Initialization
     $('.wizard-card').bootstrapWizard({
@@ -324,6 +325,16 @@ function PermitirSoloLetras(e) {
         return false;
     }
 }
+
+function PermitirSoloLetrasyNumeros(e) {
+    var regex = new RegExp("^[a-zA-Z0-9\b]+$");
+    var key = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+    if (!regex.test(key)) {
+        e.preventDefault();
+        return false;
+    }
+}
+
 
 function ValidarRUC(valor) {
     if ($("#optPersonaJuridica").is(":checked") && valor.trim() == "") {
