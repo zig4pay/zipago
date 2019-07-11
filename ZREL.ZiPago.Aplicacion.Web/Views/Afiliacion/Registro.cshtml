@@ -2,7 +2,10 @@
 
 @{
     ViewData["Title"] = "Afiliacion";
+    Layout = "~/Views/Shared/_LayoutApp.cshtml";
 }
+
+
 <div class="image-container set-full-height">
 
     <!--   Big container   -->
@@ -99,8 +102,8 @@
                                                     <label><strong>Contacto: </strong></label>
                                                 </div>
                                             </div>
-                                            
-                                            <div class="form-group row">                                                
+
+                                            <div class="form-group row">
                                                 <div class="col-sm-2">
                                                     <label for="numerodni">DNI:</label>
                                                 </div>
@@ -114,7 +117,7 @@
                                                     <input id="nombres" name="nombres" type="text" class="form-control" placeholder="Nombres" asp-for="Nombres">
                                                 </div>
                                             </div>
-                                            
+
                                             <div class="form-group row">
                                                 <div class="col-sm-2">
                                                     <label for="apellidopaterno">Apellido Paterno:</label>
@@ -199,7 +202,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <div class="col-sm-2">                                                    
+                                                <div class="col-sm-2">
                                                 </div>
                                                 <div class="col-sm-10">
                                                     <input id="direccionfacturacion" name="direccionfacturacion" type="text" class="form-control" placeholder="Numero, Piso, Interior, Manzana, etc." asp-for="DireccionFacturacion">
@@ -247,7 +250,7 @@
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <select id="idbancozipago" name="idbancozipago" asp-items="@(new SelectList(Model.Banco,"IdBancoZiPago", "NombreLargo"))" class="form-control"></select>
-                                                    </div>                                                    
+                                                    </div>
                                                 </div>
 
                                                 <div class="form-group row">
@@ -306,8 +309,7 @@
                                                             <th scope="col">Accion</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody>
-                                                    </tbody>
+                                                    <tbody></tbody>
                                                 </table>
                                             </div>
 
@@ -417,8 +419,7 @@
                                                             <th scope="col">Accion</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody>                                                        
-                                                    </tbody>
+                                                    <tbody></tbody>
                                                 </table>
                                             </div>
                                         </div>
@@ -456,3 +457,5 @@
 <script src="~/js/jquery.validate.min.js"></script>
 <script src="~/js/Afiliacion/registro.js"></script>
 <script src='https://www.google.com/recaptcha/api.js'></script>
+<script src="~/js/jquery.bootstrap.wizard.js" type="text/javascript"></script>
+<script src="~/js/gsdk-bootstrap-wizard.js"></script>

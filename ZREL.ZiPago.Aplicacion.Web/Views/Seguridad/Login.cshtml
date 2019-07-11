@@ -1,8 +1,11 @@
 ﻿@model ZREL.ZiPago.Aplicacion.Web.Models.Seguridad.UsuarioViewModel
 @{
     ViewData["Title"] = "Inicio de Sesion";
+    Layout = "~/Views/Shared/_LayoutApp1.cshtml";
 }
+
 <div class="container">
+    
 
     <form id="frmLogin" asp-controller="Seguridad" asp-action="UsuarioAutenticar" method="post">
 
@@ -107,7 +110,7 @@
             </div>
         </div>
     </div>
-
+    
 </div>
 
 <script src="~/js/jquery-2.2.4.min.js"></script>
