@@ -11,11 +11,6 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
             return View("~/Views/Home/Index.cshtml");
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

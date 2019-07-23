@@ -1,142 +1,133 @@
 ﻿@model ZREL.ZiPago.Aplicacion.Web.Models.Seguridad.UsuarioViewModel
 
 @{
-    ViewData["Title"] = "Registro ZiPago";
-    Layout = "~/Views/Shared/_LayoutApp1.cshtml";
+    ViewData["Title"] = "ZiPago | Afiliacion";
+    ViewData["TitleNav"] = "Afiliacion - Registro de Usuario";
+    Layout = "_LayoutSeguridad";
 }
-<div class="container">
 
-    <form id="frmRegistro" asp-controller="Seguridad" asp-action="UsuarioRegistrar" method="post">
+<div class="row">
 
-        <div id="registroBox" style="margin-top:80px;" class="mainbox col-md-4 col-md-offset-4 col-sm-8 col-sm-offset-2">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <div class="panel-title"><strong>Registrate en ZiPago</strong></div>
+    <div class="col-sm-3"></div>
+    <div class="col-sm-6">
+        <div class="card bg-white">
+
+            <div class="card-body text-justify">
+
+                <div class="row">
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-4">
+                        <p class="text-justify">
+                            <h4><strong>Afiliate a ZiPago</strong></h4><br />
+                            <ul>
+                                <li>Abra una cuenta bancaria en el banco de su preferencia donde se abonarán sus pagos. Si ya tiene una, no necesita abrir una cuenta adicional.</li>
+                                <br />
+                                <li>Registrate como usuario de ZiPago en este formulario.</li>
+                                <br />
+                                <li>ZiPago confirmará el registro de su(s) comercio(s) en un promedio de 24 horas <strong>(*)</strong>. Desde ese momento, podrá recibir pagos de sus clientes.</li>
+                            </ul>
+                            <small><strong>(*)</strong> Aplica para días útiles, de lunes a viernes en horario de 9:00 AM a 5:00 PM.</small>
+                        </p><br />
+                    </div>
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-5">
+
+                        <form id="frmRegistro" asp-controller="Seguridad" asp-action="UsuarioRegistrar" method="post">
+
+                            <div id="registroBox" style="margin-top:50px;">
+                                <div class="form-group">
+                                    <label for="nombresusuario">@Html.DisplayNameFor(m => m.NombresUsuario):</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-user"></i>
+                                        </div>
+                                        <input type="text" name="nombresusuario" id="nombresusuario" class="form-control" placeholder="Nombres del Usuario" asp-for="NombresUsuario">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="apellidosusuario">@Html.DisplayNameFor(m => m.ApellidosUsuario):</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-user"></i>
+                                        </div>
+                                        <input type="text" name="apellidosusuario" id="apellidosusuario" class="form-control" placeholder="Apellidos del Usuario" asp-for="ApellidosUsuario">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="clave1">@Html.DisplayNameFor(m => m.Clave1):</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-envelope"></i>
+                                        </div>
+                                        <input type="text" name="clave1" id="clave1" class="form-control" placeholder="Correo electr&oacute;nico" asp-for="Clave1">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="clave2">@Html.DisplayNameFor(m => m.Clave2):</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-lock"></i>
+                                        </div>
+                                        <input type="password" name="clave2" id="clave2" class="form-control" placeholder="Contrase&ntilde;a" asp-for="Clave2">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirmeclave">Confirme Clave:</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-lock"></i>
+                                        </div>
+                                        <input type="password" name="confirmeclave" id="confirmeclave" class="form-control" placeholder="Vuelva a ingresar la Contrase&ntilde;a">
+                                    </div>
+                                </div>
+                                <div class="form-group form-check">
+                                    <input type="checkbox" class="form-check-input" name="chkAcepto" id="chkAcepto">
+                                    <label class="form-check-label"><a href="#" data-toggle="modal" data-target="#scrollmodal">Acepto los terminos y condiciones.</a></label>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-8 control">
+                                    </div>
+                                    <div class="col-sm-4 control">
+                                        <button type="submit" id="btnRegistrar" class="btn btn-success">Registrar</button>
+                                    </div>
+                                </div>
+                                <div id="divSpace" class="form-group control">
+                                    <br />
+                                    <br />
+                                </div>
+                                <div>
+                                    <div class="g-recaptcha" data-sitekey="@ViewData["ReCaptchaKey"]"></div>
+                                </div>
+                                <div id="errorCaptcha" style="display:none;" class="form-group control text-danger">
+                                    Debe marcar la casilla No soy un robot.
+                                </div>
+                                <div class="form-group control">
+                                    @Html.ValidationMessage("ErrorRegistro", "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    <div style="border-top: 1px solid#888; padding-top:15px; font-size:85%">
+                                        <div class="col-sm-6">
+                                        </div>
+                                        <div class="col-sm-6 control" style="text-align:right; padding-right:0;">
+                                            <a asp-controller="Seguridad" asp-action="UsuarioAutenticar">Ingrese a ZiPago</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </form>
+
+
+                    </div>
+                    <div class="col-sm-1"></div>
                 </div>
-                <div class="panel-body">
-                    <div class="form-group">
-                        <label for="nombresusuario">@Html.DisplayNameFor(m => m.NombresUsuario):</label>
-                        <div class="input-group">
-                            <div class="input-group-addon">
-                                <i class="fa fa-user"></i>
-                            </div>
-                            <input type="text" name="nombresusuario" id="nombresusuario" class="form-control" placeholder="Nombres del Usuario" asp-for="NombresUsuario">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="apellidosusuario">@Html.DisplayNameFor(m => m.ApellidosUsuario):</label>
-                        <div class="input-group">
-                            <div class="input-group-addon">
-                                <i class="fa fa-user"></i>
-                            </div>
-                            <input type="text" name="apellidosusuario" id="apellidosusuario" class="form-control" placeholder="Apellidos del Usuario" asp-for="ApellidosUsuario">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="clave1">@Html.DisplayNameFor(m => m.Clave1):</label>
-                        <div class="input-group">
-                            <div class="input-group-addon">
-                                <i class="fa fa-envelope"></i>
-                            </div>
-                            <input type="text" name="clave1" id="clave1" class="form-control" placeholder="Correo electr&oacute;nico" asp-for="Clave1">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="clave2">@Html.DisplayNameFor(m => m.Clave2):</label>
-                        <div class="input-group">
-                            <div class="input-group-addon">
-                                <i class="fa fa-lock"></i>
-                            </div>
-                            <input type="password" name="clave2" id="clave2" class="form-control" placeholder="Contrase&ntilde;a" asp-for="Clave2">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="confirmeclave">Confirme Clave:</label>
-                        <div class="input-group">
-                            <div class="input-group-addon">
-                                <i class="fa fa-lock"></i>
-                            </div>
-                            <input type="password" name="confirmeclave" id="confirmeclave" class="form-control" placeholder="Vuelva a ingresar la Contrase&ntilde;a">
-                        </div>
-                    </div>
 
-                    <div class="form-group form-check">
-                        <input type="checkbox" class="form-check-input" name="chkAcepto" id="chkAcepto">
-                        <label class="form-check-label"><a href="#" data-toggle="modal" data-target="#scrollmodal">Acepto los terminos y condiciones.</a></label>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="col-sm-8 control">
-                        </div>
-                        <div class="col-sm-4 control">
-                            <button type="submit" id="btnRegistrar" class="btn btn-success">Registrar</button>
-                        </div>
-                    </div>
-                    <div id="divSpace" class="form-group control">
-                        <br />
-                        <br />
-                    </div>
-                    <div>
-                        <div class="g-recaptcha" data-sitekey="@ViewData["ReCaptchaKey"]"></div>
-                    </div>
-                    <div id="errorCaptcha" style="display:none;" class="form-group control text-danger">
-                        Debe marcar la casilla No soy un robot.
-                    </div>
-                    <div class="form-group control">                        
-                        @Html.ValidationMessage("ErrorRegistro", "", new { @class = "text-danger" })                        
-                    </div>
-                    <div class="form-group">
-                        <div style="border-top: 1px solid#888; padding-top:15px; font-size:85%">
-                            <div class="col-sm-6">
-                            </div>
-                            <div class="col-sm-6 control" style="text-align:right; padding-right:0;">
-                                <a asp-controller="Seguridad" asp-action="UsuarioAutenticar">Ingrese a ZiPago</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
+    </div>
+    <div class="col-sm-3"></div>
 
-        <div class="modal fade" id="scrollmodal" tabindex="-1" role="dialog" aria-labelledby="scrollmodalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <h3 class="modal-title" id="scrollmodalLabel">Terminos y Condiciones</h3>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. <br>
-                            Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.<br>
-                            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.<br>
-                            Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.<br>
-                            Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.<br>
-                            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.<br>
-                            Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.<br>
-                            Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.<br>
-                            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.<br>
-                            Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.<br>
-                            Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.<br>
-                            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.<br>
-                            Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.<br>
-                            Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.<br>
-                            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.<br>
-                            Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.<br>
-                            Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.<br>
-                            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button id="btnCancel" name="btnCancel" type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancelar</button>
-                        <button id="btnAceptar" name="btnAceptar" type="button" class="btn btn-primary">Aceptar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form>
 </div>
 
 <script src="~/js/jquery-2.2.4.min.js"></script>

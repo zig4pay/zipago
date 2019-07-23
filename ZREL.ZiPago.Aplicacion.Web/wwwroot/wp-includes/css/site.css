@@ -1,0 +1,27 @@
+.navbar{
+    padding-bottom: 0px;    
+}
+
+.navbar-text{    
+    padding-bottom: 0px;    
+}
+
+.text-nivel2{
+    margin-left:20px;
+}
+
+.text-nivel3{
+    margin-left:48px;
+}
+
+li span { 
+    font-weight: normal; 
+}
+
+.underline{
+    text-decoration: underline;
+}
+
+mark { 
+    background-color: #fff3cd;
+}
