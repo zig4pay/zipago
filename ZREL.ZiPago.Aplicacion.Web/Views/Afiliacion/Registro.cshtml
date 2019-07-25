@@ -1,10 +1,10 @@
 ﻿@model ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion.RegistroViewModel
 
 @{
-    ViewData["Title"] = "Afiliacion";
-    Layout = "~/Views/Shared/_LayoutApp.cshtml";
+    ViewData["Title"] = "ZiPago | Afiliacion";
+    ViewData["TitleNav"] = "Afiliacion";
+    Layout = "_LayoutApp";
 }
-
 
 <div class="image-container set-full-height">
 
@@ -19,11 +19,11 @@
                     <div class="card wizard-card" data-color="orange" id="wizardProfile">
                         <form id="frmAfiliacion" asp-controller="" asp-action="" method="post">
 
-                            <div class="wizard-header">
-                                <h3>
+                            <div class="wizard-header text-center">
+                                <h4>
                                     <b>Afiliate a ZiPago</b><br>
-                                    <small>Sigue los pasos e ingresa la siguiente informacion:</small>
-                                </h3>
+                                    <small>Sigue estos pasos ingresando la siguiente informacion:</small>
+                                </h4>
                             </div>
 
                             <div class="wizard-navigation">
@@ -37,7 +37,7 @@
                             <div class="tab-content">
                                 <div class="tab-pane" id="about">
                                     <div class="row">
-                                        <h3 class="info-text"> Registro de Usuario ZiPago </h3>
+                                        <h4 class="info-text"> Registro de Usuario ZiPago </h4>
                                         <div class="col-sm-10 col-sm-offset-1">
 
                                             <div class="form-group row">
@@ -226,7 +226,7 @@
 
                                 <div class="tab-pane" id="account">
                                     <div class="row">
-                                        <h3 class="info-text"> Registre sus cuentas bancarias </h3>
+                                        <h4 class="info-text"> Registre sus cuentas bancarias </h4>
 
                                         <div class="col-sm-10 col-sm-offset-1">
 
@@ -320,7 +320,7 @@
 
                                 <div class="tab-pane" id="address">
                                     <div class="row">
-                                        <h3 class="info-text"> Registre su comercio </h3>
+                                        <h4 class="info-text"> Registre su comercio </h4>
 
                                         <div class="col-sm-10 col-sm-offset-1">
 
@@ -453,9 +453,9 @@
 
 </div>
 
-<script src="~/js/jquery-2.2.4.min.js"></script>
-<script src="~/js/jquery.validate.min.js"></script>
-<script src="~/js/Afiliacion/registro.js"></script>
-<script src='https://www.google.com/recaptcha/api.js'></script>
+<script src="~/js/jquery-2.2.4.min.js" type="text/javascript"></script>
+<script src="~/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="~/js/jquery.bootstrap.wizard.js" type="text/javascript"></script>
 <script src="~/js/gsdk-bootstrap-wizard.js"></script>
+<script src="~/js/jquery.validate.min.js"></script>
+<script src="~/js/Afiliacion/registro.js"></script>

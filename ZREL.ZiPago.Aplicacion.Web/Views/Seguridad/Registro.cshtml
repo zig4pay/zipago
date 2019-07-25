@@ -1,12 +1,12 @@
 ﻿@model ZREL.ZiPago.Aplicacion.Web.Models.Seguridad.UsuarioViewModel
 
 @{
-    ViewData["Title"] = "ZiPago | Afiliacion";
-    ViewData["TitleNav"] = "Afiliacion - Registro de Usuario";
+    ViewData["Title"] = "ZiPago | Registro de Usuario";
+    ViewData["TitleNav"] = "Registro de Usuario";
     Layout = "_LayoutSeguridad";
 }
 
-<div class="row">
+<div class="row" style="margin-left:0; margin-right:0;">
 
     <div class="col-sm-3"></div>
     <div class="col-sm-6">
@@ -36,9 +36,9 @@
                             </ul>
                             <small><strong>(*)</strong> Aplica para días útiles, de lunes a viernes en horario de 9:00 AM a 5:00 PM.</small>
                             <br /><br />
-                            Si ya estas registrado, ingresa aqui con tu Id ZiPago:                             
-                            <a asp-controller="Seguridad" asp-action="UsuarioAutenticar">Ingresa a ZiPago</a>
-                        </p><br />
+                            Si ya estas registrado, <strong><a asp-controller="Seguridad" asp-action="UsuarioAutenticar"> ingresa aqui</a></strong> con tu Id ZiPago.
+                            </p>
+                        <br />
                     </div>
                     <div class="col-sm-1"></div>
                     <div class="col-sm-5">
@@ -113,7 +113,7 @@
                                     Debe marcar la casilla No soy un robot.
                                 </div>
                                 <div class="form-group text-right">
-                                    <button type="submit" id="btnRegistrar" class="btn btn-primary">Registrar</button>
+                                    <button type="submit" id="btnRegistrar" class="btn text-white bg-button-acept">Registrar</button>
                                 </div>
                             </div>
 
