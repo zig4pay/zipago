@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@ViewData["Title"]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="icon" href="~/wp-content/uploads/2019/07/logo_favicon-142x150.png" sizes="32x32">
+    <link rel="icon" href="~/wp-content/uploads/2019/07/logo_favicon.png" sizes="192x192">
+    <link rel="apple-touch-icon-precomposed" href="~/wp-content/uploads/2019/07/logo_favicon.png">
+    <meta name="msapplication-TileImage" content="https://www.zipago.pe/wp-content/uploads/2019/07/logo_favicon.png">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.css">
+    <link rel="stylesheet" href="~/dist/bootstrap-4.3.1-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/wp-includes/css/site.css">
+</head>
+<body style="background-color:#FF6900;">
+
+    <nav class="navbar sticky-top navbar-light bg-light">
+        <span class="navbar-text mx-auto">
+            <img src="~/wp-content/uploads/2019/07/Imagotipo_ZiPago-118x75.png" width="118" height="75" alt="ZiPago">
+            <span class="navbar-text mx-auto">
+                <h4 class="text-dark">
+                    @ViewData["TitleNav"]
+                </h4>
+            </span>
+        </span>
+    </nav>
+    <div class="row" style="margin-left:0; margin-right:0;">
+        <br />
+    </div>
+
+    @RenderBody()
+
+    <div class="row" style="margin-left:0; margin-right:0;">
+        <br />
+    </div>
+
+    <script type='text/javascript' src='~/dist/bootstrap-4.3.1-dist/js/bootstrap.min.js'></script>    
+
+</body>
+</html>
