@@ -20,7 +20,7 @@ namespace ZREL.ZiPago.Datos.Configuraciones.Comun
             builder.Property(p => p.NombreCorto).HasColumnType("varchar(20)");
             builder.Property(p => p.Activo).HasColumnType("char(1)").IsRequired();
             builder.Property(p => p.FechaCreacion).HasColumnType("datetime").IsRequired();
-            builder.Property(p => p.FechaActualizacion).HasColumnType("datetime").IsRequired();            
+            builder.Property(p => p.FechaActualizacion).HasColumnType("datetime");
 
         }
     }

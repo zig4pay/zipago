@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZREL.ZiPago.Aplicacion.Web"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZREL.ZiPago.Libreria", "ZREL.ZiPago.Libreria\ZREL.ZiPago.Libreria.csproj", "{97C1C167-EF56-4540-ADBC-3F2E5CE55424}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZREL.ZiPago.Sitio.Web", "ZREL.ZiPago.Sitio.Web\ZREL.ZiPago.Sitio.Web.csproj", "{ACE1D681-CF4E-4B56-9839-BF0F56675399}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{97C1C167-EF56-4540-ADBC-3F2E5CE55424}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97C1C167-EF56-4540-ADBC-3F2E5CE55424}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97C1C167-EF56-4540-ADBC-3F2E5CE55424}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACE1D681-CF4E-4B56-9839-BF0F56675399}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACE1D681-CF4E-4B56-9839-BF0F56675399}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACE1D681-CF4E-4B56-9839-BF0F56675399}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACE1D681-CF4E-4B56-9839-BF0F56675399}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

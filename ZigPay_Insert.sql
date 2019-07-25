@@ -6,25 +6,25 @@ Go
 Begin Tran
 
    Insert Into [BANCOZIPAGO](      
-      NombreLargo, NombreCorto, Activo, FechaCreacion, FechaActualizacion
+      NombreLargo, NombreCorto, Activo, FechaCreacion
    )
    Values
-      ('Banco de Comercio', Null, 'A', getdate(), getdate()),
-      ('Banco de Crédito del Perú', 'BCP', 'A', getdate(), getdate()),
-      ('Banco Interamericano de Finanzas', 'BANBIF', 'A', getdate(), getdate()),
-      ('Banco Pichincha', Null, 'A', getdate(), getdate()),
-      ('BBVA Continental', Null, 'A', getdate(), getdate()),
-      ('Citibank Peru', Null, 'A', getdate(), getdate()),
-      ('Interbank', Null, 'A', getdate(), getdate()),
-      ('MiBanco', Null, 'A', getdate(), getdate()),
-      ('Scotiabank', Null, 'A', getdate(), getdate()),
-      ('Banco GNB Peru', Null, 'A', getdate(), getdate()),
-      ('Banco Falabella', Null, 'A', getdate(), getdate()),
-      ('Banco Ripley', Null, 'A', getdate(), getdate()),
-      ('Banco Santander Peru', Null, 'A', getdate(), getdate()),
-      ('Banco Azteca', Null, 'A', getdate(), getdate()),
-      ('Banco Cencosud', Null, 'A', getdate(), getdate()),
-      ('ICBC Peru Bank', Null, 'A', getdate(), getdate())
+      ('Banco de Comercio', Null, 'A', getdate()),
+      ('Banco de Crédito del Perú', 'BCP', 'A', getdate()),
+      ('Banco Interamericano de Finanzas', 'BANBIF', 'A', getdate()),
+      ('Banco Pichincha', Null, 'A', getdate()),
+      ('BBVA Continental', Null, 'A', getdate()),
+      ('Citibank Peru', Null, 'A', getdate()),
+      ('Interbank', Null, 'A', getdate()),
+      ('MiBanco', Null, 'A', getdate()),
+      ('Scotiabank', Null, 'A', getdate()),
+      ('Banco GNB Peru', Null, 'A', getdate()),
+      ('Banco Falabella', Null, 'A', getdate()),
+      ('Banco Ripley', Null, 'A', getdate()),
+      ('Banco Santander Peru', Null, 'A', getdate()),
+      ('Banco Azteca', Null, 'A', getdate()),
+      ('Banco Cencosud', Null, 'A', getdate()),
+      ('ICBC Peru Bank', Null, 'A', getdate())
    
    
    Insert Into [UBIGEOZIPAGO](      
@@ -134,17 +134,44 @@ Begin Tran
       ('TIPO_PERSONA', '01', 'Juridica'),
       ('TIPO_PERSONA', '02', 'Natural'),
       -------------------------------------------------------------------------
+      -------------------------------------------------------------------------
       ('TIPO_MONEDA', '01', 'Soles S/'),
       ('TIPO_MONEDA', '02', 'Dolares $'),
+      -------------------------------------------------------------------------
       -------------------------------------------------------------------------
       ('TIPO_DOC_ID', '01', 'DNI - Documento Nacional de Identidad'),
       ('TIPO_DOC_ID', '02', 'RUC - Registro Unico de Contribuyente'),      
       -------------------------------------------------------------------------
+      -------------------------------------------------------------------------
       ('TIPO_CUENTA', '01', 'Cuenta Corriente'),
       ('TIPO_CUENTA', '02', 'Cuenta de Ahorros'),
       -------------------------------------------------------------------------
-      ('RUBRO_NEGOCIO', '001', 'Restaurantes'),
-      ('RUBRO_NEGOCIO', '002', 'Educacion')
+      -------------------------------------------------------------------------
+      ('RUBRO_NEGOCIO', '001', 'Autos'),
+      ('RUBRO_NEGOCIO', '002', 'Arquitectura'),
+      ('RUBRO_NEGOCIO', '003', 'Boutique'),
+      ('RUBRO_NEGOCIO', '004', 'Café'),
+      ('RUBRO_NEGOCIO', '005', 'Calzado'),
+      ('RUBRO_NEGOCIO', '006', 'Carpintería'),
+      ('RUBRO_NEGOCIO', '007', 'Cerámicos'),
+      ('RUBRO_NEGOCIO', '008', 'Cirujía Estética'),
+      ('RUBRO_NEGOCIO', '009', 'Colegios'),
+      ('RUBRO_NEGOCIO', '010', 'Comida'),
+      ('RUBRO_NEGOCIO', '011', 'Consultorio Médico'),
+      ('RUBRO_NEGOCIO', '012', 'Ferretería'),
+      ('RUBRO_NEGOCIO', '013', 'Gimnasios'),
+      ('RUBRO_NEGOCIO', '014', 'Hotelería'),
+      ('RUBRO_NEGOCIO', '015', 'Ingenieria Civil'),
+      ('RUBRO_NEGOCIO', '016', 'Institutos'),
+      ('RUBRO_NEGOCIO', '017', 'Mecánica'),
+      ('RUBRO_NEGOCIO', '018', 'Movilidad'),
+      ('RUBRO_NEGOCIO', '019', 'Muebles'),
+      ('RUBRO_NEGOCIO', '020', 'Odontología'),
+      ('RUBRO_NEGOCIO', '021', 'Peluquería'),
+      ('RUBRO_NEGOCIO', '022', 'Repuestos'),
+      ('RUBRO_NEGOCIO', '023', 'Ropa'),
+      ('RUBRO_NEGOCIO', '024', 'Telas')
+      -------------------------------------------------------------------------
       -------------------------------------------------------------------------
       
 
