@@ -30,14 +30,6 @@ namespace ZREL.ZiPago.Sitio.Web.Clients
             return JsonConvert.DeserializeObject<ResponseModel<T>>(data);
         }
 
-        public async Task<ResponseListModel<T>> GetListAsync<T>(Uri requestUrl)
-        {
-            var response = await httpClient.GetAsync(requestUrl, HttpCompletionOption.ResponseHeadersRead);
-            response.EnsureSuccessStatusCode();
-            var data = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<ResponseListModel<T>>(data);
-        }
-
         public async Task<string> GetJsonAsync(Uri requestUrl)
         {
             var response = await httpClient.GetAsync(requestUrl, HttpCompletionOption.ResponseHeadersRead);

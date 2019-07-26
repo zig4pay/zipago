@@ -50,9 +50,11 @@ namespace ZREL.ZiPago.Sitio.Web.Controllers
                 {
 
                     if (await GoogleReCaptchaValidation.ReCaptchaPassed(
-                        Request.Form["g-recaptcha-response"],
-                        webSettings.Value.SecretKey,
-                        logger))
+                                Request.Form["g-recaptcha-response"],
+                                webSettings.Value.SecretKey,
+                                logger
+                            )
+                        )
                     {
                         model.Clave2 = Criptografia.Encriptar(model.Clave2);
                         model.AceptoTerminos = Constantes.strUsuarioZiPago_AceptoTerminos;
@@ -62,7 +64,7 @@ namespace ZREL.ZiPago.Sitio.Web.Controllers
                         if (!response.HizoError)
                         {
                             logger.Info("[{0}] | UsuarioViewModel: [{1}] | Realizado.", nameof(UsuarioRegistrar), model.Clave1);
-                            return RedirectToAction("Iniciar", "Afiliacion", response.Model);
+                            return View("~/Views/Seguridad/Registro.cshtml");
                         }
                         else
                         {

@@ -1,626 +1,85 @@
-﻿@{    
-    Layout = "";
+﻿@{
+    Layout = "_Layout";
 }
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <script type="text/javascript">
-        document.documentElement.className = 'js';
-    </script>
 
-    <script>
-        var et_site_url = 'https://www.zipago.pe';
-        var et_post_id = '25376';
-        function et_core_page_resource_fallback(a, b) {
-            "undefined" === typeof b && (b = a.sheet.cssRules && 0 === a.sheet.cssRules.length);
-            b && (a.onerror = null, a.onload = null, a.href ? a.href = et_site_url + "/?et_core_page_resource=" + a.id + et_post_id : a.src && (a.src = et_site_url + "/?et_core_page_resource=" + a.id + et_post_id))
-        }
-    </script>
-    <title>ZiPago | Pago Seguro con ZiPago</title>
-    <meta name='robots' content='noindex,follow'>
-    <link rel='dns-prefetch' href='//fonts.googleapis.com'>
-    <link rel='dns-prefetch' href='//s.w.org'>
-    <script type="text/javascript">
-        window._wpemojiSettings = {
-            "baseUrl": "https:\/\/s.w.org\/images\/core\/emoji\/12.0.0-1\/72x72\/", "ext": ".png", "svgUrl": "https:\/\/s.w.org\/images\/core\/emoji\/12.0.0-1\/svg\/", "svgExt": ".svg", "source": {
-                "concatemoji": "https:\/\/www.zipago.pe\/wp-includes\/js\/wp-emoji-release.min.js?ver=5.2.2"
-            }
-        };
-        !function (a, b, c) {
-            function d(a, b) {
-                var c = String.fromCharCode;
-                l.clearRect(0, 0, k.width, k.height), l.fillText(c.apply(this, a), 0, 0);
-                var d = k.toDataURL();
-                l.clearRect(0, 0, k.width, k.height), l.fillText(c.apply(this, b), 0, 0);
-                var e = k.toDataURL();
-                return d === e
-            }
-            function e(a) {
-                var b;
-                if (!l || !l.fillText) return !1;
-                switch (l.textBaseline = "top", l.font = "600 32px Arial", a) {
-                    case "flag": return !(b = d([55356, 56826, 55356, 56819], [55356, 56826, 8203, 55356, 56819])) && (b = d([55356, 57332, 56128, 56423, 56128, 56418, 56128, 56421, 56128, 56430, 56128, 56423, 56128, 56447], [55356, 57332, 8203, 56128, 56423, 8203, 56128, 56418, 8203, 56128, 56421, 8203, 56128, 56430, 8203, 56128, 56423, 8203, 56128, 56447]), !b);
-                    case "emoji": return b = d([55357, 56424, 55356, 57342, 8205, 55358, 56605, 8205, 55357, 56424, 55356, 57340], [55357, 56424, 55356, 57342, 8203, 55358, 56605, 8203, 55357, 56424, 55356, 57340]), !b
-                }
-                return !1
-            }
-            function f(a) {
-                var c = b.createElement("script");
-                c.src = a, c.defer = c.type = "text/javascript", b.getElementsByTagName("head")[0].appendChild(c)
-            }
-            var g, h, i, j, k = b.createElement("canvas"), l = k.getContext && k.getContext("2d");
-            for (j = Array("flag", "emoji"), c.supports = { everything: !0, everythingExceptFlag: !0 }, i = 0; i < j.length; i++)c.supports[j[i]] = e(j[i]), c.supports.everything = c.supports.everything && c.supports[j[i]], "flag" !== j[i] && (c.supports.everythingExceptFlag = c.supports.everythingExceptFlag && c.supports[j[i]]); c.supports.everythingExceptFlag = c.supports.everythingExceptFlag && !c.supports.flag, c.DOMReady = !1, c.readyCallback = function () { c.DOMReady = !0 }, c.supports.everything || (h = function () { c.readyCallback() }, b.addEventListener ? (b.addEventListener("DOMContentLoaded", h, !1), a.addEventListener("load", h, !1)) : (a.attachEvent("onload", h), b.attachEvent("onreadystatechange", function () { "complete" === b.readyState && c.readyCallback() })), g = c.source || {}, g.concatemoji ? f(g.concatemoji) : g.wpemoji && g.twemoji && (f(g.twemoji), f(g.wpemoji)))
-        }(window, document, window._wpemojiSettings);
-    </script>
-    <meta content="Divi v.3.25.4" name="generator">
-    <style type="text/css">
-        img.wp-smiley, img.emoji {
-            display: inline !important;
-            border: none !important;
-            box-shadow: none !important;
-            height: 1em !important;
-            width: 1em !important;
-            margin: 0 .07em !important;
-            vertical-align: -0.1em !important;
-            background: none !important;
-            padding: 0 !important;
-        }
-    </style>
-    <link rel='stylesheet' id='wp-block-library-css' href='~/wp-includes/css/dist/block-library/style.min.css?ver=5.2.2' type='text/css' media='all'>
-    <link rel='stylesheet' id='divi-fonts-css' href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&subset=latin,latin-ext' type='text/css' media='all'>
-    <link rel='stylesheet' id='divi-style-css' href='~/wp-content/themes/Divi/style.css?ver=3.25.4' type='text/css' media='all'>
-    <link rel='stylesheet' id='et-builder-googlefonts-cached-css' href='https://fonts.googleapis.com/css?family=Vollkorn%3Aregular%2Citalic%2C600%2C600italic%2C700%2C700italic%2C900%2C900italic%7CLibre+Franklin%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2Cregular%2Citalic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic&ver=5.2.2#038;subset=latin,latin-ext' type='text/css' media='all'>
-    <link rel='stylesheet' id='dashicons-css' href='~/wp-includes/css/dashicons.min.css?ver=5.2.2' type='text/css' media='all'>
-    <script type='text/javascript' src='~/wp-includes/js/jquery/jquery.js?ver=1.12.4-wp'></script>
-    <script type='text/javascript' src='~/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
-    <meta name="generator" content="WordPress 5.2.2">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <link rel="icon" href="~/wp-content/uploads/2019/07/logo_favicon-142x150.png" sizes="32x32">
-    <link rel="icon" href="~/wp-content/uploads/2019/07/logo_favicon.png" sizes="192x192">
-    <link rel="apple-touch-icon-precomposed" href="~/wp-content/uploads/2019/07/logo_favicon.png">
-    <meta name="msapplication-TileImage" content="www.zipago.pe/wp-content/uploads/2019/07/logo_favicon.png">
-    <link rel="stylesheet" id="et-core-unified-cached-inline-styles" href="~/wp-content/cache/et/25376/et-core-unified-15626238615766.min.css" onerror="et_core_page_resource_fallback(this, true)" onload="et_core_page_resource_fallback(this)">
-</head>
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Dashboard
+        <small>Control panel</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Dashboard</li>
+    </ol>
+</section>
 
-<body class="home page-template-default page page-id-25376 et_pb_button_helper_class et_transparent_nav et_fixed_nav et_show_nav et_cover_background et_pb_gutter et_pb_gutters3 et_primary_nav_dropdown_animation_fade et_secondary_nav_dropdown_animation_fade et_pb_footer_columns_1_4__1_2 et_header_style_left et_pb_pagebuilder_layout et_right_sidebar et_divi_theme et-db et_minified_js et_minified_css">
-    <div id="page-container">
-        <header id="main-header" data-height-onload="80">
-            <div class="container clearfix et_menu_container">
-                <div class="logo_container">
-                    <span class="logo_helper"></span>
-                    <a asp-controller="Home" asp-action="Index">
-                        <img src="~/wp-content/uploads/2019/07/Imagotipo_ZiPago.png" alt="ZiPago" id="logo" data-height-percentage="100">
-                    </a>
+<!-- Main content -->
+<section class="content">
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3>150</h3>
+
+                    <p>New Orders</p>
                 </div>
-                <div id="et-top-navigation" data-height="80" data-fixed-height="55">
-                    <nav id="top-menu-nav">
-                        <ul id="top-menu" class="nav">
-                            <li id="menu-item-15" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-15"><a href="#quees" aria-current="page">QUÉ ES</a></li>
-                            <li id="menu-item-16" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-16"><a href="#afiliacion" aria-current="page">AFILIACIÓN</a></li>
-                            <li id="menu-item-17" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-17"><a href="#pagos" aria-current="page">PAGOS</a></li>
-                            <li id="menu-item-18" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-18"><a href="#beneficios" aria-current="page">BENEFICIOS</a></li>
-                            <li id="menu-item-19" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-19"><a href="#preguntas" aria-current="page">PREGUNTAS FRECUENTES</a></li>
-                            <li id="menu-item-20" class="menu_cta menu-item menu-item-type-custom menu-item-object-custom menu-item-20"><a asp-controller="Seguridad" asp-action="UsuarioRegistrar">AFÍLIATE GRATIS</a></li>
-                        </ul>
-                    </nav>
-                    <div id="et_mobile_nav_menu">
-                        <div class="mobile_nav closed">
-                            <span class="select_page">Seleccionar página</span>
-                            <span class="mobile_menu_bar mobile_menu_bar_toggle"></span>
-                        </div>
-                    </div>
-                </div> <!-- #et-top-navigation -->
-            </div> <!-- .container -->
-            <div class="et_search_outer">
-                <div class="container et_search_form_container">
-                    <form role="search" method="get" class="et-search-form" action="https://www.zipago.pe/">
-                        <input type="search" class="et-search-field" placeholder="Búsqueda &hellip;" value="" name="s" title="Buscar:">
-                    </form>
-                    <span class="et_close_search_field"></span>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
                 </div>
+                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
             </div>
-        </header> <!-- #main-header -->
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h3>53<sup style="font-size: 20px">%</sup></h3>
 
-        <div id="et-main-area">
-            <div id="main-content">
-                <article id="post-25376" class="post-25376 page type-page status-publish hentry">
-                    <div class="entry-content">
-                        <div id="et-boc" class="et-boc">
-                            <div class="et_builder_inner_content et_pb_gutters3">
-                                <div class="et_pb_section et_pb_section_0 et_pb_with_background et_section_regular section_has_divider et_pb_bottom_divider et_pb_top_divider">
-                                    <div class="et_pb_top_inside_divider et-no-transition"></div>
-                                    <div class="et_pb_row et_pb_row_0">
-                                        <div class="et_pb_column et_pb_column_4_4 et_pb_column_0  et_pb_css_mix_blend_mode_passthrough et-last-child">
-                                            <div class="et_pb_module et_pb_text et_pb_text_0 et_animated et_pb_bg_layout_dark  et_pb_text_align_left">
-                                                <div class="et_pb_text_inner">
-                                                    <h1>Olvídate del efectivo y las tarjetas</h1>
-                                                    <h2>Pago seguro con <span style="font-size: 65px; color: #ff6d0d;"><big><strong>ZiPago</strong></big></span></h2>
-                                                </div>
-                                            </div> <!-- .et_pb_text -->
-                                            <div class="et_pb_button_module_wrapper et_pb_button_0_wrapper et_pb_button_alignment_center et_pb_module ">
-                                                <a class="et_pb_button et_pb_custom_button_icon et_pb_button_0 et_hover_enabled et_pb_bg_layout_dark" asp-controller="Seguridad" asp-action="UsuarioRegistrar" data-icon="&#xe05a;">AFÍLIATE GRATIS AQUÍ</a>
-                                            </div>
-                                        </div> <!-- .et_pb_column -->
-                                    </div> <!-- .et_pb_row -->
-                                    <div class="et_pb_bottom_inside_divider et-no-transition"></div>
-                                </div> <!-- .et_pb_section -->
-                                <div class="et_pb_section et_pb_section_1 et_pb_fullwidth_section et_section_regular section_has_divider et_pb_bottom_divider et_pb_top_divider">
-                                    <div class="et_pb_top_inside_divider et-no-transition"></div>
-                                    <div class="et_pb_module et_pb_fullwidth_slider_0 et_pb_slider et_slider_auto et_slider_speed_5000">
-                                        <div class="et_pb_slides">
-                                            <div class="et_pb_slide et_pb_slide_0 et_pb_bg_layout_dark et_pb_media_alignment_center et_pb_slider_with_text_overlay et-pb-active-slide" data-slide-id="et_pb_slide_0">
-                                                <div class="et_pb_container clearfix">
-                                                    <div class="et_pb_slider_container_inner">
-                                                        <div class="et_pb_slide_description">
-                                                            <div class="et_pb_text_overlay_wrapper">
-                                                                <h1 class="et_pb_slide_title">Olvídate del efectivo y las tarjetas</h1>
-                                                                <div class="et_pb_slide_content">
-                                                                    <p>Paga seguro con <span style="font-size: 65px; color: #ff6d0d;"><strong>ZiPago</strong></span></p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="et_pb_button_wrapper">
-                                                                <a class="et_pb_button et_pb_custom_button_icon et_pb_more_button" asp-controller="Seguridad" asp-action="UsuarioRegistrar" data-icon="&#x45;">AFÍLIATE GRATIS AQUÍ</a>
-                                                            </div>
-                                                        </div> <!-- .et_pb_slide_description -->
-                                                    </div>
-                                                </div> <!-- .et_pb_container -->
-                                            </div> <!-- .et_pb_slide -->
-                                            <div class="et_pb_slide et_pb_slide_1 et_pb_bg_layout_dark et_pb_media_alignment_center et_pb_slider_with_text_overlay" data-slide-id="et_pb_slide_1">
-                                                <div class="et_pb_container clearfix">
-                                                    <div class="et_pb_slider_container_inner">
-                                                        <div class="et_pb_slide_description">
-                                                            <div class="et_pb_text_overlay_wrapper">
-                                                                <h1 class="et_pb_slide_title">Olvídate del efectivo y las tarjetas</h1>
-                                                                <div class="et_pb_slide_content"><p>Paga seguro con <span style="font-size: 65px; color: #ff6d0d;"><strong>ZiPago</strong></span></p></div>
-                                                            </div>
-                                                            <div class="et_pb_button_wrapper"><a class="et_pb_button et_pb_custom_button_icon et_pb_more_button" asp-controller="Seguridad" asp-action="UsuarioRegistrar" data-icon="&#x45;">AFÍLIATE GRATIS AQUÍ</a></div>
-                                                        </div> <!-- .et_pb_slide_description -->
-                                                    </div>
-                                                </div> <!-- .et_pb_container -->
-                                            </div> <!-- .et_pb_slide -->
-                                            <div class="et_pb_slide et_pb_slide_2 et_pb_bg_layout_dark et_pb_media_alignment_center et_pb_slider_with_text_overlay" data-slide-id="et_pb_slide_2">
-                                                <div class="et_pb_container clearfix">
-                                                    <div class="et_pb_slider_container_inner">
-                                                        <div class="et_pb_slide_description">
-                                                            <div class="et_pb_text_overlay_wrapper">
-                                                                <h1 class="et_pb_slide_title">Olvídate del efectivo y las tarjetas</h1>
-                                                                <div class="et_pb_slide_content"><p>Paga seguro con <span style="font-size: 65px; color: #ff6d0d;"><strong>ZiPago</strong></span></p></div>
-                                                            </div>
-                                                            <div class="et_pb_button_wrapper"><a class="et_pb_button et_pb_custom_button_icon et_pb_more_button" asp-controller="Seguridad" asp-action="UsuarioRegistrar" data-icon="&#x45;">AFÍLIATE GRATIS AQUÍ</a></div>
-                                                        </div> <!-- .et_pb_slide_description -->
-                                                    </div>
-                                                </div> <!-- .et_pb_container -->
-                                            </div> <!-- .et_pb_slide -->
-                                            <div class="et_pb_slide et_pb_slide_3 et_pb_bg_layout_dark et_pb_media_alignment_center et_pb_slider_with_text_overlay" data-slide-id="et_pb_slide_3">
-                                                <div class="et_pb_container clearfix">
-                                                    <div class="et_pb_slider_container_inner">
-                                                        <div class="et_pb_slide_description">
-                                                            <div class="et_pb_text_overlay_wrapper">
-                                                                <h1 class="et_pb_slide_title">Olvídate del efectivo y las tarjetas</h1>
-                                                                <div class="et_pb_slide_content"><p>Paga seguro con <span style="font-size: 65px; color: #ff6d0d;"><strong>ZiPago</strong></span></p></div>
-                                                            </div>
-                                                            <div class="et_pb_button_wrapper"><a class="et_pb_button et_pb_custom_button_icon et_pb_more_button" asp-controller="Seguridad" asp-action="UsuarioRegistrar" data-icon="&#x45;">AFÍLIATE GRATIS AQUÍ</a></div>
-                                                        </div> <!-- .et_pb_slide_description -->
-                                                    </div>
-                                                </div> <!-- .et_pb_container -->
-                                            </div> <!-- .et_pb_slide -->
-                                        </div> <!-- .et_pb_slides -->
-                                    </div> <!-- .et_pb_slider -->
-                                    <div class="et_pb_bottom_inside_divider et-no-transition"></div>
-                                </div> <!-- .et_pb_section -->
-                                <div id="quees" class="et_pb_section et_pb_section_2 et_section_specialty">
-                                    <div class="et_pb_row">
-                                        <div class="et_pb_column et_pb_column_1_2 et_pb_column_1    et_pb_css_mix_blend_mode_passthrough">
-                                            <div class="et_pb_module et_pb_text et_pb_text_1 et_animated et_pb_bg_layout_light  et_pb_text_align_right">
-                                                <div class="et_pb_text_inner">
-                                                    <h2><strong> ¿QUÉ ES ZiPago?</strong></h2>
-                                                    <p>&nbsp;</p>
-                                                    <p>Es un servicio que permite recibir pagos de sus clientes mediante la banca móvil (Apps) y banca por internet (Web) de los bancos. Estos pagos se abonan en la cuenta bancaria del <strong>banco de su preferencia</strong>.</p>
-                                                    <ul>
-                                                        <li style="text-align: left;"><strong>Dirigido a:</strong> personas naturales y jurídicas.</li>
-                                                        <li style="text-align: left;"><strong>Comisión:</strong> %1.99 por pago hasta un máximo de S/. 4.50 <span style="font-size: 12px;"><em>(1) </em></span>.</li>
-                                                        <li style="text-align: left;"><strong>Bancos afiliados:</strong> Scotiabank y CrediScotia (en proceso Interbank, BCP y BBVA).</li>
-                                                        <li style="text-align: left;"><strong>Canales de pago: </strong>Solo banca móvil (Apps) y banca por internet (Web) de los bancos.</li>
-                                                        <li style="text-align: left;"><strong>Disponibilidad de fondos:</strong> En 1 hora<em><span style="font-size: 12px;"><em>(2) </em></span></em> <em>(plazo promedio)</em> o dentro de las <strong>24 horas </strong><span style="font-size: 12px;"><em>(2) </em></span>.</li>
-                                                    </ul>
-                                                    <h6></h6>
-                                                </div>
-                                            </div> <!-- .et_pb_text --><div class="et_pb_module et_pb_text et_pb_text_2 et_pb_bg_layout_light  et_pb_text_align_left">
-                                                <div class="et_pb_text_inner">
-                                                    <h6 style="text-align: right;">
-                                                        <em>
-                                                            (1) Para cuentas bancarias en Scotiabank, Interbank, BBVA y BCP. Para otros bancos se carga el costo de la transferencia interbancaria. Ver tarifario en términos y condiciones.<br>
-                                                            <br>(2)  Aplica para días útiles, de lunes a viernes en horario de 9:00 AM a 5:00 PM.
-                                                        </em>
-                                                    </h6>
-                                                </div>
-                                            </div> <!-- .et_pb_text -->
-                                        </div> <!-- .et_pb_column --><div class="et_pb_column et_pb_column_1_2 et_pb_column_2   et_pb_specialty_column  et_pb_css_mix_blend_mode_passthrough">
-                                            <div class="et_pb_with_border et_pb_row_inner et_pb_row_inner_0 et_animated">
-                                                <div class="et_pb_column et_pb_column_undefined et_pb_column_inner et_pb_column_inner_0">
-                                                    <div class="et_pb_with_border et_pb_module et_pb_image et_pb_image_0 et_animated et-waypoint">
-                                                        <span class="et_pb_image_wrap "><img src="~/wp-content/uploads/2019/07/zipago_800x680.png" alt=""></span>
-                                                    </div>
-                                                </div> <!-- .et_pb_column -->
-                                            </div> <!-- .et_pb_row_inner -->
-                                        </div> <!-- .et_pb_column -->
-                                    </div> <!-- .et_pb_row -->
-                                </div> <!-- .et_pb_section -->
-                                <div id="afiliacion" class="et_pb_section et_pb_section_3 et_pb_with_background et_section_regular">
-                                    <div class="et_pb_row et_pb_row_1">
-                                        <div class="et_pb_column et_pb_column_4_4 et_pb_column_3  et_pb_css_mix_blend_mode_passthrough et-last-child">
-                                            <div class="et_pb_module et_pb_text et_pb_text_3 et_animated et_pb_bg_layout_light  et_pb_text_align_center">
-                                                <div class="et_pb_text_inner">
-                                                    <h2>¿CÓMO ME AFILIO?</h2>
-                                                    <p>&nbsp;</p>
-                                                </div>
-                                            </div> <!-- .et_pb_text -->
-                                        </div> <!-- .et_pb_column -->
-                                    </div> <!-- .et_pb_row -->
-                                    <div class="et_pb_row et_pb_row_2">
-                                        <div class="et_pb_column et_pb_column_1_2 et_pb_column_4  et_pb_css_mix_blend_mode_passthrough">
-                                            <div class="et_pb_module et_pb_image et_pb_image_1 et_animated et-waypoint">
-                                                <span class="et_pb_image_wrap "><img src="~/wp-content/uploads/2019/06/zipago_afilacion.jpg" alt=""></span>
-                                            </div>
-                                        </div> <!-- .et_pb_column -->
-                                        <div class="et_pb_column et_pb_column_1_2 et_pb_column_5  et_pb_css_mix_blend_mode_passthrough">
-                                            <div class="et_pb_module et_pb_blurb et_pb_blurb_0 et_pb_bg_layout_light  et_pb_text_align_left  et_pb_blurb_position_left">
-                                                <div class="et_pb_blurb_content">
-                                                    <div class="et_pb_main_blurb_image"><span class="et_pb_image_wrap"><span class="et-pb-icon et-waypoint et_pb_animation_top">&#x5a;</span></span></div>
-                                                    <div class="et_pb_blurb_container">
-                                                        <div class="et_pb_blurb_description">
-                                                            <ol>
-                                                                <li style="text-align: justify;">Abra una cuenta bancaria en el <strong>banco de su preferencia</strong> donde se abonarán sus pagos. Si ya tiene una, no necesita abrir una cuenta adicional.</li>
-                                                            </ol>
-                                                        </div><!-- .et_pb_blurb_description -->
-                                                    </div>
-                                                </div> <!-- .et_pb_blurb_content -->
-                                            </div> <!-- .et_pb_blurb -->
-                                            <div class="et_pb_module et_pb_blurb et_pb_blurb_1 et_pb_bg_layout_light  et_pb_text_align_left  et_pb_blurb_position_left">
-                                                <div class="et_pb_blurb_content">
-                                                    <div class="et_pb_main_blurb_image"><span class="et_pb_image_wrap"><span class="et-pb-icon et-waypoint et_pb_animation_top">&#x5a;</span></span></div>
-                                                    <div class="et_pb_blurb_container">
-                                                        <div class="et_pb_blurb_description">
-                                                            <p style="text-align: left;">2. <strong>Descargue y llene el formato electrónico,</strong> una vez llenado, envíelo con los anexos al correo <em><strong>ServicioAlCliente@ZiPago.pe</strong></em>.</p>
-                                                        </div><!-- .et_pb_blurb_description -->
-                                                    </div>
-                                                </div> <!-- .et_pb_blurb_content -->
-                                            </div> <!-- .et_pb_blurb -->
-                                            <div class="et_pb_module et_pb_blurb et_pb_blurb_2 et_pb_bg_layout_light  et_pb_text_align_left  et_pb_blurb_position_left">
-                                                <div class="et_pb_blurb_content">
-                                                    <div class="et_pb_main_blurb_image"><span class="et_pb_image_wrap"><span class="et-pb-icon et-waypoint et_pb_animation_top">&#x5a;</span></span></div>
-                                                    <div class="et_pb_blurb_container">
-                                                        <div class="et_pb_blurb_description">
-                                                            <p>3. ZiPago confirmará el registro de su(s) comercio(s) en un promedio de <strong>24 horas</strong> <span style="font-size: 12px;"><em>(1) </em></span>. Desde ese momento, podrá recibir pagos de sus clientes.</p>
-                                                        </div><!-- .et_pb_blurb_description -->
-                                                    </div>
-                                                </div> <!-- .et_pb_blurb_content -->
-                                            </div> <!-- .et_pb_blurb -->
-                                            <div class="et_pb_module et_pb_text et_pb_text_4 et_pb_bg_layout_light  et_pb_text_align_left">
-                                                <div class="et_pb_text_inner">
-                                                    <em>(1) Aplica para días útiles, de lunes a viernes en horario de 9:00 AM a 5:00 PM.</em>
-                                                </div>
-                                            </div> <!-- .et_pb_text -->
-                                        </div> <!-- .et_pb_column -->
-                                    </div> <!-- .et_pb_row -->
-                                </div> <!-- .et_pb_section -->
-                                <div id="pagos" class="et_pb_section et_pb_section_4 et_section_regular">
-                                    <div class="et_pb_row et_pb_row_3">
-                                        <div class="et_pb_column et_pb_column_4_4 et_pb_column_6  et_pb_css_mix_blend_mode_passthrough et-last-child">
-                                            <div class="et_pb_module et_pb_text et_pb_text_5 et_animated et_pb_bg_layout_light  et_pb_text_align_center">
-                                                <div class="et_pb_text_inner">
-                                                    <h2>¿CÓMO PAGA TU CLIENTE?</h2>
-                                                    <p>&nbsp;</p>
-                                                </div>
-                                            </div> <!-- .et_pb_text -->
-                                        </div> <!-- .et_pb_column -->
-                                    </div> <!-- .et_pb_row -->
-                                    <div class="et_pb_row et_pb_row_4">
-                                        <div class="et_pb_column et_pb_column_1_2 et_pb_column_7  et_pb_css_mix_blend_mode_passthrough">
-                                            <div class="et_pb_module et_pb_blurb et_pb_blurb_3 et_pb_bg_layout_light  et_pb_text_align_left  et_pb_blurb_position_left">
-                                                <div class="et_pb_blurb_content">
-                                                    <div class="et_pb_main_blurb_image"><span class="et_pb_image_wrap"><span class="et-pb-icon et-waypoint et_pb_animation_top">&#x5a;</span></span></div>
-                                                    <div class="et_pb_blurb_container">
-                                                        <div class="et_pb_blurb_description">
-                                                            <p>El cliente debe ingresar a la aplicación móvil o a la banca por internet de su banco (en proceso otros bancos) y seguir los siguientes pasos:</p>
-                                                        </div><!-- .et_pb_blurb_description -->
-                                                    </div>
-                                                </div> <!-- .et_pb_blurb_content -->
-                                            </div> <!-- .et_pb_blurb -->
-                                            <div class="et_pb_module et_pb_image et_pb_image_2 et_pb_image_sticky">
-                                                <span class="et_pb_image_wrap "><img src="~/wp-content/uploads/2019/07/tabla-final.jpg" alt=""></span>
-                                            </div>
-                                        </div> <!-- .et_pb_column -->
-                                        <div class="et_pb_column et_pb_column_1_2 et_pb_column_8  et_pb_css_mix_blend_mode_passthrough">
-                                            <div class="et_pb_module et_pb_image et_pb_image_3 et_animated et-waypoint">
-                                                <span class="et_pb_image_wrap "><img src="~/wp-content/uploads/2019/06/zipago_pago.jpg" alt=""></span>
-                                            </div>
-                                        </div> <!-- .et_pb_column -->
-                                    </div> <!-- .et_pb_row -->
-                                </div> <!-- .et_pb_section -->
-                                <div id="beneficios" class="et_pb_section et_pb_section_5 et_pb_with_background et_section_regular">
-                                    <div class="et_pb_row et_pb_row_5">
-                                        <div class="et_pb_column et_pb_column_4_4 et_pb_column_9  et_pb_css_mix_blend_mode_passthrough et-last-child">
-                                            <div class="et_pb_module et_pb_text et_pb_text_6 et_animated et_pb_bg_layout_light  et_pb_text_align_center">
-                                                <div class="et_pb_text_inner">
-                                                    <h2>¿CÓMO BENEFICIA A MI COMERCIO?</h2>
-                                                    <p>&nbsp;</p>
-                                                </div>
-                                            </div> <!-- .et_pb_text -->
-                                        </div> <!-- .et_pb_column -->
-                                    </div> <!-- .et_pb_row -->
-                                    <div class="et_pb_row et_pb_row_6">
-                                        <div class="et_pb_column et_pb_column_1_2 et_pb_column_10  et_pb_css_mix_blend_mode_passthrough">
-                                            <div class="et_pb_module et_pb_image et_pb_image_4 et_animated et-waypoint">
-                                                <span class="et_pb_image_wrap "><img src="~/wp-content/uploads/2019/06/zipago_beneficio_comercio.jpg" alt=""></span>
-                                            </div>
-                                        </div> <!-- .et_pb_column -->
-                                        <div class="et_pb_column et_pb_column_1_2 et_pb_column_11  et_pb_css_mix_blend_mode_passthrough">
-                                            <div class="et_pb_module et_pb_blurb et_pb_blurb_4 et_pb_bg_layout_light  et_pb_text_align_left  et_pb_blurb_position_left">
-                                                <div class="et_pb_blurb_content">
-                                                    <div class="et_pb_main_blurb_image"><span class="et_pb_image_wrap"><span class="et-pb-icon et-waypoint et_pb_animation_top">&#x5a;</span></span></div>
-                                                    <div class="et_pb_blurb_container">
-                                                        <div class="et_pb_blurb_description">
-                                                            <p>1. <strong>Dispondrás de tu dinero rápidamente.</strong> En 1 hora<span style="font-size: 12px;"><em>(1) </em></span> o dentro de las <strong>24 horas</strong><span style="font-size: 12px;"><em>(1) </em></span>.</p>
-                                                        </div><!-- .et_pb_blurb_description -->
-                                                    </div>
-                                                </div> <!-- .et_pb_blurb_content -->
-                                            </div> <!-- .et_pb_blurb -->
-                                            <div class="et_pb_module et_pb_blurb et_pb_blurb_5 et_pb_bg_layout_light  et_pb_text_align_left  et_pb_blurb_position_left">
-                                                <div class="et_pb_blurb_content">
-                                                    <div class="et_pb_main_blurb_image"><span class="et_pb_image_wrap"><span class="et-pb-icon et-waypoint et_pb_animation_top">&#x5a;</span></span></div>
-                                                    <div class="et_pb_blurb_container">
-                                                        <div class="et_pb_blurb_description">
-                                                            <p>2. ZiPago ofrece la mejor oferta del mercado:</p>
-                                                            <ul>
-                                                                <li>La comisión más baja:<strong> %1.99 </strong>por pago hasta un <strong>máximo de S/. 4.50</strong> <span style="font-size: 12px;"><em>(2) </em></span>.</li>
-                                                                <li>Puesto que sus clientes usarán las <span>A</span>pps de sus bancos; <strong>No requiere equipos POS</strong> ni el pago de ningún mantenimiento.</li>
-                                                            </ul>
-                                                        </div><!-- .et_pb_blurb_description -->
-                                                    </div>
-                                                </div> <!-- .et_pb_blurb_content -->
-                                            </div> <!-- .et_pb_blurb -->
-                                            <div class="et_pb_module et_pb_blurb et_pb_blurb_6 et_pb_bg_layout_light  et_pb_text_align_left  et_pb_blurb_position_left">
-                                                <div class="et_pb_blurb_content">
-                                                    <div class="et_pb_main_blurb_image"><span class="et_pb_image_wrap"><span class="et-pb-icon et-waypoint et_pb_animation_top">&#x5a;</span></span></div>
-                                                    <div class="et_pb_blurb_container">
-                                                        <div class="et_pb_blurb_description">
-                                                            <p>3. Mayor <strong>seguridad</strong> para tu comercio debido a que no se requiere el uso de efectivo y/o el uso de tarjetas de crédito/débito físicas.</p>
-                                                        </div><!-- .et_pb_blurb_description -->
-                                                    </div>
-                                                </div> <!-- .et_pb_blurb_content -->
-                                            </div> <!-- .et_pb_blurb -->
-                                            <div class="et_pb_module et_pb_text et_pb_text_7 et_pb_bg_layout_light  et_pb_text_align_left">
-                                                <div class="et_pb_text_inner">
-                                                    <em>(</em><em>1</em><em>)  Aplica para días útiles, de lunes a viernes en horario de 9:00 AM a 5:00 PM.</em><br>
-                                                    <em style="font-size: 14px;">(</em><em style="font-size: 14px;">2</em><em style="font-size: 14px;">) Para cuentas bancarias en Scotiabank, Interbank, BBVA y BCP. Para otros bancos se carga el costo de la transferencia interbancaria. Ver tarifario en términos y condiciones.</em>
-                                                </div>
-                                            </div> <!-- .et_pb_text -->
-                                        </div> <!-- .et_pb_column -->
-                                    </div> <!-- .et_pb_row -->
-                                </div> <!-- .et_pb_section -->
-                                <div class="et_pb_section et_pb_section_6 et_section_regular">
-                                    <div class="et_pb_row et_pb_row_7">
-                                        <div class="et_pb_column et_pb_column_4_4 et_pb_column_12  et_pb_css_mix_blend_mode_passthrough et-last-child">
-                                            <div class="et_pb_module et_pb_text et_pb_text_8 et_animated et_pb_bg_layout_light  et_pb_text_align_center">
-
-
-                                                <div class="et_pb_text_inner">
-                                                    <h2>¿CÓMO BENEFICIA A MIS CLIENTES QUE PAGAN CON ZIPAGO?</h2>
-                                                    <p>&nbsp;</p>
-                                                </div>
-                                            </div> <!-- .et_pb_text -->
-                                        </div> <!-- .et_pb_column -->
-
-
-                                    </div> <!-- .et_pb_row --><div class="et_pb_row et_pb_row_8">
-                                        <div class="et_pb_column et_pb_column_1_2 et_pb_column_13  et_pb_css_mix_blend_mode_passthrough">
-
-
-                                            <div class="et_pb_module et_pb_blurb et_pb_blurb_7 et_pb_bg_layout_light  et_pb_text_align_left  et_pb_blurb_position_left">
-
-
-                                                <div class="et_pb_blurb_content">
-                                                    <div class="et_pb_main_blurb_image"><span class="et_pb_image_wrap"><span class="et-pb-icon et-waypoint et_pb_animation_top">&#x5a;</span></span></div>
-                                                    <div class="et_pb_blurb_container">
-
-                                                        <div class="et_pb_blurb_description">
-                                                            <p>1. Obtiene mayor <strong>seguridad</strong>:</p>
-                                                            <ul>
-                                                                <li>Al pagar sin efectivo. Evitan el riesgo de perder dinero en asaltos, robos y extravíos.</li>
-                                                                <li>Al no llevar tarjetas de crédito y/o débito. Evitan el riesgo de clonaciones y secuestros expre<span>s</span>s, etc.</li>
-                                                                <li>Utilizan los mecanismos de seguridad avanzados de los bancos (internet móvil y banca por internet).</li>
-                                                            </ul>
-                                                        </div><!-- .et_pb_blurb_description -->
-                                                    </div>
-                                                </div> <!-- .et_pb_blurb_content -->
-                                            </div> <!-- .et_pb_blurb --><div class="et_pb_module et_pb_blurb et_pb_blurb_8 et_pb_bg_layout_light  et_pb_text_align_left  et_pb_blurb_position_left">
-
-
-                                                <div class="et_pb_blurb_content">
-                                                    <div class="et_pb_main_blurb_image"><span class="et_pb_image_wrap"><span class="et-pb-icon et-waypoint et_pb_animation_top">&#x5a;</span></span></div>
-                                                    <div class="et_pb_blurb_container">
-
-                                                        <div class="et_pb_blurb_description">
-                                                            <p>2. Más <strong>opciones de pago</strong>. Sus clientes pueden pagar mediante la banca móvil (Apps) o banca por internet (Web) de sus bancos, utilizando la disponibilidad de fondos de sus cuentas bancarias o líneas de crédito de sus tarjetas.</p>
-                                                        </div><!-- .et_pb_blurb_description -->
-                                                    </div>
-                                                </div> <!-- .et_pb_blurb_content -->
-                                            </div> <!-- .et_pb_blurb -->
-                                        </div> <!-- .et_pb_column -->
-                                        <div class="et_pb_column et_pb_column_1_2 et_pb_column_14  et_pb_css_mix_blend_mode_passthrough">
-                                            <div class="et_pb_module et_pb_image et_pb_image_5 et_animated et-waypoint">
-                                                <span class="et_pb_image_wrap "><img src="~/wp-content/uploads/2019/07/zipago_beneficios_fional.png" alt=""></span>
-                                            </div>
-                                        </div> <!-- .et_pb_column -->
-
-                                    </div> <!-- .et_pb_row -->
-
-
-                                </div> <!-- .et_pb_section --><div id="preguntas" class="et_pb_section et_pb_section_7 et_pb_with_background et_section_regular">
-
-
-
-
-                                    <div class="et_pb_row et_pb_row_9">
-                                        <div class="et_pb_column et_pb_column_2_5 et_pb_column_15  et_pb_css_mix_blend_mode_passthrough">
-
-
-                                            <div class="et_pb_module et_pb_text et_pb_text_9 et_animated et_pb_bg_layout_dark  et_pb_text_align_left">
-
-
-                                                <div class="et_pb_text_inner">
-                                                    <h2>PREGUNTAS FRECUENTES</h2>
-                                                    <p>&nbsp;</p>
-                                                </div>
-                                            </div> <!-- .et_pb_text -->
-                                        </div> <!-- .et_pb_column --><div class="et_pb_column et_pb_column_3_5 et_pb_column_16  et_pb_css_mix_blend_mode_passthrough">
-
-
-                                            <div class="et_pb_module et_pb_accordion et_pb_accordion_0 et_animated">
-
-
-                                                <div class="et_pb_toggle et_pb_module et_pb_accordion_item et_pb_accordion_item_0  et_pb_toggle_open">
-
-
-                                                    <h5 class="et_pb_toggle_title">¿ZiPago reemplaza mis equipos POS?</h5>
-                                                    <div class="et_pb_toggle_content clearfix">
-                                                        <p>No, es un servicio complementario.</p>
-                                                        <p>ZiPago utiliza la banca móvil (Apps) y banca por internet (Web) de los bancos afiliados. Se paga usando la disponibilidad de fondos de las cuentas bancarias o las líneas de crédito de sus tarjetas.</p>
-                                                        <p>Para pagar con ZiPago, solo se necesita su celular. No es necesario llevar físicamente efectivo ni tarjeta alguna.</p>
-                                                    </div> <!-- .et_pb_toggle_content -->
-                                                </div> <!-- .et_pb_toggle --><div class="et_pb_toggle et_pb_module et_pb_accordion_item et_pb_accordion_item_1  et_pb_toggle_close">
-
-
-                                                    <h5 class="et_pb_toggle_title">¿Qué aplicaciones móviles o servicios de banca por internet puedo utilizar?</h5>
-                                                    <div class="et_pb_toggle_content clearfix">
-                                                        <p>Solo las pertenecientes a los bancos afiliados a ZiPago. Por el momento Scotiabank <em>(App y página Web)</em> y Crediscotia <em>(página Web)</em>. Los bancos Interbank, BCP y BBVA se encuentran en proceso de afiliación.</p>
-                                                    </div> <!-- .et_pb_toggle_content -->
-                                                </div> <!-- .et_pb_toggle --><div class="et_pb_toggle et_pb_module et_pb_accordion_item et_pb_accordion_item_2  et_pb_toggle_close">
-
-
-                                                    <h5 class="et_pb_toggle_title">¿En cuánto tiempo se abonan los pagos recibidos?</h5>
-                                                    <div class="et_pb_toggle_content clearfix">
-                                                        <p><span style="color: #333333; font-size: 14px;">En 1 hora <em>(plazo promedio)</em> o dentro de las <strong>24 horas</strong> <span style="font-size: 12px;"><em>(1) </em></span>.</span></p>
-                                                        <p><em>(1) Aplica para días útiles, de lunes a viernes en horario de 9:00 AM a 5:00 PM.</em></p>
-                                                        <p>&nbsp;</p>
-                                                    </div> <!-- .et_pb_toggle_content -->
-                                                </div> <!-- .et_pb_toggle --><div class="et_pb_toggle et_pb_module et_pb_accordion_item et_pb_accordion_item_3  et_pb_toggle_close">
-
-
-                                                    <h5 class="et_pb_toggle_title">¿Qué significa el máximo de comisión de S/. 4.50 de ZiPago?</h5>
-                                                    <div class="et_pb_toggle_content clearfix">
-                                                        <p>Quiere decir que, si la comisión de %1.99 por un pago sobrepasa los S/. 4.50. El monto a cobrar será de S/. 4.50 por pago. Nunca mayor a esa cantidad <span>(*)</span>. Ejemplo:</p>
-                                                        <p><img src="wp-content\uploads\2019\07\zipago_tabla_comisiones-255x300.jpg" width="255" height="300" alt="" class="wp-image-25690 alignnone size-medium" style="display: block; margin-left: auto; margin-right: auto;" srcset="wp-content\uploads\2019\07\zipago_tabla_comisiones-255x300.jpg 255w, wp-content\uploads\2019\07\zipago_tabla_comisiones.jpg 528w" sizes="(max-width: 255px) 100vw, 255px"></p>
-                                                        <p style="text-align: left;"><em style="color: #333333; font-size: 14px;">(*) Para transferencias a bancos diferentes a Scotiabank, Interbank, BBVA y BCP, se cargará adicionalmente el monto de la transferencia interbancaria.</em></p>
-                                                        <p>&nbsp;</p>
-                                                        <p style="text-align: left;">
-                                                        </p>
-                                                    </div> <!-- .et_pb_toggle_content -->
-                                                </div> <!-- .et_pb_toggle --><div class="et_pb_toggle et_pb_module et_pb_accordion_item et_pb_accordion_item_4  et_pb_toggle_close">
-
-
-                                                    <h5 class="et_pb_toggle_title">¿Qué debo hacer si tengo una consulta, queja o reclamo?</h5>
-                                                    <div class="et_pb_toggle_content clearfix">
-                                                        <p>A los comercios afiliados se les proporcionará un acceso a un sistema de tickets para generar sus consultas, quejas o reclamos (Libro de Reclamaciones). Ver tipos de tickets en los términos y condiciones.</p>
-                                                    </div> <!-- .et_pb_toggle_content -->
-                                                </div> <!-- .et_pb_toggle --><div class="et_pb_toggle et_pb_module et_pb_accordion_item et_pb_accordion_item_5  et_pb_toggle_close">
-
-
-                                                    <h5 class="et_pb_toggle_title">¿Qué debo hacer si mi cliente tiene una consulta, queja o reclamo?</h5>
-                                                    <div class="et_pb_toggle_content clearfix">
-                                                        <p>Las consultas, quejas o reclamos de los clientes deben ser atendidas por los comercios. Solo los comercios podrán generar tickets para atención.</p>
-                                                    </div> <!-- .et_pb_toggle_content -->
-                                                </div> <!-- .et_pb_toggle -->
-                                            </div> <!-- .et_pb_accordion -->
-                                        </div> <!-- .et_pb_column -->
-
-
-                                    </div> <!-- .et_pb_row -->
-
-
-                                </div> <!-- .et_pb_section -->
-                            </div>
-
-                        </div>
-                    </div> <!-- .entry-content -->
-
-
-                </article> <!-- .et_pb_post -->
-
-
-
-            </div> <!-- #main-content -->
-
-
-            <span class="et_pb_scroll_top et-pb-icon"></span>
-
-
-            <footer id="main-footer">
-
-                <div class="container">
-                    <div id="footer-widgets" class="clearfix">
-                        <div class="footer-widget"><div id="media_image-2" class="fwidget et_pb_widget widget_media_image"><img width="1200" height="800" src="~/wp-content/uploads/2019/07/Imagotipo_ZiPago.png" class="image wp-image-25663  attachment-full size-full" alt="" style="max-width: 100%; height: auto;" srcset="wp-content\uploads\2019\07\Imagotipo_ZiPago.png 1200w, wp-content\uploads\2019\07\Imagotipo_ZiPago-300x200.png 300w, wp-content\uploads\2019\07\Imagotipo_ZiPago-768x512.png 768w, wp-content\uploads\2019\07\Imagotipo_ZiPago-1024x683.png 1024w, wp-content\uploads\2019\07\Imagotipo_ZiPago-1080x720.png 1080w" sizes="(max-width: 1200px) 100vw, 1200px"></div> <!-- end .fwidget --></div> <!-- end .footer-widget --><div class="footer-widget">
-                            <div id="nav_menu-2" class="fwidget et_pb_widget widget_nav_menu">
-                                <div class="menu-menu-principal-container">
-                                    <ul id="menu-menu-principal" class="menu">
-                                        <li class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-15"><a href="#quees" aria-current="page">QUÉ ES</a></li>
-                                        <li class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-16"><a href="#afiliacion" aria-current="page">AFILIACIÓN</a></li>
-                                        <li class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-17"><a href="#pagos" aria-current="page">PAGOS</a></li>
-                                        <li class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-18"><a href="#beneficios" aria-current="page">BENEFICIOS</a></li>
-                                        <li class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-19"><a href="#preguntas" aria-current="page">PREGUNTAS FRECUENTES</a></li>
-                                        <li class="menu_cta menu-item menu-item-type-custom menu-item-object-custom menu-item-20"><a asp-controller="Seguridad" asp-action="UsuarioRegistrar">AFÍLIATE GRATIS</a></li>
-                                    </ul>
-                                </div>
-                            </div> <!-- end .fwidget -->
-                        </div> <!-- end .footer-widget --><div class="footer-widget">
-                            <div id="custom_html-2" class="widget_text fwidget et_pb_widget widget_custom_html">
-                                <div class="textwidget custom-html-widget">
-                                    <center>
-                                        <p>
-                                            NO ESPERES MÁS Y AFÍLIATE AQUÍ PARA QUE PUEDAS  DISFRUTAR DE LOS GRANDES BENEFICIOS QUE TE DA ZiPago Y TENER UNA SOLUCIÓN DE PAGO PARA TUS CLIENTES.
-                                        </p><br>
-                                        <a class="et_pb_button et_pb_custom_button_icon et_pb_button_3 et_hover_enabled et_pb_bg_layout_dark" asp-controller="Seguridad" asp-action="UsuarioRegistrar">AFÍLIATE GRATIS</a><br><br>
-                                        <a href="~/terminos.html" target="_blank" style="text-decoration-line: underline;"> Ver Términos y Condiciones del servicio</a>
-                                    </center>
-                                </div>
-                            </div> <!-- end .fwidget -->
-                        </div> <!-- end .footer-widget -->
-                    </div> <!-- #footer-widgets -->
-                </div>    <!-- .container -->
-
-
-                <div id="footer-bottom">
-                    <div class="container clearfix">
-                        <ul class="et-social-icons">
-                            <li class="et-social-icon et-social-facebook">
-                                <a href="https://www.facebook.com/ZiPago-807821469611369/" class="icon">
-                                    <span>Facebook</span>
-                                </a>
-                            </li>
-                        </ul>
-                        <div id="footer-info">Copyright© 2019 - ZiPago| Desarrollado por <strong><a href="https://webparaempresas.com/" target="_blank">JC CREATIVE</a></strong></div>
-                    </div>	<!-- .container -->
+                    <p>Bounce Rate</p>
                 </div>
-            </footer> <!-- #main-footer -->
-        </div> <!-- #et-main-area -->
-    </div> <!-- #page-container -->
+                <div class="icon">
+                    <i class="ion ion-stats-bars"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <h3>44</h3>
 
-    <script type="text/javascript">
-        var et_animation_data = [{ "class": "et_pb_text_0", "style": "slideLeft", "repeat": "once", "duration": "1000ms", "delay": "0ms", "intensity": "2%", "starting_opacity": "0%", "speed_curve": "ease-in-out" }, { "class": "et_pb_text_1", "style": "fade", "repeat": "once", "duration": "1000ms", "delay": "0ms", "intensity": "50%", "starting_opacity": "0%", "speed_curve": "ease-in-out" }, { "class": "et_pb_row_inner_0", "style": "zoom", "repeat": "once", "duration": "1000ms", "delay": "0ms", "intensity": "2%", "starting_opacity": "0%", "speed_curve": "ease-in-out" }, { "class": "et_pb_image_0", "style": "fade", "repeat": "once", "duration": "1000ms", "delay": "0ms", "intensity": "50%", "starting_opacity": "0%", "speed_curve": "ease-in-out" }, { "class": "et_pb_text_3", "style": "fade", "repeat": "once", "duration": "1000ms", "delay": "0ms", "intensity": "50%", "starting_opacity": "0%", "speed_curve": "ease-in-out" }, { "class": "et_pb_image_1", "style": "fade", "repeat": "once", "duration": "1000ms", "delay": "0ms", "intensity": "50%", "starting_opacity": "0%", "speed_curve": "ease-in-out" }, { "class": "et_pb_text_5", "style": "fade", "repeat": "once", "duration": "1000ms", "delay": "0ms", "intensity": "50%", "starting_opacity": "0%", "speed_curve": "ease-in-out" }, { "class": "et_pb_image_3", "style": "fade", "repeat": "once", "duration": "1000ms", "delay": "0ms", "intensity": "50%", "starting_opacity": "0%", "speed_curve": "ease-in-out" }, { "class": "et_pb_text_6", "style": "fade", "repeat": "once", "duration": "1000ms", "delay": "0ms", "intensity": "50%", "starting_opacity": "0%", "speed_curve": "ease-in-out" }, { "class": "et_pb_image_4", "style": "fade", "repeat": "once", "duration": "1000ms", "delay": "0ms", "intensity": "50%", "starting_opacity": "0%", "speed_curve": "ease-in-out" }, { "class": "et_pb_text_8", "style": "fade", "repeat": "once", "duration": "1000ms", "delay": "0ms", "intensity": "50%", "starting_opacity": "0%", "speed_curve": "ease-in-out" }, { "class": "et_pb_image_5", "style": "fade", "repeat": "once", "duration": "1000ms", "delay": "0ms", "intensity": "50%", "starting_opacity": "0%", "speed_curve": "ease-in-out" }, { "class": "et_pb_text_9", "style": "fade", "repeat": "once", "duration": "1000ms", "delay": "0ms", "intensity": "50%", "starting_opacity": "0%", "speed_curve": "ease-in-out" }, { "class": "et_pb_accordion_0", "style": "fade", "repeat": "once", "duration": "1000ms", "delay": "0ms", "intensity": "50%", "starting_opacity": "0%", "speed_curve": "ease-in-out" }];
-    </script>
-    <script type='text/javascript'>
-        /* <![CDATA[ */
-        var DIVI = { "item_count": "%d Item", "items_count": "%d Items" };
-        var et_shortcodes_strings = { "previous": "Anterior", "next": "Siguiente" };
-        var et_pb_custom = { "ajaxurl": "https:\/\/www.zipago.pe\/wp-admin\/admin-ajax.php", "images_uri": "https:\/\/www.zipago.pe\/wp-content\/themes\/Divi\/images", "builder_images_uri": "https:\/\/www.zipago.pe\/wp-content\/themes\/Divi\/includes\/builder\/images", "et_frontend_nonce": "0075fc1e61", "subscription_failed": "Por favor, revise los campos a continuaci\u00f3n para asegurarse de que la informaci\u00f3n introducida es correcta.", "et_ab_log_nonce": "79a411add1", "fill_message": "Por favor, rellene los siguientes campos:", "contact_error_message": "Por favor, arregle los siguientes errores:", "invalid": "De correo electr\u00f3nico no v\u00e1lida", "captcha": "Captcha", "prev": "Anterior", "previous": "Anterior", "next": "Siguiente", "wrong_captcha": "Ha introducido un n\u00famero equivocado de captcha.", "ignore_waypoints": "no", "is_divi_theme_used": "1", "widget_search_selector": ".widget_search", "is_ab_testing_active": "", "page_id": "25376", "unique_test_id": "", "ab_bounce_rate": "5", "is_cache_plugin_active": "no", "is_shortcode_tracking": "", "tinymce_uri": "" };
-        var et_pb_box_shadow_elements = [];
-                    /* ]]> */
-    </script>
-    <script type='text/javascript' src='~/wp-content/themes/Divi/js/custom.min.js?ver=3.25.4'></script>
-    <script type='text/javascript' src='~/wp-content/themes/Divi/core/admin/js/common.js?ver=3.25.4'></script>
-    <script type='text/javascript' src='~/wp-includes/js/wp-embed.min.js?ver=5.2.2'></script>
-</body>
-</html>
+                    <p>User Registrations</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-person-add"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3>65</h3>
+
+                    <p>Unique Visitors</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-pie-graph"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+    </div>
+    <!-- /.row -->
+
+</section>
+<!-- /.content -->
