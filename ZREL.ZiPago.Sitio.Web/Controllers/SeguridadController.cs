@@ -64,6 +64,8 @@ namespace ZREL.ZiPago.Sitio.Web.Controllers
                         if (!response.HizoError)
                         {
                             logger.Info("[{0}] | UsuarioViewModel: [{1}] | Realizado.", nameof(UsuarioRegistrar), model.Clave1);
+                            ViewBag.Correcto = true;
+                            
                             return View("~/Views/Seguridad/Registro.cshtml");
                         }
                         else

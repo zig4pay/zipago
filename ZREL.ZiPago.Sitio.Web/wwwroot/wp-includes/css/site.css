@@ -37,3 +37,19 @@ li span {
     align-content: center;
     flex-direction: column;
 }
+
+input.error-label {
+    color: #FF0000;
+}
+
+input.error {
+    border: 1px solid red;    
+}
+
+.error {
+    color: red;
+}
+
+.help-block {
+    color: red;    
+}

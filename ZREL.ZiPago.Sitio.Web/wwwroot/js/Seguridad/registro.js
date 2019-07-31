@@ -1,5 +1,30 @@
 ﻿jQuery(function ($) {
 
+    $.validator.setDefaults({
+        highlight: function (element) {
+            $(element).closest('.form-group').addClass('has-error');
+        },
+        unhighlight: function (element) {
+            $(element).closest('.form-group').removeClass('has-error');
+        },
+        errorElement: 'span',
+        errorClass: 'help-block',
+        errorPlacement: function (error, element) {
+            if (element.parent('.input-group').length) {
+                error.insertAfter(element.parent());
+            }
+            else if (element.prop('type') === 'radio' && element.parent('.radio-inline').length) {
+                error.insertAfter(element.parent().parent());
+            }
+            else if (element.prop('type') === 'checkbox' || element.prop('type') === 'radio') {
+                error.insertAfter(element.parent());
+            }
+            else {
+                error.insertAfter(element);
+            }
+        }
+    });
+
     $.validator.addMethod("validarcorreo", ValidarCorreo);
 
     $(document).ready(function () {
@@ -39,7 +64,7 @@
                     required: "Por favor ingrese nuevamente su contraseña.",
                     equalTo: "La contraseña ingresada no coincide."
                 },
-                chkAcepto:"Es necesario que revise y acepte los términos y condiciones."
+                chkAcepto: "Es necesario que revise y acepte los términos y condiciones."
             }
         });
 

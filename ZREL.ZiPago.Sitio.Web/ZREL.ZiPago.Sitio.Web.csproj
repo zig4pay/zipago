@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <Folder Include="Views\Seguridad\" />
+    <Folder Include="wwwroot\dist\sweetalert\" />
   </ItemGroup>
 
 </Project>
