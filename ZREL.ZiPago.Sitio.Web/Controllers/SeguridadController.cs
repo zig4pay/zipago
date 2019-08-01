@@ -11,6 +11,7 @@ using ZREL.ZiPago.Sitio.Web.Models.Settings;
 using ZREL.ZiPago.Sitio.Web.Utility;
 using ZREL.ZiPago.Libreria;
 using ZREL.ZiPago.Libreria.Seguridad;
+using Newtonsoft.Json;
 
 namespace ZREL.ZiPago.Sitio.Web.Controllers
 {
@@ -25,20 +26,18 @@ namespace ZREL.ZiPago.Sitio.Web.Controllers
             ApiClientSettings.ZZiPagoUrl = webSettings.Value.ZZiPagoUrl;
         }
 
-        [HttpGet]
-        [AllowAnonymous]
+        [HttpGet]        
         public IActionResult UsuarioRegistrar()
         {
             ViewData["ReCaptchaKey"] = webSettings.Value.SiteKey;
             return View("~/Views/Seguridad/Registro.cshtml");
         }
 
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<IActionResult> UsuarioRegistrar(UsuarioViewModel model)
+        [HttpPost]        
+        public async Task<string> UsuarioRegistrar(UsuarioViewModel model)
         {
 
-            ResponseModel<UsuarioViewModel> response = new ResponseModel<UsuarioViewModel>();
+            ResponseModel<UsuarioViewModel> response = new ResponseModel<UsuarioViewModel>();            
             var logger = NLog.LogManager.GetCurrentClassLogger();
             ViewData["ReCaptchaKey"] = webSettings.Value.SiteKey;
 
@@ -63,36 +62,36 @@ namespace ZREL.ZiPago.Sitio.Web.Controllers
 
                         if (!response.HizoError)
                         {
-                            logger.Info("[{0}] | UsuarioViewModel: [{1}] | Realizado.", nameof(UsuarioRegistrar), model.Clave1);
-                            ViewBag.Correcto = true;
-                            
-                            return View("~/Views/Seguridad/Registro.cshtml");
+                            logger.Info("[{0}] | UsuarioViewModel: [{1}] | Registro Realizado.", nameof(UsuarioRegistrar), model.Clave1);                            
+                            ModelState.Clear();
                         }
                         else
                         {
-                            logger.Info("[{0}] | UsuarioViewModel: [{1}] | " + response.Mensaje, nameof(UsuarioRegistrar), model.Clave1);
-                            ModelState.AddModelError("ErrorRegistro", response.MensajeError);
-                            return View("~/Views/Seguridad/Registro.cshtml");
+                            logger.Error("[{0}] | UsuarioViewModel: [{1}] | " + response.Mensaje, nameof(UsuarioRegistrar), model.Clave1);
                         }
+                        var respuesta = JsonConvert.SerializeObject(response);
+                        return respuesta;
                     }
                     else
                     {
-                        return View("~/Views/Seguridad/Registro.cshtml");
+                        response.HizoError = true;
+                        response.MensajeError = "No hemos podido validar que no seas un robot.";
+                        return JsonConvert.SerializeObject(response);
                     }
-
                 }
                 else
                 {
-                    return View("~/Views/Seguridad/Registro.cshtml");
+                    response.HizoError = true;
+                    response.MensajeError = "Ingrese correctamente todos los datos solicitados.";
+                    return JsonConvert.SerializeObject(response);                    
                 }
             }
             catch (Exception ex)
             {
                 response.HizoError = true;
                 response.MensajeError = ex.ToString();
-                logger.Error("[{0}] | UsuarioViewModel: [{1}] | Excepcion: {2}.", nameof(UsuarioRegistrar), model.Clave1, ex.ToString());
-                ModelState.AddModelError("ErrorRegistro", ex.Message);
-                return View("~/Views/Seguridad/Registro.cshtml");
+                logger.Error("[{0}] | UsuarioViewModel: [{1}] | Excepcion: {2}.", nameof(UsuarioRegistrar), model.Clave1, ex.ToString());                
+                return JsonConvert.SerializeObject(response);
             }
 
         }

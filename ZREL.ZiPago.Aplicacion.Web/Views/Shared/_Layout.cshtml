@@ -14,11 +14,9 @@
     <link rel="stylesheet" href="~/bower_components/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="~/bower_components/Ionicons/css/ionicons.min.css">
     <link rel="stylesheet" href="~/dist/css/AdminLTE.min.css">
-    <link rel="stylesheet" href="~/dist/css/skins/skin-yellow.min.css">
-    @*<link rel="stylesheet" href="~/dist/css/skins/skin-yellow-light.min.css">*@
+    <link rel="stylesheet" href="~/dist/css/skins/skin-yellow.min.css">    
     <link rel="stylesheet" href="~/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-
 
 </head>
 <body class="hold-transition skin-yellow sidebar-mini">
@@ -34,8 +32,7 @@
                     @*<img src="~/dist/img/zipago/logo_mini.png" style="padding-top:0px;" />*@
                 </span>
                 <!-- logo for regular state and mobile devices -->
-                <span class="logo-lg">
-                    @*<img src="~/dist/img/zipago/logo.png" style="padding-top:0px;" />*@
+                <span class="logo-lg">                    
                     Portal ZiPago
                 </span>
             </div>
@@ -59,8 +56,16 @@
                                 <li class="user-header">
                                     <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                                     <p>
-                                        Alexander Pierce - Web Developer
-                                        <small>Member since Nov. 2012</small>
+                                        @if (ViewBag.NombresUsuario != null && ViewBag.ApellidosUsuario != null) {
+                                            string.Concat(ViewBag.NombresUsuario.Trim(), " ", ViewBag.ApellidosUsuario.Trim());
+                                        }
+
+                                        <small>
+                                            @if (ViewBag.Clave1 != null)
+                                            {
+                                                ViewBag.Clave1.Trim();
+                                            }
+                                        </small>
                                     </p>
                                 </li>                                
                                 <!-- Menu Footer-->
@@ -92,7 +97,7 @@
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu" data-widget="tree">
                     <li class="header">Menu Principal</li>
-                    <li class="active treeview">
+                    <li class="treeview">
                         <a href="#">
                             <i class="fa fa-edit"></i> <span>Afiliacion</span>
                             <span class="pull-right-container">

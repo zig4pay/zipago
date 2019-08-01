@@ -84,6 +84,8 @@
             if (!VerificarCaptcha()) {
                 $('#errorCaptcha').show();
                 return false;
+            } else {
+                Registrar();
             }
         }
     });
@@ -117,4 +119,38 @@ function ValidarCorreo(mail) {
         respuesta = false;
     }
     return respuesta;
+}
+
+function Registrar() {
+
+    var UsuarioVM = new Object();
+
+    UsuarioVM.Clave1 = $('#clave1').val();
+    UsuarioVM.Clave2 = $('#clave2').val();
+    UsuarioVM.ApellidosUsuario = $('#apellidosusuario').val();
+    UsuarioVM.NombresUsuario = $('#nombresusuario').val();
+    UsuarioVM.AceptoTerminos = 'S';
+
+    var DTO = { 'model': UsuarioVM };
+
+    $.ajax(
+        {
+            url: 'UsuarioRegistrar/',
+            type: "POST",
+            data: DTO,
+            datatype: 'json',
+            ContentType: 'application/json;utf-8'
+        })
+        .done(function (resp) {
+            var data = JSON.parse(resp);
+            alert(data.Mensaje);
+        })
+        .error(function (err) {
+            $.each(resp, function (i, field) {
+                if (i === "MensajeError") {
+                    alert(field);
+                }
+            });
+        });
+
 }
