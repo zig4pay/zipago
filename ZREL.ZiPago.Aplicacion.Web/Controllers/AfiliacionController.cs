@@ -26,7 +26,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
         public AfiliacionController(IOptions<WebSiteSettingsModel> app)
         {
             apiClient = app;
-            ApiClientSettings.ZZiPagoUrl = apiClient.Value.ZZiPagoUrl;
+            ApiClientSettings.ZZiPagoApiUrl = apiClient.Value.ZZiPagoApiUrl;
         }
 
         [HttpGet]

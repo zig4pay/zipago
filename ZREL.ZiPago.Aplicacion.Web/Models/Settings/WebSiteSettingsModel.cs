@@ -3,7 +3,7 @@
     public class WebSiteSettingsModel
     {
 
-        public string ZZiPagoUrl { get; set; }
+        public string ZZiPagoApiUrl { get; set; }
         
         //Seguridad
         public string UsuarioZiPago_Autenticar { get; set; }
@@ -17,7 +17,7 @@
         //Afiliacion
         public string AfiliacionZiPago_Registrar { get; set; }
         public string AfiliacionZiPago_ComercioObtener { get; set; }
-
+        
         //Google ReCaptcha
         public string SiteKey { get; set; }
         public string SecretKey { get; set; }

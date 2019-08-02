@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using NLog;
 using System;
 using System.Globalization;
 using System.Threading.Tasks;
@@ -22,7 +23,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
         public SeguridadController(IOptions<WebSiteSettingsModel> app)
         {
             webSettings = app;
-            ApiClientSettings.ZZiPagoUrl = webSettings.Value.ZZiPagoUrl;            
+            ApiClientSettings.ZZiPagoApiUrl = webSettings.Value.ZZiPagoApiUrl;            
         }
 
         [HttpGet]
@@ -37,10 +38,10 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
         {
 
             ResponseModel<UsuarioViewModel> response = new ResponseModel<UsuarioViewModel>();
-            var logger = NLog.LogManager.GetCurrentClassLogger();
+            Logger logger = LogManager.GetCurrentClassLogger();
             ViewData["ReCaptchaKey"] = webSettings.Value.SiteKey;
 
-            logger.Info("[{0}] | UsuarioViewModel: [{1}] | Inicio.", nameof(UsuarioAutenticar), model.Clave1);
+            logger.Info("[Aplicacion.Web.Controllers.SeguridadController.{0}] | UsuarioViewModel: [{1}] | Inicio.", nameof(UsuarioAutenticar), model.Clave1);
 
             try
             {
