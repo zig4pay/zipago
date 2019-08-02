@@ -15,7 +15,7 @@ namespace ZREL.ZiPago.Sitio.Web.Clients
 
         static ApiClientFactory()
         {
-            apiUri = new Uri(ApiClientSettings.ZZiPagoUrl);
+            apiUri = new Uri(ApiClientSettings.ZZiPagoApiUrl);
         }
 
         public static ApiClient Instance

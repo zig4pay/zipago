@@ -24,13 +24,30 @@ namespace ZREL.ZiPago.Servicio.WebAPI.Controllers.Seguridad
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
+        [Route("Obtener/{clave1}")]
+        public async Task<IActionResult> ObtenerAsync([FromBody] UsuarioZiPago entidad)
+        {
+
+            var logger = LogManager.GetCurrentClassLogger();
+            logger.Info("[Servicio.WebAPI.Controllers.Seguridad{0}] | UsuarioZiPago: [{1}] | Inicio.", nameof(ObtenerAsync), entidad.Clave1);
+
+            var response = await oIUsuarioZiPagoService.AutenticarAsync(logger, entidad);
+
+            return response.ToHttpResponse();
+
+        }
+
+        [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
         [Route("Autenticar")]
         public async Task<IActionResult> AutenticarAsync([FromBody] UsuarioZiPago entidad) {
 
             var logger = LogManager.GetCurrentClassLogger();            
             logger.Info("[{0}] | UsuarioZiPago: [{1}] | Inicio.", nameof(AutenticarAsync), entidad.Clave1);
             
-            var response = await oIUsuarioZiPagoService.AutenticarUsuarioZiPagoAsync(logger, entidad);
+            var response = await oIUsuarioZiPagoService.AutenticarAsync(logger, entidad);
             
             return response.ToHttpResponse();
 
@@ -46,7 +63,7 @@ namespace ZREL.ZiPago.Servicio.WebAPI.Controllers.Seguridad
             var logger = LogManager.GetCurrentClassLogger();
             logger.Info("[{0}] | UsuarioZiPago: [{1}] | Inicio.", nameof(RegistrarAsync), entidad.Clave1);
 
-            var response = await oIUsuarioZiPagoService.RegistrarUsuarioZiPagoAsync(logger, entidad);
+            var response = await oIUsuarioZiPagoService.RegistrarAsync(logger, entidad);
 
             return response.ToHttpResponse();
         }

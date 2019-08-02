@@ -2,6 +2,6 @@
 {
     public static class ApiClientSettings
     {
-        public static string ZZiPagoUrl { get; set; }
+        public static string ZZiPagoApiUrl { get; set; }        
     }
 }

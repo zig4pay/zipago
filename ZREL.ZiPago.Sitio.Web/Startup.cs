@@ -29,6 +29,7 @@ namespace ZREL.ZiPago.Sitio.Web
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.Configure<WebSiteSettingsModel>(Configuration.GetSection("ZRELZiPagoWebApi"));
+            services.Configure<WebSiteSettingsModel>(Configuration.GetSection("ZRELZiPagoPortalWeb"));
             services.Configure<WebSiteSettingsModel>(Configuration.GetSection("GoogleReCaptcha"));
             services.AddCors();
         }

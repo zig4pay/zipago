@@ -36,18 +36,18 @@ namespace ZREL.ZiPago.Servicio.WebAPI.Controllers.Afiliacion
             return response.ToHttpResponse();
         }
 
-        [HttpGet("{CodigoComercio}")]
+        [HttpGet("{codigoComercio}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        [Route("ComercioObtener/{CodigoComercio}")]
-        public async Task<IActionResult> ComercioObtenerAsync(string CodigoComercio)
+        [Route("ComercioObtener/{codigoComercio}")]
+        public async Task<IActionResult> ComercioObtenerAsync(string codigoComercio)
         {
 
             var logger = LogManager.GetCurrentClassLogger();
             logger.Info("[{0}] | ComercioZiPago: [Obtener] | Inicio.", nameof(ComercioObtenerAsync));
 
-            var response = await oIAfiliacionService.ObtenerComercioZiPagoAsync(logger, CodigoComercio);
+            var response = await oIAfiliacionService.ObtenerComercioZiPagoAsync(logger, codigoComercio);
 
             return response.ToHttpResponse();
 

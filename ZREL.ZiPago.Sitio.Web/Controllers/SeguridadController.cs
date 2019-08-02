@@ -23,7 +23,7 @@ namespace ZREL.ZiPago.Sitio.Web.Controllers
         public SeguridadController(IOptions<WebSiteSettingsModel> app)
         {
             webSettings = app;
-            ApiClientSettings.ZZiPagoUrl = webSettings.Value.ZZiPagoUrl;
+            ApiClientSettings.ZZiPagoApiUrl = webSettings.Value.ZZiPagoApiUrl;
         }
 
         [HttpGet]        
@@ -34,7 +34,7 @@ namespace ZREL.ZiPago.Sitio.Web.Controllers
         }
 
         [HttpPost]        
-        public async Task<string> UsuarioRegistrar(UsuarioViewModel model)
+        public async Task<IActionResult> UsuarioRegistrar(UsuarioViewModel model)
         {
 
             ResponseModel<UsuarioViewModel> response = new ResponseModel<UsuarioViewModel>();            
@@ -62,36 +62,39 @@ namespace ZREL.ZiPago.Sitio.Web.Controllers
 
                         if (!response.HizoError)
                         {
-                            logger.Info("[{0}] | UsuarioViewModel: [{1}] | Registro Realizado.", nameof(UsuarioRegistrar), model.Clave1);                            
-                            ModelState.Clear();
+                            logger.Info("[{0}] | UsuarioViewModel: [{1}] | Registro Realizado.", nameof(UsuarioRegistrar), model.Clave1);                                                        
+                            return Redirect(webSettings.Value.ZZiPagoPortalUrl + model.Clave1.Trim());
                         }
                         else
                         {
-                            logger.Error("[{0}] | UsuarioViewModel: [{1}] | " + response.Mensaje, nameof(UsuarioRegistrar), model.Clave1);
-                        }
-                        var respuesta = JsonConvert.SerializeObject(response);
-                        return respuesta;
+                            ViewBag.Incorrecto = true;
+                            ViewBag.MensajeError = response.MensajeError;
+                            logger.Error("[{0}] | UsuarioViewModel: [{1}] | " + response.MensajeError, nameof(UsuarioRegistrar), model.Clave1);
+                            return View("~/Views/Seguridad/Registro.cshtml");
+                        }                        
                     }
                     else
                     {
-                        response.HizoError = true;
-                        response.MensajeError = "No hemos podido validar que no seas un robot.";
-                        return JsonConvert.SerializeObject(response);
+                        ViewBag.Incorrecto = true;
+                        ViewBag.MensajeError = Constantes.strMensajeErrorValidarCaptcha;
+                        logger.Error("[{0}] | UsuarioViewModel: [{1}] | " + Constantes.strMensajeErrorValidarCaptcha, nameof(UsuarioRegistrar), model.Clave1);
+                        return View("~/Views/Seguridad/Registro.cshtml");
                     }
                 }
                 else
                 {
-                    response.HizoError = true;
-                    response.MensajeError = "Ingrese correctamente todos los datos solicitados.";
-                    return JsonConvert.SerializeObject(response);                    
+                    ViewBag.Incorrecto = true;
+                    ViewBag.MensajeError = Constantes.strMensajeDatosIncorrectos;
+                    logger.Error("[{0}] | UsuarioViewModel: [{1}] | " + Constantes.strMensajeDatosIncorrectos, nameof(UsuarioRegistrar), model.Clave1);
+                    return View("~/Views/Seguridad/Registro.cshtml");
                 }
             }
             catch (Exception ex)
             {
-                response.HizoError = true;
-                response.MensajeError = ex.ToString();
-                logger.Error("[{0}] | UsuarioViewModel: [{1}] | Excepcion: {2}.", nameof(UsuarioRegistrar), model.Clave1, ex.ToString());                
-                return JsonConvert.SerializeObject(response);
+                ViewBag.Incorrecto = true;
+                ViewBag.MensajeError = ex.ToString();
+                logger.Error("[{0}] | UsuarioViewModel: [{1}] | Excepcion: {2}.", nameof(UsuarioRegistrar), model.Clave1, ex.ToString());
+                return View("~/Views/Seguridad/Registro.cshtml");
             }
 
         }
