@@ -1,12 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using NLog;
 using System;
 using System.Diagnostics;
+using System.Globalization;
+using System.Threading.Tasks;
+using ZREL.ZiPago.Aplicacion.Web.Clients;
+using ZREL.ZiPago.Aplicacion.Web.Extensions;
 using ZREL.ZiPago.Aplicacion.Web.Models.Response;
 using ZREL.ZiPago.Aplicacion.Web.Models.Seguridad;
 using ZREL.ZiPago.Aplicacion.Web.Models.Settings;
 using ZREL.ZiPago.Aplicacion.Web.Utility;
+using ZREL.ZiPago.Libreria;
 
 namespace ZREL.ZiPago.Aplicacion.Web.Controllers
 {
@@ -22,25 +28,29 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(string clave1)
+        public IActionResult Index()
         {
             ResponseModel<UsuarioViewModel> response = new ResponseModel<UsuarioViewModel>();
             Logger logger = LogManager.GetCurrentClassLogger();
             
-            logger.Info("[Aplicacion.Web.Controllers.HomeController.{0}] | UsuarioViewModel: [{1}] | Inicio.", nameof(Index), clave1);
+            logger.Info("[Aplicacion.Web.Controllers.HomeController.{0}] | Inicio.", nameof(Index));
 
             try
             {
-                if (clave1 != null)
+                if (HttpContext.Session.Get<ResponseModel<UsuarioViewModel>>("ZiPago.Session") != null)
                 {
-
+                    ResponseModel<UsuarioViewModel> usuario = HttpContext.Session.Get<ResponseModel<UsuarioViewModel>>("ZiPago.Session");
+                    ViewBag.Usuario = usuario.Model.NombresUsuario.Trim() + usuario.Model.ApellidosUsuario.Trim();
+                    ViewBag.Clave1 = usuario.Model.Clave1.Trim();
+                    return View("~/Views/Home/Index.cshtml");
                 }
-
-                return View("~/Views/Home/Index.cshtml");
+                else {
+                    return View("~/Views/Seguridad/Login.cshtml");
+                }
             }
             catch (Exception ex)
             {
-                return View("~/Views/Home/Index.cshtml");
+                return View("~/Views/Seguridad/Login.cshtml");
             }            
         }
 

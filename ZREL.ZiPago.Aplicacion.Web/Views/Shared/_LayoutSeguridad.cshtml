@@ -14,36 +14,25 @@
     <link rel="stylesheet" href="~/bower_components/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="~/bower_components/Ionicons/css/ionicons.min.css">
     <link rel="stylesheet" href="~/dist/css/AdminLTE.min.css">
-    <link rel="stylesheet" href="~/dist/css/skins/skin-yellow.min.css">
-    @*<link rel="stylesheet" href="~/dist/css/skins/skin-yellow-light.min.css">*@
-    <link rel="stylesheet" href="~/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="~/dist/css/Site.css">
+    <link rel="stylesheet" href="~/plugins/iCheck/square/blue.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-
-
 </head>
-<body style="background-color:#FF6900;">
-
-    <nav class="navbar sticky-top navbar-light bg-light">
-        <span class="navbar-text mx-auto">
-            <img src="~/wp-content/uploads/2019/07/Imagotipo_ZiPago-118x75.png" width="118" height="75" alt="ZiPago">
-            <span class="navbar-text mx-auto">
-                <h4 class="text-dark">
-                    @ViewData["TitleNav"]
-                </h4>
-            </span>
-        </span>
-    </nav>
-    <div class="row" style="margin-left:0; margin-right:0;">
-        <br />
-    </div>
+<body class="hold-transition login-page">
 
     @RenderBody()
-
-    <div class="row" style="margin-left:0; margin-right:0;">
-        <br />
-    </div>
-
-    <script type='text/javascript' src='~/dist/bootstrap-4.3.1-dist/js/bootstrap.min.js'></script>
-
+        
+    <script src="~/bower_components/jquery/dist/jquery.min.js"></script>    
+    <script src="~/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>    
+    <script src="~/plugins/iCheck/icheck.min.js"></script>
+    <script>
+        $(function () {
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%' /* optional */
+            });
+        });
+    </script>
 </body>
 </html>

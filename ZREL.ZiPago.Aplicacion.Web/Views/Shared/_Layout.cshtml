@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="~/bower_components/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="~/bower_components/Ionicons/css/ionicons.min.css">
     <link rel="stylesheet" href="~/dist/css/AdminLTE.min.css">
-    <link rel="stylesheet" href="~/dist/css/skins/skin-yellow.min.css">    
+    <link rel="stylesheet" href="~/dist/css/skins/skin-yellow.min.css">
     <link rel="stylesheet" href="~/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
@@ -32,7 +32,7 @@
                     @*<img src="~/dist/img/zipago/logo_mini.png" style="padding-top:0px;" />*@
                 </span>
                 <!-- logo for regular state and mobile devices -->
-                <span class="logo-lg">                    
+                <span class="logo-lg">
                     Portal ZiPago
                 </span>
             </div>
@@ -49,38 +49,44 @@
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                                <span class="hidden-xs">Alexander Pierce</span>
+                                <span class="hidden-xs">
+                                    @if (ViewBag.Usuario != null)
+                                    {
+                                        Html.Raw(ViewBag.Usuario);
+                                    }
+                                </span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header">
                                     <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                                     <p>
-                                        @if (ViewBag.NombresUsuario != null && ViewBag.ApellidosUsuario != null) {
-                                            string.Concat(ViewBag.NombresUsuario.Trim(), " ", ViewBag.ApellidosUsuario.Trim());
+                                        @if (ViewBag.Usuario != null)
+                                        {
+                                            Html.Raw(ViewBag.Usuario);
                                         }
 
                                         <small>
                                             @if (ViewBag.Clave1 != null)
                                             {
-                                                ViewBag.Clave1.Trim();
+                                                Html.Raw(ViewBag.Clave1);
                                             }
                                         </small>
                                     </p>
-                                </li>                                
+                                </li>
                                 <!-- Menu Footer-->
-                                <li class="user-footer">                                    
+                                <li class="user-footer">
                                     <div class="pull-right">
                                         <a href="#" class="btn btn-default btn-flat">Sign out</a>
                                     </div>
                                 </li>
                             </ul>
-                        </li>                        
+                        </li>
                     </ul>
                 </div>
             </nav>
         </header>
-        
+
         <!-- Left side column. contains the logo and sidebar -->
         <aside class="main-sidebar">
             <!-- sidebar: style can be found in sidebar.less -->
@@ -91,9 +97,14 @@
                         <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                     </div>
                     <div class="pull-left info">
-                        <p>Alexander Pierce</p>                        
+                        <p>
+                            @if (ViewBag.Usuario != null)
+                            {
+                                Html.Raw(ViewBag.Usuario);
+                            }
+                        </p>
                     </div>
-                </div>                
+                </div>
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu" data-widget="tree">
                     <li class="header">Menu Principal</li>
@@ -111,10 +122,10 @@
                     </li>
                     <li>
                         <a href="#">
-                            <i class="fa fa-money"></i> 
+                            <i class="fa fa-money"></i>
                             <span>Pagos</span>
                         </a>
-                    </li>                    
+                    </li>
                 </ul>
             </section>
             <!-- /.sidebar -->
@@ -122,7 +133,7 @@
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
-            
+
             @RenderBody()
 
         </div>
@@ -133,27 +144,19 @@
             </div>
             <strong>Copyright &copy; 2019 <a href="http://www.zigleet.com">Zigleet S.A.C.</a>.</strong>
         </footer>
-        
+
     </div>
     <!-- ./wrapper -->
-
-    <!-- jQuery 3 -->
-    <script src="~/bower_components/jquery/dist/jquery.min.js"></script>
-    <!-- jQuery UI 1.11.4 -->
-    <script src="~/bower_components/jquery-ui/jquery-ui.min.js"></script>
-    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+        
+    <script src="~/bower_components/jquery/dist/jquery.min.js"></script>    
+    <script src="~/bower_components/jquery-ui/jquery-ui.min.js"></script>    
     <script>
         $.widget.bridge('uibutton', $.ui.button);
-    </script>
-    <!-- Bootstrap 3.3.7 -->
-    <script src="~/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>        
-    <!-- datepicker -->
+    </script>    
+    <script src="~/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>    
     <script src="~/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>    
-    <!-- Slimscroll -->
-    <script src="~/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-    <!-- FastClick -->
-    <script src="~/bower_components/fastclick/lib/fastclick.js"></script>
-    <!-- AdminLTE App -->
-    <script src="~/dist/js/adminlte.min.js"></script>    
+    <script src="~/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>    
+    <script src="~/bower_components/fastclick/lib/fastclick.js"></script>    
+    <script src="~/dist/js/adminlte.min.js"></script>
 </body>
 </html>

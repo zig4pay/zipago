@@ -1,111 +1,82 @@
 ﻿@model ZREL.ZiPago.Aplicacion.Web.Models.Seguridad.UsuarioViewModel
 @{
-    ViewData["Title"] = "ZiPago | Inicio de Sesion";
-    ViewData["TitleNav"] = "Bienvenido a ZiPago";
+    ViewData["Title"] = "ZiPago | Inicio de Sesion";    
     Layout = "_LayoutSeguridad";
 }
 
+<div class="login-box">
 
-<div class="container">
+    <div class="login-logo">
+        <a href="#">Portal <b>ZiPago</b></a>
+    </div>
+    
+    <div id="loginBox" class="login-box-body">
+        <p class="login-box-msg">Ingrese a ZiPago</p>
 
-    <div class="row justify-content-center">
-        <div class="col-sm-5 align-content-center">
-
-            <form id="frmLogin" asp-controller="Seguridad" asp-action="UsuarioAutenticar" method="post">
-                <div id="loginBox" class="card" style="margin-top:80px;">
-                    <div class="card-header text-center bg-white border-bottom-0">
-                        <h4><strong>Inicio de Sesion</strong></h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="form-group">
-                            <label for="clave1">@Html.DisplayNameFor(m => m.Clave1):</label>
-                            <div class="input-group">
-                                <span class="input-group-prepend">
-                                    <span class="input-group-text bg-light">
-                                        <i class="fa fa-envelope"></i>
-                                    </span>
-                                </span>
-                                <input type="email" id="clave1" name="clave1" class="form-control" placeholder="Correo Electr&oacute;nico" asp-for="Clave1">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="clave2">@Html.DisplayNameFor(m => m.Clave2):</label>
-                            <div class="input-group">
-                                <span class="input-group-prepend">
-                                    <span class="input-group-text bg-light">
-                                        <i class="fa fa-lock"></i>
-                                    </span>
-                                </span>
-                                <input type="password" id="clave2" name="clave2" class="form-control" placeholder="Contrase&ntilde;a" asp-for="Clave2">
-                            </div>
-                        </div>
-                        <div class="form-group" style="margin-top:25px;">
-                            <div class="g-recaptcha" data-sitekey="@ViewData["ReCaptchaKey"]"></div>
-                        </div>
-                        <div id="errorCaptcha" style="display:none;" class="form-group control text-danger">
-                            Debe marcar la casilla No soy un robot.
-                        </div>
-                        <div class="form-group control">
-                            @Html.ValidationMessage("ErrorLogin", "", new { @class = "text-danger" })
-                        </div>
-                        <div id="divBtnLogin" class="form-group text-right">
-                            <button type="submit" id="btnLogin" class="btn text-white bg-button-acept">Ingresar</button>
-                        </div>
-                        <div class="form-group">
-                            <div class="row" style="border-top: 1px solid#001F3F; padding-top:10px; font-size:85%">
-                                <div class="col-sm-5" style="text-align:left;">
-                                    <a href="#" id="btnOlvidoClave">¿Olvidaste tu clave?</a>
-                                </div>
-                                <div class="col-sm-7 control" style="text-align:right;">
-                                    <a asp-controller="Seguridad" asp-action="UsuarioRegistrar">¿Nuevo en ZiPago? Registrate aqui.</a>
-                                </div>
-                            </div>
-                        </div>
+        <form id="frmLogin" asp-controller="Seguridad" asp-action="UsuarioAutenticar" method="post">
+            <div class="form-group has-feedback">
+                <input type="email" id="clave1" name="clave1" class="form-control" placeholder="Correo Electr&oacute;nico">
+                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <input type="password" id="clave2" name="clave2" class="form-control" placeholder="Contrase&ntilde;a">
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <div class="g-recaptcha" data-sitekey="@ViewData["ReCaptchaKey"]"></div>
+                <div id="errorCaptcha" style="display:none;" class="form-group control text-danger">
+                    Debe marcar la casilla No soy un robot.
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="checkbox icheck">
+                        <label>
+                            <input type="checkbox"> Recordarme
+                        </label>
                     </div>
                 </div>
-            </form>
-
-            <div id="olvidoClaveBox" style="margin-top:80px; display:none;" class="card">
-                <div class="card-header text-center bg-white border-bottom-0">
-                    <h4><strong>Recuperacion de Clave</strong></h4>
+                <!-- /.col -->
+                <div class="col-xs-6">
+                    <button type="submit" id="btnLogin" class="btn btn-primary btn-block btn-flat">Ingresar</button>
                 </div>
+                <!-- /.col -->
+            </div>
+        </form>
 
-                <div class="card-body">
+        <a href="#" id="btnOlvidoClave">¿Olvidaste tu clave?</a>
 
-                    <div class="form-group text-justify">
-                        Ingrese su Id ZiPago (dirección de correo electrónico).                         
-                        Se enviará a su correo el procedimiento a traves del cual podrá recuperar su contraseña.
-                    </div>
-                    <div class="form-group">
-                        <label for="txtCorreo">Id ZiPago:</label>
-                        <div class="input-group">
-                            <span class="input-group-prepend">
-                                <span class="input-group-text bg-light">
-                                    <i class="fa fa-envelope"></i>
-                                </span>
-                            </span>
-                            <input type="email" id="txtCorreo" name="txtCorreo" class="form-control" placeholder="Correo Electr&oacute;nico" required>
-                        </div>
-                    </div>
-                    <br />
-                    <div class="form-group text-right">
-                        <a id="btnRecuperar" href="#" class="btn text-white bg-button-acept">Recuperar clave</a>
-                    </div>
-                    <div class="form-group">
-                        <div style="border-top: 1px solid#888; padding-top:20px; font-size:85%; text-align:right;">
-                            <a id="btnRegresaLogin" href="#">Ingrese a ZiPago</a>
-                        </div>
-                    </div>
+    </div>
+        
+    <div id="olvidoClaveBox" style="display:none;" class="login-box-body">
+        <p class="login-box-msg">
+            <strong>Recuperacion de Clave</strong>
+        </p>
+        <p class="login-box-msg">
+            Ingrese su Id ZiPago (dirección de correo electrónico).
+            Se enviará a su correo el procedimiento a traves del cual podrá recuperar su contraseña.
+        </p>
+        <div class="form-group has-feedback">
+            <input type="email" id="txtorreo" name="txtorreo" class="form-control" placeholder="Correo Electr&oacute;nico">
+            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+        </div>
+        <div class="row">
+            <div class="col-xs-6">
+                <a id="btnRegresaLogin" href="#">Ingrese a ZiPago</a>
+            </div>
 
-                </div>
-
+            <div class="col-xs-6">
+                <button type="submit" class="btn btn-primary btn-block btn-flat">Recuperar clave</button>
             </div>
 
         </div>
     </div>
+
+
 </div>
 
-<script src="~/js/jquery-2.2.4.min.js"></script>
-<script src="~/js/jquery.validate.min.js"></script>
-<script src="~/js/Seguridad/login.js"></script>
+@*<script src="~/js/jquery-2.2.4.min.js"></script>*@
+<script src="~/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="~/dist/js/jquery.validate.min.js"></script>
+<script src="~/dist/js/Seguridad/login.js"></script>
 <script src='https://www.google.com/recaptcha/api.js' defer async></script>

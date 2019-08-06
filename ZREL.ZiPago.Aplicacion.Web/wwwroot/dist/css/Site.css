@@ -1,0 +1,15 @@
+﻿
+.vcenter {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+}
+
+input.error-label {
+    color: #FF0000;
+}
+
+input.error {
+    border: 1px solid red;
+}

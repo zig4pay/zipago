@@ -19,8 +19,7 @@ namespace ZREL.ZiPago.Libreria
 
         public const string strTipoDocIdDNI = "01";
         public const string strTipoDocIdRUC = "02";
-
-        //
+                
         public const string strValor_Activo = "A";
         public const string strValor_NoActivo = "N";
 
@@ -45,5 +44,6 @@ namespace ZREL.ZiPago.Libreria
         public const string GoogleRecaptchaSecretKey = "6Le0OasUAAAAALW4hoX9kXI_61sI-lVxim3MTBlc";
         public const string GoogleRecaptchaSiteKey = "6Le0OasUAAAAALRk-9Pue53r-TIJib5dWqnHX7w6";
 
+        public const string ZiPago_Session = "ZiPago.Session";
     }
 }
