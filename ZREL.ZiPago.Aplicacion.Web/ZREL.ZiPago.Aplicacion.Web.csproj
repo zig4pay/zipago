@@ -3032,7 +3032,6 @@
 
   <ItemGroup>
     <Folder Include="Request\" />
-    <Folder Include="wwwroot\dist\js\Afiliacion\" />
   </ItemGroup>
 
 </Project>

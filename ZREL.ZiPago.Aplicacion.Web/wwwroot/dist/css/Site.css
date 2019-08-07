@@ -13,3 +13,12 @@ input.error-label {
 input.error {
     border: 1px solid red;
 }
+
+.box-body {
+    padding: 20px !important;
+}
+
+.margen-cero {
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+}
