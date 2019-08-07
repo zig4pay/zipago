@@ -6,6 +6,7 @@ using System;
 using System.Globalization;
 using System.Threading.Tasks;
 using ZREL.ZiPago.Aplicacion.Web.Clients;
+using ZREL.ZiPago.Aplicacion.Web.Extensions;
 using ZREL.ZiPago.Aplicacion.Web.Models.Response;
 using ZREL.ZiPago.Aplicacion.Web.Models.Seguridad;
 using ZREL.ZiPago.Aplicacion.Web.Models.Settings;
@@ -55,19 +56,14 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
                         )
                     {
                         model.Clave2 = Criptografia.Encriptar(model.Clave2);
-
-                        var requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.UsuarioZiPago_Autenticar));
-
-                        logger.Info("requestUrl: " + requestUrl.ToString());
-
+                        var requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.UsuarioZiPago_Autenticar));                        
                         response = await ApiClientFactory.Instance.PostAsync<UsuarioViewModel>(requestUrl, model);
 
                         if (response.Mensaje == "1")
                         {
-                            logger.Info("[{0}] | UsuarioViewModel: [{1}] | Realizado.", nameof(UsuarioAutenticar), model.Clave1);
-
-                            return RedirectToAction("Iniciar", "Afiliacion", response.Model);
-                            //return View("~/Views/Afiliacion/Registro.cshtml", response.Model);
+                            logger.Info("[Aplicacion.Web.Controllers.SeguridadController.{0}] | UsuarioViewModel: [{1}] | Realizado.", nameof(UsuarioAutenticar), model.Clave1);
+                            HttpContext.Session.Set<ResponseModel<UsuarioViewModel>>("ZiPago.Session", response);
+                            return RedirectToAction("Index", "Home");
                         }
                         else
                         {
@@ -87,8 +83,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
                     else
                     {
                         return View("~/Views/Seguridad/Login.cshtml");
-                    }
-                    
+                    }                    
                 }
                 else
                 {

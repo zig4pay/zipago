@@ -6,7 +6,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using ZREL.ZiPago.Aplicacion.Web.Models.Settings;
-using ZREL.ZiPago.Libreria;
 
 namespace ZREL.ZiPago.Aplicacion.Web
 {
@@ -38,10 +37,9 @@ namespace ZREL.ZiPago.Aplicacion.Web
             services.AddDistributedMemoryCache();
 
             services.AddSession(options =>
-            {
-                options.Cookie.Name = "ZiPago.Session";
+            {                
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
-                //options.Cookie.HttpOnly = true;
+                options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
 

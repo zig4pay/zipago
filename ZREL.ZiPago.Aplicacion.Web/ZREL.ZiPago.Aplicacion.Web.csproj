@@ -3029,4 +3029,10 @@
     <ProjectReference Include="..\ZREL.ZiPago.Libreria\ZREL.ZiPago.Libreria.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Folder Include="Request\" />
+    <Folder Include="wwwroot\dist\js\Afiliacion\" />
+  </ItemGroup>
+
 </Project>

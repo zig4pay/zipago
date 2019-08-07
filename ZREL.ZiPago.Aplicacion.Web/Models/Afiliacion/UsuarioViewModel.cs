@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
-using ZREL.ZiPago.Entidad.Afiliacion;
 using ZREL.ZiPago.Entidad.Comun;
 
 namespace ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion
 {
     [DataContract]
-    public class RegistroViewModel
+    public class UsuarioViewModel
     {
         //-----------------------------------------------------//
         //Usuario
@@ -22,11 +21,11 @@ namespace ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion
         [Display(Name = "Id ZiPago")]
         [DataMember]
         public string Clave1 { get; set; }
-        
+
         [DataType(DataType.Password)]
         [DataMember]
         public string Clave2 { get; set; }
-                
+        
         [DataMember]
         public string ApellidosUsuario { get; set; }
 
@@ -37,7 +36,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion
 
         [DataMember]
         public string CodigoRubroNegocio { get; set; }
-        
+
         public string OtroRubroNegocio { get; set; }
 
         public List<TablaDetalle> TipoPersona { get; set; }
@@ -111,22 +110,5 @@ namespace ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion
 
         [DataMember]
         public string Referencia { get; set; }
-
-        //-----------------------------------------------------//
-        //Cuenta Bancaria
-        //-----------------------------------------------------//
-        public List<BancoZiPago> Banco { get; set; }
-
-        public List<TablaDetalle> TipoCuenta { get; set; }
-
-        public List<TablaDetalle> Moneda { get; set; }
-
-        //-----------------------------------------------------//
-        //Comercio Cuenta 
-        //-----------------------------------------------------//
-        public List<ComercioZiPago> ComerciosZiPago { get; set; }
-
-        public List<CuentaBancariaZiPago> CuentasBancariaZiPago { get; set; }
     }
-
 }

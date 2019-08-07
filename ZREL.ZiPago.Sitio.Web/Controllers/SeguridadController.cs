@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
 using System.Globalization;
@@ -7,7 +6,6 @@ using System.Threading.Tasks;
 using ZREL.ZiPago.Libreria;
 using ZREL.ZiPago.Libreria.Seguridad;
 using ZREL.ZiPago.Sitio.Web.Clients;
-using ZREL.ZiPago.Sitio.Web.Extensions;
 using ZREL.ZiPago.Sitio.Web.Models.Response;
 using ZREL.ZiPago.Sitio.Web.Models.Seguridad;
 using ZREL.ZiPago.Sitio.Web.Models.Settings;
@@ -62,8 +60,7 @@ namespace ZREL.ZiPago.Sitio.Web.Controllers
 
                         if (!response.HizoError)
                         {                            
-                            logger.Info("[Sitio.Web.Controllers.SeguridadController.{0}] | UsuarioViewModel: [{1}] | Registro Realizado.", nameof(UsuarioRegistrar), model.Clave1);
-                            //HttpContext.Session.Set<ResponseModel<UsuarioViewModel>>("ZiPago.Session", response);
+                            logger.Info("[Sitio.Web.Controllers.SeguridadController.{0}] | UsuarioViewModel: [{1}] | Registro Realizado.", nameof(UsuarioRegistrar), model.Clave1);                            
                             return Redirect(webSettings.Value.ZZiPagoPortalUrl);
                         }
                         else
