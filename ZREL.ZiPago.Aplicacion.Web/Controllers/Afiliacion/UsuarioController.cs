@@ -10,8 +10,11 @@ using ZREL.ZiPago.Aplicacion.Web.Extensions;
 using ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion;
 using ZREL.ZiPago.Aplicacion.Web.Models.Response;
 using ZREL.ZiPago.Aplicacion.Web.Models.Settings;
+using ZREL.ZiPago.Aplicacion.Web.Request;
 using ZREL.ZiPago.Aplicacion.Web.Utility;
+using ZREL.ZiPago.Entidad.Afiliacion;
 using ZREL.ZiPago.Entidad.Comun;
+using ZREL.ZiPago.Entidad.Seguridad;
 using ZREL.ZiPago.Libreria;
 
 namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
@@ -121,6 +124,75 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
 
             return response;
         }
+
+        [HttpPost]
+        public async Task<JsonResult> Registrar(UsuarioViewModel model)
+        {
+
+            JsonResult response;
+            Uri requestUrl;
+            
+            try
+            {
+                AfiliacionDatosRequest request = new AfiliacionDatosRequest();
+                UsuarioZiPago usuario = new UsuarioZiPago();
+                DomicilioZiPago domicilio = new DomicilioZiPago();
+
+                usuario.IdUsuarioZiPago = model.IdUsuarioZiPago;
+                usuario.Clave1 = model.Clave1;
+                usuario.ApellidosUsuario = model.ApellidosUsuario;
+                usuario.NombresUsuario = model.NombresUsuario;
+                usuario.CodigoRubroNegocio = model.CodigoRubroNegocio;
+                usuario.CodigoTipoPersona = model.CodigoTipoPersona;
+
+                if (model.CodigoTipoPersona == Constantes.strTipoPersonaJuridica)
+                {
+                    usuario.CodigoTipoDocumento = Constantes.strTipoDocIdRUC;
+                    usuario.NumeroDocumento = model.NumeroRUC;
+                    usuario.RazonSocial = model.RazonSocial;
+                }
+                else
+                {
+                    usuario.CodigoTipoDocumento = Constantes.strTipoDocIdDNI;
+                    usuario.NumeroDocumento = model.NumeroDNI;
+                }
+
+                usuario.ApellidoPaterno = model.ApellidoPaterno;
+                usuario.ApellidoMaterno = model.ApellidoMaterno;
+                usuario.Nombres = model.Nombres;
+                usuario.Sexo = model.Sexo;
+                usuario.FechaNacimiento = model.FechaNacimiento;
+                usuario.TelefonoMovil = model.TelefonoMovil;
+                usuario.TelefonoFijo = model.TelefonoFijo;
+
+                domicilio.IdUsuarioZiPago = model.IdUsuarioZiPago;
+                domicilio.CodigoDepartamento = model.CodigoDepartamento;
+                domicilio.CodigoProvincia = model.CodigoProvincia;
+                domicilio.CodigoDistrito = model.CodigoDistrito;
+                domicilio.Via = model.Via;
+                domicilio.DireccionFacturacion = model.DireccionFacturacion;
+                domicilio.Referencia = model.Referencia;
+
+                //----------------Luego mover a Servicio (Negocio)
+                domicilio.Activo = Constantes.strValor_Activo;
+                domicilio.FechaCreacion = DateTime.Now;
+
+                request.EntidadUsuario = usuario;
+                request.OtroRubroNegocio = model.OtroRubroNegocio;
+                request.EntidadDomicilio = domicilio;
+
+                requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_Registrar));
+                response = Json(await ApiClientFactory.Instance.PostJsonAsync<AfiliacionDatosRequest>(requestUrl, request));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return response;
+
+        }
+
 
     }
 }

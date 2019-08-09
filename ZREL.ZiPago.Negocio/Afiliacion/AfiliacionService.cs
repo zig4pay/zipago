@@ -66,66 +66,7 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
 
                     DbContext.Add(request.EntidadDomicilio);
                     await DbContext.SaveChangesAsync();
-
-                    foreach (ComercioCuentaZiPago item in request.ListComercioCuenta)
-                    {
-
-                        ComercioZiPago comercio = new ComercioZiPago
-                        {
-                            CodigoComercio = item.ComercioZiPago.CodigoComercio,
-                            IdUsuarioZiPago = item.ComercioZiPago.IdUsuarioZiPago,
-                            Descripcion = item.ComercioZiPago.Descripcion,
-                            CorreoNotificacion = item.ComercioZiPago.CorreoNotificacion,
-                            Activo = Constantes.strValor_Activo,
-                            FechaCreacion = DateTime.Now
-                        };
-                        
-                        CuentaBancariaZiPago cuenta = new CuentaBancariaZiPago
-                        {
-                            IdBancoZiPago = item.CuentaBancariaZiPago.IdBancoZiPago,
-                            NumeroCuenta = item.CuentaBancariaZiPago.NumeroCuenta,
-                            CodigoTipoCuenta = item.CuentaBancariaZiPago.CodigoTipoCuenta,
-                            CodigoTipoMoneda = item.CuentaBancariaZiPago.CodigoTipoMoneda,
-                            CCI = item.CuentaBancariaZiPago.CCI,
-                            Activo = Constantes.strValor_Activo,
-                            FechaCreacion = DateTime.Now
-                        };
-                        
-                        ComercioCuentaZiPago comercioCuenta = new ComercioCuentaZiPago
-                        {
-                            Activo = Constantes.strValor_Activo,
-                            FechaCreacion = DateTime.Now
-                        };
-
-                        var responseCtaExiste = await DbContext.ObtenerCuentaBancariaZiPagoAsync(cuenta);
-
-                        if (responseCtaExiste is null || responseCtaExiste.IdCuentaBancaria == 0)
-                        {
-
-                            comercioCuenta.ComercioZiPago = comercio;
-                            comercioCuenta.CuentaBancariaZiPago = cuenta;
-
-                            cuenta.ComerciosCuentasZiPago.Add(comercioCuenta);
-
-                            DbContext.Add(comercio);
-                            DbContext.Add(cuenta);
-
-                            await DbContext.SaveChangesAsync();
-                        }
-                        else
-                        {                                
-                            comercioCuenta.ComercioZiPago = comercio;
-                            comercioCuenta.CuentaBancariaZiPago = responseCtaExiste;
-
-                            comercio.ComerciosCuentasZiPago.Add(comercioCuenta);
-
-                            DbContext.Add(comercio);
-                                
-                            await DbContext.SaveChangesAsync();
-                        }
-
-                    }
-
+                    
                     txAsync.Commit();
                     response.Mensaje = Constantes.strRegistroRealizado;
 

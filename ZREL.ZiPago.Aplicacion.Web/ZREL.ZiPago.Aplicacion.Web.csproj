@@ -2657,6 +2657,27 @@
     <None Include="wwwroot\bower_components\jquery-ui\ui\tabs.js" />
     <None Include="wwwroot\bower_components\jquery-ui\ui\tooltip.js" />
     <None Include="wwwroot\bower_components\jquery-ui\ui\widget.js" />
+    <None Include="wwwroot\bower_components\jquery-validation\dist\additional-methods.js" />
+    <None Include="wwwroot\bower_components\jquery-validation\dist\additional-methods.min.js" />
+    <None Include="wwwroot\bower_components\jquery-validation\dist\jquery.validate.js" />
+    <None Include="wwwroot\bower_components\jquery-validation\dist\jquery.validate.min.js" />
+    <None Include="wwwroot\bower_components\jquery-validation\dist\localization\messages_es.js" />
+    <None Include="wwwroot\bower_components\jquery-validation\dist\localization\messages_es.min.js" />
+    <None Include="wwwroot\bower_components\jquery-validation\dist\localization\messages_es_PE.js" />
+    <None Include="wwwroot\bower_components\jquery-validation\dist\localization\messages_es_PE.min.js" />
+    <None Include="wwwroot\bower_components\jquery-validation\Gruntfile.js" />
+    <None Include="wwwroot\bower_components\jquery-validation\lib\jquery-1.11.1.js" />
+    <None Include="wwwroot\bower_components\jquery-validation\lib\jquery-1.7.2.js" />
+    <None Include="wwwroot\bower_components\jquery-validation\lib\jquery-1.8.3.js" />
+    <None Include="wwwroot\bower_components\jquery-validation\lib\jquery-1.9.1.js" />
+    <None Include="wwwroot\bower_components\jquery-validation\lib\jquery-3.1.1.js" />
+    <None Include="wwwroot\bower_components\jquery-validation\lib\jquery.form.js" />
+    <None Include="wwwroot\bower_components\jquery-validation\lib\jquery.js" />
+    <None Include="wwwroot\bower_components\jquery-validation\lib\jquery.mockjax-1.5.3.js" />
+    <None Include="wwwroot\bower_components\jquery-validation\lib\jquery.mockjax-2.2.1.js" />
+    <None Include="wwwroot\bower_components\jquery-validation\lib\jquery.mockjax.js" />
+    <None Include="wwwroot\bower_components\jquery-validation\lib\jquery.simulate.js" />
+    <None Include="wwwroot\bower_components\jquery-validation\lib\require.js" />
     <None Include="wwwroot\bower_components\jquery\dist\core.js" />
     <None Include="wwwroot\bower_components\jquery\dist\jquery.js" />
     <None Include="wwwroot\bower_components\jquery\dist\jquery.min.js" />
@@ -3027,11 +3048,6 @@
   <ItemGroup>
     <ProjectReference Include="..\ZREL.ZiPago.Entidad\ZREL.ZiPago.Entidad.csproj" />
     <ProjectReference Include="..\ZREL.ZiPago.Libreria\ZREL.ZiPago.Libreria.csproj" />
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <Folder Include="Request\" />
   </ItemGroup>
 
 </Project>

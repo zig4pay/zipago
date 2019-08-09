@@ -15,26 +15,46 @@
             MostrarDivJuridica(false);
         }
     });
-
-    $.validator.addMethod("validarseleccion", ValidarSeleccion);
-    $.validator.addMethod("validarrubronegocio", ValidarRubroNegocio);
-    $.validator.addMethod("validarruc", ValidarRUC);
-    $.validator.addMethod("validarrazonsocial", ValidarRazonSocial);
-    $.validator.addMethod("validaredad", ValidarEdad);
-
-    $('#finish').click(function () {
-        Registrar();
-    });
     
 });
 
 
 $(document).ready(function () {
 
-    $('#codigodepartamento').on('select2:select', function (e) {
-        var data = e.params.data;
-        console.log(data);
+    $.validator.setDefaults({
+        highlight: function (element) {
+            $(element).closest('.form-group').addClass('has-error');
+        },
+        unhighlight: function (element) {
+            $(element).closest('.form-group').removeClass('has-error');
+        },
+        errorElement: 'span',
+        errorClass: 'help-block',
+        errorPlacement: function (error, element) {
+            if (element.hasClass('select2') && element.next('.select2-container').length) {
+                error.insertAfter(element.next('.select2-container'));
+            } else if (element.parent('.input-group').length) {
+                error.insertAfter(element.parent());
+            }
+            else if (element.prop('type') === 'radio' && element.parent('.radio-inline').length) {
+                error.insertAfter(element.parent().parent());
+            }
+            else if (element.prop('type') === 'checkbox' || element.prop('type') === 'radio') {
+                error.appendTo(element.parent().parent());
+            }
+            else {
+                error.insertAfter(element);
+            }
+        }
     });
+
+    //called when key is pressed in textbox
+    $("#numeroruc").keypress(SoloNumeros);
+    $("#numerodni").keypress(SoloNumeros);
+    $("#telefonofijo").keypress(SoloNumeroTelefonico);
+    $("#telefonomovil").keypress(SoloNumeroTelefonico);
+    $("#apellidopaterno").keypress(PermitirSoloLetras);
+    $("#apellidomaterno").keypress(PermitirSoloLetras);
 
     $('#codigodepartamento').on('change', function () {
         var strCodigoUbigeo = $(this).val();
@@ -45,9 +65,9 @@ $(document).ready(function () {
             $.each(data, function (i, item) {
                 $("#codigoprovincia").append($("<option>").val(item.codigoUbigeo).text(item.nombre));
             });
-        });
+        });        
     });
-
+    
     $("#codigoprovincia").on("change", function () {
         var strCodigoUbigeo = $(this).val();
         $("#codigodistrito").empty();
@@ -56,117 +76,149 @@ $(document).ready(function () {
             $.each(data, function (i, item) {
                 $("#codigodistrito").append($("<option>").val(item.codigoUbigeo).text(item.nombre));
             });
-        });
-    });       
-
-    var $validator = $('#frmAfiliacion').validate({
-        rules: {
-            CodigoTipoPersona: "required",
-            codigorubronegocio: {
-                validarrubronegocio: true
-            },
-            numeroruc: {
-                validarruc: true
-            },
-            razonsocial: {
-                validarrazonsocial: true
-            },
-            numerodni: {
-                required: true,
-                minlength: 8
-            },
-            nombres: {
-                required: true
-            },
-            apellidopaterno: {
-                required: true
-            },
-            apellidomaterno: {
-                required: true
-            },
-            optSexo: "required",
-            fechanacimiento: {
-                required: true,
-                validaredad: true
-            },
-            codigodepartamento: {
-                validarseleccion: true
-            },
-            codigoprovincia: {
-                validarseleccion: true
-            },
-            codigodistrito: {
-                validarseleccion: true
-            },
-            via: "required"            
-        },
-        messages: {
-            CodigoTipoPersona: "Por favor seleccione el Tipo de Persona correspondiente.",
-            codigorubronegocio: {
-                validarrubronegocio: "Por favor seleccione el Rubro de Negocio al cual pertenece, en caso no lo encuentre ingreselo en la casilla Otro."
-            },
-            numeroruc: {
-                validarruc: "Al seleccionar Persona Juridica debe ingresar el numero de RUC."
-            },
-            razonsocial: {
-                validarrazonsocial: "Al seleccionar Persona Juridica debe ingresar la Razon Social segun SUNAT."
-            },
-            numerodni: {
-                required: "Por favor ingrese un numero de DNI.",
-                minlength: "Por favor ingrese numero de DNI valido."
-            },
-            nombres: "Por favor ingrese un nombre.",
-            apellidopaterno: "Por favor ingrese un Apellido Paterno",
-            apellidomaterno: "Por favor ingrese un Apellido Materno",
-            optSexo: "Por favor seleccione el sexo correspondiente.",
-            fechanacimiento: {
-                required: "Por favor ingrese una fecha valida",
-                validaredad: "Para registrarse debe ser mayor de 18 años."
-            },
-            codigodepartamento: {
-                validarseleccion: "Por favor seleccione el Departamento al cual pertenece la direccion."
-            },
-            codigoprovincia: {
-                validarseleccion: "Por favor seleccione la Provincia a la cual pertenece la direccion."
-            },
-            codigodistrito: {
-                validarseleccion: "Por favor seleccione el Distrito al cual pertenece la direccion."
-            },
-            via: "Por favor ingrese una direccion"            
-        }
+        });        
     });
 
-    //called when key is pressed in textbox
-    $("#numeroruc").keypress(SoloNumeros);
-    $("#numerodni").keypress(SoloNumeros);
-    $("#telefonofijo").keypress(SoloNumeroTelefonico);
-    $("#telefonomovil").keypress(SoloNumeroTelefonico);
-    $("#apellidopaterno").keypress(PermitirSoloLetras);
-    $("#apellidomaterno").keypress(PermitirSoloLetras);    
-    
+    $(".select2").on("select2:close", function (e) {
+        $(this).valid();
+    });
+
+    $('#registrar').click(function () {
+
+        $.validator.addMethod("validarrubronegocio", function (value, element) {
+            if (value === "000" && $("#otrorubronegocio").val().trim() === "") {
+                return false;
+            } else {
+                return true;
+            }
+        });
+
+        $.validator.addMethod("validarpersonajuridica", function (value, element) {
+            if ($("#optPersonaJuridica").is(":checked") && value.trim() === "") {
+                return false;
+            } else {
+                return true;
+            }
+        });
+
+        $.validator.addMethod("validarseleccion", function (value, element) {
+            if (value === "" || value === "00" || value === "000" || value === "XX" || value === 0) {
+                return false;
+            } else {
+                return true;
+            }
+        });
+
+        $.validator.addMethod("validaredad", function (value, element) {
+
+            var hoy = new Date();
+            var cumpleanos = new Date(value);
+            var edad = hoy.getFullYear() - cumpleanos.getFullYear();
+            var m = hoy.getMonth() - cumpleanos.getMonth();
+
+            if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
+                edad--;
+            }
+
+            if (edad < 18) {
+                return false;
+            } else {
+                return true;
+            }
+
+        });        
+
+        var validator = $('#frmAfiliacion').validate({
+            rules: {
+                CodigoTipoPersona: "required",
+                codigorubronegocio: {
+                    validarrubronegocio: true
+                },
+                numeroruc: {
+                    validarpersonajuridica: true
+                },
+                razonsocial: {
+                    validarpersonajuridica: true
+                },
+                numerodni: {
+                    required: true,
+                    minlength: 8
+                },
+                nombres: {
+                    required: true
+                },
+                apellidopaterno: {
+                    required: true
+                },
+                apellidomaterno: {
+                    required: true
+                },
+                optSexo: "required",
+                fechanacimiento: {
+                    required: true,
+                    validaredad: true
+                },
+                codigodepartamento: {
+                    validarseleccion: true
+                },
+                codigoprovincia: {
+                    validarseleccion: true
+                },
+                codigodistrito: {
+                    validarseleccion: true
+                },
+                via: "required"
+            },
+            messages: {
+                CodigoTipoPersona: "Por favor seleccione el Tipo de Persona correspondiente.",
+                codigorubronegocio: {
+                    validarrubronegocio: "Por favor seleccione el Rubro de Negocio al cual pertenece, en caso no lo encuentre ingreselo en la casilla Otro."
+                },
+                numeroruc: {
+                    validarpersonajuridica: "Al seleccionar Persona Juridica debe ingresar el numero de RUC."
+                },
+                razonsocial: {
+                    validarpersonajuridica: "Al seleccionar Persona Juridica debe ingresar la Razon Social segun SUNAT."
+                },
+                numerodni: {
+                    required: "Por favor ingrese un numero de DNI.",
+                    minlength: "Por favor ingrese numero de DNI valido."
+                },
+                nombres: "Por favor ingrese un nombre.",
+                apellidopaterno: "Por favor ingrese un Apellido Paterno",
+                apellidomaterno: "Por favor ingrese un Apellido Materno",
+                optSexo: "Por favor seleccione el sexo correspondiente.",
+                fechanacimiento: {
+                    required: "Por favor ingrese una fecha valida",
+                    validaredad: "Para registrarse debe ser mayor de 18 años."
+                },
+                codigodepartamento: {
+                    validarseleccion: "Por favor seleccione el Departamento al cual pertenece la direccion."
+                },
+                codigoprovincia: {
+                    validarseleccion: "Por favor seleccione la Provincia a la cual pertenece la direccion."
+                },
+                codigodistrito: {
+                    validarseleccion: "Por favor seleccione el Distrito al cual pertenece la direccion."
+                },
+                via: "Por favor ingrese una direccion"
+            }
+        });
+
+        if (validator.form()) {
+            Registrar();
+        }
+
+    });
+
 });
+
 
 function MostrarDivJuridica(valor) {
     if (valor) {
         $('#DivJuridica').show();
     } else {
         $('#DivJuridica').hide();
-    }
-}
-
-function ValidarRubroNegocio(valor) {
-    if (valor === "000" && $("#otrorubronegocio").val().trim() === "") {
-        return false;
-    } else {
-        return true;
-    }
-}
-
-function ValidarSeleccion(valor) {
-    if (valor === "" || valor === "00" || valor === "000" || valor === "XX" || valor === 0) {
-        return false;
-    } else {
-        return true;
     }
 }
 
@@ -203,50 +255,10 @@ function PermitirSoloLetrasyNumeros(e) {
     }
 }
 
-
-function ValidarRUC(valor) {
-    if ($("#optPersonaJuridica").is(":checked") && valor.trim() == "") {
-        return false;
-    } else {
-        return true;
-    }
-}
-
-function ValidarRazonSocial(valor) {
-    if ($("#optPersonaJuridica").is(":checked") && valor.trim() == "") {
-        return false;
-    } else {
-        return true;
-    }
-}
-
-function ValidarEdad(fecha) {
-
-    var hoy = new Date();
-    var cumpleanos = new Date(fecha);
-    var edad = hoy.getFullYear() - cumpleanos.getFullYear();
-    var m = hoy.getMonth() - cumpleanos.getMonth();
-
-    if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
-        edad--;
-    }
-
-    if (edad < 18) {
-        return false;
-    } else {
-        return true;
-    }
-       
-}  
-
-
-
 function Registrar() {
 
     var RegistroVM = new Object();
-    var arrComercio = new Array(1);
-    var arrCuenta = new Array(1);    
-    
+        
     RegistroVM.IdUsuarioZiPago = $('#idusuariozipago').val();
     RegistroVM.Clave1 = $('#clave1').val();
     RegistroVM.CodigoRubroNegocio = $('#codigorubronegocio').val();
@@ -268,9 +280,7 @@ function Registrar() {
     RegistroVM.Via = $('#via').val();
     RegistroVM.DireccionFacturacion = $('#direccionfacturacion').val();
     RegistroVM.Referencia = $('#referencia').val();
-    RegistroVM.ComerciosZiPago = arrComercio;
-    RegistroVM.CuentasBancariaZiPago = arrCuenta;
-
+    
     var DTO = { 'model': RegistroVM };
 
     $.ajax(

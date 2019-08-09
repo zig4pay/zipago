@@ -70,7 +70,7 @@
                                 <div class="col-sm-3">
                                     <input id="razonsocial" name="razonsocial" type="text" class="form-control" placeholder="Razon Social segun SUNAT" asp-for="RazonSocial">
                                 </div>
-                            </div>                            
+                            </div>
                             <hr />
                             <div class="form-group">
                                 <label class="col-sm-2"><strong>Contacto: </strong></label>
@@ -171,8 +171,8 @@
                     </div>
 
                     <div class="box-footer">
-                        <button type="reset" id="cancel" class="btn btn-default">Cancelar</button>
-                        <button type="submit" id="registrar" class="btn btn-info pull-right">Registrar</button>
+                        <button type="reset" id="cancelar" name="cancelar" class="btn btn-default">Cancelar</button>
+                        <button type="button" id="registrar" name="registrar" class="btn btn-info pull-right">Registrar</button>
                     </div>
 
                 </form>
@@ -182,11 +182,15 @@
     </div>
 </section>
 
-<script src="~/bower_components/jquery/dist/jquery.js"></script>
-<script src="~/bower_components/jquery-ui/jquery-ui.js"></script>
+<script src="~/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="~/bower_components/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/dist/js/Afiliacion/usuario.js"></script>
+<script src="~/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="~/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>
 <script src="~/bower_components/select2/dist/js/select2.full.js"></script>
-<script src="~/dist/js/Afiliacion/usuario.js"></script>
+<script src="~/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<script src="~/bower_components/fastclick/lib/fastclick.js"></script>
+<script src="~/dist/js/adminlte.min.js"></script>
 
 <script>
     $(function () {
@@ -199,4 +203,3 @@
         })
     })
 </script>
-
