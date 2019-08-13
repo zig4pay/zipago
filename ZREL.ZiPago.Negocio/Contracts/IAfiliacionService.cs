@@ -11,9 +11,11 @@ namespace ZREL.ZiPago.Negocio.Contracts
     public interface IAfiliacionService : IService
     {
 
-        Task<IResponse> RegistrarAsync(Logger logger, AfiliacionRequest request);
+        Task<ISingleResponse<DatosPersonales>> ObtenerDatosPersonalesAsync(Logger logger, int idUsuarioZiPago);
 
         Task<ISingleResponse<ComercioZiPago>> ObtenerComercioZiPagoAsync(Logger logger, string codigoComercio);
+
+        Task<IResponse> RegistrarAsync(Logger logger, AfiliacionRequest request);
 
     }
 }

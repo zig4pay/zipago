@@ -34,10 +34,11 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
         public async Task<IActionResult> Index()
         {
             Logger logger = LogManager.GetCurrentClassLogger();
-            Models.Seguridad.UsuarioViewModel usuario = new Models.Seguridad.UsuarioViewModel();
+            //Models.Seguridad.UsuarioViewModel usuario = new Models.Seguridad.UsuarioViewModel();
             UsuarioViewModel model = new UsuarioViewModel();
             ResponseListModel<TablaDetalle> responseTD;
             ResponseListModel<UbigeoZiPago> response;
+            ResponseModel<DatosPersonales> responseDatos;
             Uri requestUrl;
             int posicion = 0;
 
@@ -45,31 +46,28 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
             {
                 if (HttpContext.Session.Get<ResponseModel<Models.Seguridad.UsuarioViewModel>>("ZiPago.Session") != null)
                 {
-                    usuario = HttpContext.Session.Get<ResponseModel<Models.Seguridad.UsuarioViewModel>>("ZiPago.Session").Model;
+                    model.IdUsuarioZiPago = HttpContext.Session.Get<ResponseModel<Models.Seguridad.UsuarioViewModel>>("ZiPago.Session").Model.IdUsuarioZiPago;
 
-                    model.Clave1 = usuario.Clave1;
-                    model.IdUsuarioZiPago = usuario.IdUsuarioZiPago;
-                    model.ApellidosUsuario = usuario.ApellidosUsuario;
-                    model.NombresUsuario = usuario.NombresUsuario;
-                    model.Nombres = usuario.NombresUsuario;
+                    responseDatos = new ResponseModel<DatosPersonales>();
+                    requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_DatosPersonalesObtener + model.IdUsuarioZiPago.ToString()));
+                    responseDatos = await ApiClientFactory.Instance.GetAsync<DatosPersonales>(requestUrl);
 
-                    posicion = usuario.ApellidosUsuario.IndexOf(" ");
-                    if (posicion > 0)
+                    if (responseDatos.Model != null)
                     {
-                        model.ApellidoPaterno = usuario.ApellidosUsuario.Substring(0, posicion);
-                        model.ApellidoMaterno = usuario.ApellidosUsuario.Substring(posicion + 1);
+                        model.Clave1 = responseDatos.Model.Clave1;
+                        model.CodigoTipoPersona = responseDatos.Model.CodigoTipoPersona;
+                        model.CodigoRubroNegocio = responseDatos.Model.CodigoRubroNegocio;
+                        model.CodigoTipoPersona = responseDatos.Model.CodigoTipoPersona == "" ? Constantes.strTipoPersonaJuridica : responseDatos.Model.CodigoTipoPersona;
+                        model.NumeroRUC = responseDatos.Model.NumeroDocumento;
+                        model.RazonSocial = responseDatos.Model.RazonSocial;
+                        
                     }
-                    else
-                    {
-                        model.ApellidoPaterno = usuario.ApellidosUsuario;
-                    }
-                    model.AceptoTerminos = usuario.AceptoTerminos;
+
 
                     responseTD = new ResponseListModel<TablaDetalle>();
                     requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.TablaDetalle_Listar) + Constantes.strCodTablaTipoPersona);
                     responseTD = await ApiClientFactory.Instance.GetListAsync<TablaDetalle>(requestUrl);
                     model.TipoPersona = responseTD.Model;
-                    model.CodigoTipoPersona = Constantes.strTipoPersonaJuridica;
 
                     responseTD = new ResponseListModel<TablaDetalle>();
                     requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.TablaDetalle_Listar) + Constantes.strCodTablaRubroNegocio);
@@ -163,7 +161,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
                 usuario.Sexo = model.Sexo;
                 usuario.FechaNacimiento = model.FechaNacimiento;
                 usuario.TelefonoMovil = model.TelefonoMovil;
-                usuario.TelefonoFijo = model.TelefonoFijo;
+                usuario.TelefonoFijo = model.TelefonoFijo;                
 
                 domicilio.IdUsuarioZiPago = model.IdUsuarioZiPago;
                 domicilio.CodigoDepartamento = model.CodigoDepartamento;

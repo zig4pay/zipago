@@ -257,31 +257,31 @@ function PermitirSoloLetrasyNumeros(e) {
 
 function Registrar() {
 
-    var RegistroVM = new Object();
+    var UsuarioVM = new Object();
         
-    RegistroVM.IdUsuarioZiPago = $('#idusuariozipago').val();
-    RegistroVM.Clave1 = $('#clave1').val();
-    RegistroVM.CodigoRubroNegocio = $('#codigorubronegocio').val();
-    RegistroVM.OtroRubroNegocio = $('#otrorubronegocio').val();
-    RegistroVM.CodigoTipoPersona = $('input:radio[name=CodigoTipoPersona]:checked').val();
-    RegistroVM.NumeroRUC = $('#numeroruc').val();
-    RegistroVM.NumeroDNI = $('#numerodni').val();
-    RegistroVM.RazonSocial = $('#razonsocial').val();
-    RegistroVM.ApellidoPaterno = $('#apellidopaterno').val();
-    RegistroVM.ApellidoMaterno = $('#apellidomaterno').val();
-    RegistroVM.Nombres = $('#nombres').val();
-    RegistroVM.Sexo = $('input:radio[name=optSexo]:checked').val();
-    RegistroVM.FechaNacimiento = $('#fechanacimiento').val();
-    RegistroVM.TelefonoMovil = $('#telefonomovil').val();
-    RegistroVM.TelefonoFijo = $('#telefonofijo').val();
-    RegistroVM.CodigoDepartamento = $('#codigodepartamento').val();
-    RegistroVM.CodigoProvincia = $('#codigoprovincia').val();
-    RegistroVM.CodigoDistrito = $('#codigodistrito').val();
-    RegistroVM.Via = $('#via').val();
-    RegistroVM.DireccionFacturacion = $('#direccionfacturacion').val();
-    RegistroVM.Referencia = $('#referencia').val();
+    UsuarioVM.IdUsuarioZiPago = $('#idusuariozipago').val();
+    UsuarioVM.Clave1 = $('#clave1').val();
+    UsuarioVM.CodigoRubroNegocio = $('#codigorubronegocio').val();
+    UsuarioVM.OtroRubroNegocio = $('#otrorubronegocio').val();
+    UsuarioVM.CodigoTipoPersona = $('input:radio[name=CodigoTipoPersona]:checked').val();
+    UsuarioVM.NumeroRUC = $('#numeroruc').val();
+    UsuarioVM.NumeroDNI = $('#numerodni').val();
+    UsuarioVM.RazonSocial = $('#razonsocial').val();
+    UsuarioVM.ApellidoPaterno = $('#apellidopaterno').val();
+    UsuarioVM.ApellidoMaterno = $('#apellidomaterno').val();
+    UsuarioVM.Nombres = $('#nombres').val();
+    UsuarioVM.Sexo = $('input:radio[name=optSexo]:checked').val();
+    UsuarioVM.FechaNacimiento = $('#fechanacimiento').val();
+    UsuarioVM.TelefonoMovil = $('#telefonomovil').val();
+    UsuarioVM.TelefonoFijo = $('#telefonofijo').val();
+    UsuarioVM.CodigoDepartamento = $('#codigodepartamento').val();
+    UsuarioVM.CodigoProvincia = $('#codigoprovincia').val();
+    UsuarioVM.CodigoDistrito = $('#codigodistrito').val();
+    UsuarioVM.Via = $('#via').val();
+    UsuarioVM.DireccionFacturacion = $('#direccionfacturacion').val();
+    UsuarioVM.Referencia = $('#referencia').val();
     
-    var DTO = { 'model': RegistroVM };
+    var DTO = { 'model': UsuarioVM };
 
     $.ajax(
         {

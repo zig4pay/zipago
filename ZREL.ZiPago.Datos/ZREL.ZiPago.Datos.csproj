@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ZREL.ZiPago.Entidad\ZREL.ZiPago.Entidad.csproj" />
+    <ProjectReference Include="..\ZREL.ZiPago.Libreria\ZREL.ZiPago.Libreria.csproj" />
   </ItemGroup>
 
   <ItemGroup>

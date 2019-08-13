@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ZREL.ZiPago.Libreria
+﻿namespace ZREL.ZiPago.Libreria
 {
     public static class Constantes
     {

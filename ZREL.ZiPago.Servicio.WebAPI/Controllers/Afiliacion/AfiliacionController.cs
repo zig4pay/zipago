@@ -20,22 +20,22 @@ namespace ZREL.ZiPago.Servicio.WebAPI.Controllers.Afiliacion
             oIAfiliacionService = IAfiliacionService;
         }
 
-        [HttpPost]
+        [HttpGet("{idUsuarioZiPago}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        [Route("Registrar")]
-        public async Task<IActionResult> RegistrarAsync([FromBody] AfiliacionRequest request)
-        {
+        [Route("DatosPersonalesObtener/{idUsuarioZiPago}")]
+        public async Task<IActionResult> DatosPersonalesObtenerAsync(int idUsuarioZiPago) {
 
-            var logger = LogManager.GetCurrentClassLogger();
-            logger.Info("[{0}] | UsuarioZiPago: [{1}] | Inicio.", nameof(RegistrarAsync), request.EntidadUsuario.Clave1);
+            Logger logger = LogManager.GetCurrentClassLogger();
+            logger.Info("[Servicio.WebAPI.Controllers.Afiliacion.AfiliacionController.DatosPersonalesObtenerAsync] | UsuarioZiPago: [{0}] | Inicio.", idUsuarioZiPago.ToString());
 
-            var response = await oIAfiliacionService.RegistrarAsync(logger, request);
+            var response = await oIAfiliacionService.ObtenerDatosPersonalesAsync(logger, idUsuarioZiPago);
 
             return response.ToHttpResponse();
-        }
 
+        }
+        
         [HttpGet("{codigoComercio}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
@@ -52,5 +52,23 @@ namespace ZREL.ZiPago.Servicio.WebAPI.Controllers.Afiliacion
             return response.ToHttpResponse();
 
         }
+
+        [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        [Route("Registrar")]
+        public async Task<IActionResult> RegistrarAsync([FromBody] AfiliacionRequest request)
+        {
+
+            var logger = LogManager.GetCurrentClassLogger();
+            logger.Info("[{0}] | UsuarioZiPago: [{1}] | Inicio.", nameof(RegistrarAsync), request.EntidadUsuario.Clave1);
+
+            var response = await oIAfiliacionService.RegistrarAsync(logger, request);
+
+            return response.ToHttpResponse();
+        }
+
+        
     }
 }

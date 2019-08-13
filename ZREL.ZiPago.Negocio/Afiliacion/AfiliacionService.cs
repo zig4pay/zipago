@@ -1,4 +1,5 @@
-﻿using NLog;
+﻿using Newtonsoft.Json;
+using NLog;
 using System;
 using System.Threading.Tasks;
 using ZREL.ZiPago.Datos;
@@ -20,6 +21,48 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
         public AfiliacionService(ZiPagoDBContext dbContext, ITablaDetalleService tablaDetalleService) : base(dbContext)
         {
             tdService = tablaDetalleService;
+        }
+
+        public async Task<ISingleResponse<DatosPersonales>> ObtenerDatosPersonalesAsync(Logger logger, int idUsuarioZiPago) {
+            SingleResponse<DatosPersonales> response = new SingleResponse<DatosPersonales>();
+            logger.Info("[Negocio.Afiliacion.AfiliacionService.ObtenerDatosPersonalesAsync] | UsuarioZiPago: [{0}] | Inicio.", idUsuarioZiPago);
+
+            try
+            {
+                response.Model = await DbContext.ObtenerDatosPersonalesAsync(idUsuarioZiPago);
+                if (response.Model != null)
+                    response.Model.Clave2 = "";
+                response.Mensaje = response.Model != null ? Constantes.strConsultaRealizada : Constantes.strMensajeUsuarioNoRegistrado;
+
+                logger.Info("[Negocio.Afiliacion.AfiliacionService.ObtenerDatosPersonalesAsync] | UsuarioZiPago: [{0}] | Mensaje: [{1}].",
+                            JsonConvert.SerializeObject(response.Model),
+                            response.Mensaje);
+            }
+            catch (Exception ex)
+            {
+                response.Model = null;
+                response.SetError(logger, "Negocio.Afiliacion.AfiliacionService.ObtenerDatosPersonalesAsync", nameof(UsuarioZiPago), ex);
+            }
+
+            return response;
+        }
+
+        public async Task<ISingleResponse<ComercioZiPago>> ObtenerComercioZiPagoAsync(Logger logger, string codigoComercio)
+        {
+            SingleResponse<ComercioZiPago> response = new SingleResponse<ComercioZiPago>();
+            logger.Info("[{0}] | ComercioZiPago: [{1}] | Inicio.", nameof(ObtenerComercioZiPagoAsync), codigoComercio);
+            try
+            {
+                response.Model = await DbContext.ObtenerComercioZiPagoAsync(codigoComercio);
+                response.Mensaje = Constantes.strConsultaRealizada;
+                logger.Info("[{0}] | ComercioZiPago: [{1}] | Mensaje: [{2}].", nameof(ObtenerComercioZiPagoAsync), codigoComercio, response.Mensaje);
+            }
+            catch (Exception ex)
+            {
+                response.Model = null;
+                response.SetError(logger, nameof(ObtenerComercioZiPagoAsync), nameof(ComercioZiPago), ex);
+            }
+            return response;
         }
 
         public async Task<IResponse> RegistrarAsync(Logger logger, AfiliacionRequest request)
@@ -79,25 +122,6 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
                 }
             }
 
-            return response;
-        }
-
-        public async Task<ISingleResponse<ComercioZiPago>> ObtenerComercioZiPagoAsync(Logger logger, string codigoComercio)
-        {
-
-            var response = new SingleResponse<ComercioZiPago>();
-            logger.Info("[{0}] | ComercioZiPago: [{1}] | Inicio.", nameof(ObtenerComercioZiPagoAsync), codigoComercio);
-            try
-            {
-                response.Model = await DbContext.ObtenerComercioZiPagoAsync(codigoComercio);
-                response.Mensaje = Constantes.strConsultaRealizada;
-                logger.Info("[{0}] | ComercioZiPago: [{1}] | Mensaje: [{2}].", nameof(ObtenerComercioZiPagoAsync), codigoComercio, response.Mensaje);
-            }
-            catch (Exception ex)
-            {
-                response.Model = null;
-                response.SetError(logger, nameof(ObtenerComercioZiPagoAsync), nameof(ComercioZiPago), ex);
-            }
             return response;
         }
 

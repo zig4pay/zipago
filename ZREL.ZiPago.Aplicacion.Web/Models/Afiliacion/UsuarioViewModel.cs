@@ -9,9 +9,8 @@ namespace ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion
     [DataContract]
     public class UsuarioViewModel
     {
-        //-----------------------------------------------------//
-        //Usuario
-        //-----------------------------------------------------//
+
+        #region -- Usuario --
         [Required]
         [DataMember]
         public int IdUsuarioZiPago { get; set; }
@@ -32,14 +31,10 @@ namespace ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion
         [DataMember]
         public string NombresUsuario { get; set; }
 
-        public List<TablaDetalle> RubroNegocio { get; set; }
-
         [DataMember]
         public string CodigoRubroNegocio { get; set; }
 
         public string OtroRubroNegocio { get; set; }
-
-        public List<TablaDetalle> TipoPersona { get; set; }
 
         [DataMember]
         public string CodigoTipoPersona { get; set; }
@@ -80,25 +75,18 @@ namespace ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion
 
         [DataMember]
         public string AceptoTerminos { get; set; }
+        #endregion
 
-        //-----------------------------------------------------//
-        //Domicilio
-        //-----------------------------------------------------//
+        #region -- Domicilio --
         [DataMember]
         public int IdDomicilioZiPago { get; set; }
-
-        public List<UbigeoZiPago> Departamento { get; set; }
 
         [DataMember]
         public string CodigoDepartamento { get; set; }
 
-        public List<UbigeoZiPago> Provincia { get; set; }
-
         [DataMember]
         public string CodigoProvincia { get; set; }
-
-        public List<UbigeoZiPago> Distrito { get; set; }
-
+        
         [DataMember]
         public string CodigoDistrito { get; set; }
 
@@ -110,5 +98,15 @@ namespace ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion
 
         [DataMember]
         public string Referencia { get; set; }
+        #endregion
+
+        #region -- Listas --
+        public List<TablaDetalle> TipoPersona { get; set; }
+        public List<TablaDetalle> RubroNegocio { get; set; }        
+        public List<UbigeoZiPago> Departamento { get; set; }
+        public List<UbigeoZiPago> Provincia { get; set; }
+        public List<UbigeoZiPago> Distrito { get; set; }
+        #endregion
+
     }
 }
