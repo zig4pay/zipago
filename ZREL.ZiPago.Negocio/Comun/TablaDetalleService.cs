@@ -48,7 +48,7 @@ namespace ZREL.ZiPago.Negocio.Comun
             {
                 var query = DbContext.TablasDetalle.AsNoTracking().Where(item => item.Cod_Tabla == codTabla && item.Valor == valor);
                 response = await Task.Run(() => query);
-                result = response is null ? false : response.Count() > 0 ? true : false;                                
+                result = response is null ? false : response.Count() > 0 ? true : false;
             }
             catch (Exception ex)
             {

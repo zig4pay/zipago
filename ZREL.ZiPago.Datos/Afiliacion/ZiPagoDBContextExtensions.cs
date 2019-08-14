@@ -40,6 +40,8 @@ namespace ZREL.ZiPago.Datos.Afiliacion
                                  CodigoTipoDocumento = usuario.CodigoTipoDocumento ?? "",
                                  NumeroDocumento = usuario.NumeroDocumento ?? "",
                                  RazonSocial = usuario.RazonSocial ?? "",
+                                 CodigoTipoDocumentoContacto = usuario.CodigoTipoDocumentoContacto ?? "",
+                                 NumeroDocumentoContacto = usuario.NumeroDocumentoContacto ?? "",
                                  ApellidoPaterno = usuario.ApellidoPaterno ?? "",
                                  ApellidoMaterno = usuario.ApellidoMaterno ?? "",
                                  Nombres = usuario.Nombres ?? "",

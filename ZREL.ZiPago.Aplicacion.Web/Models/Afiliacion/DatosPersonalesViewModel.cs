@@ -7,7 +7,7 @@ using ZREL.ZiPago.Entidad.Comun;
 namespace ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion
 {
     [DataContract]
-    public class UsuarioViewModel
+    public class DatosPersonalesViewModel
     {
 
         #region -- Usuario --
@@ -45,12 +45,14 @@ namespace ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion
         [DataMember]
         public string NumeroDocumento { get; set; }
 
-        public string NumeroRUC { get; set; }
-
-        public string NumeroDNI { get; set; }
-
         [DataMember]
         public string RazonSocial { get; set; }
+
+        [DataMember]
+        public string CodigoTipoDocumentoContacto { get; set; }
+
+        [DataMember]
+        public string NumeroDocumentoContacto { get; set; }
 
         [DataMember]
         public string ApellidoPaterno { get; set; }

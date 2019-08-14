@@ -6,27 +6,29 @@ Go
 Begin Tran
    
    CREATE TABLE [dbo].[USUARIOZIPAGO](
-	   [IdUsuarioZiPago]	         Int Identity(1,1) Not Null,
-      [Clave1]	                  varchar(100)	   Not Null,
-	   [Clave2]	                  varchar(500)	   Not Null,
-      [ApellidosUsuario]	      varchar(200)	   Not Null,
-      [NombresUsuario]	         varchar(100)	   Not Null,
-      [CodigoRubroNegocio]	      varchar(20)       Null,
-	   [CodigoTipoPersona]	      varchar(20)       Null,
-	   [CodigoTipoDocumento]      varchar(20)       Null,
-	   [NumeroDocumento]	         varchar(11)	      Null,
-	   [RazonSocial]	            varchar(100)	   Null,
-	   [ApellidoPaterno]	         varchar(100)	   Null,
-	   [ApellidoMaterno]	         varchar(100)	   Null,
-      [Nombres]	               varchar(100)	   Null,
-	   [Sexo]	                  char(1)	         Null,
-	   [FechaNacimiento]	         smalldatetime	   Null,
-	   [TelefonoMovil]	         varchar(20)	      Null,
-	   [TelefonoFijo]	            varchar(15)	      Null,
-      [AceptoTerminos]           char(1)           Not Null,
-	   [Activo]	                  char(1)	         Not Null,
-	   [FechaCreacion]	         datetime	         Not Null,
-	   [FechaActualizacion]       datetime	         Null
+	   [IdUsuarioZiPago]	            Int Identity(1,1) Not Null,
+      [Clave1]	                     varchar(100)	   Not Null,
+	   [Clave2]	                     varchar(500)	   Not Null,
+      [ApellidosUsuario]	         varchar(200)	   Not Null,
+      [NombresUsuario]	            varchar(100)	   Not Null,
+      [CodigoRubroNegocio]	         varchar(20)       Null,
+	   [CodigoTipoPersona]	         varchar(20)       Null,
+	   [CodigoTipoDocumento]         varchar(20)       Null,
+	   [NumeroDocumento]	            varchar(11)	      Null,
+	   [RazonSocial]	               varchar(100)	   Null,
+      [CodigoTipoDocumentoContacto] varchar(20)       Null,
+	   [NumeroDocumentoContacto]     varchar(11)	      Null,
+	   [ApellidoPaterno]	            varchar(100)	   Null,
+	   [ApellidoMaterno]	            varchar(100)	   Null,
+      [Nombres]	                  varchar(100)	   Null,
+	   [Sexo]	                     char(1)	         Null,
+	   [FechaNacimiento]	            smalldatetime	   Null,
+	   [TelefonoMovil]	            varchar(20)	      Null,
+	   [TelefonoFijo]	               varchar(15)	      Null,
+      [AceptoTerminos]              char(1)           Not Null,
+	   [Activo]	                     char(1)	         Not Null,
+	   [FechaCreacion]	            datetime	         Not Null,
+	   [FechaActualizacion]          datetime	         Null
       
       CONSTRAINT [PK_USUARIOZIPAGO] PRIMARY KEY CLUSTERED 
       (
@@ -69,7 +71,8 @@ Begin Tran
 
    CREATE TABLE [dbo].[CUENTABANCARIAZIPAGO](
 	   [IdCuentaBancaria]   Int Identity(1,1) Not Null,
-      [IdBancoZiPago]	   int               Not Null,
+      [IdUsuarioZiPago]	   Int               Not Null,
+      [IdBancoZiPago]	   Int               Not Null,
       [NumeroCuenta]	      varchar(20)	      Not Null,
       [CodigoTipoCuenta]	varchar(20)	      Not Null,
       [CodigoTipoMoneda]	varchar(20)	      Not Null,
@@ -146,6 +149,10 @@ Begin Tran
       ADD CONSTRAINT [FK_USUARIOZIPAGO_COMERCIOZIPAGO]
          FOREIGN KEY ([IdUsuarioZiPago]) REFERENCES [USUARIOZIPAGO]([IdUsuarioZiPago])
    
+   ALTER TABLE [CUENTABANCARIAZIPAGO]
+      ADD CONSTRAINT [FK_USUARIOZIPAGO_CUENTABANCARIAZIPAGO]
+         FOREIGN KEY ([IdUsuarioZiPago]) REFERENCES [USUARIOZIPAGO]([IdUsuarioZiPago])
+
    ALTER TABLE [CUENTABANCARIAZIPAGO]
       ADD CONSTRAINT [FK_BANCOZIPAGO_CUENTABANCARIAZIPAGO]
          FOREIGN KEY ([IdBancoZiPago]) REFERENCES [BANCOZIPAGO]([IdBancoZiPago])

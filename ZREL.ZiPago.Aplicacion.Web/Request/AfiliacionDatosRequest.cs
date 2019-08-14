@@ -3,7 +3,7 @@ using ZREL.ZiPago.Entidad.Seguridad;
 
 namespace ZREL.ZiPago.Aplicacion.Web.Request
 {
-    public class AfiliacionDatosRequest
+    public class DatosPersonalesRequest
     {
         public UsuarioZiPago EntidadUsuario { get; set; }
 

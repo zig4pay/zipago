@@ -76,7 +76,8 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
             {
                 try
                 {
-                    if (!await tdService.VerificarExisteTablaDetalleAsync(logger, Constantes.strCodTablaRubroNegocio, request.OtroRubroNegocio)) {
+                    if (!string.IsNullOrEmpty(request.OtroRubroNegocio) &&
+                        !await tdService.VerificarExisteTablaDetalleAsync(logger, Constantes.strCodTablaRubroNegocio, request.OtroRubroNegocio)) {
 
                         codRubro = await tdService.ObtenerMaxTablaDetalleAsync(logger, Constantes.strCodTablaRubroNegocio);
                         codRubro = Convert.ToString(Convert.ToInt32(codRubro) + 1).PadLeft(3, '0');
@@ -97,6 +98,8 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
                     DbContext.Entry(request.EntidadUsuario).Property("CodigoTipoDocumento").IsModified = true;
                     DbContext.Entry(request.EntidadUsuario).Property("NumeroDocumento").IsModified = true;
                     DbContext.Entry(request.EntidadUsuario).Property("RazonSocial").IsModified = true;
+                    DbContext.Entry(request.EntidadUsuario).Property("CodigoTipoDocumentoContacto").IsModified = true;
+                    DbContext.Entry(request.EntidadUsuario).Property("NumeroDocumentoContacto").IsModified = true;
                     DbContext.Entry(request.EntidadUsuario).Property("ApellidoPaterno").IsModified = true;
                     DbContext.Entry(request.EntidadUsuario).Property("ApellidoMaterno").IsModified = true;
                     DbContext.Entry(request.EntidadUsuario).Property("Nombres").IsModified = true;

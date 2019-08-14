@@ -1,4 +1,4 @@
-﻿@model ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion.UsuarioViewModel
+﻿@model ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion.DatosPersonalesViewModel
 
 @{
     Layout = "_Layout";
@@ -52,7 +52,7 @@
                         <div class="form-group">
                             <label for="codigorubronegocio" class="col-sm-2">Rubro del Negocio:</label>
                             <div class="form-group col-sm-2" style="margin-left:0px; margin-right:0px;">
-                                <select id="codigorubronegocio" name="codigorubronegocio" asp-for="CodigoRubroNegocio" asp-items="@(new SelectList(Model.RubroNegocio,"Valor", "Descr_Valor"))" class="form-control select2" style="width:100%;"></select>
+                                <select id="codigorubronegocio" name="codigorubronegocio" asp-for="CodigoRubroNegocio" asp-items="@(new SelectList(Model.RubroNegocio,"Valor", "Descr_Valor", Model.CodigoRubroNegocio))" class="form-control select2" style="width:100%;"></select>
                             </div>
                             <label for="otrorubronegocio" class="col-sm-2">Otro:</label>
                             <div class="col-sm-3">
@@ -64,7 +64,7 @@
                             <div class="form-group">
                                 <label for="numeroruc" class="col-sm-2">RUC:</label>
                                 <div class="col-sm-2">
-                                    <input id="numeroruc" name="numeroruc" type="text" class="form-control" placeholder="Numero de Registro Unico de Contribuyente" asp-for="NumeroRUC" maxlength="11">
+                                    <input id="numeroruc" name="numeroruc" type="text" class="form-control" placeholder="Numero de Registro Unico de Contribuyente" asp-for="NumeroDocumento" maxlength="11">
                                 </div>
                                 <label for="razonsocial" class="col-sm-2">Razon Social:</label>
                                 <div class="col-sm-3">
@@ -79,7 +79,7 @@
                         <div class="form-group">
                             <label for="numerodni" class="col-sm-2">DNI:</label>
                             <div class="col-sm-2">
-                                <input id="numerodni" name="numerodni" type="text" class="form-control" placeholder="Numero de DNI" asp-for="NumeroDNI" maxlength="8">
+                                <input id="numerodni" name="numerodni" type="text" class="form-control" placeholder="Numero de DNI" asp-for="NumeroDocumentoContacto" maxlength="8">
                             </div>
                             <label for="nombres" class="col-sm-2">Nombres:</label>
                             <div class="col-sm-2">
@@ -99,18 +99,18 @@
                         <div class="form-group">
                             <label class="col-sm-2">Sexo:</label>
                             <div class="col-sm-1 form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="optSexo" id="optMasculino" value="M">
+                                <input class="form-check-input" type="radio" asp-for="Sexo" id="optMasculino" value="M">
                                 <label class="label-radio" for="optMasculino">Masculino</label>
                             </div>
                             <div class="col-sm-1 form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="optSexo" id="optFemenino" value="F">
+                                <input class="form-check-input" type="radio" asp-for="Sexo" id="optFemenino" value="F">
                                 <label class="label-radio" for="optFemenino">Femenino</label>
                             </div>
                             <div>
                                 <label for="fechanacimiento" class="col-sm-2">Fecha de Nacimiento:</label>
                             </div>
                             <div class="date col-sm-2">
-                                <input id="fechanacimiento" name="fechanacimiento" type="text" class="form-control pull-right">
+                                <input id="fechanacimiento" name="fechanacimiento" type="text" asp-for="FechaNacimiento" class="form-control pull-right">
                             </div>
                         </div>
                         <div class="form-group">
@@ -124,13 +124,14 @@
                             </div>
                         </div>
                         <hr />
+                        <input id="iddomiciliozipago" name="iddomiciliozipago" type="hidden" asp-for="IdDomicilioZiPago" />
                         <div class="form-group">
                             <label class="col-sm-2"><strong>Domicilio: </strong></label>
                         </div>
                         <div class="form-group">
                             <label for="codigodepartamento" class="col-sm-2">Departamento:</label>
                             <div class="col-sm-2">
-                                <select id="codigodepartamento" name="codigodepartamento" asp-for="CodigoDepartamento" asp-items="@(new SelectList(Model.Departamento,"CodigoUbigeo", "Nombre"))" class="form-control select2"></select>
+                                <select id="codigodepartamento" name="codigodepartamento" asp-for="CodigoDepartamento" asp-items="@(new SelectList(Model.Departamento,"CodigoUbigeo", "Nombre", Model.CodigoDepartamento))" class="form-control select2"></select>
                             </div>
                             <label for="codigoprovincia" class="col-sm-2">Provincia:</label>
                             <div class="col-sm-2">
@@ -184,22 +185,12 @@
 
 <script src="~/bower_components/jquery/dist/jquery.min.js"></script>
 <script src="~/bower_components/jquery-validation/dist/jquery.validate.min.js"></script>
-<script src="~/dist/js/Afiliacion/usuario.js"></script>
+<script src="~/dist/js/Afiliacion/datospersonales.js"></script>
 <script src="~/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="~/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>
+<script src="~/bower_components/bootstrap-datepicker/dist/locales/bootstrap-datepicker.es.min.js"></script>
 <script src="~/bower_components/select2/dist/js/select2.full.js"></script>
+<script src="~/bower_components/select2/dist/js/i18n/es.js"></script>
 <script src="~/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <script src="~/bower_components/fastclick/lib/fastclick.js"></script>
 <script src="~/dist/js/adminlte.min.js"></script>
-
-<script>
-    $(function () {
-        //Initialize Select2 Elements
-        $('.select2').select2();
-
-        //Date picker
-        $('#fechanacimiento').datepicker({
-            autoclose: true
-        })
-    })
-</script>

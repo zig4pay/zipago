@@ -23,7 +23,9 @@ namespace ZREL.ZiPago.Entidad.Seguridad
         public string CodigoTipoPersona { get; set; }
         public string CodigoTipoDocumento { get; set; }
         public string NumeroDocumento { get; set; }
-        public string RazonSocial { get; set; }        
+        public string RazonSocial { get; set; }
+        public string CodigoTipoDocumentoContacto { get; set; }
+        public string NumeroDocumentoContacto { get; set; }
         public string ApellidoPaterno { get; set; }
         public string ApellidoMaterno { get; set; }
         public string Nombres { get; set; }

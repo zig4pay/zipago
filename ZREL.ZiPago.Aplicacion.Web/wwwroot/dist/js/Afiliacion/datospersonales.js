@@ -1,26 +1,5 @@
 ﻿jQuery(function ($) {
 
-    $(document).bind("contextmenu", function (e) {
-        return false;
-    });
-
-    $('#optPersonaJuridica').change(function () {
-        if ($(this).is(":checked")) {
-            MostrarDivJuridica(true);
-        }
-    });
-
-    $('#optPersonaNatural').change(function () {
-        if ($(this).is(":checked")) {
-            MostrarDivJuridica(false);
-        }
-    });
-    
-});
-
-
-$(document).ready(function () {
-
     $.validator.setDefaults({
         highlight: function (element) {
             $(element).closest('.form-group').addClass('has-error');
@@ -48,42 +27,7 @@ $(document).ready(function () {
         }
     });
 
-    //called when key is pressed in textbox
-    $("#numeroruc").keypress(SoloNumeros);
-    $("#numerodni").keypress(SoloNumeros);
-    $("#telefonofijo").keypress(SoloNumeroTelefonico);
-    $("#telefonomovil").keypress(SoloNumeroTelefonico);
-    $("#apellidopaterno").keypress(PermitirSoloLetras);
-    $("#apellidomaterno").keypress(PermitirSoloLetras);
-
-    $('#codigodepartamento').on('change', function () {
-        var strCodigoUbigeo = $(this).val();
-        $("#codigoprovincia").empty();
-        $("#codigodistrito").empty();
-        $.getJSON("ListarPorUbigeo", { strCodigoUbigeo: strCodigoUbigeo }, function (data) {
-            $("#codigoprovincia").append($("<option>").val("XX").text("Seleccione"));
-            $.each(data, function (i, item) {
-                $("#codigoprovincia").append($("<option>").val(item.codigoUbigeo).text(item.nombre));
-            });
-        });        
-    });
-    
-    $("#codigoprovincia").on("change", function () {
-        var strCodigoUbigeo = $(this).val();
-        $("#codigodistrito").empty();
-        $.getJSON("ListarPorUbigeo", { strCodigoUbigeo: strCodigoUbigeo }, function (data) {
-            $("#codigodistrito").append($("<option>").val("XX").text("Seleccione"));
-            $.each(data, function (i, item) {
-                $("#codigodistrito").append($("<option>").val(item.codigoUbigeo).text(item.nombre));
-            });
-        });        
-    });
-
-    $(".select2").on("select2:close", function (e) {
-        $(this).valid();
-    });
-
-    $('#registrar').click(function () {
+    $(document).ready(function () {
 
         $.validator.addMethod("validarrubronegocio", function (value, element) {
             if (value === "000" && $("#otrorubronegocio").val().trim() === "") {
@@ -126,7 +70,55 @@ $(document).ready(function () {
                 return true;
             }
 
-        });        
+        });
+
+        //Initialize Select2 Elements
+        $('.select2').select2({
+            language: "es"
+        });
+
+        //Date picker
+        $('#fechanacimiento').datepicker({
+            autoclose: true,
+            language: "es"
+        });
+
+        $("#fechanacimiento").datepicker("update", new Date());
+
+        //called when key is pressed in textbox
+        $("#numeroruc").keypress(SoloNumeros);
+        $("#numerodni").keypress(SoloNumeros);
+        $("#telefonofijo").keypress(SoloNumeroTelefonico);
+        $("#telefonomovil").keypress(SoloNumeroTelefonico);
+        $("#apellidopaterno").keypress(PermitirSoloLetras);
+        $("#apellidomaterno").keypress(PermitirSoloLetras);
+
+        $('#codigodepartamento').on('change', function () {
+            var strCodigoUbigeo = $(this).val();
+            $("#codigoprovincia").empty();
+            $("#codigodistrito").empty();
+            $.getJSON("ListarPorUbigeo", { strCodigoUbigeo: strCodigoUbigeo }, function (data) {
+                $("#codigoprovincia").append($("<option>").val("XX").text("Seleccione"));
+                $.each(data, function (i, item) {
+                    $("#codigoprovincia").append($("<option>").val(item.codigoUbigeo).text(item.nombre));
+                });
+            });
+        });
+
+        $("#codigoprovincia").on("change", function () {
+            var strCodigoUbigeo = $(this).val();
+            $("#codigodistrito").empty();
+            $.getJSON("ListarPorUbigeo", { strCodigoUbigeo: strCodigoUbigeo }, function (data) {
+                $("#codigodistrito").append($("<option>").val("XX").text("Seleccione"));
+                $.each(data, function (i, item) {
+                    $("#codigodistrito").append($("<option>").val(item.codigoUbigeo).text(item.nombre));
+                });
+            });
+        });
+
+        $(".select2").on("select2:close", function (e) {
+            $(this).valid();
+        });
 
         var validator = $('#frmAfiliacion').validate({
             rules: {
@@ -153,7 +145,7 @@ $(document).ready(function () {
                 apellidomaterno: {
                     required: true
                 },
-                optSexo: "required",
+                Sexo: "required",
                 fechanacimiento: {
                     required: true,
                     validaredad: true
@@ -187,7 +179,7 @@ $(document).ready(function () {
                 nombres: "Por favor ingrese un nombre.",
                 apellidopaterno: "Por favor ingrese un Apellido Paterno",
                 apellidomaterno: "Por favor ingrese un Apellido Materno",
-                optSexo: "Por favor seleccione el sexo correspondiente.",
+                Sexo: "Por favor seleccione el sexo correspondiente.",
                 fechanacimiento: {
                     required: "Por favor ingrese una fecha valida",
                     validaredad: "Para registrarse debe ser mayor de 18 años."
@@ -205,13 +197,38 @@ $(document).ready(function () {
             }
         });
 
-        if (validator.form()) {
-            Registrar();
-        }
+        $('#registrar').click(function () {
+            var $valid = $('#frmAfiliacion').valid();
+            
+            if (!$valid) {
+                return false;
+            } else {
+                Registrar();
+            }
+        });
 
     });
 
+    $(document).bind("contextmenu", function (e) {
+        return false;
+    });
+
+    $('#optPersonaJuridica').change(function () {
+        if ($(this).is(":checked")) {
+            MostrarDivJuridica(true);
+        }
+    });
+
+    $('#optPersonaNatural').change(function () {
+        if ($(this).is(":checked")) {
+            MostrarDivJuridica(false);
+        }
+    });
+    
 });
+
+
+
 
 
 function MostrarDivJuridica(valor) {
@@ -257,31 +274,31 @@ function PermitirSoloLetrasyNumeros(e) {
 
 function Registrar() {
 
-    var UsuarioVM = new Object();
+    var DatosPersonalesVM = new Object();
         
-    UsuarioVM.IdUsuarioZiPago = $('#idusuariozipago').val();
-    UsuarioVM.Clave1 = $('#clave1').val();
-    UsuarioVM.CodigoRubroNegocio = $('#codigorubronegocio').val();
-    UsuarioVM.OtroRubroNegocio = $('#otrorubronegocio').val();
-    UsuarioVM.CodigoTipoPersona = $('input:radio[name=CodigoTipoPersona]:checked').val();
-    UsuarioVM.NumeroRUC = $('#numeroruc').val();
-    UsuarioVM.NumeroDNI = $('#numerodni').val();
-    UsuarioVM.RazonSocial = $('#razonsocial').val();
-    UsuarioVM.ApellidoPaterno = $('#apellidopaterno').val();
-    UsuarioVM.ApellidoMaterno = $('#apellidomaterno').val();
-    UsuarioVM.Nombres = $('#nombres').val();
-    UsuarioVM.Sexo = $('input:radio[name=optSexo]:checked').val();
-    UsuarioVM.FechaNacimiento = $('#fechanacimiento').val();
-    UsuarioVM.TelefonoMovil = $('#telefonomovil').val();
-    UsuarioVM.TelefonoFijo = $('#telefonofijo').val();
-    UsuarioVM.CodigoDepartamento = $('#codigodepartamento').val();
-    UsuarioVM.CodigoProvincia = $('#codigoprovincia').val();
-    UsuarioVM.CodigoDistrito = $('#codigodistrito').val();
-    UsuarioVM.Via = $('#via').val();
-    UsuarioVM.DireccionFacturacion = $('#direccionfacturacion').val();
-    UsuarioVM.Referencia = $('#referencia').val();
+    DatosPersonalesVM.IdUsuarioZiPago = $('#idusuariozipago').val();
+    DatosPersonalesVM.Clave1 = $('#clave1').val();
+    DatosPersonalesVM.CodigoRubroNegocio = $('#codigorubronegocio').val();
+    DatosPersonalesVM.OtroRubroNegocio = $('#otrorubronegocio').val();
+    DatosPersonalesVM.CodigoTipoPersona = $('input:radio[name=CodigoTipoPersona]:checked').val();
+    DatosPersonalesVM.NumeroDocumento = $('#numeroruc').val();
+    DatosPersonalesVM.NumeroDocumentoContacto = $('#numerodni').val();
+    DatosPersonalesVM.RazonSocial = $('#razonsocial').val();
+    DatosPersonalesVM.ApellidoPaterno = $('#apellidopaterno').val();
+    DatosPersonalesVM.ApellidoMaterno = $('#apellidomaterno').val();
+    DatosPersonalesVM.Nombres = $('#nombres').val();
+    DatosPersonalesVM.Sexo = $('input:radio[name=Sexo]:checked').val();
+    DatosPersonalesVM.FechaNacimiento = $('#fechanacimiento').val();
+    DatosPersonalesVM.TelefonoMovil = $('#telefonomovil').val();
+    DatosPersonalesVM.TelefonoFijo = $('#telefonofijo').val();
+    DatosPersonalesVM.CodigoDepartamento = $('#codigodepartamento').val();
+    DatosPersonalesVM.CodigoProvincia = $('#codigoprovincia').val();
+    DatosPersonalesVM.CodigoDistrito = $('#codigodistrito').val();
+    DatosPersonalesVM.Via = $('#via').val();
+    DatosPersonalesVM.DireccionFacturacion = $('#direccionfacturacion').val();
+    DatosPersonalesVM.Referencia = $('#referencia').val();
     
-    var DTO = { 'model': UsuarioVM };
+    var DTO = { 'model': DatosPersonalesVM };
 
     $.ajax(
         {

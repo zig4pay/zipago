@@ -94,7 +94,7 @@
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu" data-widget="tree">
                     <li class="header">Menu Principal</li>
-                    <li class="treeview">
+                    <li class="treeview active">
                         <a href="#">
                             <i class="fa fa-edit"></i> <span>Afiliacion</span>
                             <span class="pull-right-container">
@@ -102,8 +102,8 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a asp-controller="Usuario" asp-action="Index"><i class="fa fa-circle-o"></i> Datos Personales</a></li>
-                            <li><a href="#"><i class="fa fa-circle-o"></i> Cuentas Bancarias</a></li>
+                            <li><a asp-controller="DatosPersonales" asp-action="Index"><i class="fa fa-circle-o"></i> Datos Personales</a></li>
+                            <li><a asp-controller="CuentaBancaria" asp-action="Index"><i class="fa fa-circle-o"></i> Cuentas Bancarias</a></li>
                             <li><a href="#"><i class="fa fa-circle-o"></i> Comercios</a></li>
                         </ul>
                     </li>
@@ -137,7 +137,9 @@
     <script src="~/bower_components/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="~/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>
+    <script src="~/bower_components/bootstrap-datepicker/dist/locales/bootstrap-datepicker.es.min.js"></script>
     <script src="~/bower_components/select2/dist/js/select2.full.js"></script>
+    <script src="~/bower_components/select2/dist/js/i18n/es.js"></script>
     <script src="~/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
     <script src="~/bower_components/fastclick/lib/fastclick.js"></script>
     <script src="~/dist/js/adminlte.min.js"></script>
