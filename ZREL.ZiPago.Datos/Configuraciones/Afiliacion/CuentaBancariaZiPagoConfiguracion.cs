@@ -19,6 +19,7 @@ namespace ZREL.ZiPago.Datos.Configuraciones.Afiliacion
 
             // Set mapping for columns
             builder.Property(p => p.IdCuentaBancaria).HasColumnType("int").IsRequired();
+            builder.Property(p => p.IdUsuarioZiPago).HasColumnType("int").IsRequired();
             builder.Property(p => p.IdBancoZiPago).HasColumnType("int").IsRequired();
             builder.Property(p => p.NumeroCuenta).HasColumnType("varchar(20)").IsRequired();
             builder.Property(p => p.CodigoTipoCuenta).HasColumnType("varchar(20)").IsRequired();

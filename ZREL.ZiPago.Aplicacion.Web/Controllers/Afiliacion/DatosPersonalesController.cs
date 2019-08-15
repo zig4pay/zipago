@@ -69,13 +69,6 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
                         Descr_Valor = "Seleccione"
                     });
 
-                    // Sexo
-                    responseTD = new ResponseListModel<TablaDetalle>();
-                    requestUrl = ApiClientFactory.Instance.CreateRequestUri(
-                                    string.Format(CultureInfo.InvariantCulture, webSettings.Value.TablaDetalle_Listar) + Constantes.strCodTablaTipoPersona);
-                    responseTD = await ApiClientFactory.Instance.GetListAsync<TablaDetalle>(requestUrl);
-                    model.TipoPersona = responseTD.Model;
-
                     // Departamento
                     requestUrl = ApiClientFactory.Instance.CreateRequestUri(
                                     string.Format(CultureInfo.InvariantCulture, webSettings.Value.UbigeoZiPago_Listar) + Constantes.strUbigeoZiPago_Departamentos);

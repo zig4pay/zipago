@@ -17,5 +17,7 @@ namespace ZREL.ZiPago.Negocio.Contracts
 
         Task<IResponse> RegistrarAsync(Logger logger, AfiliacionRequest request);
 
+        Task<IListResponse<CuentaBancariaListado>> ListarCuentasBancariasAsync(Logger logger, int idUsuarioZiPago);
+
     }
 }

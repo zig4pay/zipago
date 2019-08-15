@@ -16,7 +16,7 @@
         public const string strTipoDocIdDNI = "01";
         public const string strTipoDocIdRUC = "02";
                 
-        public const string strValor_Activo = "A";
+        public const string strValor_Activo = "S";
         public const string strValor_NoActivo = "N";
 
         //SEGURIDAD_USUARIO_REGISTRAR

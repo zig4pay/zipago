@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ZREL.ZiPago.Entidad.Afiliacion;
@@ -84,5 +85,35 @@ namespace ZREL.ZiPago.Datos.Afiliacion
         {
             return await dbContext.ComerciosZiPago.AsNoTracking().FirstOrDefaultAsync(item => item.CodigoComercio == codigoComercio);
         }
+
+        public static async Task<IEnumerable<CuentaBancariaListado>> ListarCuentasBancariasAsync(this ZiPagoDBContext dbContext, int idUsuarioZiPago) {
+
+            var result = from cuentabancaria in dbContext.CuentasBancariasZiPago.AsNoTracking()
+                         where cuentabancaria.IdUsuarioZiPago == idUsuarioZiPago
+                         join banco in dbContext.BancosZiPago.AsNoTracking()
+                            on cuentabancaria.IdBancoZiPago equals banco.IdBancoZiPago
+                         join tipocuenta in dbContext.TablasDetalle.AsNoTracking()
+                            on cuentabancaria.CodigoTipoCuenta equals tipocuenta.Valor
+                         join tipomoneda in dbContext.TablasDetalle.AsNoTracking()
+                            on cuentabancaria.CodigoTipoMoneda equals tipomoneda.Valor
+                         into cuentasbancarias
+                         from cuentas in cuentasbancarias.DefaultIfEmpty()
+                         select new CuentaBancariaListado
+                         {
+                             IdCuentaBancaria = cuentabancaria.IdCuentaBancaria,
+                             Banco = banco.NombreLargo,
+                             TipoCuenta = tipocuenta.Descr_Valor,
+                             TipoMoneda = cuentas.Descr_Valor,
+                             NumeroCuenta = cuentabancaria.NumeroCuenta,
+                             CCI = cuentabancaria.CCI,
+                             Estado = cuentabancaria.Activo == Constantes.strValor_Activo ? "Activo" : "Inactivo",
+                             FechaCreacion = cuentabancaria.FechaCreacion
+                         };
+
+            return await result.ToListAsync();
+
+        }
+
+
     }
 }

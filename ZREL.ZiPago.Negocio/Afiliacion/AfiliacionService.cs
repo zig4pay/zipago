@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using NLog;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using ZREL.ZiPago.Datos;
 using ZREL.ZiPago.Datos.Afiliacion;
@@ -69,7 +70,7 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
         {
             var response = new Response();
             string codRubro;
-                        
+            
             logger.Info("[{0}] | UsuarioZiPago: [{1}] | Inicio.", nameof(RegistrarAsync));
 
             using (var txAsync = await DbContext.Database.BeginTransactionAsync())
@@ -109,7 +110,16 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
                     DbContext.Entry(request.EntidadUsuario).Property("TelefonoFijo").IsModified = true;
                     DbContext.Entry(request.EntidadUsuario).Property("FechaActualizacion").IsModified = true;                    
                     await DbContext.SaveChangesAsync();
-
+                    
+                    var domicilios = DbContext.DomiciliosZiPago.Where(p => p.IdUsuarioZiPago == request.EntidadUsuario.IdUsuarioZiPago).ToList();
+                    domicilios.ForEach( a => 
+                                            {
+                                                a.Activo = Constantes.strValor_NoActivo;
+                                                a.FechaActualizacion = DateTime.Now;
+                                            }
+                                        );
+                    await DbContext.SaveChangesAsync();
+                    
                     DbContext.Add(request.EntidadDomicilio);
                     await DbContext.SaveChangesAsync();
                     
@@ -123,6 +133,26 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
                     response.Mensaje = ex.ToString();                    
                     response.SetError(logger, nameof(RegistrarAsync), nameof(UsuarioZiPago), ex);
                 }
+            }
+
+            return response;
+        }
+
+        public async Task<IListResponse<CuentaBancariaListado>> ListarCuentasBancariasAsync(Logger logger, int idUsuarioZiPago) {
+
+            ListResponse<CuentaBancariaListado> response = new ListResponse<CuentaBancariaListado>();
+            logger.Info("[Negocio.Afiliacion.AfiliacionService.ListarCuentasBancariasAsync] | UsuarioZiPago: [{0}] | Inicio.", idUsuarioZiPago);
+
+            try
+            {
+                response.Model = await DbContext.ListarCuentasBancariasAsync(idUsuarioZiPago);
+                response.Mensaje = Constantes.strConsultaRealizada;
+                logger.Info("[Negocio.Afiliacion.AfiliacionService.ListarCuentasBancariasAsync] | UsuarioZiPago: [{0}] | Mensaje: [{1}].", idUsuarioZiPago, Constantes.strConsultaRealizada);
+            }
+            catch (Exception ex)
+            {
+                response.Model = null;
+                response.SetError(logger, "Negocio.Afiliacion.AfiliacionService.ObtenerCuentaBancariaAsync", nameof(UsuarioZiPago), ex);
             }
 
             return response;

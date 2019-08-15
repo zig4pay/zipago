@@ -19,8 +19,8 @@
         public string AfiliacionZiPago_DatosPersonalesObtener { get; set; }
         public string AfiliacionZiPago_ComercioObtener { get; set; }
         public string AfiliacionZiPago_Registrar { get; set; }
-        
-        
+        public string AfiliacionZiPago_CuentasBancariasListar { get; set; }
+
         //Google ReCaptcha
         public string SiteKey { get; set; }
         public string SecretKey { get; set; }
