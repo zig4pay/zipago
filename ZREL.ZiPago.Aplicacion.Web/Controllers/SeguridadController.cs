@@ -62,7 +62,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
                         if (response.Mensaje == "1")
                         {
                             logger.Info("[Aplicacion.Web.Controllers.SeguridadController.{0}] | UsuarioViewModel: [{1}] | Realizado.", nameof(UsuarioAutenticar), model.Clave1);
-                            HttpContext.Session.Set<ResponseModel<UsuarioViewModel>>("ZiPago.Session", response);
+                            HttpContext.Session.Set<UsuarioViewModel>("ZiPago.Session", response.Model);
                             return RedirectToAction("Index", "Home");
                         }
                         else

@@ -19,11 +19,11 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
 
             try
             {
-                if (HttpContext.Session.Get<ResponseModel<UsuarioViewModel>>("ZiPago.Session") != null)
+                if (HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session") != null)
                 {
-                    ResponseModel<UsuarioViewModel> usuario = HttpContext.Session.Get<ResponseModel<UsuarioViewModel>>("ZiPago.Session");
-                    ViewBag.Usuario = usuario.Model.NombresUsuario.Trim() + " " + usuario.Model.ApellidosUsuario.Trim();
-                    ViewBag.Clave1 = usuario.Model.Clave1.Trim();
+                    UsuarioViewModel usuario = HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session");
+                    ViewBag.Usuario = usuario.NombresUsuario.Trim() + " " + usuario.ApellidosUsuario.Trim();
+                    ViewBag.Clave1 = usuario.Clave1.Trim();
                     return View("~/Views/Home/Index.cshtml");
                 }
                 else

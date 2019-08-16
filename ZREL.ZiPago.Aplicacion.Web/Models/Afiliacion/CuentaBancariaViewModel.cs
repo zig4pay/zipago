@@ -7,6 +7,8 @@ namespace ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion
     [DataContract]
     public class CuentaBancariaViewModel
     {
+        public int IdUsuarioZiPago { get; set; }
+
         [DataMember]
         public int IdCuentaBancaria { get; set; }
 
