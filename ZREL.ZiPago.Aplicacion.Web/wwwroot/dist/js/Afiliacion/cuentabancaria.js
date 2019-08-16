@@ -5,17 +5,14 @@
         $('#tblcuentasbancarias').DataTable({
             processing: true, 
             serverSide: true, 
-            //"filter": true, 
-            //"paging": true,
-            //"pagingType': 'full_numbers",
-            //"pageLength": 5,
-            //"order": [[1, "desc"]],
+            "filter": true, 
+            "paging": true,            
+            "pageLength": 5,            
             ajax: {                
                 type: 'POST',
                 url: 'ListarCuentasBancarias/',
                 data: function (data){
-                    data.IdUsuarioZiPago = $('#idusuariozipago').val();
-                    //data.IdUsuarioZiPago = 1;
+                    data.IdUsuarioZiPago = $('#idusuariozipago').val();                    
                     return data;
                 },                
                 contentType: 'application/json; charset=utf-8'

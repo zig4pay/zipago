@@ -93,17 +93,29 @@ namespace ZREL.ZiPago.Datos.Afiliacion
                          join banco in dbContext.BancosZiPago.AsNoTracking()
                             on cuentabancaria.IdBancoZiPago equals banco.IdBancoZiPago
                          join tipocuenta in dbContext.TablasDetalle.AsNoTracking()
-                            on cuentabancaria.CodigoTipoCuenta equals tipocuenta.Valor
+                            on new {
+                                        Key1 = true,
+                                        Key2 = cuentabancaria.CodigoTipoCuenta
+                                   } equals 
+                               new {
+                                        Key1 = tipocuenta.Cod_Tabla == Constantes.strCodTablaTipoCuenta,
+                                        Key2 = tipocuenta.Valor
+                                   }
                          join tipomoneda in dbContext.TablasDetalle.AsNoTracking()
-                            on cuentabancaria.CodigoTipoMoneda equals tipomoneda.Valor
-                         into cuentasbancarias
-                         from cuentas in cuentasbancarias.DefaultIfEmpty()
+                            on new {
+                                        Key1 = true,
+                                        Key2 = cuentabancaria.CodigoTipoMoneda
+                                   } equals 
+                               new {
+                                        Key1 = tipomoneda.Cod_Tabla == Constantes.strCodTablaTipoMoneda,
+                                        Key2 = tipomoneda.Valor
+                                   }                         
                          select new CuentaBancariaListado
                          {
                              IdCuentaBancaria = cuentabancaria.IdCuentaBancaria,
                              Banco = banco.NombreLargo,
                              TipoCuenta = tipocuenta.Descr_Valor,
-                             TipoMoneda = cuentas.Descr_Valor,
+                             TipoMoneda = tipomoneda.Descr_Valor,
                              NumeroCuenta = cuentabancaria.NumeroCuenta,
                              CCI = cuentabancaria.CCI,
                              Estado = cuentabancaria.Activo == Constantes.strValor_Activo ? "Activo" : "Inactivo",

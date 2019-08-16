@@ -13,7 +13,6 @@ using ZREL.ZiPago.Aplicacion.Web.Models.Settings;
 using ZREL.ZiPago.Aplicacion.Web.Utility;
 using ZREL.ZiPago.Entidad.Afiliacion;
 using ZREL.ZiPago.Entidad.Comun;
-using ZREL.ZiPago.Entidad.Seguridad;
 using ZREL.ZiPago.Libreria;
 
 namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
