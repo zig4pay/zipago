@@ -1,5 +1,5 @@
 ﻿jQuery(function ($) {
-
+    
     $(document).bind("contextmenu", function (e) {
         return false;
     });
@@ -13,19 +13,26 @@
         var cci = $("#cci").val();
         
         if (ValidarDatos(banco, tipocuenta, moneda, numerocuenta)) {
-            if (ValidarCuentasAgregadas(banco, tipoCuenta, moneda, cuenta)) {
-                AgregarCuentas(banco, tipoCuenta, moneda, cuenta, cci);
+            if (ValidarCuentasAgregadas(banco, tipocuenta, moneda, numerocuenta)) {
+                AgregarCuentas(banco, tipocuenta, moneda, numerocuenta, cci);
             } else {
                 alert("Los datos de la cuenta a ingresar ya se encuentran registrados.");
             }
         } else {
-            alert("Debe seleccionar un Banco, el Tipo de Cuenta, Moneda e ingresar el Numero de Cuenta.");
+            alert("Debe seleccionar un Banco, el Tipo de Cuenta, la Moneda e ingresar el Numero de Cuenta.");
         }
 
     });
 
     $(document).on('click', '.elimina', function (event) {
         $(this).closest('tr').remove();        
+    });
+
+    $('#btnCancelar').click(function () {
+
+        LimpiarFormulario();
+        $("#tblCuentas > tbody").html(""); 
+
     });
 
     $(document).ready(function () {
@@ -63,11 +70,19 @@
             ]
         });
 
+        $("#numerocuenta").keypress(SoloNumeros);
+
+        $("#cci").keypress(SoloNumeros);
+
     });
 
-    var tc = $('#tblCuentas').DataTable();
-
 });
+
+function SoloNumeros(e) {
+    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+        return false;
+    }
+}
 
 function ValidarDatos(banco, tipocuenta, moneda, numerocuenta) {
 
@@ -79,7 +94,7 @@ function ValidarDatos(banco, tipocuenta, moneda, numerocuenta) {
 
 }
 
-function ValidarCuentasAgregadas(banco, tipoCuenta, moneda, cuenta) {
+function ValidarCuentasAgregadas(banco, tipocuenta, moneda, cuenta) {
 
     var result = true;
 
@@ -100,13 +115,10 @@ function ValidarCuentasAgregadas(banco, tipoCuenta, moneda, cuenta) {
                     break;
                 case 7:
                     nroCuenta = $(this).text();
-                    break;
-                case 8:
-                    nroCCI = $(this).text();
-                    break;
+                    break;                
             }
 
-            if (banco === idBanco && tipoCuenta === idTipoCuenta && moneda === idMoneda && cuenta === nroCuenta) {
+            if (banco === idBanco && tipocuenta === idTipoCuenta && moneda === idMoneda && cuenta === nroCuenta) {
                 result = false;
             }
             
@@ -120,7 +132,7 @@ function AgregarCuentas(banco, tipocuenta, moneda, cuenta, cci) {
 
     var idCuenta = 0;
     
-    var htmlTags = '<tr">' +
+    var htmlTags = '<tr>' +
         '<td style="display:none;">' + idCuenta + '</td>' +
         '<td style="display:none;">' + banco + '</td>' +
         '<td>' + $('select[name="idbancozipago"] option:selected').text() + '</td>' +
@@ -130,20 +142,10 @@ function AgregarCuentas(banco, tipocuenta, moneda, cuenta, cci) {
         '<td>' + $('select[name="codigomoneda"] option:selected').text() + '</td>' +
         '<td>' + cuenta + '</td>' +
         '<td>' + cci + '</td>' +
-        '<td><a id="btnQuitarCta" class="btn btn-default elimina"> Quitar </a></td>' +
+        '<td><a id="btnQuitarCta" class="btn btn-danger elimina"> Eliminar </a></td>' +
         '</tr>';
-    
-    t.row.add([
-        idCuenta,
-        banco,
-        $('select[name="idbancozipago"] option:selected').text(),
-        tipocuenta,
-        $('select[name="codigotipocuenta"] option:selected').text(),
-        moneda,
-        $('select[name="codigomoneda"] option:selected').text(),
-        cuenta,
-        cci
-    ]).draw(false);
+        
+    $('#tblCuentas tbody').append(htmlTags);
 
     LimpiarFormulario();
 }
