@@ -28,7 +28,7 @@ namespace ZREL.ZiPago.Datos.Afiliacion
                                     Key2 = domicilio.Activo == Constantes.strValor_Activo
                                 }
                              into datosPersonales
-                             from dom in datosPersonales.DefaultIfEmpty()
+                             from dom in datosPersonales.DefaultIfEmpty()                             
                              select new DatosPersonales
                              {
                                  IdUsuarioZiPago = usuario.IdUsuarioZiPago,
@@ -109,8 +109,9 @@ namespace ZREL.ZiPago.Datos.Afiliacion
                                new {
                                         Key1 = tipomoneda.Cod_Tabla == Constantes.strCodTablaTipoMoneda,
                                         Key2 = tipomoneda.Valor
-                                   }                         
-                         select new CuentaBancariaListado
+                                   }
+                         orderby banco.NombreLargo
+                         select new CuentaBancariaListado 
                          {
                              IdCuentaBancaria = cuentabancaria.IdCuentaBancaria,
                              Banco = banco.NombreLargo,

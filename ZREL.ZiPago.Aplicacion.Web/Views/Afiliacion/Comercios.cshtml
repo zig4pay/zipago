@@ -1,19 +1,18 @@
-﻿@model ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion.CuentaBancariaViewModel
+﻿@*@model ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion.CuentaBancariaViewModel*@
 
 @{
     Layout = "_Layout";
 }
 
-<!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Cuentas Bancarias
+        Comercios
         <small>Registro</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
         <li><a href="#">Afiliacion</a></li>
-        <li class="active">Cuentas Bancarias</li>
+        <li class="active">Registro</li>
     </ol>
 </section>
 
@@ -23,13 +22,13 @@
 
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Cuentas Bancarias registradas</h3>
+                    <h3 class="box-title">Comercios registrados</h3>
                 </div>
                 <div class="box-body">
                     <input id="idusuariozipago" name="idusuariozipago" type="hidden" asp-for="IdUsuarioZiPago" />
                     <div class="row" style="margin-top:10px">
                         <div class="col-sm-10">
-                            <h4>Actualmente tienes 1 cuenta bancaria registrada.</h4>
+                            <h4>Actualmente tienes 1 comercio registrada.</h4>
                         </div>
                     </div>
                     <br />
@@ -80,7 +79,7 @@
             </div>
         </div>
     </div>
-        
+
     <div id="modalRegistro" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -96,7 +95,7 @@
                                 <h4>Selecciona e ingresa los siguientes datos, luego haz clic en el boton <strong>Añadir:</strong></h4>
                             </div>
                         </div>
-                        
+
                         <div class="form-group row" style="margin-top:10px">
                             <label for="idbancozipago" class="col-sm-2">Banco:</label>
                             <div class="col-sm-10">
@@ -130,7 +129,7 @@
 
                         <div class="form-group row">
                             <div class="col-sm-2 col-sm-offset-5">
-                                <button type="button" id="btnAnadirCta" class="btn btn-block btn-success">Añadir</button>                                
+                                <button type="button" id="btnAnadirCta" class="btn btn-block btn-success">Añadir</button>
                             </div>
                         </div>
 
