@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NLog;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using ZREL.ZiPago.Entidad.Afiliacion;
 using ZREL.ZiPago.Negocio.Contracts;
 using ZREL.ZiPago.Negocio.Requests;
 using ZREL.ZiPago.Servicio.WebAPI.Responses;
@@ -84,6 +86,20 @@ namespace ZREL.ZiPago.Servicio.WebAPI.Controllers.Afiliacion
 
             return response.ToHttpResponse();
 
+        }
+
+        [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        [Route("CuentasBancariasRegistrar")]
+        public async Task<IActionResult> CuentasBancariasRegistrarAsync([FromBody] List<CuentaBancariaZiPago> request)
+        {
+            var logger = LogManager.GetCurrentClassLogger();
+            logger.Info("[Servicio.WebAPI.Controllers.Afiliacion.AfiliacionController.CuentasBancariasRegistrarAsync] | CuentaBancariaZiPago: [{0}] | Inicio.", request.ToString());
+
+            var response = await oIAfiliacionService.RegistrarCuentasBancariasAsync(logger, request);
+            return response.ToHttpResponse();
         }
 
     }

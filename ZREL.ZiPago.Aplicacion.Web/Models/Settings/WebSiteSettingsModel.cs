@@ -20,6 +20,7 @@
         public string AfiliacionZiPago_ComercioObtener { get; set; }
         public string AfiliacionZiPago_Registrar { get; set; }
         public string AfiliacionZiPago_CuentasBancariasListar { get; set; }
+        public string AfiliacionZiPago_CuentasBancariasRegistrar { get; set; }
 
         //Google ReCaptcha
         public string SiteKey { get; set; }

@@ -25,7 +25,21 @@
     });
 
     $(document).on('click', '.elimina', function (event) {
-        $(this).closest('tr').remove();        
+
+        var nro = 0;
+
+        $(this).closest('tr').remove();
+
+        $("#tblCuentas tbody tr").each(function (index) {            
+            nro++;
+            $(this).children("td").each(function (indextd) {
+                switch (indextd) {
+                    case 0:
+                        $(this).html(nro);
+                        break;
+                }
+            });
+        });
     });
 
     $('#btnCancelar').click(function () {
@@ -35,40 +49,15 @@
 
     });
 
+    $('#btnRegistrar').click(function () {
+
+        RegistrarCuentasBancarias();
+
+    });
+
     $(document).ready(function () {
         
-        $('#tblcuentasbancarias').DataTable({
-            processing: true, 
-            serverSide: true, 
-            "filter": true, 
-            "paging": true,            
-            "pageLength": 5,            
-            ajax: {                
-                type: 'POST',
-                url: 'ListarCuentasBancarias/',
-                data: function (data){
-                    data.IdUsuarioZiPago = $('#idusuariozipago').val();                    
-                    return data;
-                },                
-                contentType: 'application/json; charset=utf-8'
-            },            
-            columnDefs:
-                [{
-                    targets: [0],
-                    visible: false,
-                    searchable: false
-                }],
-            columns: [
-                { 'data': 'IdCuentaBancaria', 'name': 'ID', 'autoWidth': true },
-                { 'data': 'Banco', 'name': 'Banco', 'autoWidth': true },
-                { 'data': 'TipoCuenta', 'name': 'Tipo de Cuenta', 'autoWidth': true },
-                { 'data': 'TipoMoneda', 'name': 'Moneda', 'autoWidth': true },
-                { 'data': 'NumeroCuenta', 'name': 'Nro. de Cuenta', 'autoWidth': true },
-                { 'data': 'CCI', 'name': 'CCI', 'autoWidth': true },
-                { 'data': 'FechaCreacion', 'name': 'Fecha de Registro', 'autoWidth': true },
-                { 'data': 'Estado', 'name': 'Estado', 'autoWidth': true }
-            ]
-        });
+        ListarCuentasBancarias();
 
         $("#numerocuenta").keypress(SoloNumeros);
 
@@ -130,10 +119,10 @@ function ValidarCuentasAgregadas(banco, tipocuenta, moneda, cuenta) {
 
 function AgregarCuentas(banco, tipocuenta, moneda, cuenta, cci) {
 
-    var idCuenta = 0;
+    var nro = $("#tblCuentas tr").length;
     
     var htmlTags = '<tr>' +
-        '<td style="display:none;">' + idCuenta + '</td>' +
+        '<td>' + nro + '</td>' +
         '<td style="display:none;">' + banco + '</td>' +
         '<td>' + $('select[name="idbancozipago"] option:selected').text() + '</td>' +
         '<td style="display:none;">' + tipocuenta + '</td>' +
@@ -156,4 +145,94 @@ function LimpiarFormulario() {
     $("#codigomoneda").val("00");
     $("#numerocuenta").val("");
     $("#cci").val("");
+}
+
+function ListarCuentasBancarias() {
+
+    $('#tblcuentasbancarias').DataTable({
+        processing: true,
+        serverSide: true,
+        "filter": true,
+        "paging": true,
+        "pageLength": 5,
+        ajax: {
+            type: 'POST',
+            url: 'ListarCuentasBancarias/',
+            data: function (data) {
+                data.IdUsuarioZiPago = $('#idusuariozipago').val();
+                return data;
+            },
+            contentType: 'application/json; charset=utf-8'
+        },
+        columnDefs:
+            [{
+                targets: [0],
+                visible: false,
+                searchable: false
+            }],
+        columns: [
+            { 'data': 'IdCuentaBancaria', 'name': 'ID', 'autoWidth': true },
+            { 'data': 'Banco', 'name': 'Banco', 'autoWidth': true },
+            { 'data': 'TipoCuenta', 'name': 'Tipo de Cuenta', 'autoWidth': true },
+            { 'data': 'TipoMoneda', 'name': 'Moneda', 'autoWidth': true },
+            { 'data': 'NumeroCuenta', 'name': 'Nro. de Cuenta', 'autoWidth': true },
+            { 'data': 'CCI', 'name': 'CCI', 'autoWidth': true },
+            { 'data': 'FechaCreacion', 'name': 'Fecha de Registro', 'autoWidth': true },
+            { 'data': 'Estado', 'name': 'Estado', 'autoWidth': true }
+        ]
+    });
+
+}
+
+function RegistrarCuentasBancarias() {
+
+    var cuentas = new Array();
+
+    $("#tblCuentas tbody tr").each(function (index) {
+
+        var cuentaBancaria = new Object();
+        cuentaBancaria.IdUsuarioZiPago = $("#idusuariozipago").val();
+
+        $(this).children("td").each(function (indextd) {
+            switch (indextd) {
+                case 1:
+                    cuentaBancaria.IdBancoZiPago = $(this).text();
+                    break;
+                case 3:
+                    cuentaBancaria.CodigoTipoCuenta = $(this).text();
+                    break;
+                case 5:
+                    cuentaBancaria.CodigoTipoMoneda = $(this).text();
+                    break;
+                case 7:
+                    cuentaBancaria.NumeroCuenta = $(this).text();
+                    break;
+                case 8:
+                    cuentaBancaria.CCI = $(this).text();
+                    break;
+            }
+        });
+        cuentas.push(cuentaBancaria);       
+
+    });
+
+    var DTO = { 'cuentasBancarias': cuentas };
+
+    $.ajax(
+        {
+            url: 'RegistrarCuentasBancarias/',
+            type: "POST",
+            data: DTO,
+            datatype: 'json',
+            ContentType: 'application/json;utf-8'
+        })
+        .done(function (resp) {
+            alert('Registro realizado correctamente.');
+        })
+        .fail(function (err) {
+            alert('Error al registrar:\n' + err);
+        });
+        //.always(function () {
+        //    ListarCuentasBancarias();
+        //});
 }

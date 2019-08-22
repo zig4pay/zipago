@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -76,7 +77,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
         }
 
         [HttpPost]
-        public async Task<IActionResult> ListarCuentasBancarias(UsuarioZiPago usuarioZiPago)
+        public async Task<IActionResult> ListarCuentasBancarias([FromBody] UsuarioZiPago usuarioZiPago)
         {
              
             JsonResult response;
@@ -123,6 +124,24 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
             return response;
         }
 
+        [HttpPost]
+        public async Task<JsonResult> RegistrarCuentasBancarias(List<CuentaBancariaZiPago> cuentasBancarias)
+        {
+            JsonResult response;
+            Uri requestUrl;
 
+            try
+            {         
+                requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_CuentasBancariasRegistrar));
+                response = Json(await ApiClientFactory.Instance.PostJsonAsync<List<CuentaBancariaZiPago>>(requestUrl, cuentasBancarias));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return response;
+
+        }
     }
 }

@@ -228,9 +228,6 @@
 });
 
 
-
-
-
 function MostrarDivJuridica(valor) {
     if (valor) {
         $('#DivJuridica').show();
@@ -275,7 +272,7 @@ function PermitirSoloLetrasyNumeros(e) {
 function Registrar() {
 
     var DatosPersonalesVM = new Object();
-        
+    
     DatosPersonalesVM.IdUsuarioZiPago = $('#idusuariozipago').val();
     DatosPersonalesVM.Clave1 = $('#clave1').val();
     DatosPersonalesVM.CodigoRubroNegocio = $('#codigorubronegocio').val();
@@ -311,7 +308,7 @@ function Registrar() {
         .done(function (resp) {
             alert('Registro realizado correctamente.');            
         })
-        .error(function (err) {
+        .fail(function (err) {
             alert('Error al registrar:\n' + err);
         });
 

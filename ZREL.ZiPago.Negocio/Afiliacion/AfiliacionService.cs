@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using NLog;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ZREL.ZiPago.Datos;
@@ -153,6 +154,43 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
             {
                 response.Model = null;
                 response.SetError(logger, "Negocio.Afiliacion.AfiliacionService.ObtenerCuentaBancariaAsync", nameof(UsuarioZiPago), ex);
+            }
+
+            return response;
+        }
+
+        public async Task<IResponse> RegistrarCuentasBancariasAsync(Logger logger, List<CuentaBancariaZiPago> cuentasBancarias) {
+
+            int idUsuarioZiPago = cuentasBancarias.ElementAt(0).IdUsuarioZiPago;
+
+            Response response = new Response();
+            logger.Info("[Negocio.Afiliacion.AfiliacionService.RegistrarCuentasBancariasAsync] | CuentasBancarias: [{0}] | Inicio.",
+                            JsonConvert.SerializeObject(cuentasBancarias));
+
+            using (var txAsync = await DbContext.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    foreach (CuentaBancariaZiPago cuenta in cuentasBancarias)
+                    {
+                        cuenta.Activo = Constantes.strValor_Activo;
+                        cuenta.FechaCreacion = DateTime.Now;
+                    }
+
+                    DbContext.CuentasBancariasZiPago.AddRange(cuentasBancarias);
+                    await DbContext.SaveChangesAsync();
+
+                    txAsync.Commit();
+                    response.Mensaje = Constantes.strRegistroRealizado;                    
+
+                    logger.Info("[Negocio.Afiliacion.AfiliacionService.RegistrarCuentasBancariasAsync] | CuentasBancarias | Registro realizado.");
+                }
+                catch (Exception ex)
+                {
+                    txAsync.Rollback();
+                    response.Mensaje = ex.ToString();
+                    response.SetError(logger, "[Negocio.Afiliacion.AfiliacionService.RegistrarCuentasBancariasAsync]", nameof(CuentaBancariaZiPago), ex);
+                }
             }
 
             return response;
