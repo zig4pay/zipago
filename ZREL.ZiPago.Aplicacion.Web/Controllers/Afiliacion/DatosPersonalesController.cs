@@ -226,7 +226,6 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
             return response;
 
         }
-
-
+        
     }
 }

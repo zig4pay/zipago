@@ -75,6 +75,23 @@ namespace ZREL.ZiPago.Servicio.WebAPI.Controllers.Afiliacion
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
+        [Route("BancoPorUsuarioListar/{idUsuarioZiPago}")]
+        public async Task<IActionResult> BancoPorUsuarioListarAsync(int idUsuarioZiPago)
+        {
+
+            Logger logger = LogManager.GetCurrentClassLogger();
+            logger.Info("[Servicio.WebAPI.Controllers.Afiliacion.AfiliacionController.BancoPorUsuarioListarAsync] | UsuarioZiPago: [{0}] | Inicio.", idUsuarioZiPago.ToString());
+
+            var response = await oIAfiliacionService.ListarBancosPorUsuarioAsync(logger, idUsuarioZiPago);
+
+            return response.ToHttpResponse();
+
+        }
+
+        [HttpGet("{idUsuarioZiPago}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
         [Route("CuentasBancariasListar/{idUsuarioZiPago}")]
         public async Task<IActionResult> CuentasBancariasListarAsync(int idUsuarioZiPago)
         {
@@ -105,8 +122,7 @@ namespace ZREL.ZiPago.Servicio.WebAPI.Controllers.Afiliacion
             return response.ToHttpResponse();
 
         }
-
-
+        
         [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
@@ -119,6 +135,23 @@ namespace ZREL.ZiPago.Servicio.WebAPI.Controllers.Afiliacion
 
             var response = await oIAfiliacionService.RegistrarCuentasBancariasAsync(logger, request);
             return response.ToHttpResponse();
+        }
+
+        [HttpGet("{idUsuarioZiPago}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        [Route("ComerciosListar/{idUsuarioZiPago}")]
+        public async Task<IActionResult> ComerciosListarAsync(int idUsuarioZiPago)
+        {
+
+            Logger logger = LogManager.GetCurrentClassLogger();
+            logger.Info("[Servicio.WebAPI.Controllers.Afiliacion.AfiliacionController.ComerciosListarAsync] | UsuarioZiPago: [{0}] | Inicio.", idUsuarioZiPago.ToString());
+
+            var response = await oIAfiliacionService.ListarComerciosAsync(logger, idUsuarioZiPago);
+
+            return response.ToHttpResponse();
+
         }
 
     }

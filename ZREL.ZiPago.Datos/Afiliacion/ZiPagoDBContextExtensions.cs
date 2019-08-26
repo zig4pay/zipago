@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ZREL.ZiPago.Entidad.Afiliacion;
+using ZREL.ZiPago.Entidad.Comun;
 using ZREL.ZiPago.Libreria;
 
 namespace ZREL.ZiPago.Datos.Afiliacion
@@ -86,6 +87,24 @@ namespace ZREL.ZiPago.Datos.Afiliacion
             return await dbContext.ComerciosZiPago.AsNoTracking().FirstOrDefaultAsync(item => item.CodigoComercio == codigoComercio);
         }
 
+        public static async Task<IEnumerable<BancoZiPago>> ListarBancosPorUsuarioAsync(this ZiPagoDBContext dbContext, int idUsuarioZiPago)
+        {
+
+            var result = from cuentabancaria in dbContext.CuentasBancariasZiPago.AsNoTracking()
+                         where cuentabancaria.IdUsuarioZiPago == idUsuarioZiPago
+                         join banco in dbContext.BancosZiPago.AsNoTracking()
+                            on cuentabancaria.IdBancoZiPago equals banco.IdBancoZiPago                         
+                         orderby banco.NombreLargo
+                         select new BancoZiPago
+                         {
+                             IdBancoZiPago = cuentabancaria.IdBancoZiPago,
+                             NombreLargo = banco.NombreLargo
+                         };
+
+            return await result.Distinct().ToListAsync();
+
+        }        
+
         public static async Task<IEnumerable<CuentaBancariaListado>> ListarCuentasBancariasAsync(this ZiPagoDBContext dbContext, int idUsuarioZiPago) {
 
             var result = from cuentabancaria in dbContext.CuentasBancariasZiPago.AsNoTracking()
@@ -162,6 +181,56 @@ namespace ZREL.ZiPago.Datos.Afiliacion
                                            tipomoneda.Descr_Valor.Trim() + 
                                            " - Nro: " + cuentabancaria.NumeroCuenta.Trim() + 
                                            " - CCI: " + (cuentabancaria.CCI.Trim() ?? "") 
+                         };
+
+            return await result.ToListAsync();
+
+        }
+        
+        public static async Task<IEnumerable<ComercioListado>> ListarComerciosAsync(this ZiPagoDBContext dbContext, int idUsuarioZiPago)
+        {
+
+            var result = from comercios in dbContext.ComerciosZiPago.AsNoTracking()
+                         where comercios.IdUsuarioZiPago == idUsuarioZiPago
+                         join comerciocuenta in dbContext.ComerciosCuentasZiPago.AsNoTracking()
+                            on comercios.IdComercioZiPago equals comerciocuenta.IdComercioZiPago
+                         join cuentabancaria in dbContext.CuentasBancariasZiPago.AsNoTracking()
+                            on comerciocuenta.IdCuentaBancaria equals cuentabancaria.IdCuentaBancaria
+                         join banco in dbContext.BancosZiPago.AsNoTracking()
+                            on cuentabancaria.IdBancoZiPago equals banco.IdBancoZiPago
+                         join tipocuenta in dbContext.TablasDetalle.AsNoTracking()
+                            on new
+                            {
+                                Key1 = true,
+                                Key2 = cuentabancaria.CodigoTipoCuenta
+                            } equals
+                            new
+                            {
+                                Key1 = tipocuenta.Cod_Tabla == Constantes.strCodTablaTipoCuenta,
+                                Key2 = tipocuenta.Valor
+                            }
+                         join tipomoneda in dbContext.TablasDetalle.AsNoTracking()
+                             on new
+                             {
+                                 Key1 = true,
+                                 Key2 = cuentabancaria.CodigoTipoMoneda
+                             } equals
+                                new
+                                {
+                                    Key1 = tipomoneda.Cod_Tabla == Constantes.strCodTablaTipoMoneda,
+                                    Key2 = tipomoneda.Valor
+                                }
+                         orderby comercios.CodigoComercio
+                         select new ComercioListado
+                         {
+                             Codigo = comercios.CodigoComercio,
+                             Descripcion = comercios.Descripcion,
+                             CorreoNotificacion = comercios.CorreoNotificacion,
+                             Banco = banco.NombreLargo,
+                             CuentaBancaria = tipocuenta.Descr_Valor.Trim() + " " + 
+                                              tipomoneda.Descr_Valor.Trim() + 
+                                              " - Nro: " + cuentabancaria.NumeroCuenta.Trim() +
+                                              " - CCI: " + cuentabancaria.CCI.Trim() ?? ""
                          };
 
             return await result.ToListAsync();

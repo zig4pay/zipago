@@ -33,6 +33,20 @@
             ]
         });
 
+        $('#idbancozipago').on('change', function () {
+            var intIdUsuarioZiPago = $('#idusuariozipago').val();
+            var intIdBancoZiPago = $(this).val();
+
+            $("#cuentasxbanco").empty();            
+            $.getJSON("ListarCuentasBancarias", { idUsuarioZiPago: intIdUsuarioZiPago, idBancoZiPago: intIdBancoZiPago}, function (data) {
+                $("#cuentasxbanco").append($("<option>").val(0).text("Seleccione"));
+                $.each(data, function (i, item) {
+                    $("#cuentasxbanco").append($("<option>").val(item.IdCuentaBancaria).text(item.Descripcion));
+                });
+            });
+        });
+
+
     });
 
 });
