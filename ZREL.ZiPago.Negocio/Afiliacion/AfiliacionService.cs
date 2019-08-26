@@ -159,6 +159,27 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
             return response;
         }
 
+        public async Task<IListResponse<CuentaBancariaListaResumida>> ListarCuentasBancariasResumenAsync(Logger logger, int idUsuarioZiPago, int idBancoZiPago)
+        {
+
+            ListResponse<CuentaBancariaListaResumida> response = new ListResponse<CuentaBancariaListaResumida>();
+            logger.Info("[Negocio.Afiliacion.AfiliacionService.ListarCuentasBancariasResumenAsync] | UsuarioZiPago: [{0}] - BancoZiPago: [{1}]  | Inicio.", idUsuarioZiPago, idBancoZiPago);
+
+            try
+            {
+                response.Model = await DbContext.ListarCuentasBancariasResumenAsync(idUsuarioZiPago, idBancoZiPago);
+                response.Mensaje = Constantes.strConsultaRealizada;
+                logger.Info("[Negocio.Afiliacion.AfiliacionService.ListarCuentasBancariasResumenAsync] | UsuarioZiPago: [{0}] | Mensaje: [{1}].", idUsuarioZiPago, Constantes.strConsultaRealizada);
+            }
+            catch (Exception ex)
+            {
+                response.Model = null;
+                response.SetError(logger, "Negocio.Afiliacion.AfiliacionService.ListarCuentasBancariasResumenAsync", nameof(UsuarioZiPago), ex);
+            }
+
+            return response;
+        }
+
         public async Task<IResponse> RegistrarCuentasBancariasAsync(Logger logger, List<CuentaBancariaZiPago> cuentasBancarias) {
 
             int idUsuarioZiPago = cuentasBancarias.ElementAt(0).IdUsuarioZiPago;

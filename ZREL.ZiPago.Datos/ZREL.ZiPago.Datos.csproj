@@ -5,16 +5,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Comun\**" />
+    <EmbeddedResource Remove="Comun\**" />
+    <None Remove="Comun\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.4" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ZREL.ZiPago.Entidad\ZREL.ZiPago.Entidad.csproj" />
     <ProjectReference Include="..\ZREL.ZiPago.Libreria\ZREL.ZiPago.Libreria.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Comun\" />
   </ItemGroup>
 
 </Project>

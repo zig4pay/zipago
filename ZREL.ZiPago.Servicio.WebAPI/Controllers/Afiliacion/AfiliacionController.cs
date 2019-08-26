@@ -88,6 +88,25 @@ namespace ZREL.ZiPago.Servicio.WebAPI.Controllers.Afiliacion
 
         }
 
+        [HttpGet("{idUsuarioZiPago}/{idBancoZiPago}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        [Route("CuentasBancariasListarResumen/{idUsuarioZiPago}/{idBancoZiPago}")]
+        public async Task<IActionResult> CuentasBancariasListarResumenAsync(int idUsuarioZiPago, int idBancoZiPago)
+        {
+
+            Logger logger = LogManager.GetCurrentClassLogger();
+            logger.Info("[Servicio.WebAPI.Controllers.Afiliacion.AfiliacionController.CuentasBancariasListarResumenAsync] | UsuarioZiPago: [{0}] - BancoZiPago: [{1}] | Inicio.", 
+                idUsuarioZiPago.ToString(), idBancoZiPago.ToString());
+
+            var response = await oIAfiliacionService.ListarCuentasBancariasResumenAsync(logger, idUsuarioZiPago, idBancoZiPago);
+
+            return response.ToHttpResponse();
+
+        }
+
+
         [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]

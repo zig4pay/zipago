@@ -1,12 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
+using ZREL.ZiPago.Entidad.Afiliacion;
+using ZREL.ZiPago.Entidad.Comun;
 
 namespace ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion
 {
+    [DataContract]
     public class ComerciosViewModel
     {
+
+        public int IdUsuarioZiPago { get; set; }
+
+        public List<BancoZiPago> Bancos { get; set; }
+        public List<CuentaBancariaListaResumida> TipoCuentas { get; set; }
 
     }
 }

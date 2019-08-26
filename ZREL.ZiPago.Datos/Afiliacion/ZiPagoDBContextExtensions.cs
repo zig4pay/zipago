@@ -127,6 +127,46 @@ namespace ZREL.ZiPago.Datos.Afiliacion
 
         }
 
+        public static async Task<IEnumerable<CuentaBancariaListaResumida>> ListarCuentasBancariasResumenAsync(this ZiPagoDBContext dbContext, int idUsuarioZiPago, int idBancoZiPago)
+        {
+
+            var result = from cuentabancaria in dbContext.CuentasBancariasZiPago.AsNoTracking()
+                         where cuentabancaria.IdUsuarioZiPago == idUsuarioZiPago && cuentabancaria.IdBancoZiPago == idBancoZiPago
+                         join tipocuenta in dbContext.TablasDetalle.AsNoTracking()
+                            on new
+                            {
+                                Key1 = true,
+                                Key2 = cuentabancaria.CodigoTipoCuenta
+                            } equals
+                               new
+                               {
+                                   Key1 = tipocuenta.Cod_Tabla == Constantes.strCodTablaTipoCuenta,
+                                   Key2 = tipocuenta.Valor
+                               }
+                         join tipomoneda in dbContext.TablasDetalle.AsNoTracking()
+                            on new
+                            {
+                                Key1 = true,
+                                Key2 = cuentabancaria.CodigoTipoMoneda
+                            } equals
+                               new
+                               {
+                                   Key1 = tipomoneda.Cod_Tabla == Constantes.strCodTablaTipoMoneda,
+                                   Key2 = tipomoneda.Valor
+                               }
+                         orderby tipocuenta.Descr_Valor, tipomoneda.Descr_Valor
+                         select new CuentaBancariaListaResumida
+                         {
+                             IdCuentaBancaria = cuentabancaria.IdCuentaBancaria,
+                             Descripcion = tipocuenta.Descr_Valor.Trim() + " " +
+                                           tipomoneda.Descr_Valor.Trim() + 
+                                           " - Nro: " + cuentabancaria.NumeroCuenta.Trim() + 
+                                           " - CCI: " + (cuentabancaria.CCI.Trim() ?? "") 
+                         };
+
+            return await result.ToListAsync();
+
+        }
 
     }
 }

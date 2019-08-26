@@ -3,8 +3,7 @@
     $(document).bind("contextmenu", function (e) {
         return false;
     });
-
-
+    
     $(document).ready(function () {
 
         $('#tblcomercios').DataTable({
@@ -15,7 +14,7 @@
             "pageLength": 10,
             ajax: {
                 type: 'POST',
-                url: 'ListarCuentasBancarias/',
+                url: 'ListarComercios/',
                 data: function (data) {
                     data.IdUsuarioZiPago = $('#idusuariozipago').val();
                     return data;

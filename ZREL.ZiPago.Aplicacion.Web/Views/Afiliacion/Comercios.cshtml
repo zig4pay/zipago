@@ -1,4 +1,4 @@
-﻿@*@model ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion.CuentaBancariaViewModel*@
+﻿@model ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion.CuentaBancariaViewModel
 
 @{
     Layout = "_Layout";
@@ -43,7 +43,7 @@
                                         <th>Banco</th>
                                         <th>Cuenta Bancaria</th>
                                         <th>Estado</th>
-                                        <th>Fecha de Registro</th>                                        
+                                        <th>Fecha de Registro</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -88,14 +88,90 @@
                 </div>
                 <div class="modal-body">
                     <form class="form-horizontal" id="frmAfiliacion" asp-controller="" asp-action="" method="post">
-
                         <div class="row">
                             <div class="col-sm-10">
                                 <h4>Selecciona e ingresa los siguientes datos, luego haz clic en el boton <strong>Añadir:</strong></h4>
                             </div>
                         </div>
 
-                        
+                        <div class="row" style="margin-top:10px">
+                            <div class="col-sm-10">
+                                <label><strong>Datos del Comercio: </strong></label>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="codigocomercio" class="col-sm-2">ID Comercio:</label>
+                            <div class="col-sm-10">
+                                <input id="codigocomercio" name="codigocomercio" type="text" class="form-control" placeholder="Codigo del Comercio">
+                                <small class="text-primary">Dato por el cual se realizara la busqueda en los bancos.</small>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="descripcionCom" class="col-sm-2">Descripcion:</label>
+                            <div class="col-sm-10">
+                                <input id="descripcionCom" type="text" class="form-control" placeholder="Descripcion del Comercio">
+                                <small class="text-primary">Descripcion a mostrar en el banco.</small>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="correonotificacion" class="col-sm-2">Correo de Notificacion:</label>
+                            <div class="col-sm-10">
+                                <input id="correonotificacion" name="correonotificacion" type="email" class="form-control" placeholder="Correo electronico">
+                                <small class="text-primary">Correo electronico al cual se remitiran las notificaciones.</small>
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin-top:10px">
+                            <div class="col-sm-10">
+                                <label><strong>Cuenta Bancaria asociada: </strong></label>
+                            </div>
+                        </div>
+
+                        <div class="form-group row" style="margin-top:10px">
+                            <label for="idbancozipago" class="col-sm-2">Banco:</label>
+                            <div class="col-sm-10">
+                                <select id="idbancozipago" name="idbancozipago" asp-items="@(new SelectList(Model.Bancos,"IdBancoZiPago", "NombreLargo"))" class="form-control"></select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="cuentasxbanco" class="col-sm-2">Cuenta Bancaria:</label>
+                            <div class="col-sm-10">
+                                <select id="cuentasxbanco" name="cuentasxbanco" class="form-control"></select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-2 col-sm-offset-5">
+                                <button type="button" id="btnAnadirComercio" class="btn btn-block btn-success">Añadir</button>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row" style="margin-top:10px">
+                            <div class="col-sm-10">
+                                <h4>Comercios por registrar:</h4>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px">
+                            <div class="col-sm-12">
+                                <table id="tblComercios" class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Nro.</th>
+                                            <th scope="col">ID Comercio</th>
+                                            <th scope="col">Descripcion</th>
+                                            <th scope="col">Correo de Notificacion</th>
+                                            <th scope="col">Cuenta Bancaria</th>                                            
+                                            <th scope="col">Eliminar</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
 
                     </form>
                 </div>
