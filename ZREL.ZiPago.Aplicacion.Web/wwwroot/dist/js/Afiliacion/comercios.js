@@ -11,7 +11,7 @@
             serverSide: true,
             "filter": true,
             "paging": true,
-            "pageLength": 10,
+            "pageLength": 5,
             ajax: {
                 type: 'POST',
                 url: 'ListarComercios/',
@@ -45,8 +45,7 @@
                 });
             });
         });
-
-
+        
     });
 
 });
