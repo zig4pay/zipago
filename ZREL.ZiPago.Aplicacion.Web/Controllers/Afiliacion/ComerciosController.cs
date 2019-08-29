@@ -12,7 +12,7 @@ using ZREL.ZiPago.Aplicacion.Web.Models.Seguridad;
 using ZREL.ZiPago.Aplicacion.Web.Models.Settings;
 using ZREL.ZiPago.Entidad.Afiliacion;
 using ZREL.ZiPago.Entidad.Comun;
-using ZREL.ZiPago.Entidad.Seguridad;
+
 
 namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
 {
@@ -32,7 +32,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
         {
             
             Uri requestUrl;
-            ComerciosViewModel model = new ComerciosViewModel();
+            ComerciosConsultaViewModel model = new ComerciosConsultaViewModel();
             ResponseListModel<BancoZiPago> responseBanco;
             
             try
@@ -87,43 +87,29 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
         }
 
         [HttpPost]
-        public async Task<IActionResult> ListarComercios([FromBody] UsuarioZiPago usuarioZiPago)
+        public async Task<IActionResult> ListarComercios(ComerciosConsultaViewModel model)
         {
 
             JsonResult response;
             Uri requestUrl;
             ResponseListModel<ComercioListado> responseCuentas = new ResponseListModel<ComercioListado>();
-
+            
             try
             {
-                var draw = "1"; //HttpContext.Request.Form["draw"].FirstOrDefault();
-                //var start = Request.Form["start"].FirstOrDefault();
-                //var length = Request.Form["length"].FirstOrDefault();
-                //var sortColumn = Request.Form["columns[" + Request.Form["order[0][column]"].FirstOrDefault() + "][name]"].FirstOrDefault();                
-                //var sortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();                
-                //var searchValue = Request.Form["search[value]"].FirstOrDefault();
-
-                //int pageSize = length != null ? Convert.ToInt32(length) : 0;
-                //int skip = start != null ? Convert.ToInt32(start) : 0;
                 int recordsTotal = 0;
 
+                var draw = HttpContext.Request.HasFormContentType ? HttpContext.Request.Form["draw"].FirstOrDefault() : "1";
+                var start = HttpContext.Request.HasFormContentType ? HttpContext.Request.Form["start"].FirstOrDefault() : "1";
+                //var length = HttpContext.Request.HasFormContentType ? HttpContext.Request.Form["length"].FirstOrDefault() : "10";
+
                 requestUrl = ApiClientFactory.Instance.CreateRequestUri(
-                        string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_ComerciosListar) + "1"
-                        //usuarioZiPago.IdUsuarioZiPago.ToString()                    
+                        string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_ComerciosListar) + 
+                        model.IdUsuarioZiPago.ToString()                    
                     );
                 responseCuentas = await ApiClientFactory.Instance.GetListAsync<ComercioListado>(requestUrl);
                 recordsTotal = responseCuentas.Model.ToList().Count();
-
-                //if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
-                //{
-                //    customerData = customerData.OrderBy(sortColumn + " " + sortColumnDirection);
-                //}                
-                //if (!string.IsNullOrEmpty(searchValue))
-                //{
-                //    customerData = customerData.Where(m => m.Name == searchValue || m.Phoneno == searchValue || m.City == searchValue);
-                //}
-
-                response = Json(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = responseCuentas.Model });
+                
+                response = Json(new { draw, recordsFiltered = recordsTotal, recordsTotal, data = responseCuentas.Model });
 
             }
             catch (Exception ex)
@@ -131,7 +117,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
                 throw ex;
             }
 
-            return response;
+            return response;            
         }
 
 

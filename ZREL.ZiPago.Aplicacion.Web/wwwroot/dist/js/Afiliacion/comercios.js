@@ -3,49 +3,94 @@
     $(document).bind("contextmenu", function (e) {
         return false;
     });
-    
+
+    $('#btnCancelar').click(function () {
+        LimpiarFormulario();
+    });
+
+    $('#btnConsultar').click(function () {
+        ConsultarComercios();
+    });
+
     $(document).ready(function () {
 
-        $('#tblcomercios').DataTable({
-            processing: true,
-            serverSide: true,
-            "filter": true,
+        $('#tblcomercios').DataTable({                                    
+            "autoWidth": false,            
+            "info": true,
+            "language": {
+                "url": "/bower_components/datatables.net-bs/plug-ins/1.10.19/i18n/spanish.json"
+            },
+            "lengthChange": true,
+            "ordering": false,
+            "pageLength": 10,
             "paging": true,
-            "pageLength": 5,
-            ajax: {
-                type: 'POST',
-                url: 'ListarComercios/',
-                data: function (data) {
-                    data.IdUsuarioZiPago = $('#idusuariozipago').val();
-                    return data;
-                },
-                contentType: 'application/json; charset=utf-8'
-            },            
-            columns: [                
-                { 'data': 'Codigo', 'name': 'Codigo', 'autoWidth': true },
-                { 'data': 'Descripcion', 'name': 'Descripcion', 'autoWidth': true },
-                { 'data': 'CorreoNotificacion', 'name': 'Correo de Notificacion', 'autoWidth': true },
-                { 'data': 'Banco', 'name': 'Banco', 'autoWidth': true },
-                { 'data': 'CuentaBancaria', 'name': 'Cuenta Bancaria', 'autoWidth': true },
-                { 'data': 'Estado', 'name': 'Estado', 'autoWidth': true },
-                { 'data': 'FechaCreacion', 'name': 'Fecha de Registro', 'autoWidth': true }
-                
-            ]
+            "searching": false
         });
 
-        $('#idbancozipago').on('change', function () {
-            var intIdUsuarioZiPago = $('#idusuariozipago').val();
-            var intIdBancoZiPago = $(this).val();
+        $("#numerocuenta").keypress(SoloNumeros);       
 
-            $("#cuentasxbanco").empty();            
-            $.getJSON("ListarCuentasBancarias", { idUsuarioZiPago: intIdUsuarioZiPago, idBancoZiPago: intIdBancoZiPago}, function (data) {
-                $("#cuentasxbanco").append($("<option>").val(0).text("Seleccione"));
-                $.each(data, function (i, item) {
-                    $("#cuentasxbanco").append($("<option>").val(item.IdCuentaBancaria).text(item.Descripcion));
-                });
-            });
-        });
-        
     });
 
 });
+
+
+function SoloNumeros(e) {
+    if (e.which !== 8 && e.which !== 0 && (e.which < 48 || e.which > 57)) {
+        return false;
+    }
+}
+
+function LimpiarFormulario() {
+    $("#codigocomercio").val("");
+    $("#descripcion").val("");
+    $("#estado").val("0");
+    $("#idbancozipago").val(0);
+    $("#numerocuenta").val("");
+}
+
+function ConsultarComercios() {
+
+    var comerciosVM = new Object();
+
+    comerciosVM.IdUsuarioZiPago = $('#idusuariozipago').val();
+    comerciosVM.CodigoComercio = $('#codigocomercio').val().trim();
+    comerciosVM.Descripcion = $('#descripcion').val().trim();
+    comerciosVM.Activo = $('#estado').val();
+    comerciosVM.IdBancoZiPago = $('#idbancozipago').val();
+    comerciosVM.NumeroCuenta = $('#numerocuenta').val().trim();
+
+    var DTO = { 'model': comerciosVM };
+
+    $('#tblcomercios').DataTable().destroy();
+
+    $('#tblcomercios').DataTable({
+        "autoWidth": false,
+        "info": true,
+        "language": {
+            "url": "/bower_components/datatables.net-bs/plug-ins/1.10.19/i18n/spanish.json"
+        },
+        "lengthChange": true,
+        "ordering": false,
+        "pageLength": 10,
+        "paging": true,
+        "processing": true,
+        "searching": false,
+        "serverSide": true,
+        ajax: {
+            type: 'POST',
+            url: 'ListarComercios/',
+            data: DTO,                        
+            ContentType: 'application/json;utf-8'
+        },
+        columns: [
+            { 'data': 'Codigo', 'name': 'Codigo' },
+            { 'data': 'Descripcion', 'name': 'Descripcion'  },
+            { 'data': 'CorreoNotificacion', 'name': 'Correo de Notificacion' },
+            { 'data': 'Banco', 'name': 'Banco' },
+            { 'data': 'CuentaBancaria', 'name': 'Cuenta Bancaria' },
+            { 'data': 'Estado', 'name': 'Estado' },
+            { 'data': 'FechaCreacion', 'name': 'Fecha de Registro'}
+        ]        
+    });
+
+}
