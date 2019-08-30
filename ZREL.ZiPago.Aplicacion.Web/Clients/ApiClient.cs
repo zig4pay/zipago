@@ -48,13 +48,19 @@ namespace ZREL.ZiPago.Aplicacion.Web.Clients
         }
 
         public  async Task<ResponseModel<T>> PostAsync<T>(Uri requestUrl, T content)
+        {            
+            var response = await httpClient.PostAsync(requestUrl.ToString(), CreateHttpContent<T>(content));
+            //response.EnsureSuccessStatusCode();
+            var data = await response.Content.ReadAsStringAsync();            
+            return JsonConvert.DeserializeObject<ResponseModel<T>>(data);
+        }
+
+        public async Task<ResponseListModel<T>> PostListAsync<T>(Uri requestUrl, T content)
         {
-            var logger = LogManager.GetCurrentClassLogger();
             var response = await httpClient.PostAsync(requestUrl.ToString(), CreateHttpContent<T>(content));
             //response.EnsureSuccessStatusCode();
             var data = await response.Content.ReadAsStringAsync();
-            logger.Info("PostAsync: " + data.ToString());
-            return JsonConvert.DeserializeObject<ResponseModel<T>>(data);
+            return JsonConvert.DeserializeObject<ResponseListModel<T>>(data);
         }
 
         public async Task<string> PostJsonAsync<T>(Uri requestUrl, T content)

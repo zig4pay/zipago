@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using NLog;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -137,18 +138,18 @@ namespace ZREL.ZiPago.Servicio.WebAPI.Controllers.Afiliacion
             return response.ToHttpResponse();
         }
 
-        [HttpGet("{idUsuarioZiPago}")]
+        [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        [Route("ComerciosListar/{idUsuarioZiPago}")]
-        public async Task<IActionResult> ComerciosListarAsync(int idUsuarioZiPago)
+        [Route("ComerciosListar")]
+        public async Task<IActionResult> ComerciosListarAsync([FromBody] ComercioFiltros comercioFiltros)
         {
 
             Logger logger = LogManager.GetCurrentClassLogger();
-            logger.Info("[Servicio.WebAPI.Controllers.Afiliacion.AfiliacionController.ComerciosListarAsync] | UsuarioZiPago: [{0}] | Inicio.", idUsuarioZiPago.ToString());
+            logger.Info("[Servicio.WebAPI.Controllers.Afiliacion.AfiliacionController.ComerciosListarAsync] | ComercioFiltros: [{0}] | Inicio.", JsonConvert.SerializeObject(comercioFiltros));
 
-            var response = await oIAfiliacionService.ListarComerciosAsync(logger, idUsuarioZiPago);
+            var response = await oIAfiliacionService.ListarComerciosAsync(logger, comercioFiltros);
 
             return response.ToHttpResponse();
 

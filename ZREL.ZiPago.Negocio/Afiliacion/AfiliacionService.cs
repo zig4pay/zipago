@@ -238,17 +238,17 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
             return response;
         }
 
-        public async Task<IListResponse<ComercioListado>> ListarComerciosAsync(Logger logger, int idUsuarioZiPago)
+        public async Task<IListResponse<ComercioListado>> ListarComerciosAsync(Logger logger, ComercioFiltros comercioFiltros)
         {
 
             ListResponse<ComercioListado> response = new ListResponse<ComercioListado>();
-            logger.Info("[Negocio.Afiliacion.AfiliacionService.ListarComerciosAsync] | UsuarioZiPago: [{0}] | Inicio.", idUsuarioZiPago);
+            logger.Info("[Negocio.Afiliacion.AfiliacionService.ListarComerciosAsync] | ComercioFiltros: [{0}] | Inicio.", JsonConvert.SerializeObject(comercioFiltros));
 
             try
             {
-                response.Model = await DbContext.ListarComerciosAsync(idUsuarioZiPago);
+                response.Model = await DbContext.ListarComerciosAsync(comercioFiltros);
                 response.Mensaje = Constantes.strConsultaRealizada;
-                logger.Info("[Negocio.Afiliacion.AfiliacionService.ListarComerciosAsync] | UsuarioZiPago: [{0}] | Mensaje: [{1}].", idUsuarioZiPago, Constantes.strConsultaRealizada);
+                logger.Info("[Negocio.Afiliacion.AfiliacionService.ListarComerciosAsync] | ComercioFiltros: [{0}] | Mensaje: [{1}].", JsonConvert.SerializeObject(comercioFiltros), Constantes.strConsultaRealizada);
             }
             catch (Exception ex)
             {

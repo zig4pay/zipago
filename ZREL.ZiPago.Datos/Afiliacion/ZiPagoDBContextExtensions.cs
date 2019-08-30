@@ -187,11 +187,10 @@ namespace ZREL.ZiPago.Datos.Afiliacion
 
         }
         
-        public static async Task<IEnumerable<ComercioListado>> ListarComerciosAsync(this ZiPagoDBContext dbContext, int idUsuarioZiPago)
+        public static async Task<IEnumerable<ComercioListado>> ListarComerciosAsync(this ZiPagoDBContext dbContext, ComercioFiltros comercioFiltros)
         {
 
-            var result = from comercios in dbContext.ComerciosZiPago.AsNoTracking()
-                         where comercios.IdUsuarioZiPago == idUsuarioZiPago
+            var result = from comercios in dbContext.ComerciosZiPago.AsNoTracking()                                                     
                          join comerciocuenta in dbContext.ComerciosCuentasZiPago.AsNoTracking()
                             on comercios.IdComercioZiPago equals comerciocuenta.IdComercioZiPago
                          join cuentabancaria in dbContext.CuentasBancariasZiPago.AsNoTracking()
@@ -223,15 +222,35 @@ namespace ZREL.ZiPago.Datos.Afiliacion
                          orderby comercios.CodigoComercio
                          select new ComercioListado
                          {
+                             Id = comercios.IdUsuarioZiPago,
                              Codigo = comercios.CodigoComercio,
                              Descripcion = comercios.Descripcion,
                              CorreoNotificacion = comercios.CorreoNotificacion,
+                             IdBancoZiPago = banco.IdBancoZiPago,
                              Banco = banco.NombreLargo,
-                             CuentaBancaria = tipocuenta.Descr_Valor.Trim() + " " + 
-                                              tipomoneda.Descr_Valor.Trim() + 
-                                              " - Nro: " + cuentabancaria.NumeroCuenta.Trim() +
-                                              " - CCI: " + cuentabancaria.CCI.Trim() ?? ""
+                             TipoCuentaBancaria = tipocuenta.Descr_Valor.Trim(),
+                             MonedaCuentaBancaria = tipomoneda.Descr_Valor.Trim(),
+                             CuentaBancaria = cuentabancaria.NumeroCuenta.Trim(),
+                             Estado = comercios.Activo == Constantes.strValor_Activo ? "Activo" : "Inactivo",
+                             FechaCreacion = comercios.FechaCreacion
                          };
+
+            result.Where(p => p.Id == comercioFiltros.IdUsuarioZiPago);
+
+            if (!string.IsNullOrWhiteSpace(comercioFiltros.CodigoComercio))
+                result.Where(p => p.Codigo.Contains(comercioFiltros.CodigoComercio));
+
+            if (!string.IsNullOrWhiteSpace(comercioFiltros.Descripcion))
+                result.Where(p => p.Descripcion.Contains(comercioFiltros.Descripcion));
+
+            if (!string.IsNullOrWhiteSpace(comercioFiltros.Activo) && comercioFiltros.Activo != "0")
+                result.Where(p => p.Estado == comercioFiltros.Activo);
+
+            if (comercioFiltros.IdBancoZiPago != null && comercioFiltros.IdBancoZiPago > 0)
+                result.Where(p => p.IdBancoZiPago == comercioFiltros.IdBancoZiPago);
+
+            if (!string.IsNullOrWhiteSpace(comercioFiltros.NumeroCuenta))
+                result.Where(p => p.CuentaBancaria.Contains(comercioFiltros.NumeroCuenta));
 
             return await result.ToListAsync();
 

@@ -59,11 +59,17 @@ function ConsultarComercios() {
     comerciosVM.IdBancoZiPago = $('#idbancozipago').val();
     comerciosVM.NumeroCuenta = $('#numerocuenta').val().trim();
 
-    var DTO = { 'model': comerciosVM };
+    var DTO = { 'comercioFiltros': comerciosVM };
 
     $('#tblcomercios').DataTable().destroy();
 
-    $('#tblcomercios').DataTable({
+    $.fn.dataTable.ext.errMode = 'none';
+
+    $('#tblcomercios')
+        .on('error.dt', function (e, settings, techNote, message) {
+            console.log('An error has been reported by DataTables: ', message);
+        })
+        .DataTable({
         "autoWidth": false,
         "info": true,
         "language": {
@@ -80,15 +86,19 @@ function ConsultarComercios() {
             type: 'POST',
             url: 'ListarComercios/',
             data: DTO,                        
-            ContentType: 'application/json;utf-8'
-        },
+            ContentType: 'application/json; utf-8'
+            },       
         columns: [
+            { 'data': 'Id', 'name': 'Id' },
             { 'data': 'Codigo', 'name': 'Codigo' },
-            { 'data': 'Descripcion', 'name': 'Descripcion'  },
+            { 'data': 'Descripcion', 'name': 'Descripcion'},
             { 'data': 'CorreoNotificacion', 'name': 'Correo de Notificacion' },
-            { 'data': 'Banco', 'name': 'Banco' },
-            { 'data': 'CuentaBancaria', 'name': 'Cuenta Bancaria' },
-            { 'data': 'Estado', 'name': 'Estado' },
+            { 'data': 'IdBancoZiPago', 'name': 'Id Banco'},
+            { 'data': 'Banco', 'name': 'Banco'},
+            { 'data': 'TipoCuentaBancaria', 'name': 'Tipo de Cuenta'},
+            { 'data': 'MonedaCuentaBancaria', 'name': 'Moneda'},
+            { 'data': 'CuentaBancaria', 'name': 'Nro de Cuenta'},
+            { 'data': 'Estado', 'name': 'Estado'},
             { 'data': 'FechaCreacion', 'name': 'Fecha de Registro'}
         ]        
     });

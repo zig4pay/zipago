@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using System;
 using System.Globalization;
 using System.Linq;
@@ -87,29 +88,35 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
         }
 
         [HttpPost]
-        public async Task<IActionResult> ListarComercios(ComerciosConsultaViewModel model)
+        public async Task<IActionResult> ListarComercios(ComercioFiltros comercioFiltros)
         {
-
-            JsonResult response;
             Uri requestUrl;
-            ResponseListModel<ComercioListado> responseCuentas = new ResponseListModel<ComercioListado>();
-            
+            JsonResult response;
+            ResponseListModel<ComercioListado> responseComercio = new ResponseListModel<ComercioListado>();
+            string responsePostJson;
+
             try
             {
                 int recordsTotal = 0;
 
                 var draw = HttpContext.Request.HasFormContentType ? HttpContext.Request.Form["draw"].FirstOrDefault() : "1";
                 var start = HttpContext.Request.HasFormContentType ? HttpContext.Request.Form["start"].FirstOrDefault() : "1";
-                //var length = HttpContext.Request.HasFormContentType ? HttpContext.Request.Form["length"].FirstOrDefault() : "10";
-
-                requestUrl = ApiClientFactory.Instance.CreateRequestUri(
-                        string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_ComerciosListar) + 
-                        model.IdUsuarioZiPago.ToString()                    
-                    );
-                responseCuentas = await ApiClientFactory.Instance.GetListAsync<ComercioListado>(requestUrl);
-                recordsTotal = responseCuentas.Model.ToList().Count();
                 
-                response = Json(new { draw, recordsFiltered = recordsTotal, recordsTotal, data = responseCuentas.Model });
+                requestUrl = ApiClientFactory.Instance.CreateRequestUri(
+                        string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_ComerciosListar)
+                    );
+                responsePostJson = await ApiClientFactory.Instance.PostJsonAsync<ComercioFiltros>(requestUrl, comercioFiltros);
+
+                responsePostJson = responsePostJson.Replace("\\", string.Empty);
+                responsePostJson = responsePostJson.Trim('"');                
+
+                responseComercio = JsonConvert.DeserializeObject<ResponseListModel<ComercioListado>>(responsePostJson);
+                recordsTotal = responseComercio.Model.Count();
+
+                //responsePostJson = Json(responseComercio.Model).ToString();
+                responsePostJson = JsonConvert.SerializeObject(responseComercio.Model);
+
+                response = Json(new { draw, recordsFiltered = recordsTotal, recordsTotal, data = responseComercio.Model });
 
             }
             catch (Exception ex)
