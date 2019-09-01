@@ -186,11 +186,11 @@ namespace ZREL.ZiPago.Datos.Afiliacion
             return await result.ToListAsync();
 
         }
-        
+
         public static async Task<IEnumerable<ComercioListado>> ListarComerciosAsync(this ZiPagoDBContext dbContext, ComercioFiltros comercioFiltros)
         {
 
-            var result = from comercios in dbContext.ComerciosZiPago.AsNoTracking()                                                     
+            var result = from comercios in dbContext.ComerciosZiPago.AsNoTracking()
                          join comerciocuenta in dbContext.ComerciosCuentasZiPago.AsNoTracking()
                             on comercios.IdComercioZiPago equals comerciocuenta.IdComercioZiPago
                          join cuentabancaria in dbContext.CuentasBancariasZiPago.AsNoTracking()
@@ -219,7 +219,7 @@ namespace ZREL.ZiPago.Datos.Afiliacion
                                     Key1 = tipomoneda.Cod_Tabla == Constantes.strCodTablaTipoMoneda,
                                     Key2 = tipomoneda.Valor
                                 }
-                         orderby comercios.CodigoComercio
+                         orderby comercios.CodigoComercio                         
                          select new ComercioListado
                          {
                              Id = comercios.IdUsuarioZiPago,
@@ -235,22 +235,22 @@ namespace ZREL.ZiPago.Datos.Afiliacion
                              FechaCreacion = comercios.FechaCreacion
                          };
 
-            result.Where(p => p.Id == comercioFiltros.IdUsuarioZiPago);
+            result = result.Where(p => p.Id == comercioFiltros.IdUsuarioZiPago);
 
             if (!string.IsNullOrWhiteSpace(comercioFiltros.CodigoComercio))
-                result.Where(p => p.Codigo.Contains(comercioFiltros.CodigoComercio));
+                result = result.Where(p => p.Codigo.Contains(comercioFiltros.CodigoComercio));
 
             if (!string.IsNullOrWhiteSpace(comercioFiltros.Descripcion))
-                result.Where(p => p.Descripcion.Contains(comercioFiltros.Descripcion));
+                result = result.Where(p => p.Descripcion.Contains(comercioFiltros.Descripcion));
 
             if (!string.IsNullOrWhiteSpace(comercioFiltros.Activo) && comercioFiltros.Activo != "0")
-                result.Where(p => p.Estado == comercioFiltros.Activo);
+                result = result.Where(p => p.Estado == comercioFiltros.Activo);
 
             if (comercioFiltros.IdBancoZiPago != null && comercioFiltros.IdBancoZiPago > 0)
-                result.Where(p => p.IdBancoZiPago == comercioFiltros.IdBancoZiPago);
+                result = result.Where(p => p.IdBancoZiPago == comercioFiltros.IdBancoZiPago);
 
             if (!string.IsNullOrWhiteSpace(comercioFiltros.NumeroCuenta))
-                result.Where(p => p.CuentaBancaria.Contains(comercioFiltros.NumeroCuenta));
+                result = result.Where(p => p.CuentaBancaria.Contains(comercioFiltros.NumeroCuenta));
 
             return await result.ToListAsync();
 

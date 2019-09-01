@@ -9,23 +9,23 @@
     });
 
     $('#btnConsultar').click(function () {
-        ConsultarComercios();
+        ConsultarComercios();        
     });
 
     $(document).ready(function () {
 
-        $('#tblcomercios').DataTable({                                    
-            "autoWidth": false,            
-            "info": true,
-            "language": {
-                "url": "/bower_components/datatables.net-bs/plug-ins/1.10.19/i18n/spanish.json"
-            },
-            "lengthChange": true,
-            "ordering": false,
-            "pageLength": 10,
-            "paging": true,
-            "searching": false
-        });
+        //$('#tblcomercios').DataTable({                                    
+        //    "autoWidth": false,            
+        //    "info": true,
+        //    "language": {
+        //        "url": "/bower_components/datatables.net-bs/plug-ins/1.10.19/i18n/spanish.json"
+        //    },
+        //    "paging": true,
+        //    "pageLength": 5,
+        //    "lengthChange": false,
+        //    "ordering": false,            
+        //    "searching": false
+        //});
 
         $("#numerocuenta").keypress(SoloNumeros);       
 
@@ -70,37 +70,42 @@ function ConsultarComercios() {
             console.log('An error has been reported by DataTables: ', message);
         })
         .DataTable({
-        "autoWidth": false,
-        "info": true,
-        "language": {
-            "url": "/bower_components/datatables.net-bs/plug-ins/1.10.19/i18n/spanish.json"
-        },
-        "lengthChange": true,
-        "ordering": false,
-        "pageLength": 10,
-        "paging": true,
-        "processing": true,
-        "searching": false,
-        "serverSide": true,
+            "autoWidth": false,
+            "info": true,
+            "language": {
+                "url": "/bower_components/datatables.net-bs/plug-ins/1.10.19/i18n/spanish.json"
+            },            
+            "ordering": false,
+            "paging": true,
+            "pageLength": 5,            
+            "lengthChange": false,
+            "processing": true,
+            "searching": false,
+            "serverSide": true,
         ajax: {
             type: 'POST',
             url: 'ListarComercios/',
             data: DTO,                        
             ContentType: 'application/json; utf-8'
             },       
+        columnDefs: [
+            { "targets": [0], "visible": false, "searchable": false },
+            { "targets": [4], "visible": false, "searchable": false }
+        ],
         columns: [
             { 'data': 'Id', 'name': 'Id' },
             { 'data': 'Codigo', 'name': 'Codigo' },
             { 'data': 'Descripcion', 'name': 'Descripcion'},
-            { 'data': 'CorreoNotificacion', 'name': 'Correo de Notificacion' },
-            { 'data': 'IdBancoZiPago', 'name': 'Id Banco'},
+            { 'data': 'CorreoNotificacion', 'name': 'CorreoNotificacion' },
+            { 'data': 'IdBancoZiPago', 'name': 'IdBancoZiPago'},
             { 'data': 'Banco', 'name': 'Banco'},
-            { 'data': 'TipoCuentaBancaria', 'name': 'Tipo de Cuenta'},
-            { 'data': 'MonedaCuentaBancaria', 'name': 'Moneda'},
-            { 'data': 'CuentaBancaria', 'name': 'Nro de Cuenta'},
+            { 'data': 'TipoCuentaBancaria', 'name': 'TipoCuentaBancaria'},
+            { 'data': 'MonedaCuentaBancaria', 'name': 'MonedaCuentaBancaria'},
+            { 'data': 'CuentaBancaria', 'name': 'CuentaBancaria'},
             { 'data': 'Estado', 'name': 'Estado'},
-            { 'data': 'FechaCreacion', 'name': 'Fecha de Registro'}
+            { 'data': 'FechaCreacion', 'name': 'FechaCreacion'}
         ]        
-    });
+        });
 
+    $('.dataTables_length').addClass('bs-select');
 }
