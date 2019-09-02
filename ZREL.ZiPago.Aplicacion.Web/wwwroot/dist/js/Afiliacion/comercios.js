@@ -90,7 +90,7 @@ function ConsultarComercios() {
             },       
         columnDefs: [
             { "targets": [0], "visible": false, "searchable": false },
-            { "targets": [4], "visible": false, "searchable": false }
+            { "targets": [4], "visible": false, "searchable": false }            
         ],
         columns: [
             { 'data': 'Id', 'name': 'Id' },
