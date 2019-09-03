@@ -6,7 +6,7 @@ using ZREL.ZiPago.Entidad.Comun;
 namespace ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion
 {
     [DataContract]
-    public class ComerciosConsultaViewModel
+    public class ComercioViewModel
     {
         public int IdUsuarioZiPago { get; set; }
 

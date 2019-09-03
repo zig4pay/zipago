@@ -49,6 +49,7 @@
     <Content Include="wwwroot\dist\bower_components\datatables\images\sort_both.png" />
     <Content Include="wwwroot\dist\bower_components\datatables\images\sort_desc.png" />
     <Content Include="wwwroot\dist\bower_components\datatables\images\sort_desc_disabled.png" />
+    <Content Include="wwwroot\dist\bower_components\datatables\plug-ins\1.10.18\i18n\spanish.json" />
     <Content Include="wwwroot\dist\bower_components\font-awesome\css\font-awesome.css" />
     <Content Include="wwwroot\dist\bower_components\font-awesome\css\font-awesome.min.css" />
     <Content Include="wwwroot\dist\bower_components\font-awesome\fonts\fontawesome-webfont.eot" />

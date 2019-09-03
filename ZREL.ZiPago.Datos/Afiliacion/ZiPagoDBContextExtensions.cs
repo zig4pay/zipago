@@ -12,6 +12,7 @@ namespace ZREL.ZiPago.Datos.Afiliacion
     public static class ZiPagoDBContextExtensions
     {
 
+        //Datos Personales
         public static async Task<DatosPersonales> ObtenerDatosPersonalesAsync(this ZiPagoDBContext dbContext, int idUsuarioZiPago) {
             try
             {
@@ -72,6 +73,7 @@ namespace ZREL.ZiPago.Datos.Afiliacion
             
         }
 
+        //Cuentas Bancarias
         public static async Task<CuentaBancariaZiPago> ObtenerCuentaBancariaZiPagoAsync(this ZiPagoDBContext dbContext, CuentaBancariaZiPago entidad)
         {
             return await dbContext.CuentasBancariasZiPago.AsNoTracking().FirstOrDefaultAsync(item => item.IdBancoZiPago == entidad.IdBancoZiPago &&
@@ -82,9 +84,11 @@ namespace ZREL.ZiPago.Datos.Afiliacion
                                                                                );
         }
 
-        public static async Task<ComercioZiPago> ObtenerComercioZiPagoAsync(this ZiPagoDBContext dbContext, string codigoComercio)
+        public static async Task<CuentaBancariaZiPago> ObtenerCuentaBancariaZiPagoPorIdAsync(this ZiPagoDBContext dbContext, int idCuentaBancaria)
         {
-            return await dbContext.ComerciosZiPago.AsNoTracking().FirstOrDefaultAsync(item => item.CodigoComercio == codigoComercio);
+            return await dbContext.CuentasBancariasZiPago.AsNoTracking().FirstOrDefaultAsync(item => item.IdCuentaBancaria == idCuentaBancaria 
+                                                                                                && item.Activo == Constantes.strValor_Activo
+                                                                                            );
         }
 
         public static async Task<IEnumerable<BancoZiPago>> ListarBancosPorUsuarioAsync(this ZiPagoDBContext dbContext, int idUsuarioZiPago)
@@ -93,7 +97,7 @@ namespace ZREL.ZiPago.Datos.Afiliacion
             var result = from cuentabancaria in dbContext.CuentasBancariasZiPago.AsNoTracking()
                          where cuentabancaria.IdUsuarioZiPago == idUsuarioZiPago
                          join banco in dbContext.BancosZiPago.AsNoTracking()
-                            on cuentabancaria.IdBancoZiPago equals banco.IdBancoZiPago                         
+                            on cuentabancaria.IdBancoZiPago equals banco.IdBancoZiPago
                          orderby banco.NombreLargo
                          select new BancoZiPago
                          {
@@ -103,34 +107,39 @@ namespace ZREL.ZiPago.Datos.Afiliacion
 
             return await result.Distinct().ToListAsync();
 
-        }        
-
-        public static async Task<IEnumerable<CuentaBancariaListado>> ListarCuentasBancariasAsync(this ZiPagoDBContext dbContext, int idUsuarioZiPago) {
+        }
+        
+        public static async Task<IEnumerable<CuentaBancariaListado>> ListarCuentasBancariasAsync(this ZiPagoDBContext dbContext, int idUsuarioZiPago)
+        {
 
             var result = from cuentabancaria in dbContext.CuentasBancariasZiPago.AsNoTracking()
                          where cuentabancaria.IdUsuarioZiPago == idUsuarioZiPago
                          join banco in dbContext.BancosZiPago.AsNoTracking()
                             on cuentabancaria.IdBancoZiPago equals banco.IdBancoZiPago
                          join tipocuenta in dbContext.TablasDetalle.AsNoTracking()
-                            on new {
-                                        Key1 = true,
-                                        Key2 = cuentabancaria.CodigoTipoCuenta
-                                   } equals 
-                               new {
-                                        Key1 = tipocuenta.Cod_Tabla == Constantes.strCodTablaTipoCuenta,
-                                        Key2 = tipocuenta.Valor
-                                   }
+                            on new
+                            {
+                                Key1 = true,
+                                Key2 = cuentabancaria.CodigoTipoCuenta
+                            } equals
+                               new
+                               {
+                                   Key1 = tipocuenta.Cod_Tabla == Constantes.strCodTablaTipoCuenta,
+                                   Key2 = tipocuenta.Valor
+                               }
                          join tipomoneda in dbContext.TablasDetalle.AsNoTracking()
-                            on new {
-                                        Key1 = true,
-                                        Key2 = cuentabancaria.CodigoTipoMoneda
-                                   } equals 
-                               new {
-                                        Key1 = tipomoneda.Cod_Tabla == Constantes.strCodTablaTipoMoneda,
-                                        Key2 = tipomoneda.Valor
-                                   }
+                            on new
+                            {
+                                Key1 = true,
+                                Key2 = cuentabancaria.CodigoTipoMoneda
+                            } equals
+                               new
+                               {
+                                   Key1 = tipomoneda.Cod_Tabla == Constantes.strCodTablaTipoMoneda,
+                                   Key2 = tipomoneda.Valor
+                               }
                          orderby banco.NombreLargo
-                         select new CuentaBancariaListado 
+                         select new CuentaBancariaListado
                          {
                              IdCuentaBancaria = cuentabancaria.IdCuentaBancaria,
                              Banco = banco.NombreLargo,
@@ -178,13 +187,19 @@ namespace ZREL.ZiPago.Datos.Afiliacion
                          {
                              IdCuentaBancaria = cuentabancaria.IdCuentaBancaria,
                              Descripcion = tipocuenta.Descr_Valor.Trim() + " " +
-                                           tipomoneda.Descr_Valor.Trim() + 
-                                           " - Nro: " + cuentabancaria.NumeroCuenta.Trim() + 
-                                           " - CCI: " + (cuentabancaria.CCI.Trim() ?? "") 
+                                           tipomoneda.Descr_Valor.Trim() +
+                                           " - Nro: " + cuentabancaria.NumeroCuenta.Trim() +
+                                           " - CCI: " + (cuentabancaria.CCI.Trim() ?? "")
                          };
 
             return await result.ToListAsync();
 
+        }
+
+        //Comercios
+        public static async Task<ComercioZiPago> ObtenerComercioZiPagoAsync(this ZiPagoDBContext dbContext, string codigoComercio)
+        {
+            return await dbContext.ComerciosZiPago.AsNoTracking().FirstOrDefaultAsync(item => item.CodigoComercio == codigoComercio);
         }
 
         public static async Task<IEnumerable<ComercioListado>> ListarComerciosAsync(this ZiPagoDBContext dbContext, ComercioFiltros comercioFiltros)

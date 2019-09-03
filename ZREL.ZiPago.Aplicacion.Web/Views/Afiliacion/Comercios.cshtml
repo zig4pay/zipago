@@ -1,5 +1,5 @@
 ﻿@using ZREL.ZiPago.Libreria
-@model ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion.ComerciosConsultaViewModel
+@model ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion.ComercioViewModel
 
 @{
     Layout = "_Layout";
@@ -40,7 +40,7 @@
                                 </div>
                                 <div class="box-body">
 
-                                    <form class="form-horizontal" id="frmConsulta" asp-controller="Comercios" asp-action="ListarComercios" method="post">
+                                    <form class="form-horizontal" id="frmConsulta" method="post">
 
                                         <input id="idusuariozipago" name="idusuariozipago" type="hidden" asp-for="IdUsuarioZiPago" />
 
@@ -80,24 +80,25 @@
 
                                             <div class="col-sm-2" style="text-align:right">
                                                 <button type="button" id="btnCancelar" name="btnCancelar" class="btn btn-default">
-                                                    <i class="fa fa-undo"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;
-                                                </button>                                                
+                                                    <i class="fa fa-undo"></i>&nbsp;Cancelar
+                                                </button>
                                                 <button type="button" id="btnConsultar" name="btnConsultar" class="btn btn-primary">
-                                                    <i class="fa fa-search"></i>&nbsp;&nbsp;Consultar
+                                                    <i class="fa fa-search"></i>&nbsp;Consultar
                                                 </button>
                                             </div>
                                         </div>
                                         
                                     </form>
+
                                 </div>
                             </div>
 
                             <div class="box box-widget">
                                 <div class="box-header">                                    
                                     <h3 class="box-title">Comercios registrados:</h3>
-                                    <button type="button" class="btn btn-success pull-right">
+                                    <a asp-controller="Comercios" asp-action="Registrar" class="btn btn-success pull-right">
                                         <i class="fa fa-plus"></i>&nbsp;&nbsp;Agregar
-                                    </button>
+                                    </a>
                                 </div>
                                 <div class="box-body">
                                     <div class="form-group">
@@ -105,19 +106,18 @@
                                             <thead>
                                                 <tr>
                                                     <th>Id</th>
-                                                    <th>Codigo</th>
+                                                    <th style="display:none;">ID Comercio</th>
                                                     <th>Descripcion</th>
-                                                    <th>CorreoNotificacion</th>
-                                                    <th>IdBancoZiPago</th>
+                                                    <th>Correo de Notificacion</th>
+                                                    <th style="display:none;">IdBancoZiPago</th>
                                                     <th>Banco</th>
-                                                    <th>TipoCuentaBancaria</th>
-                                                    <th>MonedaCuentaBancaria</th>
-                                                    <th>CuentaBancaria</th>
+                                                    <th>Tipo de Cuenta</th>
+                                                    <th>Moneda</th>
+                                                    <th>Nro. de Cuenta</th>
                                                     <th>Estado</th>
-                                                    <th>FechaCreacion</th>
+                                                    <th>Fecha Registro</th>
                                                 </tr>
-                                            </thead> 
-                                            <tbody></tbody>
+                                            </thead>                                             
                                         </table>
                                     </div>
                                 </div>

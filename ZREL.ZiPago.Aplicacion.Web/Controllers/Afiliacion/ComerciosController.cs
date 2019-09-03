@@ -33,7 +33,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
         {
             
             Uri requestUrl;
-            ComerciosConsultaViewModel model = new ComerciosConsultaViewModel();
+            ComercioViewModel model = new ComercioViewModel();
             ResponseListModel<BancoZiPago> responseBanco;
             
             try
@@ -127,6 +127,41 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
             return response;            
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Registrar()
+        {
 
+            Uri requestUrl;
+            ComercioViewModel model = new ComercioViewModel();
+            ResponseListModel<BancoZiPago> responseBanco;
+
+            try
+            {
+                if (HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session") != null)
+                {
+                    model.IdUsuarioZiPago = HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session").IdUsuarioZiPago;
+
+                    requestUrl = ApiClientFactory.Instance.CreateRequestUri(
+                        string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_BancosPorUsuarioListar) +
+                        model.IdUsuarioZiPago.ToString()
+                        );
+                    responseBanco = await ApiClientFactory.Instance.GetListAsync<BancoZiPago>(requestUrl);
+                    responseBanco.Model.Insert(0, new BancoZiPago { IdBancoZiPago = 0, NombreLargo = "Seleccione" });
+
+                    model.Bancos = responseBanco.Model;
+
+                    return View("~/Views/Afiliacion/Comercio/Registro.cshtml", model);
+                }
+                else
+                {
+                    return View("~/Views/Seguridad/Login.cshtml");
+                }
+            }
+            catch (Exception)
+            {
+                return View("~/Views/Seguridad/Login.cshtml");
+            }
+
+        }
     }
 }

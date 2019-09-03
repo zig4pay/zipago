@@ -11,7 +11,7 @@ using ZREL.ZiPago.Entidad.Comun;
 using ZREL.ZiPago.Entidad.Seguridad;
 using ZREL.ZiPago.Libreria;
 using ZREL.ZiPago.Negocio.Contracts;
-using ZREL.ZiPago.Negocio.Requests;
+using ZREL.ZiPago.Negocio.Requests.Afiliacion;
 using ZREL.ZiPago.Negocio.Responses;
 
 namespace ZREL.ZiPago.Negocio.Afiliacion
@@ -67,7 +67,7 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
             return response;
         }
 
-        public async Task<IResponse> RegistrarAsync(Logger logger, AfiliacionRequest request)
+        public async Task<IResponse> RegistrarAsync(Logger logger, DatosPersonalesRequest request)
         {
             var response = new Response();
             string codRubro;
@@ -254,6 +254,56 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
             {
                 response.Model = null;
                 response.SetError(logger, "Negocio.Afiliacion.AfiliacionService.ListarComerciosAsync", nameof(UsuarioZiPago), ex);
+            }
+
+            return response;
+        }
+
+        public async Task<IResponse> RegistrarComerciosAsync(Logger logger, List<ComercioCuentaZiPago> request)
+        {
+            var response = new Response();            
+            logger.Info("[ZREL.ZiPago.Negocio.Afiliacion.AfiliacionService.RegistrarComerciosAsync] | request: [{0}] | Inicio.", JsonConvert.SerializeObject(request));
+
+            using (var txAsync = await DbContext.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    foreach (ComercioCuentaZiPago item in request)
+                    {
+                        ComercioZiPago comercio = new ComercioZiPago
+                        {
+                            CodigoComercio = item.ComercioZiPago.CodigoComercio,
+                            IdUsuarioZiPago = item.ComercioZiPago.IdUsuarioZiPago,
+                            Descripcion = item.ComercioZiPago.Descripcion,
+                            CorreoNotificacion = item.ComercioZiPago.CorreoNotificacion,
+                            Activo = Constantes.strValor_Activo,
+                            FechaCreacion = DateTime.Now
+                        };
+
+                        CuentaBancariaZiPago cuenta = await DbContext.ObtenerCuentaBancariaZiPagoPorIdAsync(item.CuentaBancariaZiPago.IdCuentaBancaria);
+
+                        ComercioCuentaZiPago comercioCuenta = new ComercioCuentaZiPago
+                        {
+                            ComercioZiPago = comercio,
+                            CuentaBancariaZiPago = cuenta,
+                            Activo = Constantes.strValor_Activo,
+                            FechaCreacion = DateTime.Now
+                        };
+
+                        comercio.ComerciosCuentasZiPago.Add(comercioCuenta);
+                        DbContext.Add(comercio);
+                        await DbContext.SaveChangesAsync();
+                    }
+
+                    txAsync.Commit();
+                    response.Mensaje = Constantes.strRegistroRealizado;
+                }
+                catch (Exception ex)
+                {
+                    txAsync.Rollback();
+                    response.Mensaje = ex.ToString();
+                    response.SetError(logger, "ZREL.ZiPago.Negocio.Afiliacion.AfiliacionService.RegistrarComerciosAsync", nameof(List<ComercioCuentaZiPago>), ex);
+                }
             }
 
             return response;

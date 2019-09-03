@@ -1,51 +1,41 @@
 ﻿jQuery(function ($) {
 
-    $(document).bind("contextmenu", function (e) {
+    $(document).bind('contextmenu', function(e){
         return false;
     });
 
-    $('#btnCancelar').click(function () {
+    $('#btnCancelar').click(function(){
         LimpiarFormulario();
     });
 
-    $('#btnConsultar').click(function () {
+    $('#btnConsultar').click(function(){
         ConsultarComercios();        
     });
 
-    $(document).ready(function () {
+    //$('#btnAgregar').click(function(){
+    //    location.href = '@Url.Action("Registrar","Comercios")';
+    //});
 
-        //$('#tblcomercios').DataTable({                                    
-        //    "autoWidth": false,            
-        //    "info": true,
-        //    "language": {
-        //        "url": "/bower_components/datatables.net-bs/plug-ins/1.10.19/i18n/spanish.json"
-        //    },
-        //    "paging": true,
-        //    "pageLength": 5,
-        //    "lengthChange": false,
-        //    "ordering": false,            
-        //    "searching": false
-        //});
+    $(document).ready(function(){
 
-        $("#numerocuenta").keypress(SoloNumeros);       
+        $('#numerocuenta').keypress(PermitirSoloNumeros);       
 
     });
 
 });
 
-
-function SoloNumeros(e) {
+function PermitirSoloNumeros(e){
     if (e.which !== 8 && e.which !== 0 && (e.which < 48 || e.which > 57)) {
         return false;
     }
 }
 
 function LimpiarFormulario() {
-    $("#codigocomercio").val("");
-    $("#descripcion").val("");
-    $("#estado").val("0");
-    $("#idbancozipago").val(0);
-    $("#numerocuenta").val("");
+    $('#codigocomercio').val('');
+    $('#descripcion').val('');
+    $('#estado').val('0');
+    $('#idbancozipago').val(0);
+    $('#numerocuenta').val('');
 }
 
 function ConsultarComercios() {
@@ -70,18 +60,18 @@ function ConsultarComercios() {
             console.log('An error has been reported by DataTables: ', message);
         })
         .DataTable({
-            "autoWidth": false,
-            "info": true,
-            "language": {
-                "url": "/bower_components/datatables.net-bs/plug-ins/1.10.19/i18n/spanish.json"
+            'autoWidth': false,
+            'info': true,
+            'language': {
+                'url': '/dist/bower_components/datatables/plug-ins/1.10.18/i18n/spanish.json'
             },            
-            "ordering": false,
-            "paging": true,
-            "pageLength": 5,            
-            "lengthChange": false,
-            "processing": true,
-            "searching": false,
-            "serverSide": true,
+            'ordering': false,
+            'paging': true,
+            'pageLength': 5,            
+            'lengthChange': false,
+            'processing': true,
+            'searching': false,
+            'serverSide': true,
         ajax: {
             type: 'POST',
             url: 'ListarComercios/',
@@ -89,23 +79,21 @@ function ConsultarComercios() {
             ContentType: 'application/json; utf-8'
             },       
         columnDefs: [
-            { "targets": [0], "visible": false, "searchable": false },
-            { "targets": [4], "visible": false, "searchable": false }            
+            { 'targets': [0], 'visible': false, 'searchable': false },
+            { 'targets': [4], 'visible': false, 'searchable': false }            
         ],
         columns: [
-            { 'data': 'Id', 'name': 'Id' },
-            { 'data': 'Codigo', 'name': 'Codigo' },
-            { 'data': 'Descripcion', 'name': 'Descripcion'},
-            { 'data': 'CorreoNotificacion', 'name': 'CorreoNotificacion' },
-            { 'data': 'IdBancoZiPago', 'name': 'IdBancoZiPago'},
-            { 'data': 'Banco', 'name': 'Banco'},
-            { 'data': 'TipoCuentaBancaria', 'name': 'TipoCuentaBancaria'},
-            { 'data': 'MonedaCuentaBancaria', 'name': 'MonedaCuentaBancaria'},
-            { 'data': 'CuentaBancaria', 'name': 'CuentaBancaria'},
-            { 'data': 'Estado', 'name': 'Estado'},
-            { 'data': 'FechaCreacion', 'name': 'FechaCreacion'}
+            { 'data': 'Id', 'name': 'Id', 'autoWidth':false },
+            { 'data': 'Codigo', 'name': 'ID Comercio', 'autoWidth': false },
+            { 'data': 'Descripcion', 'name': 'Descripcion', 'autoWidth': false },
+            { 'data': 'CorreoNotificacion', 'name': 'Correo de Notificacion', 'autoWidth': false },
+            { 'data': 'IdBancoZiPago', 'name': 'IdBancoZiPago', 'autoWidth': false },
+            { 'data': 'Banco', 'name': 'Banco', 'autoWidth': false },
+            { 'data': 'TipoCuentaBancaria', 'name': 'Tipo de Cuenta', 'autoWidth': false },
+            { 'data': 'MonedaCuentaBancaria', 'name': 'Moneda', 'autoWidth': false },
+            { 'data': 'CuentaBancaria', 'name': 'Nro. de Cuenta', 'autoWidth': false },
+            { 'data': 'Estado', 'name': 'Estado', 'autoWidth': false },
+            { 'data': 'FechaCreacion', 'name': 'Fecha Registro', 'autoWidth': false }
         ]        
         });
-
-    $('.dataTables_length').addClass('bs-select');
 }

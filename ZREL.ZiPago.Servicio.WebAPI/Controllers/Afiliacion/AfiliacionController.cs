@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using ZREL.ZiPago.Entidad.Afiliacion;
 using ZREL.ZiPago.Negocio.Contracts;
-using ZREL.ZiPago.Negocio.Requests;
+using ZREL.ZiPago.Negocio.Requests.Afiliacion;
 using ZREL.ZiPago.Servicio.WebAPI.Responses;
 
 namespace ZREL.ZiPago.Servicio.WebAPI.Controllers.Afiliacion
@@ -61,7 +61,7 @@ namespace ZREL.ZiPago.Servicio.WebAPI.Controllers.Afiliacion
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
         [Route("Registrar")]
-        public async Task<IActionResult> RegistrarAsync([FromBody] AfiliacionRequest request)
+        public async Task<IActionResult> RegistrarAsync([FromBody] DatosPersonalesRequest request)
         {
 
             var logger = LogManager.GetCurrentClassLogger();
@@ -155,5 +155,20 @@ namespace ZREL.ZiPago.Servicio.WebAPI.Controllers.Afiliacion
 
         }
 
+        [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        [Route("ComerciosRegistrar")]
+        public async Task<IActionResult> ComerciosRegistrarAsync([FromBody] List<ComercioCuentaZiPago> request)
+        {
+
+            var logger = LogManager.GetCurrentClassLogger();
+            logger.Info("[Servicio.WebAPI.Controllers.Afiliacion.AfiliacionController.ComerciosRegistrarAsync] | request: [{0}] | Inicio.",  JsonConvert.SerializeObject(request));
+
+            var response = await oIAfiliacionService.RegistrarComerciosAsync(logger, request);
+
+            return response.ToHttpResponse();
+        }
     }
 }
