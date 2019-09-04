@@ -87,7 +87,7 @@ function MostrarRecuperarClave(valor) {
 function VerificarCaptcha() {
     var response = grecaptcha.getResponse();
 
-    if (response.length == 0) {
+    if (response.length === 0) {
         return false;
     } else {
         return true;

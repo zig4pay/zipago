@@ -28,7 +28,7 @@
                         <div class="col-md-12">                            
                             <div class="box box-widget">
                                 <div class="box-header">
-                                    <h3 class="box-title">Datos:</h3>
+                                    <h3 class="box-title">Datos a registrar:</h3>
                                     <div class="box-tools">
                                         <button type="button" class="btn btn-box-tool" data-widget="collapse">
                                             <i class="fa fa-minus"></i>
@@ -51,18 +51,21 @@
                                                 <div class="form-group">
                                                     <label for="codigocomercio" class="col-sm-1">ID Comercio:</label>
                                                     <div class="col-sm-3">
-                                                        <input id="codigocomercio" name="codigocomercio" type="text" class="form-control" placeholder="Codigo del Comercio">
+                                                        <input id="codigocomercio" name="codigocomercio" type="text" class="form-control" placeholder="Codigo del Comercio" maxlength="14">
+                                                    </div>
+                                                    <div id="comercioexiste" style="display:none;" class="form-group control text-danger">
+                                                        El Codigo del Comercio ya se encuentra registrado, por favor ingrese otro.
                                                     </div>
                                                     <label for="correonotificacion" class="col-sm-2 ">Correo de Notificacion:</label>
                                                     <div class="col-sm-3">
-                                                        <input id="correonotificacion" name="correonotificacion" type="email" class="form-control" placeholder="Correo electronico">
+                                                        <input id="correonotificacion" name="correonotificacion" type="text" class="form-control" placeholder="Correo electronico">
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label for="descripcion" class="col-sm-1">Descripcion:</label>
+                                                    <label for="descripcioncomercio" class="col-sm-1">Descripcion:</label>
                                                     <div class="col-sm-8">
-                                                        <input id="descripcion" name="descripcion" type="text" class="form-control" placeholder="Descripcion del Comercio">
+                                                        <input id="descripcioncomercio" name="descripcioncomercio" type="text" class="form-control" placeholder="Descripcion del Comercio">
                                                     </div>
                                                 </div>
 
@@ -77,13 +80,15 @@
                                                     </div>
                                                     <label for="cuentasxbanco" class="col-sm-1">Cuenta Bancaria:</label>
                                                     <div class="col-sm-4">
-                                                        <select id="cuentasxbanco" name="cuentasxbanco" class="form-control"></select>
+                                                        <select id="cuentasxbanco" name="cuentasxbanco" class="form-control">
+                                                            <option value="0">Seleccione</option>
+                                                        </select>
                                                     </div>
                                                     <div class="col-sm-3" style="text-align:right">
-                                                        <button type="button" id="btnCancelar" name="btnCancelar" class="btn btn-default">
+                                                        <button type="button" id="btnCancelar" class="btn btn-default">
                                                             <i class="fa fa-undo"></i>&nbsp;Cancelar
                                                         </button>
-                                                        <button type="button" id="btnAnadir" name="btnAnadir" class="btn btn-primary">
+                                                        <button type="button" id="btnAnadir" class="btn btn-primary">
                                                             <i class="fa fa-plus"></i>&nbsp;Anadir
                                                         </button>
                                                     </div>
@@ -115,6 +120,7 @@
                                                         <th scope="col">ID Comercio</th>
                                                         <th scope="col">Descripcion</th>
                                                         <th scope="col">Correo de Notificacion</th>
+                                                        <th scope="col" style="display:none;">IdCuentaBancaria</th>
                                                         <th scope="col">Cuenta Bancaria</th>
                                                         <th scope="col">Eliminar</th>
                                                     </tr>
@@ -142,7 +148,11 @@
 </section>
 
 <script src="~/dist/bower_components/jquery/dist/jquery-3.3.1.min.js"></script>
+<script src="~/dist/bower_components/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/dist/bower_components/jquery-validation/dist/additional-methods.min.js"></script>
 <script src="~/dist/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="~/dist/bower_components/datatables/js/jquery.dataTables.min.js"></script>
 <script src="~/dist/bower_components/datatables/js/dataTables.bootstrap.min.js"></script>
+<script src="~/dist/bower_components/sweetalert/sweetalert.min.js"></script>
 <script src="~/dist/js/adminlte.min.js"></script>
+<script src="~/dist/js/Afiliacion/comercioregistro.js"></script>

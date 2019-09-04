@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using NLog;
 using System;
 using System.Globalization;
 using System.Linq;
@@ -163,5 +164,36 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
             }
 
         }
+        
+        [HttpGet]
+        public async Task<JsonResult> VerificarExisteComercioZiPago(string strCodigoComercio)
+        {
+            JsonResult response;
+            Uri requestUrl;
+            ResponseModel<ComercioZiPago> responseComercio = new ResponseModel<ComercioZiPago>();
+            var logger = LogManager.GetCurrentClassLogger();
+
+            try
+            {
+                requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_ComercioObtener) + strCodigoComercio);
+                logger.Info("Aplicacion.Web.Controllers.Afiliacion.ComerciosController.VerificarExisteComercioZiPago requestUrl [{0}]", requestUrl.ToString());
+                responseComercio = await ApiClientFactory.Instance.GetAsync<ComercioZiPago>(requestUrl);
+
+                if (!responseComercio.HizoError)
+                {                    
+                    responseComercio.Mensaje = responseComercio.Model is null ? "NoExiste" : "Existe";                    
+                }
+
+                response = Json(responseComercio);                
+            }
+            catch (Exception ex)
+            {
+                response = Json("");
+                logger.Error("VerificarExisteComercioZiPago Error [0]", ex.ToString());
+            }
+
+            return response;
+        }
+
     }
 }
