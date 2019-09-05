@@ -102,20 +102,34 @@
                                 </div>
                                 <div class="box-body">
                                     <div class="form-group">
-                                        <table id="tblcomercios" class="table table-striped table-hover table-bordered">
+                                        <table 
+                                            id="tblcomercios"
+                                            data-classes="table table-condensed table-hover table-striped"
+                                            data-locale="es-ES"
+                                            data-toggle="table"                                            
+                                            data-search="false"
+                                            data-pagination="true"
+                                            data-url="ListarComercios"
+                                            data-query-params="extraServerParams"
+                                            data-show-refresh="false"
+                                            data-page-size="5"
+                                            data-show-pagination-switch="false"
+                                            data-pagination-pre-text="Anterior"
+                                            data-pagination-next-text="Siguiente"
+                                            >
                                             <thead>
                                                 <tr>
-                                                    <th style="display:none;">Id</th>
-                                                    <th>ID Comercio</th>
-                                                    <th>Descripcion</th>
-                                                    <th>Correo de Notificacion</th>
-                                                    <th style="display:none;">IdBancoZiPago</th>
-                                                    <th>Banco</th>
-                                                    <th>Tipo de Cuenta</th>
-                                                    <th>Moneda</th>
-                                                    <th>Nro. de Cuenta</th>
-                                                    <th>Estado</th>
-                                                    <th>Fecha Registro</th>
+                                                    <th data-field="Id" style="display:none;">Id</th>
+                                                    <th data-field="Codigo">ID Comercio</th>
+                                                    <th data-field="Descripcion">Descripcion</th>
+                                                    <th data-field="CorreoNotificacion">Correo de Notificacion</th>
+                                                    <th data-field="IdBancoZiPago" style="display:none;">IdBancoZiPago</th>
+                                                    <th data-field="Banco">Banco</th>
+                                                    <th data-field="TipoCuentaBancaria">Tipo de Cuenta</th>
+                                                    <th data-field="MonedaCuentaBancaria">Moneda</th>
+                                                    <th data-field="CuentaBancaria">Nro. de Cuenta</th>
+                                                    <th data-field="Estado">Estado</th>
+                                                    <th data-field="FechaCreacion">Fecha Registro</th>
                                                 </tr>
                                             </thead>                                             
                                         </table>
@@ -153,7 +167,9 @@
 <script src="~/bower_components/fastclick/lib/fastclick.js"></script>*@
 <script src="~/dist/bower_components/jquery/dist/jquery-3.3.1.min.js"></script>
 <script src="~/dist/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="~/dist/bower_components/datatables/js/jquery.dataTables.min.js"></script>
-<script src="~/dist/bower_components/datatables/js/dataTables.bootstrap.min.js"></script>
+@*<script src="~/dist/bower_components/datatables/js/jquery.dataTables.min.js"></script>
+<script src="~/dist/bower_components/datatables/js/dataTables.bootstrap.min.js"></script>*@
+<script src="~/dist/bower_components/bootstrap-table-master/dist/bootstrap-table.min.js"></script>
+<script src="~/dist/bower_components/bootstrap-table-master/dist/locale/bootstrap-table-es-ES.min.js"></script>
 <script src="~/dist/js/adminlte.min.js"></script>
 <script src="~/dist/js/Afiliacion/comercios.js"></script>

@@ -89,21 +89,20 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
             return response;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> ListarComercios(ComercioFiltros comercioFiltros)
+        [HttpGet]
+        public async Task<IActionResult> ListarComercios(string sort, string order, string search, Int32 limit, Int32 offset, ComercioFiltros comercioFiltros)
         {
             Uri requestUrl;
             JsonResult response;
             ResponseListModel<ComercioListado> responseComercio = new ResponseListModel<ComercioListado>();
             string responsePostJson;
+            Int32 totalRegistros = 0;
 
             try
             {
-                int recordsTotal = 0;
 
-                var draw = HttpContext.Request.HasFormContentType ? HttpContext.Request.Form["draw"].FirstOrDefault() : "1";
-                var start = HttpContext.Request.HasFormContentType ? HttpContext.Request.Form["start"].FirstOrDefault() : "1";
-                
+                comercioFiltros.IdUsuarioZiPago = HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session").IdUsuarioZiPago;
+
                 requestUrl = ApiClientFactory.Instance.CreateRequestUri(
                         string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_ComerciosListar)
                     );
@@ -113,12 +112,12 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
                 responsePostJson = responsePostJson.Trim('"');                
 
                 responseComercio = JsonConvert.DeserializeObject<ResponseListModel<ComercioListado>>(responsePostJson);
-                recordsTotal = responseComercio.Model.Count();
+                totalRegistros = responseComercio.Model.Count();
 
                 //responsePostJson = Json(responseComercio.Model).ToString();
                 responsePostJson = JsonConvert.SerializeObject(responseComercio.Model);
 
-                response = Json(new { draw, recordsFiltered = recordsTotal, recordsTotal, data = responseComercio.Model });
+                response = Json(new { total = totalRegistros, totalNotFiltered = totalRegistros, rows = responseComercio.Model });
 
             }
             catch (Exception ex)
