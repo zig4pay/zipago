@@ -283,15 +283,18 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
                         CuentaBancariaZiPago cuenta = await DbContext.ObtenerCuentaBancariaZiPagoPorIdAsync(item.CuentaBancariaZiPago.IdCuentaBancaria);
 
                         ComercioCuentaZiPago comercioCuenta = new ComercioCuentaZiPago
-                        {
-                            ComercioZiPago = comercio,
-                            CuentaBancariaZiPago = cuenta,
+                        {                            
                             Activo = Constantes.strValor_Activo,
                             FechaCreacion = DateTime.Now
                         };
 
+                        comercioCuenta.ComercioZiPago = comercio;
+                        comercioCuenta.CuentaBancariaZiPago = cuenta;
+
                         comercio.ComerciosCuentasZiPago.Add(comercioCuenta);
+
                         DbContext.Add(comercio);
+
                         await DbContext.SaveChangesAsync();
                     }
 

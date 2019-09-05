@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using NLog;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -41,7 +42,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
             {
                 if (HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session") != null) {
                     model.IdUsuarioZiPago = HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session").IdUsuarioZiPago;
-
+                    
                     requestUrl = ApiClientFactory.Instance.CreateRequestUri(
                         string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_BancosPorUsuarioListar) +
                         model.IdUsuarioZiPago.ToString()
@@ -141,6 +142,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
                 if (HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session") != null)
                 {
                     model.IdUsuarioZiPago = HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session").IdUsuarioZiPago;
+                    model.Clave1 = HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session").Clave1;
 
                     requestUrl = ApiClientFactory.Instance.CreateRequestUri(
                         string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_BancosPorUsuarioListar) +
@@ -164,7 +166,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
             }
 
         }
-        
+
         [HttpGet]
         public async Task<JsonResult> VerificarExisteComercioZiPago(string strCodigoComercio)
         {
@@ -193,6 +195,52 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
             }
 
             return response;
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> Registrar(List<ComercioZiPago> comercios)
+        {
+            JsonResult response;
+            Uri requestUrl;
+            List<ComercioCuentaZiPago> lstComercioCuenta = new List<ComercioCuentaZiPago>();
+            ComercioCuentaZiPago comercioCuenta;
+            ComercioZiPago comercio;
+            CuentaBancariaZiPago cuentaBancaria;
+
+            try
+            {
+
+                foreach (ComercioZiPago item in comercios)
+                {
+                    comercio = new ComercioZiPago{
+                        IdUsuarioZiPago = item.IdUsuarioZiPago,
+                        CodigoComercio = item.CodigoComercio,
+                        Descripcion = item.Descripcion,
+                        CorreoNotificacion = item.CorreoNotificacion
+                    };
+
+                    cuentaBancaria = new CuentaBancariaZiPago{
+                        IdCuentaBancaria = item.CodigoCuenta
+                    };
+
+                    comercioCuenta = new ComercioCuentaZiPago {
+                        ComercioZiPago = comercio,
+                        CuentaBancariaZiPago = cuentaBancaria
+                    };
+
+                    lstComercioCuenta.Add(comercioCuenta);
+                }
+
+                requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_ComerciosRegistrar));
+                response = Json(await ApiClientFactory.Instance.PostJsonAsync<List<ComercioCuentaZiPago>>(requestUrl, lstComercioCuenta));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return response;
+
         }
 
     }

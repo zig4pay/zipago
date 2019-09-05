@@ -58,7 +58,7 @@
                                                     </div>
                                                     <label for="correonotificacion" class="col-sm-2 ">Correo de Notificacion:</label>
                                                     <div class="col-sm-3">
-                                                        <input id="correonotificacion" name="correonotificacion" type="text" class="form-control" placeholder="Correo electronico">
+                                                        <input id="correonotificacion" name="correonotificacion" type="text" class="form-control" asp-for="Clave1" placeholder="Correo electronico">
                                                     </div>
                                                 </div>
 
@@ -103,23 +103,21 @@
 
                             <div class="box box-widget">
                                 <div class="box-header">
-                                    <h3 class="box-title">Comercios a registrar:</h3>
-                                    <button type="button" id="btnRegistrar" name="btnRegistrar" class="btn btn-success pull-right">
-                                        <i class="fa fa-save"></i>&nbsp;Registrar
-                                    </button>
+                                    <h3 class="box-title">Comercios a registrar:</h3>                                    
                                 </div>
                                 <div class="box-body">
 
                                     <div class="row">
                                         <div class="col-md-12">
 
-                                            <table id="tblComercios" class="table table-striped table-hover table-bordered">
+                                            <table id="tblComercios" class="table table-hover">
                                                 <thead>
                                                     <tr>
                                                         <th scope="col">Nro.</th>
                                                         <th scope="col">ID Comercio</th>
                                                         <th scope="col">Descripcion</th>
                                                         <th scope="col">Correo de Notificacion</th>
+                                                        <th scope="col">Banco</th>
                                                         <th scope="col" style="display:none;">IdCuentaBancaria</th>
                                                         <th scope="col">Cuenta Bancaria</th>
                                                         <th scope="col">Eliminar</th>
@@ -127,7 +125,6 @@
                                                 </thead>
                                                 <tbody></tbody>
                                             </table>
-
                                         </div>
                                     </div>
                                 </div>
@@ -151,8 +148,6 @@
 <script src="~/dist/bower_components/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/dist/bower_components/jquery-validation/dist/additional-methods.min.js"></script>
 <script src="~/dist/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="~/dist/bower_components/datatables/js/jquery.dataTables.min.js"></script>
-<script src="~/dist/bower_components/datatables/js/dataTables.bootstrap.min.js"></script>
 <script src="~/dist/bower_components/sweetalert/sweetalert.min.js"></script>
 <script src="~/dist/js/adminlte.min.js"></script>
 <script src="~/dist/js/Afiliacion/comercioregistro.js"></script>

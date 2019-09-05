@@ -12,10 +12,6 @@
         ConsultarComercios();        
     });
 
-    //$('#btnAgregar').click(function(){
-    //    location.href = '@Url.Action("Registrar","Comercios")';
-    //});
-
     $(document).ready(function(){
 
         $('#numerocuenta').keypress(PermitirSoloNumeros);       
@@ -83,17 +79,17 @@ function ConsultarComercios() {
             { 'targets': [4], 'visible': false, 'searchable': false }            
         ],
         columns: [
-            { 'data': 'Id', 'name': 'Id', 'autoWidth':false },
-            { 'data': 'Codigo', 'name': 'ID Comercio', 'autoWidth': false },
-            { 'data': 'Descripcion', 'name': 'Descripcion', 'autoWidth': false },
-            { 'data': 'CorreoNotificacion', 'name': 'Correo de Notificacion', 'autoWidth': false },
-            { 'data': 'IdBancoZiPago', 'name': 'IdBancoZiPago', 'autoWidth': false },
-            { 'data': 'Banco', 'name': 'Banco', 'autoWidth': false },
-            { 'data': 'TipoCuentaBancaria', 'name': 'Tipo de Cuenta', 'autoWidth': false },
-            { 'data': 'MonedaCuentaBancaria', 'name': 'Moneda', 'autoWidth': false },
-            { 'data': 'CuentaBancaria', 'name': 'Nro. de Cuenta', 'autoWidth': false },
-            { 'data': 'Estado', 'name': 'Estado', 'autoWidth': false },
-            { 'data': 'FechaCreacion', 'name': 'Fecha Registro', 'autoWidth': false }
+            { 'data': 'Id', 'name': 'Id'},
+            { 'data': 'Codigo', 'name': 'ID Comercio'},
+            { 'data': 'Descripcion', 'name': 'Descripcion'},
+            { 'data': 'CorreoNotificacion', 'name': 'Correo de Notificacion'},
+            { 'data': 'IdBancoZiPago', 'name': 'IdBancoZiPago'},
+            { 'data': 'Banco', 'name': 'Banco'},
+            { 'data': 'TipoCuentaBancaria', 'name': 'Tipo de Cuenta'},
+            { 'data': 'MonedaCuentaBancaria', 'name': 'Moneda'},
+            { 'data': 'CuentaBancaria', 'name': 'Nro. de Cuenta'},
+            { 'data': 'Estado', 'name': 'Estado'},
+            { 'data': 'FechaCreacion', 'name': 'Fecha Registro'}
         ]        
         });
 }

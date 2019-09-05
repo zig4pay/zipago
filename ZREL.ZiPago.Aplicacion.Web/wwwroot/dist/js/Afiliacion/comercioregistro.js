@@ -20,18 +20,54 @@
     });
 
     $('#btnCancelar').click(function () {
-        LimpiarFormulario();
+        LimpiarFormulario();        
     });
 
     $('#btnAnadir').click(function () {
         var form = $("#frmRegistro");
+        $("#comercioexiste").hide();
         form.validate();
         if (form.valid()) {
             VerificaExisteComercio();
         }
-
     });
 
+    $(document).on('click', '.elimina', function (event) {
+        var nro = 0;
+        $(this).closest('tr').remove();
+        $("#tblComercios tbody tr").each(function (index) {
+            nro++;
+            $(this).children("td").each(function (indextd) {
+                switch (indextd) {
+                    case 0:
+                        $(this).html(nro);
+                        break;
+                }
+            });
+        });
+    });
+
+    $('#btnRegistrar').click(function () {
+
+        var filas = $("#tblComercios tr").length;
+
+        if (filas > 1) {            
+            swal({
+                title: "Desea registrar la lista de Comercios?",
+                text: "Se realizara el registro de " + (filas - 1) + " Comercio(s).",
+                type: "info",
+                showCancelButton: true,
+                confirmButtonClass: "btn-primary",
+                confirmButtonText: "Si, registrar",
+                closeOnConfirm: false
+                },
+                function () {
+                    RegistrarComercios();
+                });
+        }
+
+    });
+    
     $(document).ready(function () {
         
         $.validator.setDefaults({});
@@ -103,7 +139,7 @@ function ValidarSeleccion(valor) {
 
 function LimpiarFormulario() {
     $('#codigocomercio').val('');
-    $('#correonotificacion').val(''); 
+    //$('#correonotificacion').val(''); 
     $('#descripcioncomercio').val('');
     $('#idbancozipago').val(0);
     $('#cuentasxbanco').val(0);
@@ -112,11 +148,13 @@ function LimpiarFormulario() {
 function VerificaExisteComercio() {
 
     var strCodigoComercio = $("#codigocomercio").val().trim();    
-
+    var DTO = { "strCodigoComercio": strCodigoComercio };
+    
     $.ajax(
         {
-            url: 'VerificarExisteComercioZiPago/' + strCodigoComercio,
+            url: 'VerificarExisteComercioZiPago/',
             type: "GET",
+            data: DTO,
             datatype: 'json',
             ContentType: 'application/json;utf-8'
         })
@@ -129,14 +167,26 @@ function VerificaExisteComercio() {
                         if (ValidarComercios()) {
                             AgregarComercios();
                         } else {
-                            alert("Los datos del comercio a ingresar ya se encuentran anadidos.");
+                            swal({
+                                title: "Alerta",
+                                text: "Los datos del comercio que desea anadir ya se encuentran en el listado.",
+                                type: "warning",
+                                confirmButtonText: "OK",
+                                confirmButtonClass: 'btn text-white bg-button-acept'
+                            });
                         }
                     }
                 }
             });
         })
-        .error(function (err) {
-            alert('Se ha producido un error al validar el Codigo del Comercio, \n por favor intentelo en unos minutos.');
+        .fail(function (err) {
+            swal({
+                title: "Error",
+                text: "Se ha producido un error al validar el Codigo del Comercio, por favor intentelo en unos minutos.",
+                type: "error",
+                confirmButtonText: "OK",
+                confirmButtonClass: 'btn text-white bg-button-acept'
+            });
         });
 }
 
@@ -149,7 +199,7 @@ function ValidarComercios() {
 
         $(this).children("td").each(function (indextd) {
             switch (indextd) {
-                case 2:
+                case 1:
                     codigocomercio = $(this).text();
                     break;
             }
@@ -163,17 +213,69 @@ function ValidarComercios() {
 
 function AgregarComercios() {
 
-    var htmlTags =  '<tr">' +
-                        '<td style="display:none;">' + 1 + '</td>' +        
+    var nro = $("#tblComercios tr").length;
+
+    var htmlTags =  '<tr>' +
+                        '<td>' + nro + '</td>' +        
                         '<td>' + $("#codigocomercio").val() + '</td>' +
                         '<td>' + $("#descripcioncomercio").val() + '</td>' +
                         '<td>' + $("#correonotificacion").val() + '</td>' +
-                        '<td>' + $("#cuentasxbanco").val() + '</td>' +        
-                        $('select[name="cuentasxbanco"] option:selected').text() + '</td>' +
-                        '<td><a id="btnQuitarComercio" class="btn btn-default eliminaComercio"> Quitar </a></td>' +
+                        '<td>' + $('select[name="idbancozipago"] option:selected').text() + '</td>' +
+                        '<td style="display:none;">' + $("#cuentasxbanco").val() + '</td>' +        
+                        '<td>' + $('select[name="cuentasxbanco"] option:selected').text() + '</td>' +
+                        '<td><a id="btnQuitarComercio" class="btn btn-danger elimina"> Quitar </a></td>' +
                     '</tr>';
 
     $('#tblComercios tbody').append(htmlTags);
     LimpiarFormulario();
+
+}
+
+function RegistrarComercios() {
+
+    var comercios = new Array();
+
+    $("#tblComercios tbody tr").each(function (index) {        
+        var comercio = new Object();
+        
+        comercio.IdUsuarioZiPago = $('#idusuariozipago').val();
+        $(this).children("td").each(function (indextd) {
+            switch (indextd) {
+                case 1:
+                    comercio.CodigoComercio = $(this).text();
+                    break;
+                case 2:
+                    comercio.Descripcion = $(this).text();
+                    break;
+                case 3:
+                    comercio.CorreoNotificacion = $(this).text();
+                    break;
+                case 5:
+                    comercio.CodigoCuenta = $(this).text();
+                    break;
+            }
+        });
+
+        comercios.push(comercio);
+
+    });
+
+    var DTO = { 'comercios': comercios };
+
+    $.ajax(
+        {
+            url: 'Registrar/',
+            type: "POST",
+            data: DTO,
+            datatype: 'json',
+            ContentType: 'application/json; utf-8'
+        })
+        .done(function (resp) {
+            swal("Comercios registrados correctamente", resp, "success");
+        })
+        .fail(function (err) {
+            alert('Error al registrar:\n' + err);
+        });
+
 
 }

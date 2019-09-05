@@ -21,7 +21,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Models.Seguridad
         [Display(Name = "Clave")]
         [DataMember]
         public string Clave2 { get; set; }
-                
+        
         [Display(Name = "Apellidos")]
         [DataMember]
         public string ApellidosUsuario { get; set; }
