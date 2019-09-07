@@ -90,9 +90,9 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
         }
 
         [HttpGet]
-        public async Task<IActionResult> ListarComercios(string sort, string order, string search, Int32 limit, Int32 offset, ComercioFiltros comercioFiltros)
-        {
-            Uri requestUrl;
+        public async Task<IActionResult> ListarComercios(string order, int idUsuarioZiPago, string codigoComercio, string descripcion, string activo, int idBancoZiPago, string numeroCuenta)
+        {                        
+            Uri requestUrl;            
             JsonResult response;
             ResponseListModel<ComercioListado> responseComercio = new ResponseListModel<ComercioListado>();
             string responsePostJson;
@@ -101,7 +101,14 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
             try
             {
 
-                comercioFiltros.IdUsuarioZiPago = HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session").IdUsuarioZiPago;
+                ComercioFiltros comercioFiltros = new ComercioFiltros {
+                    IdUsuarioZiPago = idUsuarioZiPago,
+                    CodigoComercio = codigoComercio,
+                    Descripcion = descripcion,
+                    Activo = activo,
+                    IdBancoZiPago = idBancoZiPago,
+                    NumeroCuenta = numeroCuenta
+                };
 
                 requestUrl = ApiClientFactory.Instance.CreateRequestUri(
                         string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_ComerciosListar)

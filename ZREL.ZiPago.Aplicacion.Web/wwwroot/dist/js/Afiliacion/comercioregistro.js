@@ -271,10 +271,19 @@ function RegistrarComercios() {
             ContentType: 'application/json; utf-8'
         })
         .done(function (resp) {
+            $("#tblComercios > tbody").html(""); 
             swal("Comercios registrados correctamente", resp, "success");
         })
         .fail(function (err) {
-            alert('Error al registrar:\n' + err);
+            swal({
+                title: "Error",
+                text: "Ocurrio un error al registrar los Comercios.",
+                type: "error",
+                showCancelButton: false,
+                confirmButtonClass: "btn-default",
+                confirmButtonText: "Ok",
+                closeOnConfirm: false
+            });
         });
 
 

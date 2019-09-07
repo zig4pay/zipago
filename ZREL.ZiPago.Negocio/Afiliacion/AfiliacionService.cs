@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -280,19 +281,18 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
                             FechaCreacion = DateTime.Now
                         };
 
-                        CuentaBancariaZiPago cuenta = await DbContext.ObtenerCuentaBancariaZiPagoPorIdAsync(item.CuentaBancariaZiPago.IdCuentaBancaria);
-
+                        CuentaBancariaZiPago cuenta = await DbContext.CuentasBancariasZiPago.FirstOrDefaultAsync(p => p.IdCuentaBancaria == item.CuentaBancariaZiPago.IdCuentaBancaria
+                                                                                                                    && p.Activo == Constantes.strValor_Activo);
+                        
                         ComercioCuentaZiPago comercioCuenta = new ComercioCuentaZiPago
                         {                            
                             Activo = Constantes.strValor_Activo,
-                            FechaCreacion = DateTime.Now
+                            FechaCreacion = DateTime.Now,
+                            ComercioZiPago = comercio,
+                            CuentaBancariaZiPago = cuenta
                         };
 
-                        comercioCuenta.ComercioZiPago = comercio;
-                        comercioCuenta.CuentaBancariaZiPago = cuenta;
-
                         comercio.ComerciosCuentasZiPago.Add(comercioCuenta);
-
                         DbContext.Add(comercio);
 
                         await DbContext.SaveChangesAsync();
@@ -305,7 +305,7 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
                 {
                     txAsync.Rollback();
                     response.Mensaje = ex.ToString();
-                    response.SetError(logger, "ZREL.ZiPago.Negocio.Afiliacion.AfiliacionService.RegistrarComerciosAsync", nameof(List<ComercioCuentaZiPago>), ex);
+                    response.SetError(logger, "Negocio.Afiliacion.AfiliacionService.RegistrarComerciosAsync", nameof(List<ComercioCuentaZiPago>), ex);
                 }
             }
 
