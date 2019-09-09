@@ -246,7 +246,7 @@ namespace ZREL.ZiPago.Datos.Afiliacion
                              TipoCuentaBancaria = tipocuenta.Descr_Valor.Trim(),
                              MonedaCuentaBancaria = tipomoneda.Descr_Valor.Trim(),
                              CuentaBancaria = cuentabancaria.NumeroCuenta.Trim(),
-                             Estado = comercios.Activo == Constantes.strValor_Activo ? "Activo" : "Inactivo",
+                             Estado = comercios.Activo,
                              FechaCreacion = comercios.FechaCreacion
                          };
 

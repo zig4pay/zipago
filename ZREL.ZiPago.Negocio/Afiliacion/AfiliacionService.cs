@@ -248,6 +248,10 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
             try
             {
                 response.Model = await DbContext.ListarComerciosAsync(comercioFiltros);
+                foreach (ComercioListado comercio in response.Model)
+                {
+                    comercio.Estado = comercio.Estado == Constantes.strValor_Activo ? "Activo" : "Inactivo";
+                }
                 response.Mensaje = Constantes.strConsultaRealizada;
                 logger.Info("[Negocio.Afiliacion.AfiliacionService.ListarComerciosAsync] | ComercioFiltros: [{0}] | Mensaje: [{1}].", JsonConvert.SerializeObject(comercioFiltros), Constantes.strConsultaRealizada);
             }
@@ -273,7 +277,7 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
                     {
                         ComercioZiPago comercio = new ComercioZiPago
                         {
-                            CodigoComercio = item.ComercioZiPago.CodigoComercio,
+                            CodigoComercio = item.ComercioZiPago.CodigoComercio.ToUpper(),
                             IdUsuarioZiPago = item.ComercioZiPago.IdUsuarioZiPago,
                             Descripcion = item.ComercioZiPago.Descripcion,
                             CorreoNotificacion = item.ComercioZiPago.CorreoNotificacion,
@@ -287,10 +291,11 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
                         ComercioCuentaZiPago comercioCuenta = new ComercioCuentaZiPago
                         {                            
                             Activo = Constantes.strValor_Activo,
-                            FechaCreacion = DateTime.Now,
-                            ComercioZiPago = comercio,
-                            CuentaBancariaZiPago = cuenta
+                            FechaCreacion = DateTime.Now                            
                         };
+
+                        comercioCuenta.ComercioZiPago = comercio;
+                        comercioCuenta.CuentaBancariaZiPago = cuenta;
 
                         comercio.ComerciosCuentasZiPago.Add(comercioCuenta);
                         DbContext.Add(comercio);

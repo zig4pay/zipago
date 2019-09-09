@@ -1,5 +1,30 @@
 ﻿jQuery(function ($) {
-    
+
+    $.validator.setDefaults({
+        highlight: function (element) {
+            $(element).closest('.form-group').addClass('has-error');
+        },
+        unhighlight: function (element) {
+            $(element).closest('.form-group').removeClass('has-error');
+        },
+        errorElement: 'span',
+        errorClass: 'help-block',
+        errorPlacement: function (error, element) {
+            if (element.parent('.input-group').length) {
+                error.insertAfter(element.parent());
+            }
+            else if (element.prop('type') === 'radio' && element.parent('.radio-inline').length) {
+                error.insertAfter(element.parent().parent());
+            }
+            else if (element.prop('type') === 'checkbox' || element.prop('type') === 'radio') {
+                error.appendTo(element.parent().parent());
+            }
+            else {
+                error.insertAfter(element);
+            }
+        }
+    });
+
     $.validator.addMethod("validarcorreo", function (value) {
         var respuesta = true;
         var reg = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -138,8 +163,7 @@ function ValidarSeleccion(valor) {
 }
 
 function LimpiarFormulario() {
-    $('#codigocomercio').val('');
-    //$('#correonotificacion').val(''); 
+    $('#codigocomercio').val('');    
     $('#descripcioncomercio').val('');
     $('#idbancozipago').val(0);
     $('#cuentasxbanco').val(0);
@@ -217,7 +241,7 @@ function AgregarComercios() {
 
     var htmlTags =  '<tr>' +
                         '<td>' + nro + '</td>' +        
-                        '<td>' + $("#codigocomercio").val() + '</td>' +
+                        '<td>' + $("#codigocomercio").val().toUpperCase() + '</td>' +
                         '<td>' + $("#descripcioncomercio").val() + '</td>' +
                         '<td>' + $("#correonotificacion").val() + '</td>' +
                         '<td>' + $('select[name="idbancozipago"] option:selected').text() + '</td>' +
@@ -271,8 +295,22 @@ function RegistrarComercios() {
             ContentType: 'application/json; utf-8'
         })
         .done(function (resp) {
-            $("#tblComercios > tbody").html(""); 
-            swal("Comercios registrados correctamente", resp, "success");
+            var content = JSON.parse(resp);
+            console.log(content);
+            if (!content.hizoError) {
+                $("#tblComercios > tbody").html("");
+                swal("Comercios registrados correctamente", content.mensaje, "success");
+            } else {
+                swal({
+                    title: "Error",
+                    text: "Ocurrio un error al registrar los Comercios. Por favor intentelo en unos minutos.",
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonClass: "btn-default",
+                    confirmButtonText: "Ok",
+                    closeOnConfirm: false
+                });
+            }            
         })
         .fail(function (err) {
             swal({
