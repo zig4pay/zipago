@@ -13,7 +13,7 @@
 
 // Make sure jQuery has been loaded
 if (typeof jQuery === 'undefined') {
-throw new Error('AdminLTE requires jQuery')
+    throw new Error('AdminLTE requires jQuery');
 }
 
 /* BoxRefresh()

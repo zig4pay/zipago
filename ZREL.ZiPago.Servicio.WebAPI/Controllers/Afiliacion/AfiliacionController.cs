@@ -170,5 +170,38 @@ namespace ZREL.ZiPago.Servicio.WebAPI.Controllers.Afiliacion
 
             return response.ToHttpResponse();
         }
+
+        [HttpGet("{idUsuarioZiPago}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        [Route("CuentasBancariasObtenerCantidadPorUsuarioAsync/{idUsuarioZiPago}")]
+        public async Task<IActionResult> CuentasBancariasObtenerCantidadPorUsuarioAsync(int idUsuarioZiPago)
+        {            
+            Logger logger = LogManager.GetCurrentClassLogger();
+            logger.Info("[Servicio.WebAPI.Controllers.Afiliacion.AfiliacionController.CuentasBancariasObtenerCantidadPorUsuarioAsync] | UsuarioZiPago: [{0}] | Inicio.", idUsuarioZiPago.ToString());
+
+            var response = await oIAfiliacionService.ObtenerCantidadCuentasBancariasPorUsuarioAsync(logger, idUsuarioZiPago);
+
+            return response.ToHttpResponse();
+
+        }
+
+        [HttpGet("{idUsuarioZiPago}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        [Route("ComerciosObtenerCantidadPorUsuarioAsync/{idUsuarioZiPago}")]
+        public async Task<IActionResult> ComerciosObtenerCantidadPorUsuarioAsync(int idUsuarioZiPago)
+        {
+            Logger logger = LogManager.GetCurrentClassLogger();
+            logger.Info("[Servicio.WebAPI.Controllers.Afiliacion.AfiliacionController.ComerciosObtenerCantidadPorUsuarioAsync] | UsuarioZiPago: [{0}] | Inicio.", idUsuarioZiPago.ToString());
+
+            var response = await oIAfiliacionService.ObtenerCantidadComerciosPorUsuarioAsync(logger, idUsuarioZiPago);
+
+            return response.ToHttpResponse();
+
+        }
+
     }
 }

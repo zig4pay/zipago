@@ -10,15 +10,9 @@
         errorElement: 'span',
         errorClass: 'help-block',
         errorPlacement: function (error, element) {
-            if (element.parent('.input-group').length) {
+            if (element.parent('.form-control').length) {
                 error.insertAfter(element.parent());
-            }
-            else if (element.prop('type') === 'radio' && element.parent('.radio-inline').length) {
-                error.insertAfter(element.parent().parent());
-            }
-            else if (element.prop('type') === 'checkbox' || element.prop('type') === 'radio') {
-                error.appendTo(element.parent().parent());
-            }
+            }            
             else {
                 error.insertAfter(element);
             }

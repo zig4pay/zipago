@@ -68,6 +68,30 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
             return response;
         }
 
+        public async Task<ISummaryResponse> ObtenerCantidadComerciosPorUsuarioAsync(Logger logger, int idUsuarioZiPago)
+        {
+            ISummaryResponse response = new SummaryResponse();
+            logger.Info("[Negocio.Afiliacion.AfiliacionService.ObtenerCantidadComerciosPorUsuarioAsync] | UsuarioZiPago: [{0}] | Inicio.", idUsuarioZiPago);
+
+            try
+            {
+                response.CantidadTotal = await DbContext.ObtenerCantidadComerciosPorUsuarioAsync(idUsuarioZiPago);
+                response.Mensaje = Constantes.strConsultaRealizada;
+
+                logger.Info("[Negocio.Afiliacion.AfiliacionService.ObtenerCantidadComerciosPorUsuarioAsync] | Response: [{0}].",
+                            JsonConvert.SerializeObject(response));
+            }
+            catch (Exception ex)
+            {
+                response.CantidadTotal = 0;
+                response.SetError(logger, "Negocio.Afiliacion.AfiliacionService.ObtenerCantidadComerciosPorUsuarioAsync", nameof(UsuarioZiPago), ex);
+            }
+
+            return response;
+        }
+
+
+
         public async Task<IResponse> RegistrarAsync(Logger logger, DatosPersonalesRequest request)
         {
             var response = new Response();
@@ -317,5 +341,27 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
             return response;
         }
 
+        public async Task<ISummaryResponse> ObtenerCantidadCuentasBancariasPorUsuarioAsync(Logger logger, int idUsuarioZiPago)
+        {
+            ISummaryResponse response = new SummaryResponse();
+            logger.Info("[Negocio.Afiliacion.AfiliacionService.ObtenerCantidadCuentasBancariasPorUsuarioAsync] | UsuarioZiPago: [{0}] | Inicio.", idUsuarioZiPago);
+
+            try
+            {
+                response.CantidadTotal = await DbContext.ObtenerCantidadCuentasBancariasPorUsuarioAsync(idUsuarioZiPago);
+                response.Mensaje = Constantes.strConsultaRealizada;
+
+                logger.Info("[Negocio.Afiliacion.AfiliacionService.ObtenerCantidadCuentasBancariasPorUsuarioAsync] | Response: [{0}].",
+                            JsonConvert.SerializeObject(response));
+            }
+            catch (Exception ex)
+            {
+                response.CantidadTotal = 0;
+                response.SetError(logger, "Negocio.Afiliacion.AfiliacionService.ObtenerCantidadCuentasBancariasPorUsuarioAsync", nameof(UsuarioZiPago), ex);
+            }
+
+            return response;
+        }
+        
     }
 }

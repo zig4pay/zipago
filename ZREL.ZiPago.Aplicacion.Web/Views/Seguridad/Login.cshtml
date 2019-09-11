@@ -1,6 +1,6 @@
 ﻿@model ZREL.ZiPago.Aplicacion.Web.Models.Seguridad.UsuarioViewModel
 @{
-    ViewData["Title"] = "ZiPago | Inicio de Sesion";    
+    ViewData["Title"] = "ZiPago | Inicio de Sesion";
     Layout = "_LayoutSeguridad";
 }
 
@@ -9,7 +9,7 @@
     <div class="login-logo">
         <a href="#">Portal <b>ZiPago</b></a>
     </div>
-    
+
     <div id="loginBox" class="login-box-body">
         <p class="login-box-msg">Ingrese a ZiPago</p>
 
@@ -22,15 +22,15 @@
                 <input type="password" id="clave2" name="clave2" class="form-control" placeholder="Contrase&ntilde;a">
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
-            <div class="form-group has-feedback">
-                <div class="g-recaptcha" data-sitekey="@ViewData["ReCaptchaKey"]"></div>
-                <div id="errorCaptcha" style="display:none;" class="form-group control text-danger">
+            <div class="form-group has-feedback" style="text-align: center;">
+                <div class="g-recaptcha" data-sitekey="@ViewData["ReCaptchaKey"]" style="display: inline-block;"></div>
+                <div id="errorCaptcha" style="display:none;" class="text-red">
                     Debe marcar la casilla No soy un robot.
                 </div>
             </div>
 
             <div class="form-group has-feedback">
-                @Html.ValidationMessage("ErrorLogin", "", new { @class = "text-danger" })
+                @Html.ValidationMessage("ErrorLogin", "", new { @class = "text-red" })
             </div>
 
             <div class="row">
@@ -52,7 +52,7 @@
         <a href="#" id="btnOlvidoClave">¿Olvidaste tu clave?</a>
 
     </div>
-        
+
     <div id="olvidoClaveBox" style="display:none;" class="login-box-body">
         <p class="login-box-msg">
             <strong>Recuperacion de Clave</strong>
@@ -67,7 +67,7 @@
         </div>
         <div class="row">
             <div class="col-xs-6">
-                <a id="btnRegresaLogin" href="#">Ingrese a ZiPago</a>
+                <a id="btnRegresaLogin" href="#">Login ZiPago</a>
             </div>
 
             <div class="col-xs-6">
@@ -80,7 +80,19 @@
 
 </div>
 
-<script src="~/dist/bower_components/jquery/dist/jquery-3.3.1.min.js"></script>
-<script src="~/dist/js/jquery.validate.min.js"></script>
+<script src="~/bower_components/jquery/dist/jquery-3.3.1.min.js"></script>
+<script src="~/bower_components/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="~/plugins/iCheck/icheck.min.js"></script>
 <script src="~/dist/js/Seguridad/login.js"></script>
 <script src='https://www.google.com/recaptcha/api.js' defer async></script>
+
+<script>
+    $(function () {
+        $('input').iCheck({
+            checkboxClass: 'icheckbox_square-blue',
+            radioClass: 'iradio_square-blue',
+            increaseArea: '20%' /* optional */
+        });
+    });
+</script>

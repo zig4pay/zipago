@@ -196,6 +196,12 @@ namespace ZREL.ZiPago.Datos.Afiliacion
 
         }
 
+        public static async Task<Int32> ObtenerCantidadCuentasBancariasPorUsuarioAsync(this ZiPagoDBContext dbContext, int idUsuarioZiPago)
+        {
+            return await dbContext.CuentasBancariasZiPago.Where(p => p.IdUsuarioZiPago == idUsuarioZiPago &&
+                                                                p.Activo == Constantes.strValor_Activo).CountAsync();
+        }
+
         //Comercios
         public static async Task<ComercioZiPago> ObtenerComercioZiPagoAsync(this ZiPagoDBContext dbContext, string codigoComercio)
         {
@@ -269,6 +275,11 @@ namespace ZREL.ZiPago.Datos.Afiliacion
 
             return await result.ToListAsync();
 
+        }
+
+        public static async Task<Int32> ObtenerCantidadComerciosPorUsuarioAsync(this ZiPagoDBContext dbContext, int idUsuarioZiPago) {
+            return await dbContext.ComerciosZiPago.Where(p => p.IdUsuarioZiPago == idUsuarioZiPago &&
+                                                                p.Activo == Constantes.strValor_Activo).CountAsync();
         }
 
     }

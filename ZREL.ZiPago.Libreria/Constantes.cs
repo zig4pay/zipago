@@ -36,6 +36,12 @@
         public const string strConsultaRealizada = "Consulta realizada correctamente.";
         public const string strRegistroRealizado = "Registro realizado correctamente.";
 
+        //AFILIACION
+        public const string strComerciosTexto = "Comercios registrados";
+        public const string strCuentasBancariasTexto = "Cuentas Bancarias registradas";
+        public const string strTransaccionesTexto = "Transacciones registradas";
+        public const string strMontoPagosTexto = "Pagos registradas";
+
         //Google ReCaptcha
         public const string GoogleRecaptchaSecretKey = "6Le0OasUAAAAALW4hoX9kXI_61sI-lVxim3MTBlc";
         public const string GoogleRecaptchaSiteKey = "6Le0OasUAAAAALRk-9Pue53r-TIJib5dWqnHX7w6";

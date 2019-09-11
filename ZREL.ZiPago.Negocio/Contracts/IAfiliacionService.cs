@@ -11,10 +11,15 @@ namespace ZREL.ZiPago.Negocio.Contracts
     public interface IAfiliacionService : IService
     {
 
+        #region DatosPersonales
+
         Task<ISingleResponse<DatosPersonales>> ObtenerDatosPersonalesAsync(Logger logger, int idUsuarioZiPago);
 
         Task<IResponse> RegistrarAsync(Logger logger, DatosPersonalesRequest request);
 
+        #endregion
+
+        #region Cuentas Bancarias
 
         Task<IListResponse<BancoZiPago>> ListarBancosPorUsuarioAsync(Logger logger, int idUsuarioZiPago);
 
@@ -24,6 +29,11 @@ namespace ZREL.ZiPago.Negocio.Contracts
 
         Task<IResponse> RegistrarCuentasBancariasAsync(Logger logger, List<CuentaBancariaZiPago> cuentasBancarias);
 
+        Task<ISummaryResponse> ObtenerCantidadCuentasBancariasPorUsuarioAsync(Logger logger, int idUsuarioZiPago);
+
+        #endregion
+
+        #region Comercios
 
         Task<ISingleResponse<ComercioZiPago>> ObtenerComercioZiPagoAsync(Logger logger, string codigoComercio);
 
@@ -31,5 +41,9 @@ namespace ZREL.ZiPago.Negocio.Contracts
 
         Task<IResponse> RegistrarComerciosAsync(Logger logger, List<ComercioCuentaZiPago> request);
 
+        Task<ISummaryResponse> ObtenerCantidadComerciosPorUsuarioAsync(Logger logger, int idUsuarioZiPago);
+
+        #endregion
+        
     }
 }
