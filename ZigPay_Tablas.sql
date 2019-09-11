@@ -26,6 +26,7 @@ Begin Tran
 	   [TelefonoMovil]	            varchar(20)	      Null,
 	   [TelefonoFijo]	               varchar(15)	      Null,
       [AceptoTerminos]              char(1)           Not Null,
+      [EstadoRegistro]              char(1)           Not Null,
 	   [Activo]	                     char(1)	         Not Null,
 	   [FechaCreacion]	            datetime	         Not Null,
 	   [FechaActualizacion]          datetime	         Null
