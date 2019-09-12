@@ -29,6 +29,9 @@
         public const string strMensajeDatosIncorrectos = "No se ha ingresado correctamente todos los datos solicitados.";
 
         public const string strUsuarioZiPago_AceptoTerminos = "S";
+        public const string strEstadoRegistro_Nuevo = "N";
+        public const string strEstadoRegistro_Registrado = "R";
+        public const string strEstadoRegistro_Actualizado = "A";
 
         //UBIGEO
         public const string strUbigeoZiPago_Departamentos = "00";

@@ -85,13 +85,14 @@ namespace ZREL.ZiPago.Negocio.Seguridad
 
                     if (response.Model is null || response.Model.IdUsuarioZiPago == 0)
                     {
+                        entidad.EstadoRegistro = Constantes.strEstadoRegistro_Nuevo;
                         entidad.Activo = Constantes.strValor_Activo;
-                        entidad.FechaCreacion = DateTime.Now;                        
+                        entidad.FechaCreacion = DateTime.Now;
                         DbContext.Add(entidad);
 
                         await DbContext.SaveChangesAsync();
                         txAsync.Commit();
-                        response.Mensaje = Constantes.strMensajeUsuarioRegistrado;                        
+                        response.Mensaje = Constantes.strEstadoRegistro_Nuevo;
                         logger.Info("[Negocio.Seguridad.UsuarioZiPagoService.{0}] | UsuarioZiPago: [{1}] | Transaccion realizada.", nameof(RegistrarAsync), entidad.Clave1);
 
                         response.Model = await DbContext.ObtenerUsuarioZiPagoAsync(entidad.Clave1);

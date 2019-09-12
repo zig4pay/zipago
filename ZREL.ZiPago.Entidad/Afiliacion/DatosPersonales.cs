@@ -30,6 +30,7 @@ namespace ZREL.ZiPago.Entidad.Afiliacion
         public string TelefonoMovil { get; set; }
         public string TelefonoFijo { get; set; }
         public string AceptoTerminos { get; set; }
+        public string EstadoRegistro { get; set; }
         public string UsuarioActivo { get; set; }
         public int? IdDomicilioZiPago { get; set; }
         public string CodigoDepartamento { get; set; }

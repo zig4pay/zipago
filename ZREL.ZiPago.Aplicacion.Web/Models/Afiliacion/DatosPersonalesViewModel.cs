@@ -77,6 +77,10 @@ namespace ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion
 
         [DataMember]
         public string AceptoTerminos { get; set; }
+
+        [DataMember]
+        public string EstadoRegistro { get; set; }
+
         #endregion
 
         #region -- Domicilio --

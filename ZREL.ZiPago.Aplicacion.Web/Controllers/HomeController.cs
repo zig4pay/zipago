@@ -33,7 +33,8 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
             Logger logger = LogManager.GetCurrentClassLogger();
             Uri requestUrl;
             ResponseSummaryModel response;
-            
+            string jsonResponse = "";
+
             try
             {
                 if (HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session") != null)
@@ -44,7 +45,10 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
                         string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_ComerciosObtenerCantidadPorUsuarioAsync) +
                         usuario.IdUsuarioZiPago.ToString()
                         );
-                    response = JsonConvert.DeserializeObject<ResponseSummaryModel>(await ApiClientFactory.Instance.GetJsonAsync(requestUrl));
+                    jsonResponse = await ApiClientFactory.Instance.GetJsonAsync(requestUrl);
+                    jsonResponse = jsonResponse.Replace("\\", string.Empty);
+                    jsonResponse = jsonResponse.Trim('"');
+                    response = JsonConvert.DeserializeObject<ResponseSummaryModel>(jsonResponse);
                     ViewData["ComerciosCantidad"] = response.CantidadTotal;
                     ViewData["ComerciosTexto"] = Constantes.strComerciosTexto;
 
@@ -52,14 +56,17 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
                         string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_CuentasBancariasObtenerCantidadPorUsuarioAsync) +
                         usuario.IdUsuarioZiPago.ToString()
                         );
-                    response = JsonConvert.DeserializeObject<ResponseSummaryModel>(await ApiClientFactory.Instance.GetJsonAsync(requestUrl));
+                    jsonResponse = await ApiClientFactory.Instance.GetJsonAsync(requestUrl);
+                    jsonResponse = jsonResponse.Replace("\\", string.Empty);
+                    jsonResponse = jsonResponse.Trim('"');
+                    response = JsonConvert.DeserializeObject<ResponseSummaryModel>(jsonResponse);
                     ViewData["CuentasBancariasCantidad"] = response.CantidadTotal;
                     ViewData["CuentasBancariasTexto"] = Constantes.strCuentasBancariasTexto;
 
                     ViewData["TransaccionesCantidad"] = "0";
                     ViewData["TransaccionesTexto"] = Constantes.strTransaccionesTexto;
 
-                    ViewData["PagosMonto"] = "0.00";
+                    ViewData["PagosMonto"] = "S/ 0.00";
                     ViewData["PagosTexto"] = Constantes.strMontoPagosTexto;
 
                     return View("~/Views/Home/Index.cshtml");

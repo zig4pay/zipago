@@ -9,7 +9,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Models.Response
         public int CantidadTotal { get; set; }
 
         [DataMember(Name = "MontoTotal")]
-        public int MontoTotal { get; set; }
+        public double MontoTotal { get; set; }
 
         [DataMember(Name = "Mensaje")]
         public string Mensaje { get; set; }

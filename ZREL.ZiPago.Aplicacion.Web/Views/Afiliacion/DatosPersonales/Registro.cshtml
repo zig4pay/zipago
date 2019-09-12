@@ -52,7 +52,7 @@
                         <div class="form-group">
                             <label for="codigorubronegocio" class="col-sm-2">Rubro del Negocio:</label>
                             <div class="form-group col-sm-2" style="margin-left:0px; margin-right:0px;">
-                                <select id="codigorubronegocio" name="codigorubronegocio" asp-for="CodigoRubroNegocio" asp-items="@(new SelectList(Model.RubroNegocio,"Valor", "Descr_Valor", Model.CodigoRubroNegocio))" class="form-control select2" style="width:100%;"></select>
+                                <select id="codigorubronegocio" name="codigorubronegocio" asp-for="CodigoRubroNegocio" asp-items="@(new SelectList(Model.RubroNegocio,"Valor", "Descr_Valor", Model.CodigoRubroNegocio))" class="form-control" style="width: 100%;"></select>
                             </div>
                             <label for="otrorubronegocio" class="col-sm-2">Otro:</label>
                             <div class="col-sm-3">
@@ -110,7 +110,7 @@
                                 <label for="fechanacimiento" class="col-sm-2">Fecha de Nacimiento:</label>
                             </div>
                             <div class="date col-sm-2">
-                                <input id="fechanacimiento" name="fechanacimiento" type="text" asp-for="FechaNacimiento" class="form-control pull-right">
+                                <input id="fechanacimiento" name="fechanacimiento" type="text" class="form-control pull-right">
                             </div>
                         </div>
                         <div class="form-group">
@@ -131,18 +131,18 @@
                         <div class="form-group">
                             <label for="codigodepartamento" class="col-sm-2">Departamento:</label>
                             <div class="col-sm-2">
-                                <select id="codigodepartamento" name="codigodepartamento" asp-for="CodigoDepartamento" asp-items="@(new SelectList(Model.Departamento,"CodigoUbigeo", "Nombre", Model.CodigoDepartamento))" class="form-control select2"></select>
+                                <select id="codigodepartamento" name="codigodepartamento" asp-for="CodigoDepartamento" asp-items="@(new SelectList(Model.Departamento,"CodigoUbigeo", "Nombre", Model.CodigoDepartamento))" class="form-control" style="width: 100%;"></select>
                             </div>
                             <label for="codigoprovincia" class="col-sm-2">Provincia:</label>
                             <div class="col-sm-2">
-                                <select id="codigoprovincia" name="codigoprovincia" asp-for="CodigoProvincia" class="form-control select2"></select>
+                                <select id="codigoprovincia" name="codigoprovincia" asp-for="CodigoProvincia" class="form-control" style="width: 100%;"></select>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="codigodistrito" class="col-sm-2">Distrito:</label>
                             <div class="col-sm-2">
-                                <select id="codigodistrito" name="codigodistrito" asp-for="CodigoDistrito" class="form-control select2"></select>
+                                <select id="codigodistrito" name="codigodistrito" asp-for="CodigoDistrito" class="form-control" style="width: 100%;"></select>
                             </div>
                         </div>
                         <div class="form-group">
@@ -183,10 +183,11 @@
     </div>
 </section>
 
-<script src="~/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="~/bower_components/jquery/dist/jquery-3.3.1.min.js"></script>
 <script src="~/bower_components/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="~/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>
+<script src="~/bower_components/moment/min/moment.min.js"></script>
+<script src="~/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
 <script src="~/bower_components/bootstrap-datepicker/dist/locales/bootstrap-datepicker.es.min.js"></script>
 <script src="~/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <script src="~/bower_components/fastclick/lib/fastclick.js"></script>

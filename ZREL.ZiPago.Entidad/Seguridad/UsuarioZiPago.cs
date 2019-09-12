@@ -34,6 +34,7 @@ namespace ZREL.ZiPago.Entidad.Seguridad
         public string TelefonoMovil { get; set; }
         public string TelefonoFijo { get; set; }
         public string AceptoTerminos { get; set; }
+        public string EstadoRegistro { get; set; }
         public string Activo { get; set; }
         public DateTime? FechaCreacion { get ; set ; }
         public DateTime? FechaActualizacion { get; set ; }

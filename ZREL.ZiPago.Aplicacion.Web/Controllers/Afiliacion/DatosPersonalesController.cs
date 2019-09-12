@@ -45,9 +45,9 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
 
             try
             {
-                if (HttpContext.Session.Get<ResponseModel<UsuarioViewModel>>("ZiPago.Session") != null)
+                if (HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session") != null)
                 {
-                    usuario = HttpContext.Session.Get<ResponseModel<UsuarioViewModel>>("ZiPago.Session").Model;
+                    usuario = HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session");
                     
                     // Tipo de Persona
                     responseTD = new ResponseListModel<TablaDetalle>();
@@ -88,37 +88,50 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
 
                     if (responseDatos.Model != null)
                     {
+                        ViewData["EstadoRegistro"] = responseDatos.Model.EstadoRegistro;
+
                         model.IdUsuarioZiPago = responseDatos.Model.IdUsuarioZiPago;
                         model.Clave1 = responseDatos.Model.Clave1;
                         model.ApellidosUsuario = responseDatos.Model.ApellidosUsuario;
-                        model.NombresUsuario = responseDatos.Model.NombresUsuario;                                              
-                        
-                        model.CodigoTipoPersona = responseDatos.Model.CodigoTipoPersona == "" ? Constantes.strTipoPersonaJuridica : responseDatos.Model.CodigoTipoPersona;
-                        model.CodigoRubroNegocio = responseDatos.Model.CodigoRubroNegocio;
-                        model.NumeroDocumento = responseDatos.Model.NumeroDocumento;
-                        model.RazonSocial = responseDatos.Model.RazonSocial;
-                        model.NumeroDocumentoContacto = responseDatos.Model.NumeroDocumentoContacto;
-                        model.Nombres = string.IsNullOrEmpty(responseDatos.Model.Nombres) ? usuario.NombresUsuario : responseDatos.Model.Nombres;
-                        posicion = string.IsNullOrEmpty(responseDatos.Model.ApellidoPaterno) ? usuario.ApellidosUsuario.IndexOf(" ") : -1;
-                        model.ApellidoPaterno = string.IsNullOrEmpty(responseDatos.Model.ApellidoPaterno) ? posicion > 0 ? usuario.ApellidosUsuario.Substring(0, posicion) : usuario.ApellidosUsuario : responseDatos.Model.ApellidoPaterno;
-                        model.ApellidoMaterno = string.IsNullOrEmpty(responseDatos.Model.ApellidoMaterno) ? posicion > 0 ? usuario.ApellidosUsuario.Substring(posicion + 1) : "" : responseDatos.Model.ApellidoMaterno;
-                        model.Sexo = responseDatos.Model.Sexo;
-                        model.FechaNacimiento = Convert.ToDateTime(responseDatos.Model.FechaNacimiento.Value.ToShortDateString());
-                        model.TelefonoFijo = responseDatos.Model.TelefonoFijo;
-                        model.TelefonoMovil = responseDatos.Model.TelefonoMovil;
-                        model.CodigoDepartamento = responseDatos.Model.CodigoDepartamento;
-                        model.CodigoProvincia = responseDatos.Model.CodigoProvincia;
-                        model.CodigoDistrito = responseDatos.Model.CodigoDistrito;
-                        model.Via = responseDatos.Model.Via;
-                        model.DireccionFacturacion = responseDatos.Model.DireccionFacturacion;
-                        model.Referencia = responseDatos.Model.Referencia;
+                        model.NombresUsuario = responseDatos.Model.NombresUsuario;
+                        model.EstadoRegistro = responseDatos.Model.EstadoRegistro;
                         model.AceptoTerminos = responseDatos.Model.AceptoTerminos;
+
+                        if (responseDatos.Model.EstadoRegistro == Constantes.strEstadoRegistro_Nuevo)
+                        {
+                            model.Nombres = usuario.NombresUsuario;
+                            posicion = usuario.ApellidosUsuario.IndexOf(" ");
+                            model.ApellidoPaterno = usuario.ApellidosUsuario.Substring(0, posicion);
+                            model.ApellidoMaterno = usuario.ApellidosUsuario.Substring(posicion + 1);
+                        }
+                        else
+                        {
+                            model.CodigoTipoPersona = responseDatos.Model.CodigoTipoPersona == "" ? Constantes.strTipoPersonaJuridica : responseDatos.Model.CodigoTipoPersona;
+                            model.CodigoRubroNegocio = responseDatos.Model.CodigoRubroNegocio;
+                            model.NumeroDocumento = responseDatos.Model.NumeroDocumento;
+                            model.RazonSocial = responseDatos.Model.RazonSocial;
+                            model.NumeroDocumentoContacto = responseDatos.Model.NumeroDocumentoContacto;
+                            model.Nombres = responseDatos.Model.Nombres;                            
+                            model.ApellidoPaterno = responseDatos.Model.ApellidoPaterno;
+                            model.ApellidoMaterno = responseDatos.Model.ApellidoMaterno;
+                            model.Sexo = responseDatos.Model.Sexo;
+                            model.FechaNacimiento = Convert.ToDateTime(responseDatos.Model.FechaNacimiento.Value.ToShortDateString());
+                            model.TelefonoFijo = responseDatos.Model.TelefonoFijo;
+                            model.TelefonoMovil = responseDatos.Model.TelefonoMovil;
+                            model.CodigoDepartamento = responseDatos.Model.CodigoDepartamento;
+                            model.CodigoProvincia = responseDatos.Model.CodigoProvincia;
+                            model.CodigoDistrito = responseDatos.Model.CodigoDistrito;
+                            model.Via = responseDatos.Model.Via;
+                            model.DireccionFacturacion = responseDatos.Model.DireccionFacturacion;
+                            model.Referencia = responseDatos.Model.Referencia;                            
+                        }
+                                                
                     }
                     else
                     {
                         return View("~/Views/Seguridad/Login.cshtml");
                     }
-                    return View("~/Views/Afiliacion/DatosPersonales.cshtml", model);
+                    return View("~/Views/Afiliacion/DatosPersonales/Registro.cshtml", model);
                 }
                 else
                 {

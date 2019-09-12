@@ -10,9 +10,7 @@
         errorElement: 'span',
         errorClass: 'help-block',
         errorPlacement: function (error, element) {
-            if (element.hasClass('select2') && element.next('.select2-container').length) {
-                error.insertAfter(element.next('.select2-container'));
-            } else if (element.parent('.input-group').length) {
+            if (element.parent('.input-group').length) {
                 error.insertAfter(element.parent());
             }
             else if (element.prop('type') === 'radio' && element.parent('.radio-inline').length) {
@@ -29,6 +27,8 @@
 
     $(document).ready(function () {
 
+        var estado = '@Html.Raw(Model.EstadoRegistro)';
+        
         $.validator.addMethod("validarrubronegocio", function (value, element) {
             if (value === "000" && $("#otrorubronegocio").val().trim() === "") {
                 return false;
@@ -71,20 +71,20 @@
             }
 
         });
-
-        //Initialize Select2 Elements
-        $('.select2').select2({
-            language: "es"
-        });
-
-        //Date picker
+        
         $('#fechanacimiento').datepicker({
             autoclose: true,
-            language: "es"
+            language: "es",
+            format: 'dd/mm/yyyy'
         });
 
-        $("#fechanacimiento").datepicker("update", new Date());
-
+        if (estado === "N") {
+            alert("N");
+            //$("#fechanacimiento").datepicker("update", new Date());
+        } else {
+            alert("R o A");
+        }
+        
         //called when key is pressed in textbox
         $("#numeroruc").keypress(SoloNumeros);
         $("#numerodni").keypress(SoloNumeros);
@@ -100,7 +100,7 @@
             $.getJSON("ListarPorUbigeo", { strCodigoUbigeo: strCodigoUbigeo }, function (data) {
                 $("#codigoprovincia").append($("<option>").val("XX").text("Seleccione"));
                 $.each(data, function (i, item) {
-                    $("#codigoprovincia").append($("<option>").val(item.codigoUbigeo).text(item.nombre));
+                    $("#codigoprovincia").append($("<option>").val(item.CodigoUbigeo).text(item.Nombre));
                 });
             });
         });
@@ -111,13 +111,9 @@
             $.getJSON("ListarPorUbigeo", { strCodigoUbigeo: strCodigoUbigeo }, function (data) {
                 $("#codigodistrito").append($("<option>").val("XX").text("Seleccione"));
                 $.each(data, function (i, item) {
-                    $("#codigodistrito").append($("<option>").val(item.codigoUbigeo).text(item.nombre));
+                    $("#codigodistrito").append($("<option>").val(item.CodigoUbigeo).text(item.Nombre));
                 });
             });
-        });
-
-        $(".select2").on("select2:close", function (e) {
-            $(this).valid();
         });
 
         var validator = $('#frmAfiliacion').validate({
