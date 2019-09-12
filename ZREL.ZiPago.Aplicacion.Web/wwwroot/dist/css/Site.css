@@ -23,3 +23,11 @@ input.error {
     margin-right: 0px !important;
 }
 
+.help-block {
+    color: red !important;
+}
+
+.disabled-div {
+    pointer-events: none;
+    opacity: 0.4;
+}

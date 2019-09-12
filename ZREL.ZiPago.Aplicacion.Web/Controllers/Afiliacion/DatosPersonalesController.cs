@@ -88,15 +88,14 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
 
                     if (responseDatos.Model != null)
                     {
-                        ViewData["EstadoRegistro"] = responseDatos.Model.EstadoRegistro;
-
+                        model.CodigoTipoPersona = responseDatos.Model.CodigoTipoPersona == "" ? Constantes.strTipoPersonaJuridica : responseDatos.Model.CodigoTipoPersona;
                         model.IdUsuarioZiPago = responseDatos.Model.IdUsuarioZiPago;
                         model.Clave1 = responseDatos.Model.Clave1;
                         model.ApellidosUsuario = responseDatos.Model.ApellidosUsuario;
                         model.NombresUsuario = responseDatos.Model.NombresUsuario;
                         model.EstadoRegistro = responseDatos.Model.EstadoRegistro;
                         model.AceptoTerminos = responseDatos.Model.AceptoTerminos;
-
+                        
                         if (responseDatos.Model.EstadoRegistro == Constantes.strEstadoRegistro_Nuevo)
                         {
                             model.Nombres = usuario.NombresUsuario;
@@ -105,8 +104,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
                             model.ApellidoMaterno = usuario.ApellidosUsuario.Substring(posicion + 1);
                         }
                         else
-                        {
-                            model.CodigoTipoPersona = responseDatos.Model.CodigoTipoPersona == "" ? Constantes.strTipoPersonaJuridica : responseDatos.Model.CodigoTipoPersona;
+                        {                            
                             model.CodigoRubroNegocio = responseDatos.Model.CodigoRubroNegocio;
                             model.NumeroDocumento = responseDatos.Model.NumeroDocumento;
                             model.RazonSocial = responseDatos.Model.RazonSocial;

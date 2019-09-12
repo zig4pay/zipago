@@ -119,6 +119,9 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
                         request.EntidadUsuario.CodigoRubroNegocio = codRubro;
                     }
 
+                    request.EntidadUsuario.EstadoRegistro = 
+                        request.EntidadUsuario.EstadoRegistro == Constantes.strEstadoRegistro_Nuevo ? Constantes.strEstadoRegistro_Registrado : Constantes.strEstadoRegistro_Actualizado;
+
                     DbContext.Attach(request.EntidadUsuario);
                     DbContext.Entry(request.EntidadUsuario).Property("CodigoRubroNegocio").IsModified = true;
                     DbContext.Entry(request.EntidadUsuario).Property("CodigoTipoPersona").IsModified = true;
@@ -134,6 +137,7 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
                     DbContext.Entry(request.EntidadUsuario).Property("FechaNacimiento").IsModified = true;
                     DbContext.Entry(request.EntidadUsuario).Property("TelefonoMovil").IsModified = true;
                     DbContext.Entry(request.EntidadUsuario).Property("TelefonoFijo").IsModified = true;
+                    DbContext.Entry(request.EntidadUsuario).Property("EstadoRegistro").IsModified = true;
                     DbContext.Entry(request.EntidadUsuario).Property("FechaActualizacion").IsModified = true;                    
                     await DbContext.SaveChangesAsync();
                     

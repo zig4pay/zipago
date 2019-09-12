@@ -2,42 +2,43 @@
 
     $.validator.setDefaults({
         highlight: function (element) {
-            $(element).closest('.form-group').addClass('has-error');
+            $(element).closest('.form-control').addClass('has-error');
         },
         unhighlight: function (element) {
-            $(element).closest('.form-group').removeClass('has-error');
+            $(element).closest('.form-control').removeClass('has-error');
         },
         errorElement: 'span',
         errorClass: 'help-block',
         errorPlacement: function (error, element) {
-            if (element.parent('.input-group').length) {
-                error.insertAfter(element.parent());
+            if (element.parent('.form-group').length) {
+                error.insertAfter(element);                
             }
-            else if (element.prop('type') === 'radio' && element.parent('.radio-inline').length) {
-                error.insertAfter(element.parent().parent());
+            else if (element.prop('type') === 'radio') {                
+                error.appendTo($('#divGroupSexo'));
             }
-            else if (element.prop('type') === 'checkbox' || element.prop('type') === 'radio') {
-                error.appendTo(element.parent().parent());
+            else if (element.prop('type') === 'checkbox') {
+                error.appendTo(element.parent().parent());                
             }
             else {
-                error.insertAfter(element);
+                error.insertAfter(element);                
             }
         }
     });
 
     $(document).ready(function () {
 
-        var estado = '@Html.Raw(Model.EstadoRegistro)';
-        
-        $.validator.addMethod("validarrubronegocio", function (value, element) {
+        $.validator.setDefaults({});
+
+        $.validator.addMethod("validarrubronegocio", function (value) {
             if (value === "000" && $("#otrorubronegocio").val().trim() === "") {
                 return false;
             } else {
                 return true;
             }
-        });
+        }, "Por favor seleccione el Rubro de Negocio al cual pertenece, en caso no lo encuentre ingreselo en la casilla Otro.");
 
         $.validator.addMethod("validarpersonajuridica", function (value, element) {
+            
             if ($("#optPersonaJuridica").is(":checked") && value.trim() === "") {
                 return false;
             } else {
@@ -45,7 +46,7 @@
             }
         });
 
-        $.validator.addMethod("validarseleccion", function (value, element) {
+        $.validator.addMethod("validarseleccion", function (value, element) {            
             if (value === "" || value === "00" || value === "000" || value === "XX" || value === 0) {
                 return false;
             } else {
@@ -53,7 +54,7 @@
             }
         });
 
-        $.validator.addMethod("validaredad", function (value, element) {
+        $.validator.addMethod("validaredad", function (value) {
 
             var hoy = new Date();
             var cumpleanos = new Date(value);
@@ -70,7 +71,7 @@
                 return true;
             }
 
-        });
+        }, "Para registrarse debe ser mayor de 18 años.");
         
         $('#fechanacimiento').datepicker({
             autoclose: true,
@@ -78,11 +79,13 @@
             format: 'dd/mm/yyyy'
         });
 
-        if (estado === "N") {
-            alert("N");
-            //$("#fechanacimiento").datepicker("update", new Date());
+        if ($("#EstadoRegistro").val() === "N") {
+            $("#fechanacimiento").datepicker("update", new Date());
         } else {
-            alert("R o A");
+            var fecha = $("FechaNacimiento").val();
+            console.log(fecha);
+            //$('#fechanacimiento').data("DateTimePicker").date();
+            Deshabilitar();
         }
         
         //called when key is pressed in textbox
@@ -159,12 +162,9 @@
             },
             messages: {
                 CodigoTipoPersona: "Por favor seleccione el Tipo de Persona correspondiente.",
-                codigorubronegocio: {
-                    validarrubronegocio: "Por favor seleccione el Rubro de Negocio al cual pertenece, en caso no lo encuentre ingreselo en la casilla Otro."
-                },
                 numeroruc: {
                     validarpersonajuridica: "Al seleccionar Persona Juridica debe ingresar el numero de RUC."
-                },
+                }, 
                 razonsocial: {
                     validarpersonajuridica: "Al seleccionar Persona Juridica debe ingresar la Razon Social segun SUNAT."
                 },
@@ -177,8 +177,7 @@
                 apellidomaterno: "Por favor ingrese un Apellido Materno",
                 Sexo: "Por favor seleccione el sexo correspondiente.",
                 fechanacimiento: {
-                    required: "Por favor ingrese una fecha valida",
-                    validaredad: "Para registrarse debe ser mayor de 18 años."
+                    required: "Por favor ingrese una fecha valida"
                 },
                 codigodepartamento: {
                     validarseleccion: "Por favor seleccione el Departamento al cual pertenece la direccion."
@@ -223,6 +222,23 @@
     
 });
 
+function Deshabilitar() {
+
+    $("[name='CodigoTipoPersona']").prop('disabled', true);
+    $("#codigorubronegocio").prop('disabled', true);
+    $("#otrorubronegocio").prop('disabled', true);
+    $("#numeroruc").prop('disabled', true);
+    $("#razonsocial").prop('disabled', true);
+    $("#numerodni").prop('disabled', true);
+    $("#nombres").prop('disabled', true);
+    $("#apellidopaterno").prop('disabled', true);
+    $("#apellidomaterno").prop('disabled', true);
+    $("[name='Sexo']").prop('disabled', true);
+    $("#fechanacimiento").prop('disabled', true);
+    $("#telefonofijo").prop('disabled', true);
+    $("#telefonomovil").prop('disabled', true);
+
+}
 
 function MostrarDivJuridica(valor) {
     if (valor) {
@@ -284,6 +300,7 @@ function Registrar() {
     DatosPersonalesVM.FechaNacimiento = $('#fechanacimiento').val();
     DatosPersonalesVM.TelefonoMovil = $('#telefonomovil').val();
     DatosPersonalesVM.TelefonoFijo = $('#telefonofijo').val();
+    DatosPersonalesVM.EstadoRegistro = $('#EstadoRegistro').val();
     DatosPersonalesVM.CodigoDepartamento = $('#codigodepartamento').val();
     DatosPersonalesVM.CodigoProvincia = $('#codigoprovincia').val();
     DatosPersonalesVM.CodigoDistrito = $('#codigodistrito').val();

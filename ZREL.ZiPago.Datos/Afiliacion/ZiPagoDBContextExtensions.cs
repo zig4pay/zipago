@@ -53,6 +53,7 @@ namespace ZREL.ZiPago.Datos.Afiliacion
                                  TelefonoMovil = usuario.TelefonoMovil ?? "",
                                  TelefonoFijo = usuario.TelefonoFijo ?? "",
                                  AceptoTerminos = usuario.AceptoTerminos,
+                                 EstadoRegistro = usuario.EstadoRegistro,
                                  UsuarioActivo = usuario.Activo,
                                  IdDomicilioZiPago = dom.IdDomicilioZiPago > 0 ? dom.IdDomicilioZiPago : 0,
                                  CodigoDepartamento = dom.CodigoDepartamento ?? "",
