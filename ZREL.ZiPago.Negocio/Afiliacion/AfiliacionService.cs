@@ -50,6 +50,28 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
             return response;
         }
 
+        public async Task<IListResponse<DomicilioHistorico>> ListarDomiciliosHistoricoAsync(Logger logger, int idUsuarioZiPago)
+        {
+
+            ListResponse<DomicilioHistorico> response = new ListResponse<DomicilioHistorico>();
+            logger.Info("[Negocio.Afiliacion.AfiliacionService.ListarDomiciliosHistoricoAsync] | UsuarioZiPago: [{0}] | Inicio.", idUsuarioZiPago);
+
+            try
+            {
+                response.Model = await DbContext.ListarDomiciliosHistoricoAsync(idUsuarioZiPago);
+                response.Mensaje = Constantes.strConsultaRealizada;
+                logger.Info("[Negocio.Afiliacion.AfiliacionService.ListarDomiciliosHistoricoAsync] | UsuarioZiPago: [{0}] | Mensaje: [{1}].", idUsuarioZiPago, Constantes.strConsultaRealizada);
+            }
+            catch (Exception ex)
+            {
+                response.Model = null;
+                response.SetError(logger, "Negocio.Afiliacion.AfiliacionService.ListarDomiciliosHistoricoAsync", nameof(UsuarioZiPago), ex);
+            }
+
+            return response;
+        }
+
+
         public async Task<ISingleResponse<ComercioZiPago>> ObtenerComercioZiPagoAsync(Logger logger, string codigoComercio)
         {
             SingleResponse<ComercioZiPago> response = new SingleResponse<ComercioZiPago>();

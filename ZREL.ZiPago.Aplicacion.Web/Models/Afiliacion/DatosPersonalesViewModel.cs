@@ -67,7 +67,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion
         public string Sexo { get; set; }
 
         [DataMember]
-        public DateTime? FechaNacimiento { get; set; }
+        public string FechaNacimiento { get; set; }
 
         [DataMember]
         public string TelefonoMovil { get; set; }

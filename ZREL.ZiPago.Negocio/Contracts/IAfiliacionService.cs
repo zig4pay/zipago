@@ -17,6 +17,8 @@ namespace ZREL.ZiPago.Negocio.Contracts
 
         Task<IResponse> RegistrarAsync(Logger logger, DatosPersonalesRequest request);
 
+        Task<IListResponse<DomicilioHistorico>> ListarDomiciliosHistoricoAsync(Logger logger, int idUsuarioZiPago);
+
         #endregion
 
         #region Cuentas Bancarias

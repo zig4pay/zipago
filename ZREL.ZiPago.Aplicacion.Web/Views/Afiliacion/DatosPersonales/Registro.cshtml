@@ -25,108 +25,102 @@
                 <!-- form start -->
                 <form class="form-horizontal margen-cero" id="frmAfiliacion" asp-controller="" asp-action="" method="post">
                     <div class="box-body" style="padding-left: 20px; padding-right: 20px;">
-                        
-                        <div id="datosusuario" )>
 
-                            <input id="idusuariozipago" name="idusuariozipago" type="hidden" asp-for="IdUsuarioZiPago" />
-                            @Html.HiddenFor(x => x.EstadoRegistro)
-                            <input id="FechaNacimiento" name="FechaNacimiento" type="hidden" value="@Model.FechaNacimiento.Value.ToShortDateString()" />
-                            <div class="form-group">
-                                <label for="clave1" class="col-sm-2">@Html.DisplayNameFor(m => m.Clave1):</label>
-                                <div class="col-sm-2">
-                                    <input type="text" class="form-control" id="clave1" name="clave1" asp-for="Clave1" disabled>
-                                </div>
+                        <input id="idusuariozipago" name="idusuariozipago" type="hidden" asp-for="IdUsuarioZiPago" />
+                        @Html.HiddenFor(x => x.EstadoRegistro)
+                        <input id="fecha" name="fecha" type="hidden" asp-for="FechaNacimiento" />
+                        <div class="form-group">
+                            <label for="clave1" class="col-sm-2">@Html.DisplayNameFor(m => m.Clave1):</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="clave1" name="clave1" asp-for="Clave1" disabled>
                             </div>
-                            <div class="form-group">
-                                <label class="col-sm-2">Tipo de Persona</label>
-                                @foreach (var item in Model.TipoPersona)
-                                {
-                                    <div class="col-sm-1 form-check form-check-inline">
-                                        <input asp-for="CodigoTipoPersona" type="radio" id="optPersona@(item.Descr_Valor)" value="@item.Valor">
-                                        <label for="optPersona@(item.Descr_Valor)">@item.Descr_Valor</label>
-                                    </div>
-                                }
-                            </div>
-                            <div class="form-group">
-                                <label for="codigorubronegocio" class="col-sm-2">Rubro del Negocio:</label>
-                                <div class="form-group col-sm-2" style="margin-left:0px; margin-right:0px;">
-                                    <select id="codigorubronegocio" name="codigorubronegocio" asp-for="CodigoRubroNegocio" asp-items="@(new SelectList(Model.RubroNegocio,"Valor", "Descr_Valor", Model.CodigoRubroNegocio))" class="form-control" style="width: 100%;"></select>
-                                </div>
-                                <label for="otrorubronegocio" class="col-sm-2">Otro:</label>
-                                <div class="col-sm-3">
-                                    <input id="otrorubronegocio" name="otrorubronegocio" type="text" class="form-control" placeholder="Rubro o Sector al cual pertenece el negocio" asp-for="OtroRubroNegocio">
-                                </div>
-                            </div>
-                            <div id="DivJuridica">
-                                <div class="form-group">
-                                    <label for="numeroruc" class="col-sm-2">RUC:</label>
-                                    <div class="col-sm-2">
-                                        <input id="numeroruc" name="numeroruc" type="text" class="form-control" placeholder="Numero de Registro Unico de Contribuyente" asp-for="NumeroDocumento" maxlength="11">
-                                    </div>
-                                    <label for="razonsocial" class="col-sm-2">Razon Social:</label>
-                                    <div class="col-sm-3">
-                                        <input id="razonsocial" name="razonsocial" type="text" class="form-control" placeholder="Razon Social segun SUNAT" asp-for="RazonSocial">
-                                    </div>
-                                </div>
-                                <hr />
-                                <div class="form-group">
-                                    <label class="col-sm-2"><strong>Contacto: </strong></label>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="numerodni" class="col-sm-2">DNI:</label>
-                                <div class="col-sm-2">
-                                    <input id="numerodni" name="numerodni" type="text" class="form-control" placeholder="Numero de DNI" asp-for="NumeroDocumentoContacto" maxlength="8">
-                                </div>
-                                <label for="nombres" class="col-sm-2">Nombres:</label>
-                                <div class="col-sm-2">
-                                    <input id="nombres" name="nombres" type="text" class="form-control" placeholder="Nombres" asp-for="Nombres">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="apellidopaterno" class="col-sm-2">Apellido Paterno:</label>
-                                <div class="col-sm-2">
-                                    <input id="apellidopaterno" name="apellidopaterno" type="text" class="form-control" placeholder="Apellido Paterno" asp-for="ApellidoPaterno">
-                                </div>
-                                <label for="apellidomaterno" class="col-sm-2">Apellido Materno:</label>
-                                <div class="col-sm-2">
-                                    <input id="apellidomaterno" name="apellidomaterno" type="text" class="form-control" placeholder="Apellido Materno" asp-for="ApellidoMaterno">
-                                </div>
-                            </div>
-                            <div class="form-group">
-
-                                <label class="col-sm-2">Sexo:</label>
-                                <div id="divGroupSexo" class="col-sm-2">
-                                    <div id="divSexo" class="col-sm-6 form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" asp-for="Sexo" id="optMasculino" value="M">
-                                        <label class="label-radio" for="optMasculino">Masculino</label>
-                                    </div>
-                                    <div class="col-sm-6 form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" asp-for="Sexo" id="optFemenino" value="F">
-                                        <label class="label-radio" for="optFemenino">Femenino</label>
-                                    </div>
-                                </div>
-
-                                <label for="fechanacimiento" class="col-sm-2">Fecha de Nacimiento:</label>
-                                <div class="date col-sm-2">
-                                    <input id="fechanacimiento" name="fechanacimiento" type="text" class="form-control pull-right">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="telefonofijo" class="col-sm-2">Telefono Fijo:</label>
-                                <div class="col-sm-2">
-                                    <input id="telefonofijo" name="telefonofijo" type="text" class="form-control" placeholder="Numero de Telefono Fijo" asp-for="TelefonoFijo">
-                                </div>
-                                <label for="telefonomovil" class="col-sm-2">Telefono Movil:</label>
-                                <div class="col-sm-2">
-                                    <input id="telefonomovil" name="telefonomovil" type="text" class="form-control" placeholder="Numero de Telefono Movil" asp-for="TelefonoMovil">
-                                </div>
-                            </div>
-
-
-
                         </div>
-                        
+                        <div class="form-group">
+                            <label class="col-sm-2">Tipo de Persona</label>
+                            @foreach (var item in Model.TipoPersona)
+                            {
+                                <div class="col-sm-1 form-check form-check-inline">
+                                    <input asp-for="CodigoTipoPersona" type="radio" id="optPersona@(item.Descr_Valor)" value="@item.Valor">
+                                    <label for="optPersona@(item.Descr_Valor)">@item.Descr_Valor</label>
+                                </div>
+                            }
+                        </div>
+                        <div class="form-group">
+                            <label for="codigorubronegocio" class="col-sm-2">Rubro del Negocio:</label>
+                            <div class="form-group col-sm-2" style="margin-left:0px; margin-right:0px;">
+                                <select id="codigorubronegocio" name="codigorubronegocio" asp-for="CodigoRubroNegocio" asp-items="@(new SelectList(Model.RubroNegocio,"Valor", "Descr_Valor", Model.CodigoRubroNegocio))" class="form-control" style="width: 100%;"></select>
+                            </div>
+                            <label for="otrorubronegocio" class="col-sm-2">Otro:</label>
+                            <div class="col-sm-3">
+                                <input id="otrorubronegocio" name="otrorubronegocio" type="text" class="form-control" placeholder="Rubro o Sector al cual pertenece el negocio" asp-for="OtroRubroNegocio">
+                            </div>
+                        </div>
+                        <div id="DivJuridica">
+                            <div class="form-group">
+                                <label for="numeroruc" class="col-sm-2">RUC:</label>
+                                <div class="col-sm-2">
+                                    <input id="numeroruc" name="numeroruc" type="text" class="form-control" placeholder="Numero de Registro Unico de Contribuyente" asp-for="NumeroDocumento" maxlength="11">
+                                </div>
+                                <label for="razonsocial" class="col-sm-2">Razon Social:</label>
+                                <div class="col-sm-3">
+                                    <input id="razonsocial" name="razonsocial" type="text" class="form-control" placeholder="Razon Social segun SUNAT" asp-for="RazonSocial">
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="form-group">
+                                <label class="col-sm-2"><strong>Contacto: </strong></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="numerodni" class="col-sm-2">DNI:</label>
+                            <div class="col-sm-2">
+                                <input id="numerodni" name="numerodni" type="text" class="form-control" placeholder="Numero de DNI" asp-for="NumeroDocumentoContacto" maxlength="8">
+                            </div>
+                            <label for="nombres" class="col-sm-2">Nombres:</label>
+                            <div class="col-sm-2">
+                                <input id="nombres" name="nombres" type="text" class="form-control" placeholder="Nombres" asp-for="Nombres">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="apellidopaterno" class="col-sm-2">Apellido Paterno:</label>
+                            <div class="col-sm-2">
+                                <input id="apellidopaterno" name="apellidopaterno" type="text" class="form-control" placeholder="Apellido Paterno" asp-for="ApellidoPaterno">
+                            </div>
+                            <label for="apellidomaterno" class="col-sm-2">Apellido Materno:</label>
+                            <div class="col-sm-2">
+                                <input id="apellidomaterno" name="apellidomaterno" type="text" class="form-control" placeholder="Apellido Materno" asp-for="ApellidoMaterno">
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            <label class="col-sm-2">Sexo:</label>
+                            <div id="divGroupSexo" class="col-sm-2">
+                                <div id="divSexo" class="col-sm-6 form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="Sexo" id="optMasculino" value="M">
+                                    <label class="label-radio" for="optMasculino">Masculino</label>
+                                </div>
+                                <div class="col-sm-6 form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" asp-for="Sexo" id="optFemenino" value="F">
+                                    <label class="label-radio" for="optFemenino">Femenino</label>
+                                </div>
+                            </div>
+
+                            <label for="fechanacimiento" class="col-sm-2">Fecha de Nacimiento:</label>
+                            <div class="date col-sm-2">
+                                <input id="fechanacimiento" name="fechanacimiento" type="text" class="form-control pull-right">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="telefonofijo" class="col-sm-2">Telefono Fijo:</label>
+                            <div class="col-sm-2">
+                                <input id="telefonofijo" name="telefonofijo" type="text" class="form-control" placeholder="Numero de Telefono Fijo" asp-for="TelefonoFijo">
+                            </div>
+                            <label for="telefonomovil" class="col-sm-2">Telefono Movil:</label>
+                            <div class="col-sm-2">
+                                <input id="telefonomovil" name="telefonomovil" type="text" class="form-control" placeholder="Numero de Telefono Movil" asp-for="TelefonoMovil">
+                            </div>
+                        </div>
+
                         <hr />
                         <input id="iddomiciliozipago" name="iddomiciliozipago" type="hidden" asp-for="IdDomicilioZiPago" />
                         <div class="form-group">
@@ -140,6 +134,13 @@
                             <label for="codigoprovincia" class="col-sm-2">Provincia:</label>
                             <div class="col-sm-2">
                                 <select id="codigoprovincia" name="codigoprovincia" asp-for="CodigoProvincia" class="form-control" style="width: 100%;"></select>
+                            </div>
+                            <div class="col-sm-1">
+                                <button type="button" id="btnHistorico" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg" data-backdrop="static" data-keyboard="false">
+                                    <i class="fa fa-home"></i> Ver Historico
+                                    @*<i class="fa fa-map"></i>&nbsp;Ver Historico*@
+                                    @*<i class="fa fa-clone"></i>&nbsp;Ver Historico*@
+                                </button>
                             </div>
                         </div>
                         <div class="form-group">
@@ -173,17 +174,80 @@
                         </div>
                     </div>
                     <div class="box-footer">
-                        <button type="reset" id="cancelar" name="cancelar" class="btn btn-default">Cancelar</button>
-                        <button type="button" id="registrar" name="registrar" class="btn btn-info pull-right">Registrar</button>
+                        <div style="text-align:right">
+                            <button type="button" id="btnCancelar" class="btn btn-default">
+                                <i class="fa fa-undo"></i>&nbsp;Cancelar
+                            </button>
+                            <button type="button" id="btnRegistrar" class="btn btn-primary">
+                                <i class="fa fa-plus"></i>&nbsp;Registrar
+                            </button>
+                        </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
+    <div id="modalDomicilios" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="modalDomiciliosLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="modalDomiciliosLabel"><strong>Informacion Historica de Domicilios</strong></h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row" style="margin-top:10px">
+                        <div class="col-sm-12">
+                            <table 
+                                id="tbldomicilios"
+                                data-classes="table table-hover table-striped"
+                                data-locale="es-ES"
+                                data-toggle="table"
+                                data-search="false"
+                                data-show-refresh="false"
+                                data-pagination="true"
+                                data-show-pagination-switch="false"
+                                data-page-size="5"
+                                data-page-list="[5, 10, 15, All]"
+                                data-query-params="extraServerParams"
+                                data-pagination-pre-text="Anterior"
+                                data-pagination-next-text="Siguiente"
+                            >
+                                <thead>
+                                    <tr>
+                                        <th data-field="Id" data-visible="false">Id</th>
+                                        <th data-field="Departamento">Departamento</th>
+                                        <th data-field="Provincia">Provincia</th>
+                                        <th data-field="Distrito">Distrito</th>
+                                        <th data-field="Direccion1">Direccion</th>
+                                        <th data-field="Direccion2"></th>
+                                        <th data-field="Referencia">Referencia</th>
+                                        <th data-field="Estado">Estado</th>
+                                        <th data-field="FechaRegistro">Fecha Registro</th>
+                                        <th data-field="FechaActualizacion">Fecha Actualizacion</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnCancelar" class="btn btn-default" data-dismiss="modal">Cancelar</button>                    
+                </div>
+            </div>
+        </div>
+    </div>
+
 </section>
+
 <script src="~/bower_components/jquery/dist/jquery-3.3.1.min.js"></script>
 <script src="~/bower_components/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="~/bower_components/bootstrap-table-master/dist/bootstrap-table.min.js"></script>
+<script src="~/bower_components/bootstrap-table-master/dist/locale/bootstrap-table-es-ES.min.js"></script>
 <script src="~/bower_components/moment/min/moment.min.js"></script>
 <script src="~/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
 <script src="~/bower_components/bootstrap-datepicker/dist/locales/bootstrap-datepicker.es.min.js"></script>

@@ -20,7 +20,7 @@
                 error.appendTo(element.parent().parent());                
             }
             else {
-                error.insertAfter(element);                
+                error.insertAfter(element);
             }
         }
     });
@@ -82,9 +82,8 @@
         if ($("#EstadoRegistro").val() === "N") {
             $("#fechanacimiento").datepicker("update", new Date());
         } else {
-            var fecha = $("FechaNacimiento").val();
-            console.log(fecha);
-            //$('#fechanacimiento').data("DateTimePicker").date();
+            var fecha = $('#fecha').val();
+            $("#fechanacimiento").datepicker("update", fecha);
             Deshabilitar();
         }
         
@@ -192,7 +191,11 @@
             }
         });
 
-        $('#registrar').click(function () {
+        $('#btnHistorico').click(function () {
+            ConsultarDomicilios();
+        });
+
+        $('#btnRegistrar').click(function () {
             var $valid = $('#frmAfiliacion').valid();
             
             if (!$valid) {
@@ -324,5 +327,21 @@ function Registrar() {
         .fail(function (err) {
             alert('Error al registrar:\n' + err);
         });
+
+}
+
+function extraServerParams(params) {
+    params.IdUsuarioZiPago = $('#idusuariozipago').val();
+    return params;
+}
+
+function ConsultarDomicilios() {
+
+    var $table = $('#tbldomicilios');
+
+    $table.bootstrapTable('refreshOptions', {
+        url: "ListarDomiciliosHistorico",
+        showPaginationSwitch: false
+    });
 
 }

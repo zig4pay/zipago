@@ -74,6 +74,70 @@ namespace ZREL.ZiPago.Datos.Afiliacion
             
         }
 
+        public static async Task<IEnumerable<DomicilioHistorico>> ListarDomiciliosHistoricoAsync(this ZiPagoDBContext dbContext, int idUsuarioZiPago)
+        {
+            try
+            {
+                var result = from domicilio in dbContext.DomiciliosZiPago.AsNoTracking()
+                             where domicilio.IdUsuarioZiPago == idUsuarioZiPago
+                             join ubigeodepartamento in dbContext.UbigeosZiPago.AsNoTracking() on
+                                new
+                                {
+                                    Key1 = true,
+                                    Key2 = domicilio.CodigoDepartamento
+                                } equals
+                                new
+                                {
+                                    Key1 = ubigeodepartamento.CodigoUbigeoPadre == Constantes.strUbigeoZiPago_Departamentos,
+                                    Key2 = ubigeodepartamento.CodigoUbigeo
+                                }
+                             join ubigeoprovincia in dbContext.UbigeosZiPago.AsNoTracking() on
+                                new
+                                {
+                                    Key1 = domicilio.CodigoDepartamento,
+                                    Key2 = domicilio.CodigoProvincia
+                                } equals
+                                new
+                                {
+                                    Key1 = ubigeoprovincia.CodigoUbigeoPadre,
+                                    Key2 = ubigeoprovincia.CodigoUbigeo
+                                }
+                             join ubigeodistrito in dbContext.UbigeosZiPago.AsNoTracking() on
+                                new
+                                {
+                                    Key1 = domicilio.CodigoProvincia,
+                                    Key2 = domicilio.CodigoDistrito
+                                } equals
+                                new
+                                {
+                                    Key1 = ubigeodistrito.CodigoUbigeoPadre,
+                                    Key2 = ubigeodistrito.CodigoUbigeo
+                                }
+                             orderby domicilio.FechaCreacion
+                             select new DomicilioHistorico
+                             {
+                                 Id = domicilio.IdDomicilioZiPago,
+                                 Departamento = ubigeodepartamento.Nombre,
+                                 Provincia = ubigeoprovincia.Nombre,
+                                 Distrito = ubigeodistrito.Nombre,
+                                 Direccion1 = domicilio.Via,
+                                 Direccion2 = domicilio.DireccionFacturacion,
+                                 Referencia = domicilio.Referencia,
+                                 Estado = domicilio.Activo == Constantes.strValor_Activo ? "Activo" : "Inactivo",
+                                 FechaRegistro = domicilio.FechaCreacion.Value.ToShortDateString() + " " + domicilio.FechaCreacion.Value.ToShortTimeString(),
+                                 FechaActualizacion = domicilio.FechaActualizacion.Value != null ? 
+                                                        domicilio.FechaActualizacion.Value.ToShortDateString() + " " + domicilio.FechaActualizacion.Value.ToShortTimeString() : 
+                                                            string.Empty
+                             };
+                             
+                return await result.ToListAsync();
+            }
+            catch (Exception ex)
+            {                
+                throw ex;
+            }
+        }
+
         //Cuentas Bancarias
         public static async Task<CuentaBancariaZiPago> ObtenerCuentaBancariaZiPagoAsync(this ZiPagoDBContext dbContext, CuentaBancariaZiPago entidad)
         {

@@ -113,7 +113,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
                             model.ApellidoPaterno = responseDatos.Model.ApellidoPaterno;
                             model.ApellidoMaterno = responseDatos.Model.ApellidoMaterno;
                             model.Sexo = responseDatos.Model.Sexo;
-                            model.FechaNacimiento = Convert.ToDateTime(responseDatos.Model.FechaNacimiento.Value.ToShortDateString());
+                            model.FechaNacimiento = responseDatos.Model.FechaNacimiento.Value.ToShortDateString();                            
                             model.TelefonoFijo = responseDatos.Model.TelefonoFijo;
                             model.TelefonoMovil = responseDatos.Model.TelefonoMovil;
                             model.CodigoDepartamento = responseDatos.Model.CodigoDepartamento;
@@ -165,6 +165,30 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
             return response;
         }
 
+        [HttpGet]
+        public async Task<JsonResult> ListarDomiciliosHistorico(int idUsuarioZiPago)
+        {
+
+            JsonResult response;
+            Uri requestUrl;
+            ResponseListModel<DomicilioHistorico> responseUbigeo = new ResponseListModel<DomicilioHistorico>();
+
+            try
+            {
+                requestUrl = ApiClientFactory.Instance.CreateRequestUri(
+                        string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_DomiciliosHistoricoListar) + idUsuarioZiPago.ToString()
+                    );
+                responseUbigeo = await ApiClientFactory.Instance.GetListAsync<DomicilioHistorico>(requestUrl);
+                response = Json(responseUbigeo.Model);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return response;
+        }
+
         [HttpPost]
         public async Task<JsonResult> Registrar(DatosPersonalesViewModel model)
         {
@@ -205,7 +229,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
                 usuario.ApellidoMaterno = model.ApellidoMaterno;
                 usuario.Nombres = model.Nombres;
                 usuario.Sexo = model.Sexo;
-                usuario.FechaNacimiento = model.FechaNacimiento;
+                usuario.FechaNacimiento = Convert.ToDateTime(model.FechaNacimiento);
                 usuario.TelefonoMovil = model.TelefonoMovil;
                 usuario.TelefonoFijo = model.TelefonoFijo;
                 usuario.FechaActualizacion = DateTime.Now;

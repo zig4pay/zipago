@@ -38,6 +38,23 @@ namespace ZREL.ZiPago.Servicio.WebAPI.Controllers.Afiliacion
             return response.ToHttpResponse();
 
         }
+
+        [HttpGet("{idUsuarioZiPago}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        [Route("DomiciliosHistoricoListar/{idUsuarioZiPago}")]
+        public async Task<IActionResult> DomiciliosHistoricoListarAsync(int idUsuarioZiPago)
+        {
+
+            Logger logger = LogManager.GetCurrentClassLogger();
+            logger.Info("[Servicio.WebAPI.Controllers.Afiliacion.AfiliacionController.DomiciliosHistoricoListarAsync] | UsuarioZiPago: [{0}] | Inicio.", idUsuarioZiPago.ToString());
+
+            var response = await oIAfiliacionService.ListarDomiciliosHistoricoAsync(logger, idUsuarioZiPago);
+
+            return response.ToHttpResponse();
+
+        }
         
         [HttpGet("{codigoComercio}")]
         [ProducesResponseType(200)]
