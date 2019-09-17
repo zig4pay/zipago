@@ -12,9 +12,7 @@ namespace ZREL.ZiPago.Entidad.Afiliacion
 
         public string Distrito { get; set; }
 
-        public string Direccion1 { get; set; }
-
-        public string Direccion2 { get; set; }
+        public string Direccion { get; set; }
 
         public string Referencia { get; set; }
 

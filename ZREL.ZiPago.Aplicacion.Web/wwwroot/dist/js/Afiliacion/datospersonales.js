@@ -94,30 +94,7 @@
         $("#telefonomovil").keypress(SoloNumeroTelefonico);
         $("#apellidopaterno").keypress(PermitirSoloLetras);
         $("#apellidomaterno").keypress(PermitirSoloLetras);
-
-        $('#codigodepartamento').on('change', function () {
-            var strCodigoUbigeo = $(this).val();
-            $("#codigoprovincia").empty();
-            $("#codigodistrito").empty();
-            $.getJSON("ListarPorUbigeo", { strCodigoUbigeo: strCodigoUbigeo }, function (data) {
-                $("#codigoprovincia").append($("<option>").val("XX").text("Seleccione"));
-                $.each(data, function (i, item) {
-                    $("#codigoprovincia").append($("<option>").val(item.CodigoUbigeo).text(item.Nombre));
-                });
-            });
-        });
-
-        $("#codigoprovincia").on("change", function () {
-            var strCodigoUbigeo = $(this).val();
-            $("#codigodistrito").empty();
-            $.getJSON("ListarPorUbigeo", { strCodigoUbigeo: strCodigoUbigeo }, function (data) {
-                $("#codigodistrito").append($("<option>").val("XX").text("Seleccione"));
-                $.each(data, function (i, item) {
-                    $("#codigodistrito").append($("<option>").val(item.CodigoUbigeo).text(item.Nombre));
-                });
-            });
-        });
-
+        
         var validator = $('#frmAfiliacion').validate({
             rules: {
                 CodigoTipoPersona: "required",
@@ -201,7 +178,20 @@
             if (!$valid) {
                 return false;
             } else {
-                Registrar();
+                var titulo = $("#EstadoRegistro").val() === "N" ? "Desea registrar los Datos Personales?" : "Desea actualizar el domicilio?";
+
+                swal({
+                    title: titulo,
+                    text: "Se realizara el registro de los datos ingresados.",
+                    type: "info",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-primary",
+                    confirmButtonText: "Si, registrar",
+                    closeOnConfirm: false
+                },
+                    function () {
+                        Registrar();
+                });
             }
         });
 
@@ -209,6 +199,34 @@
 
     $(document).bind("contextmenu", function (e) {
         return false;
+    });
+
+    $(document).on('change', '[data-cascade-combo]', function (event) {
+
+        var id = $(this).attr('data-cascade-combo');
+        var url = $(this).attr('data-cascade-combo-source');
+        var paramName = $(this).attr('data-cascade-combo-param-name');
+
+        var data = {};
+        data[paramName] = id;
+
+        $.ajax({
+            url: url,
+            data: {
+                strCodigoUbigeo: $(this).val()
+            }
+        }).done(function (data) {
+            $(id).html('');
+            if ($(this).attr('name') === 'departamento') {
+                var id2 = $(this).attr('data-cascade-combo2');
+                $(id2).html('');
+            }
+            $.each(data,
+                function (index, type) {
+                    var content = '<option value="' + type.Value + '">' + type.Text + '</option>';
+                    $(id).append(content);
+                });
+        });
     });
 
     $('#optPersonaJuridica').change(function () {
@@ -304,9 +322,9 @@ function Registrar() {
     DatosPersonalesVM.TelefonoMovil = $('#telefonomovil').val();
     DatosPersonalesVM.TelefonoFijo = $('#telefonofijo').val();
     DatosPersonalesVM.EstadoRegistro = $('#EstadoRegistro').val();
-    DatosPersonalesVM.CodigoDepartamento = $('#codigodepartamento').val();
-    DatosPersonalesVM.CodigoProvincia = $('#codigoprovincia').val();
-    DatosPersonalesVM.CodigoDistrito = $('#codigodistrito').val();
+    DatosPersonalesVM.CodigoDepartamento = $('#departamento').val();
+    DatosPersonalesVM.CodigoProvincia = $('#provincia').val();
+    DatosPersonalesVM.CodigoDistrito = $('#distrito').val();
     DatosPersonalesVM.Via = $('#via').val();
     DatosPersonalesVM.DireccionFacturacion = $('#direccionfacturacion').val();
     DatosPersonalesVM.Referencia = $('#referencia').val();
@@ -322,10 +340,20 @@ function Registrar() {
             ContentType: 'application/json;utf-8'
         })
         .done(function (resp) {
-            alert('Registro realizado correctamente.');            
+            swal("Datos Personales registrados correctamente", resp.mensaje, "success");
+            $("#EstadoRegistro").val("R");
+            Deshabilitar();
         })
         .fail(function (err) {
-            alert('Error al registrar:\n' + err);
+            swal({
+                title: "Error",
+                text: "Ocurrio un error al registrar los Datos Personales. Por favor intentelo en unos minutos.",
+                type: "error",
+                showCancelButton: false,
+                confirmButtonClass: "btn-default",
+                confirmButtonText: "Ok",
+                closeOnConfirm: false
+            });
         });
 
 }

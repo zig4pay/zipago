@@ -113,15 +113,14 @@ namespace ZREL.ZiPago.Datos.Afiliacion
                                     Key1 = ubigeodistrito.CodigoUbigeoPadre,
                                     Key2 = ubigeodistrito.CodigoUbigeo
                                 }
-                             orderby domicilio.FechaCreacion
+                             orderby domicilio.FechaCreacion descending
                              select new DomicilioHistorico
                              {
                                  Id = domicilio.IdDomicilioZiPago,
                                  Departamento = ubigeodepartamento.Nombre,
                                  Provincia = ubigeoprovincia.Nombre,
                                  Distrito = ubigeodistrito.Nombre,
-                                 Direccion1 = domicilio.Via,
-                                 Direccion2 = domicilio.DireccionFacturacion,
+                                 Direccion = domicilio.Via + " " + domicilio.DireccionFacturacion.Trim(),
                                  Referencia = domicilio.Referencia,
                                  Estado = domicilio.Activo == Constantes.strValor_Activo ? "Activo" : "Inactivo",
                                  FechaRegistro = domicilio.FechaCreacion.Value.ToShortDateString() + " " + domicilio.FechaCreacion.Value.ToShortTimeString(),
@@ -174,11 +173,10 @@ namespace ZREL.ZiPago.Datos.Afiliacion
 
         }
         
-        public static async Task<IEnumerable<CuentaBancariaListado>> ListarCuentasBancariasAsync(this ZiPagoDBContext dbContext, int idUsuarioZiPago)
+        public static async Task<IEnumerable<CuentaBancariaListado>> ListarCuentasBancariasAsync(this ZiPagoDBContext dbContext, CuentaBancariaFiltros cuentaFiltros)
         {
 
-            var result = from cuentabancaria in dbContext.CuentasBancariasZiPago.AsNoTracking()
-                         where cuentabancaria.IdUsuarioZiPago == idUsuarioZiPago
+            var result = from cuentabancaria in dbContext.CuentasBancariasZiPago.AsNoTracking()                         
                          join banco in dbContext.BancosZiPago.AsNoTracking()
                             on cuentabancaria.IdBancoZiPago equals banco.IdBancoZiPago
                          join tipocuenta in dbContext.TablasDetalle.AsNoTracking()
@@ -202,19 +200,38 @@ namespace ZREL.ZiPago.Datos.Afiliacion
                                {
                                    Key1 = tipomoneda.Cod_Tabla == Constantes.strCodTablaTipoMoneda,
                                    Key2 = tipomoneda.Valor
-                               }
+                               }                         
                          orderby banco.NombreLargo
                          select new CuentaBancariaListado
                          {
+                             Id = cuentabancaria.IdUsuarioZiPago,
                              IdCuentaBancaria = cuentabancaria.IdCuentaBancaria,
+                             IdBancoZiPago = cuentabancaria.IdBancoZiPago,
                              Banco = banco.NombreLargo,
+                             CodigoTipoCuenta = tipocuenta.Valor,
                              TipoCuenta = tipocuenta.Descr_Valor,
+                             CodigoTipoMoneda = tipomoneda.Valor,
                              TipoMoneda = tipomoneda.Descr_Valor,
                              NumeroCuenta = cuentabancaria.NumeroCuenta,
                              CCI = cuentabancaria.CCI,
-                             Estado = cuentabancaria.Activo == Constantes.strValor_Activo ? "Activo" : "Inactivo",
+                             Activo = cuentabancaria.Activo,
                              FechaCreacion = cuentabancaria.FechaCreacion
                          };
+
+            if (cuentaFiltros.IdBancoZiPago != null && cuentaFiltros.IdBancoZiPago > 0)
+                result = result.Where(p => p.IdBancoZiPago == cuentaFiltros.IdBancoZiPago);
+
+            if (!string.IsNullOrWhiteSpace(cuentaFiltros.CodigoTipoCuenta) && cuentaFiltros.CodigoTipoCuenta != "00")
+                result = result.Where(p => p.CodigoTipoCuenta == cuentaFiltros.CodigoTipoCuenta);
+
+            if (!string.IsNullOrWhiteSpace(cuentaFiltros.CodigoTipoMoneda) && cuentaFiltros.CodigoTipoMoneda != "00")
+                result = result.Where(p => p.CodigoTipoMoneda == cuentaFiltros.CodigoTipoMoneda);
+
+            if (!string.IsNullOrWhiteSpace(cuentaFiltros.Activo) && cuentaFiltros.Activo != "0")
+                result = result.Where(p => p.Activo == cuentaFiltros.Activo);
+
+            if (!string.IsNullOrWhiteSpace(cuentaFiltros.NumeroCuenta))
+                result = result.Where(p => p.NumeroCuenta.Contains(cuentaFiltros.NumeroCuenta));
 
             return await result.ToListAsync();
 

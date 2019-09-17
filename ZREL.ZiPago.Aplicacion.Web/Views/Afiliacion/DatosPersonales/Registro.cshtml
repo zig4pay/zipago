@@ -2,6 +2,9 @@
 
 @{
     Layout = "_Layout";
+    var departamentos = ViewBag.Departamentos as List<SelectListItem>;
+    var provincias = ViewBag.Provincias as List<SelectListItem>;
+    var distritos = ViewBag.Distritos as List<SelectListItem>;
 }
 
 <section class="content-header">
@@ -129,24 +132,41 @@
                         <div class="form-group">
                             <label for="codigodepartamento" class="col-sm-2">Departamento:</label>
                             <div class="col-sm-2">
-                                <select id="codigodepartamento" name="codigodepartamento" asp-for="CodigoDepartamento" asp-items="@(new SelectList(Model.Departamento,"CodigoUbigeo", "Nombre", Model.CodigoDepartamento))" class="form-control" style="width: 100%;"></select>
+                                @Html.DropDownListFor(x => x.CodigoDepartamento, departamentos, new { @class = "form-control",
+                                    id = "departamento",
+                                    name = "departamento",
+                                    style = "width: 100%;",
+                                    data_cascade_combo = "#provincia",
+                                    data_cascade_combo2 = "#distrito",
+                                    data_cascade_combo_source = Url.Action("ListarPorUbigeo", "DatosPersonales"),
+                                    data_cascade_combo_param_name = "strCodigoUbigeo"
+                           })
                             </div>
                             <label for="codigoprovincia" class="col-sm-2">Provincia:</label>
                             <div class="col-sm-2">
-                                <select id="codigoprovincia" name="codigoprovincia" asp-for="CodigoProvincia" class="form-control" style="width: 100%;"></select>
+                                @Html.DropDownListFor(x => x.CodigoProvincia, provincias, new { @class = "form-control" ,
+                                    style = "width: 100%;",
+                                    id = "provincia",
+                                    name = "provincia",
+                                    data_cascade_combo = "#distrito",
+                                    data_cascade_combo_source = Url.Action("ListarPorUbigeo", "DatosPersonales"),
+                                    data_cascade_combo_param_name = "strCodigoUbigeo"
+                                })
                             </div>
                             <div class="col-sm-1">
                                 <button type="button" id="btnHistorico" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg" data-backdrop="static" data-keyboard="false">
-                                    <i class="fa fa-home"></i> Ver Historico
-                                    @*<i class="fa fa-map"></i>&nbsp;Ver Historico*@
-                                    @*<i class="fa fa-clone"></i>&nbsp;Ver Historico*@
+                                    <i class="fa fa-home"></i> Ver Historico                                    
                                 </button>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="codigodistrito" class="col-sm-2">Distrito:</label>
                             <div class="col-sm-2">
-                                <select id="codigodistrito" name="codigodistrito" asp-for="CodigoDistrito" class="form-control" style="width: 100%;"></select>
+                                @Html.DropDownListFor(x => x.CodigoDistrito, distritos, new { @class = "form-control",
+                                    style = "width: 100%;",
+                                    id = "distrito",
+                                    name = "distrito",
+                                })
                             </div>
                         </div>
                         <div class="form-group">
@@ -220,12 +240,11 @@
                                         <th data-field="Departamento">Departamento</th>
                                         <th data-field="Provincia">Provincia</th>
                                         <th data-field="Distrito">Distrito</th>
-                                        <th data-field="Direccion1">Direccion</th>
-                                        <th data-field="Direccion2"></th>
+                                        <th data-field="Direccion">Direccion</th>                                        
                                         <th data-field="Referencia">Referencia</th>
                                         <th data-field="Estado">Estado</th>
-                                        <th data-field="FechaRegistro">Fecha Registro</th>
-                                        <th data-field="FechaActualizacion">Fecha Actualizacion</th>
+                                        <th data-field="FechaRegistro">Fecha de Registro</th>
+                                        <th data-field="FechaActualizacion">Fecha de Actualizacion</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -253,5 +272,6 @@
 <script src="~/bower_components/bootstrap-datepicker/dist/locales/bootstrap-datepicker.es.min.js"></script>
 <script src="~/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <script src="~/bower_components/fastclick/lib/fastclick.js"></script>
+<script src="~/bower_components/sweetalert/sweetalert.min.js"></script>
 <script src="~/dist/js/adminlte.min.js"></script>
 <script src="~/dist/js/Afiliacion/datospersonales.js"></script>

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -47,23 +48,19 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
                     requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.BancoZiPago_Listar));
                     responseBanco = await ApiClientFactory.Instance.GetListAsync<BancoZiPago>(requestUrl);
                     responseBanco.Model.Insert(0, new BancoZiPago { IdBancoZiPago = 0, NombreLargo = "Seleccione" });
-
                     model.Bancos = responseBanco.Model;
-
-
+                    
                     requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.TablaDetalle_Listar) + Constantes.strCodTablaTipoCuenta);
                     responseTD = await ApiClientFactory.Instance.GetListAsync<TablaDetalle>(requestUrl);
                     responseTD.Model.Insert(0, new TablaDetalle {Cod_Tabla = Constantes.strCodTablaTipoCuenta, Valor = "00", Descr_Valor = "Seleccione"});
-
                     model.TipoCuentas = responseTD.Model;
 
                     requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.TablaDetalle_Listar) + Constantes.strCodTablaTipoMoneda);
                     responseTD = await ApiClientFactory.Instance.GetListAsync<TablaDetalle>(requestUrl);
                     responseTD.Model.Insert(0, new TablaDetalle { Cod_Tabla = Constantes.strCodTablaTipoMoneda, Valor = "00", Descr_Valor = "Seleccione" });
-
                     model.TipoMonedas = responseTD.Model;
 
-                    return View("~/Views/Afiliacion/CuentaBancaria.cshtml", model);
+                    return View("~/Views/Afiliacion/CuentaBancaria/Consulta.cshtml", model);
                 }
                 else
                 {
@@ -76,45 +73,41 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
             }            
         }
 
-        [HttpPost]
-        public async Task<IActionResult> ListarCuentasBancarias([FromBody] UsuarioZiPago usuarioZiPago)
+        [HttpGet]
+        public async Task<IActionResult> ListarCuentasBancarias(string order, int idUsuarioZiPago, int idBancoZiPago, string codigoTipoCuenta, string codigoTipoMoneda, string activo, string numeroCuenta)
         {
-             
-            JsonResult response;
             Uri requestUrl;
-            ResponseListModel<CuentaBancariaListado> responseCuentas = new ResponseListModel<CuentaBancariaListado>();
+            JsonResult response;
+            ResponseListModel<CuentaBancariaListado> responseCuenta = new ResponseListModel<CuentaBancariaListado>();
+            string responsePostJson;
+            Int32 totalRegistros = 0;
 
             try
             {
-                var draw = "1"; //HttpContext.Request.Form["draw"].FirstOrDefault();
-                //var start = Request.Form["start"].FirstOrDefault();
-                //var length = Request.Form["length"].FirstOrDefault();
-                //var sortColumn = Request.Form["columns[" + Request.Form["order[0][column]"].FirstOrDefault() + "][name]"].FirstOrDefault();                
-                //var sortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();                
-                //var searchValue = Request.Form["search[value]"].FirstOrDefault();
-
-                //int pageSize = length != null ? Convert.ToInt32(length) : 0;
-                //int skip = start != null ? Convert.ToInt32(start) : 0;
-                int recordsTotal = 0;
+                CuentaBancariaFiltros cuentaBancariaFiltros = new CuentaBancariaFiltros
+                {
+                    IdUsuarioZiPago = idUsuarioZiPago,
+                    IdBancoZiPago = idBancoZiPago,
+                    CodigoTipoCuenta = codigoTipoCuenta,
+                    CodigoTipoMoneda = codigoTipoMoneda,
+                    NumeroCuenta = numeroCuenta,
+                    Activo = activo                   
+                };
 
                 requestUrl = ApiClientFactory.Instance.CreateRequestUri(
-                        string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_CuentasBancariasListar) + "1"
-                        //usuarioZiPago.IdUsuarioZiPago.ToString()
+                        string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_CuentasBancariasListar)
                     );
-                responseCuentas = await ApiClientFactory.Instance.GetListAsync<CuentaBancariaListado>(requestUrl);                
-                recordsTotal = responseCuentas.Model.ToList().Count();
+                responsePostJson = await ApiClientFactory.Instance.PostJsonAsync<CuentaBancariaFiltros>(requestUrl, cuentaBancariaFiltros);
 
-                //if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
-                //{
-                //    customerData = customerData.OrderBy(sortColumn + " " + sortColumnDirection);
-                //}                
-                //if (!string.IsNullOrEmpty(searchValue))
-                //{
-                //    customerData = customerData.Where(m => m.Name == searchValue || m.Phoneno == searchValue || m.City == searchValue);
-                //}
+                responsePostJson = responsePostJson.Replace("\\", string.Empty);
+                responsePostJson = responsePostJson.Trim('"');
 
-                response = Json(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = responseCuentas.Model });
+                responseCuenta = JsonConvert.DeserializeObject<ResponseListModel<CuentaBancariaListado>>(responsePostJson);
+                totalRegistros = responseCuenta.Model.Count();
 
+                responsePostJson = JsonConvert.SerializeObject(responseCuenta.Model);
+
+                response = Json(new { total = totalRegistros, totalNotFiltered = totalRegistros, rows = responseCuenta.Model });
             }
             catch (Exception ex)
             {

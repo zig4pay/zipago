@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
 using NLog;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
 using ZREL.ZiPago.Aplicacion.Web.Clients;
@@ -41,6 +43,8 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
             ResponseListModel<UbigeoZiPago> response;
             ResponseModel<DatosPersonales> responseDatos;
             Uri requestUrl;
+            List<SelectListItem> departamentos;
+
             int posicion = 0;
 
             try
@@ -68,17 +72,18 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
                         Valor = "000",
                         Descr_Valor = "Seleccione"
                     });
-
+                    
                     // Departamento
                     requestUrl = ApiClientFactory.Instance.CreateRequestUri(
                                     string.Format(CultureInfo.InvariantCulture, webSettings.Value.UbigeoZiPago_Listar) + Constantes.strUbigeoZiPago_Departamentos);
                     response = await ApiClientFactory.Instance.GetListAsync<UbigeoZiPago>(requestUrl);
-                    model.Departamento = response.Model;
-                    model.Departamento.Insert(0, new UbigeoZiPago
+                    departamentos = new List<SelectListItem>();
+                    foreach (UbigeoZiPago item in response.Model)
                     {
-                        CodigoUbigeo = "XX",
-                        Nombre = "Seleccione"
-                    });
+                        departamentos.Add(new SelectListItem { Value = item.CodigoUbigeo, Text = item.Nombre});
+                    }
+                    departamentos.Insert(0, new SelectListItem { Value = "XX", Text = "Seleccione" });
+                    ViewBag.Departamentos = departamentos;
 
                     // Datos registrados
                     responseDatos = new ResponseModel<DatosPersonales>();
@@ -121,9 +126,10 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
                             model.CodigoDistrito = responseDatos.Model.CodigoDistrito;
                             model.Via = responseDatos.Model.Via;
                             model.DireccionFacturacion = responseDatos.Model.DireccionFacturacion;
-                            model.Referencia = responseDatos.Model.Referencia;                            
+                            model.Referencia = responseDatos.Model.Referencia;
                         }
-                                                
+                        ViewBag.Provincias = await ListarUbigeoPorCodigo(responseDatos.Model.CodigoDepartamento);
+                        ViewBag.Distritos = await ListarUbigeoPorCodigo(responseDatos.Model.CodigoProvincia);
                     }
                     else
                     {
@@ -148,14 +154,11 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
         {
 
             JsonResult response;
-            Uri requestUrl;
-            ResponseListModel<UbigeoZiPago> responseUbigeo = new ResponseListModel<UbigeoZiPago>();
-
+            
             try
             {
-                requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.UbigeoZiPago_Listar) + strCodigoUbigeo);
-                responseUbigeo = await ApiClientFactory.Instance.GetListAsync<UbigeoZiPago>(requestUrl);
-                response = Json(responseUbigeo.Model);
+                var lista = await ListarUbigeoPorCodigo(strCodigoUbigeo);
+                response = Json(lista);
             }
             catch (Exception ex)
             {
@@ -165,6 +168,30 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
             return response;
         }
 
+        private async Task<List<SelectListItem>> ListarUbigeoPorCodigo(string strCodigoUbigeo)
+        {
+            Uri requestUrl;
+            ResponseListModel<UbigeoZiPago> responseUbigeo = new ResponseListModel<UbigeoZiPago>();
+            List<SelectListItem> lista = new List<SelectListItem>();
+
+            try
+            {
+                requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.UbigeoZiPago_Listar) + strCodigoUbigeo);
+                responseUbigeo = await ApiClientFactory.Instance.GetListAsync<UbigeoZiPago>(requestUrl);
+                foreach (UbigeoZiPago item in responseUbigeo.Model){
+                    lista.Add(new SelectListItem { Value = item.CodigoUbigeo, Text = item.Nombre });
+                }
+                lista.Insert(0, new SelectListItem { Value = "XX", Text = "Seleccione" });
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return lista;
+        }
+        
         [HttpGet]
         public async Task<JsonResult> ListarDomiciliosHistorico(int idUsuarioZiPago)
         {

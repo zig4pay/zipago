@@ -163,7 +163,8 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
                     DbContext.Entry(request.EntidadUsuario).Property("FechaActualizacion").IsModified = true;                    
                     await DbContext.SaveChangesAsync();
                     
-                    var domicilios = DbContext.DomiciliosZiPago.Where(p => p.IdUsuarioZiPago == request.EntidadUsuario.IdUsuarioZiPago).ToList();
+                    var domicilios = DbContext.DomiciliosZiPago.Where(p => p.IdUsuarioZiPago == request.EntidadUsuario.IdUsuarioZiPago &&
+                                                                            p.Activo == Constantes.strValor_Activo).ToList();
                     domicilios.ForEach( a => 
                                             {
                                                 a.Activo = Constantes.strValor_NoActivo;
@@ -211,16 +212,16 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
             return response;
         }
 
-        public async Task<IListResponse<CuentaBancariaListado>> ListarCuentasBancariasAsync(Logger logger, int idUsuarioZiPago) {
+        public async Task<IListResponse<CuentaBancariaListado>> ListarCuentasBancariasAsync(Logger logger, CuentaBancariaFiltros cuentaFiltros) {
 
             ListResponse<CuentaBancariaListado> response = new ListResponse<CuentaBancariaListado>();
-            logger.Info("[Negocio.Afiliacion.AfiliacionService.ListarCuentasBancariasAsync] | UsuarioZiPago: [{0}] | Inicio.", idUsuarioZiPago);
+            logger.Info("[Negocio.Afiliacion.AfiliacionService.ListarCuentasBancariasAsync] | Filtros: [{0}] | Inicio.", JsonConvert.SerializeObject(cuentaFiltros));
 
             try
             {
-                response.Model = await DbContext.ListarCuentasBancariasAsync(idUsuarioZiPago);
+                response.Model = await DbContext.ListarCuentasBancariasAsync(cuentaFiltros);
                 response.Mensaje = Constantes.strConsultaRealizada;
-                logger.Info("[Negocio.Afiliacion.AfiliacionService.ListarCuentasBancariasAsync] | UsuarioZiPago: [{0}] | Mensaje: [{1}].", idUsuarioZiPago, Constantes.strConsultaRealizada);
+                logger.Info("[Negocio.Afiliacion.AfiliacionService.ListarCuentasBancariasAsync] | Response: [{0}] | Mensaje: [{1}].", JsonConvert.SerializeObject(response.Model), Constantes.strConsultaRealizada);
             }
             catch (Exception ex)
             {

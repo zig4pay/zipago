@@ -111,13 +111,13 @@ namespace ZREL.ZiPago.Servicio.WebAPI.Controllers.Afiliacion
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
         [Route("CuentasBancariasListar/{idUsuarioZiPago}")]
-        public async Task<IActionResult> CuentasBancariasListarAsync(int idUsuarioZiPago)
+        public async Task<IActionResult> CuentasBancariasListarAsync(CuentaBancariaFiltros cuentaBancariaFiltros)
         {
 
             Logger logger = LogManager.GetCurrentClassLogger();
-            logger.Info("[Servicio.WebAPI.Controllers.Afiliacion.AfiliacionController.CuentasBancariasListarAsync] | UsuarioZiPago: [{0}] | Inicio.", idUsuarioZiPago.ToString());
+            logger.Info("[Servicio.WebAPI.Controllers.Afiliacion.AfiliacionController.CuentasBancariasListarAsync] | Filtros: [{0}] | Inicio.", JsonConvert.SerializeObject(cuentaBancariaFiltros));
 
-            var response = await oIAfiliacionService.ListarCuentasBancariasAsync(logger, idUsuarioZiPago);
+            var response = await oIAfiliacionService.ListarCuentasBancariasAsync(logger, cuentaBancariaFiltros);
 
             return response.ToHttpResponse();
 
