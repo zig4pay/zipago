@@ -44,7 +44,7 @@ Begin Tran
       [CodigoProvincia]	      varchar(20)       Not Null,
       [CodigoDistrito]	      varchar(20)       Not Null,
       [Via]	                  varchar(80)	      Not Null,
-      [DireccionFacturacion]	varchar(150)      Not Null,
+      [DireccionFacturacion]	varchar(150)      Null,
       [Referencia]	         varchar(200)	   Null,
       [Activo]	               char(1)	         Not Null,
       [FechaCreacion]	      datetime	         Not Null,

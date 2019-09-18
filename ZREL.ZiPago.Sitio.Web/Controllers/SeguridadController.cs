@@ -91,7 +91,7 @@ namespace ZREL.ZiPago.Sitio.Web.Controllers
             {
                 ViewBag.Incorrecto = true;
                 ViewBag.MensajeError = ex.ToString();
-                logger.Error("[Sitio.Web.Controllers.SeguridadController.{0}] | UsuarioViewModel: [{1}] | Excepcion: {2}.", nameof(UsuarioRegistrar), model.Clave1, ex.ToString());
+                logger.Error("[Sitio.Web.Controllers.SeguridadController.UsuarioRegistrar] | UsuarioViewModel: [{1}] | Excepcion: {2}.", nameof(UsuarioRegistrar), model.Clave1, ex.ToString());
                 return View("~/Views/Seguridad/Registro.cshtml");
             }
 

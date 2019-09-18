@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -105,8 +106,8 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
                         {
                             model.Nombres = usuario.NombresUsuario;
                             posicion = usuario.ApellidosUsuario.IndexOf(" ");
-                            model.ApellidoPaterno = usuario.ApellidosUsuario.Substring(0, posicion);
-                            model.ApellidoMaterno = usuario.ApellidosUsuario.Substring(posicion + 1);
+                            model.ApellidoPaterno = posicion > 0 ? usuario.ApellidosUsuario.Substring(0, posicion) : usuario.ApellidosUsuario;
+                            model.ApellidoMaterno = posicion > 0 ? usuario.ApellidosUsuario.Substring(posicion + 1) : "";
                         }
                         else
                         {                            
@@ -144,6 +145,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
             }
             catch (Exception ex)
             {
+                logger.Error("[Aplicacion.Web.Controllers.Afiliacion.DatosPersonalesController.Index] | UsuarioZiPago: [{0}] | Excepcion: [{1}]", usuario.IdUsuarioZiPago.ToString(), ex.ToString() + " - " + ex.Message);
                 return View("~/Views/Seguridad/Login.cshtml");
             }
             
@@ -219,16 +221,15 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
         [HttpPost]
         public async Task<JsonResult> Registrar(DatosPersonalesViewModel model)
         {
-
+            Logger logger = LogManager.GetCurrentClassLogger();
             JsonResult response;
             Uri requestUrl;
-            
-            try
-            {
-                DatosPersonalesRequest request = new DatosPersonalesRequest();
-                UsuarioZiPago usuario = new UsuarioZiPago();
-                DomicilioZiPago domicilio = new DomicilioZiPago();
+            DatosPersonalesRequest request = new DatosPersonalesRequest();
+            UsuarioZiPago usuario = new UsuarioZiPago();
+            DomicilioZiPago domicilio = new DomicilioZiPago();
 
+            try
+            {                
                 usuario.IdUsuarioZiPago = model.IdUsuarioZiPago;
                 usuario.Clave1 = model.Clave1;
                 usuario.ApellidosUsuario = model.ApellidosUsuario;
@@ -256,7 +257,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
                 usuario.ApellidoMaterno = model.ApellidoMaterno;
                 usuario.Nombres = model.Nombres;
                 usuario.Sexo = model.Sexo;
-                usuario.FechaNacimiento = Convert.ToDateTime(model.FechaNacimiento);
+                usuario.FechaNacimiento = DateTime.ParseExact(model.FechaNacimiento, "dd/mm/yyyy", CultureInfo.InvariantCulture);
                 usuario.TelefonoMovil = model.TelefonoMovil;
                 usuario.TelefonoFijo = model.TelefonoFijo;
                 usuario.FechaActualizacion = DateTime.Now;
@@ -282,7 +283,8 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
             }
             catch (Exception ex)
             {
-                throw ex;
+                response = Json(new { Mensaje = "", HizoError = true, MensajeError = ex.Message});
+                logger.Error("[Aplicacion.Web.Controllers.Afiliacion.DatosPersonalesController.Registrar] | UsuarioZiPago: [{0}] | Excepcion: [{1}]", JsonConvert.SerializeObject(request), ex.ToString());
             }
 
             return response;

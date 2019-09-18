@@ -24,7 +24,7 @@ namespace ZREL.ZiPago.Datos.Configuraciones.Afiliacion
             builder.Property(p => p.CodigoProvincia).HasColumnType("varchar(20)").IsRequired();
             builder.Property(p => p.CodigoDistrito).HasColumnType("varchar(20)").IsRequired();
             builder.Property(p => p.Via).HasColumnType("varchar(80)").IsRequired();
-            builder.Property(p => p.DireccionFacturacion).HasColumnType("varchar(150)").IsRequired();
+            builder.Property(p => p.DireccionFacturacion).HasColumnType("varchar(150)");
             builder.Property(p => p.Referencia).HasColumnType("varchar(200)");
             builder.Property(p => p.Activo).HasColumnType("char(1)").IsRequired();
             builder.Property(p => p.FechaCreacion).HasColumnType("datetime").IsRequired();

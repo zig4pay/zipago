@@ -10,8 +10,8 @@ input.error-label {
     color: #FF0000;
 }
 
-input.error {
-    border: 1px solid red;
+input.valid {
+    border: 1px solid green;
 }
 
 .box-body {
@@ -27,7 +27,6 @@ input.error {
     color: red !important;
 }
 
-.disabled-div {
-    pointer-events: none;
-    opacity: 0.4;
+.required-value {
+    color: red;
 }

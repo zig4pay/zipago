@@ -39,7 +39,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2">Tipo de Persona</label>
+                            <label class="col-sm-2">Tipo de Persona</label><span class="required-value">*</span>
                             @foreach (var item in Model.TipoPersona)
                             {
                                 <div class="col-sm-1 form-check form-check-inline">
@@ -179,7 +179,7 @@
                         </div>
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-6">
-                                <input id="direccionfacturacion" name="direccionfacturacion" type="text" class="form-control" placeholder="Numero, Piso, Interior, Manzana, etc." asp-for="DireccionFacturacion">
+                                <input id="direccionfacturacion" name="direccionfacturacion" type="text" class="form-control" placeholder="Urbanizacion, Complejo, Residencial, Barrio, etc." asp-for="DireccionFacturacion">
                             </div>
                         </div>
                         <div class="form-group">

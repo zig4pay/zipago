@@ -78,6 +78,7 @@
                 showCancelButton: true,
                 confirmButtonClass: "btn-primary",
                 confirmButtonText: "Si, registrar",
+                cancelButtonText: "No, cancelar",
                 closeOnConfirm: false
                 },
                 function () {
