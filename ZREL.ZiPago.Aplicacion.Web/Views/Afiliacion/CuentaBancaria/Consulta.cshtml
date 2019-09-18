@@ -7,7 +7,7 @@
 <section class="content-header">
     <h1>
         Cuentas Bancarias
-        <small>Registro</small>
+        <small>Consulta</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
@@ -103,7 +103,7 @@
                                 </div>
                                 <div class="box-body">
                                     <div class="form-group">
-                                        <table id="tblcomercios"
+                                        <table id="tblcuentas"
                                                data-classes="table table-hover table-striped"
                                                data-locale="es-ES"
                                                data-toggle="table"
@@ -119,14 +119,11 @@
                                             <thead>
                                                 <tr>
                                                     <th data-field="Id" data-visible="false">Id</th>
-                                                    <th data-field="Codigo">Banco</th>
-                                                    <th data-field="Descripcion">Descripcion</th>
-                                                    <th data-field="CorreoNotificacion">Correo de Notificacion</th>
-                                                    <th data-field="IdBancoZiPago" data-visible="false">IdBancoZiPago</th>
                                                     <th data-field="Banco">Banco</th>
-                                                    <th data-field="TipoCuentaBancaria">Tipo de Cuenta</th>
-                                                    <th data-field="MonedaCuentaBancaria">Moneda</th>
-                                                    <th data-field="CuentaBancaria">Nro. de Cuenta</th>
+                                                    <th data-field="TipoCuenta">Tipo de Cuenta</th>
+                                                    <th data-field="TipoMoneda">Moneda</th>
+                                                    <th data-field="NumeroCuenta">Nro. de Cuenta</th>
+                                                    <th data-field="CCI">CCI</th>
                                                     <th data-field="Estado">Estado</th>
                                                     <th data-field="FechaCreacion">Fecha Registro</th>
                                                 </tr>
@@ -157,10 +154,13 @@
     </div>
 
 </section>
-<script src="~/bower_components/jquery/dist/jquery.min.js"></script>
+
+<script src="~/bower_components/jquery/dist/jquery-3.3.1.min.js"></script>
 <script src="~/bower_components/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="~/bower_components/bootstrap-table-master/dist/bootstrap-table.min.js"></script>
+<script src="~/bower_components/bootstrap-table-master/dist/locale/bootstrap-table-es-ES.min.js"></script>
 <script src="~/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <script src="~/bower_components/fastclick/lib/fastclick.js"></script>
 <script src="~/dist/js/adminlte.min.js"></script>
-<script src="~/dist/js/Afiliacion/cuentabancaria.js"></script>
+<script src="~/dist/js/Afiliacion/cuentabancariaconsulta.js"></script>

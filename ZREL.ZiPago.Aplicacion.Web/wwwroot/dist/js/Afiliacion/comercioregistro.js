@@ -72,7 +72,7 @@
 
         if (filas > 1) {            
             swal({
-                title: "Desea registrar la lista de Comercios?",
+                title: "Desea registrar los Comercios?",
                 text: "Se realizara el registro de " + (filas - 1) + " Comercio(s).",
                 type: "info",
                 showCancelButton: true,
@@ -289,8 +289,7 @@ function RegistrarComercios() {
             ContentType: 'application/json; utf-8'
         })
         .done(function (resp) {
-            var content = JSON.parse(resp);
-            console.log(content);
+            var content = JSON.parse(resp);            
             if (!content.hizoError) {
                 $("#tblComercios > tbody").html("");
                 swal("Comercios registrados correctamente", content.mensaje, "success");
@@ -309,7 +308,7 @@ function RegistrarComercios() {
         .fail(function (err) {
             swal({
                 title: "Error",
-                text: "Ocurrio un error al registrar los Comercios.",
+                text: "Ocurrio un error al registrar los Comercios. Por favor intentelo en unos minutos.",
                 type: "error",
                 showCancelButton: false,
                 confirmButtonClass: "btn-default",

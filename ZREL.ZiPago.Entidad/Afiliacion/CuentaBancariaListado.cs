@@ -24,7 +24,7 @@ namespace ZREL.ZiPago.Entidad.Afiliacion
 
         public string CCI { get; set; }
 
-        public string Activo { get; set; }
+        public string Estado { get; set; }
 
         public DateTime? FechaCreacion { get; set; }
     }

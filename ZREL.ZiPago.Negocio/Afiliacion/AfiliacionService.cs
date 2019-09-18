@@ -220,6 +220,10 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
             try
             {
                 response.Model = await DbContext.ListarCuentasBancariasAsync(cuentaFiltros);
+                foreach (CuentaBancariaListado cuenta in response.Model)
+                {
+                    cuenta.Estado = cuenta.Estado == Constantes.strValor_Activo ? "Activo" : "Inactivo";
+                }
                 response.Mensaje = Constantes.strConsultaRealizada;
                 logger.Info("[Negocio.Afiliacion.AfiliacionService.ListarCuentasBancariasAsync] | Response: [{0}] | Mensaje: [{1}].", JsonConvert.SerializeObject(response.Model), Constantes.strConsultaRealizada);
             }

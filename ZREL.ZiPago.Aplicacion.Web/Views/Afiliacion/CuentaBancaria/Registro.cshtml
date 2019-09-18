@@ -1,7 +1,143 @@
-﻿
+﻿@model ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion.CuentaBancariaViewModel
 @{
-    ViewData["Title"] = "Registro";
+    Layout = "_Layout";
 }
 
-<h2>Registro</h2>
+<section class="content-header">
+    <h1>
+        Comercios
+        <small>Registro</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
+        <li><a href="#">Afiliacion</a></li>
+        <li class="active">Cuentas Bancarias</li>
+    </ol>
+</section>
 
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Registro de Cuentas Bancarias</h3>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box box-widget">
+                                <div class="box-header">
+                                    <h3 class="box-title">Datos a registrar:</h3>
+                                    <div class="box-tools">
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                            <i class="fa fa-minus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="box-body">
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <form class="form-horizontal" id="frmRegistro" method="post">
+                                                <input id="idusuariozipago" name="idusuariozipago" type="hidden" asp-for="IdUsuarioZiPago" />
+                                                <div class="form-group">
+                                                    <h4>Selecciona e ingresa los siguientes datos, luego haz clic en el boton <strong>Añadir:</strong></h4>
+                                                </div>                                                
+                                                <div class="form-group">
+                                                    <label for="idbancozipago" class="col-sm-2">Banco:</label>
+                                                    <div class="col-sm-3">
+                                                        <select id="idbancozipago" name="idbancozipago" asp-items="@(new SelectList(Model.Bancos,"IdBancoZiPago", "NombreLargo"))" class="form-control"></select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="codigotipocuenta" class="col-sm-2">Tipo de Cuenta:</label>
+                                                    <div class="col-sm-3">
+                                                        <select id="codigotipocuenta" name="codigotipocuenta" asp-items="@(new SelectList(Model.TipoCuentas,"Valor", "Descr_Valor"))" class="form-control"></select>
+                                                    </div>
+
+                                                    <label for="codigomoneda" class="col-sm-2">Moneda:</label>
+                                                    <div class="col-sm-3">
+                                                        <select id="codigomoneda" name="codigomoneda" asp-items="@(new SelectList(Model.TipoMonedas,"Valor", "Descr_Valor"))" class="form-control"></select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="numerocuenta" class="col-sm-2">Numero de Cta. Bancaria:</label>
+                                                    <div class="col-sm-3">
+                                                        <input id="numerocuenta" name="numerocuenta" type="text" class="form-control" placeholder="Nro. de Cta. Bancaria" maxlength="20">
+                                                    </div>
+
+                                                    <label for="cci" class="col-sm-2">Codigo de Cta. Interbancario - CCI:</label>
+                                                    <div class="col-sm-3">
+                                                        <input id="cci" name="cci" type="text" class="form-control" placeholder="Codigo CCI" maxlength="20">
+                                                    </div>
+
+                                                    <div class="col-sm-2" style="text-align:right">
+                                                        <button type="button" id="btnCancelar" class="btn btn-default">
+                                                            <i class="fa fa-undo"></i>&nbsp;Cancelar
+                                                        </button>
+                                                        <button type="button" id="btnAnadir" class="btn btn-primary">
+                                                            <i class="fa fa-plus"></i>&nbsp;Anadir
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="box box-widget">
+                                <div class="box-header">
+                                    <h3 class="box-title">Cuentas Bancarias a registrar:</h3>
+                                </div>
+                                <div class="box-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <table id="tblCuentas" class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Nro.</th>
+                                                        <th scope="col" style="display:none;">CodigoBanco</th>
+                                                        <th scope="col">Banco</th>
+                                                        <th scope="col" style="display:none;">CodigoTipoCuenta</th>
+                                                        <th scope="col">Tipo de Cuenta</th>
+                                                        <th scope="col" style="display:none;">CodigoMoneda</th>
+                                                        <th scope="col">Moneda</th>
+                                                        <th scope="col">Numero de Cuenta</th>
+                                                        <th scope="col">Codigo Cta. Interbancario - CCI</th>
+                                                        <th scope="col">Eliminar</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-footer">
+                                    <button type="button" id="btnRegistrar" name="btnRegistrar" class="btn btn-success pull-right">
+                                        <i class="fa fa-save"></i>&nbsp;Registrar
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<script src="~/bower_components/jquery/dist/jquery-3.3.1.min.js"></script>
+<script src="~/bower_components/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/bower_components/jquery-validation/dist/additional-methods.min.js"></script>
+<script src="~/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="~/bower_components/sweetalert/sweetalert.min.js"></script>
+<script src="~/dist/js/adminlte.min.js"></script>
+<script src="~/dist/js/Afiliacion/cuentabancariaregistro.js"></script>

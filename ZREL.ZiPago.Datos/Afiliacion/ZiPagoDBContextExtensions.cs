@@ -214,7 +214,7 @@ namespace ZREL.ZiPago.Datos.Afiliacion
                              TipoMoneda = tipomoneda.Descr_Valor,
                              NumeroCuenta = cuentabancaria.NumeroCuenta,
                              CCI = cuentabancaria.CCI,
-                             Activo = cuentabancaria.Activo,
+                             Estado = cuentabancaria.Activo,
                              FechaCreacion = cuentabancaria.FechaCreacion
                          };
 
@@ -228,7 +228,7 @@ namespace ZREL.ZiPago.Datos.Afiliacion
                 result = result.Where(p => p.CodigoTipoMoneda == cuentaFiltros.CodigoTipoMoneda);
 
             if (!string.IsNullOrWhiteSpace(cuentaFiltros.Activo) && cuentaFiltros.Activo != "0")
-                result = result.Where(p => p.Activo == cuentaFiltros.Activo);
+                result = result.Where(p => p.Estado == cuentaFiltros.Activo);
 
             if (!string.IsNullOrWhiteSpace(cuentaFiltros.NumeroCuenta))
                 result = result.Where(p => p.NumeroCuenta.Contains(cuentaFiltros.NumeroCuenta));

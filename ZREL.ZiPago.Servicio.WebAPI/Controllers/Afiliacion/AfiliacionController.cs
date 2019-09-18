@@ -106,11 +106,11 @@ namespace ZREL.ZiPago.Servicio.WebAPI.Controllers.Afiliacion
 
         }
 
-        [HttpGet("{idUsuarioZiPago}")]
+        [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        [Route("CuentasBancariasListar/{idUsuarioZiPago}")]
+        [Route("CuentasBancariasListar/")]
         public async Task<IActionResult> CuentasBancariasListarAsync(CuentaBancariaFiltros cuentaBancariaFiltros)
         {
 

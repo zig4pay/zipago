@@ -125,13 +125,13 @@
                     required: true,
                     validaredad: true
                 },
-                codigodepartamento: {
+                departamento: {
                     validarseleccion: true
                 },
-                codigoprovincia: {
+                provincia: {
                     validarseleccion: true
                 },
-                codigodistrito: {
+                distrito: {
                     validarseleccion: true
                 },
                 via: "required"
@@ -155,13 +155,13 @@
                 fechanacimiento: {
                     required: "Por favor ingrese una fecha valida"
                 },
-                codigodepartamento: {
+                departamento: {
                     validarseleccion: "Por favor seleccione el Departamento al cual pertenece la direccion."
                 },
-                codigoprovincia: {
+                provincia: {
                     validarseleccion: "Por favor seleccione la Provincia a la cual pertenece la direccion."
                 },
-                codigodistrito: {
+                distrito: {
                     validarseleccion: "Por favor seleccione el Distrito al cual pertenece la direccion."
                 },
                 via: "Por favor ingrese una direccion"
