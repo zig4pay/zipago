@@ -134,19 +134,19 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
                     }
                     else
                     {
-                        return View("~/Views/Seguridad/Login.cshtml");
+                        return RedirectToAction("UsuarioAutenticar", "Seguridad");                        
                     }
                     return View("~/Views/Afiliacion/DatosPersonales/Registro.cshtml", model);
                 }
                 else
                 {
-                    return View("~/Views/Seguridad/Login.cshtml");
+                    return RedirectToAction("UsuarioAutenticar", "Seguridad");
                 }
             }
             catch (Exception ex)
             {
                 logger.Error("[Aplicacion.Web.Controllers.Afiliacion.DatosPersonalesController.Index] | UsuarioZiPago: [{0}] | Excepcion: [{1}]", usuario.IdUsuarioZiPago.ToString(), ex.ToString() + " - " + ex.Message);
-                return View("~/Views/Seguridad/Login.cshtml");
+                return RedirectToAction("UsuarioAutenticar", "Seguridad");
             }
             
         }

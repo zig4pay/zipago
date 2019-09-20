@@ -73,12 +73,12 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
                 }
                 else
                 {
-                    return View("~/Views/Seguridad/Login.cshtml");
+                    return RedirectToAction("UsuarioAutenticar", "Seguridad");
                 }
             }
             catch (Exception ex)
             {
-                return View("~/Views/Seguridad/Login.cshtml");
+                return RedirectToAction("UsuarioAutenticar", "Seguridad");
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using System;
 using System.Globalization;
@@ -16,11 +17,13 @@ namespace ZREL.ZiPago.Sitio.Web.Controllers
     public class SeguridadController : Controller
     {
 
-        private readonly IOptions<WebSiteSettingsModel> webSettings;
+        private readonly IConfiguration configuration;
+        private readonly IOptions<WebSiteSettingsModel> webSettings;        
 
-        public SeguridadController(IOptions<WebSiteSettingsModel> app)
+        public SeguridadController(IConfiguration configuration, IOptions<WebSiteSettingsModel> app)
         {
-            webSettings = app;
+            this.configuration = configuration;
+            webSettings = app;            
             ApiClientSettings.ZZiPagoApiUrl = webSettings.Value.ZZiPagoApiUrl;
         }
 
@@ -60,8 +63,14 @@ namespace ZREL.ZiPago.Sitio.Web.Controllers
 
                         if (!response.HizoError)
                         {                            
-                            logger.Info("[Sitio.Web.Controllers.SeguridadController.{0}] | UsuarioViewModel: [{1}] | Registro Realizado.", nameof(UsuarioRegistrar), model.Clave1);                            
+                            logger.Info("[Sitio.Web.Controllers.SeguridadController.{0}] | UsuarioViewModel: [{1}] | Registro Realizado.", nameof(UsuarioRegistrar), model.Clave1);
+
+                            Libreria.Mail.Manage managemail = new Libreria.Mail.Manage();
+                            
+
+
                             return Redirect(webSettings.Value.ZZiPagoPortalUrl);
+
                         }
                         else
                         {
@@ -100,6 +109,8 @@ namespace ZREL.ZiPago.Sitio.Web.Controllers
         public IActionResult UsuarioAutenticar() {
             return Redirect(webSettings.Value.ZZiPagoPortalUrl);
         }
+
+
 
     }
 }

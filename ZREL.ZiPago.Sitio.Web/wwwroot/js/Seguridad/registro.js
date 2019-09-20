@@ -26,10 +26,11 @@
     });
 
     $.validator.addMethod("validarcorreo", ValidarCorreo);
-
+    $.validator.addMethod("validarcaracterespassword", ValidarCaracteresPassword);
+    
     $(document).ready(function () {
 
-        var $validator = $("#frmRegistro").validate({            
+        $("#frmRegistro").validate({            
             rules: {
                 nombresusuario : "required",
                 apellidosusuario: "required",
@@ -38,11 +39,11 @@
                     validarcorreo: true
                 },
                 clave2: {
-                    required: true,                    
-                    minlength: 8
+                    required: true,
+                    validarcaracterespassword: true
                 },
                 confirmeclave: {
-                    required: true,                    
+                    required: true,
                     equalTo: "#clave2"
                 },
                 chkAcepto: {
@@ -57,8 +58,9 @@
                     validarcorreo: "Por favor ingrese una cuenta de correo electrónica válida."
                 },
                 clave2: {
-                    required: "Por favor ingrese una contraseña.",
-                    minlength: "La contraseña debe contener por lo menos 8 caracteres."                    
+                    required: "Por favor ingrese una contraseña.",                    
+                    validarcaracterespassword:
+                        "La contraseña debe contener: <br \> - Por lo menos 8 caracteres.<br \> - Al menos una letra min\u00fascula y una may\u00fascula.<br \> - Por lo menos un numero."
                 },                
                 confirmeclave: {
                     required: "Por favor ingrese nuevamente su contraseña.",
@@ -116,5 +118,13 @@ function ValidarCorreo(mail) {
     else {
         respuesta = false;
     }
+    return respuesta;
+}
+
+function ValidarCaracteresPassword(valor) {
+    var respuesta = true;
+
+    respuesta = valor.length < 8 ? false : !valor.match(/([a-z].*[A-Z])|([A-Z].*[a-z])/) ? false : !valor.match(/([0-9])/) ? false : true;    
+
     return respuesta;
 }

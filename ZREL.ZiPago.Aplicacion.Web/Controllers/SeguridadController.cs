@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using NLog;
 using System;
 using System.Globalization;
@@ -77,17 +78,17 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
                                 ModelState.AddModelError("ErrorLogin", response.Mensaje);
                                 logger.Info("[{0}] | UsuarioViewModel: [{1}] | " + response.Mensaje, nameof(UsuarioAutenticar), model.Clave1);
                             }
-                            return View("~/Views/Seguridad/Login.cshtml");
+                            return RedirectToAction("UsuarioAutenticar", "Seguridad");
                         }
                     }
                     else
                     {
-                        return View("~/Views/Seguridad/Login.cshtml");
+                        return RedirectToAction("UsuarioAutenticar", "Seguridad");
                     }                    
                 }
                 else
                 {
-                    return View("~/Views/Seguridad/Login.cshtml");
+                    return RedirectToAction("UsuarioAutenticar", "Seguridad");
                 }                                
             }
             catch (Exception ex)
@@ -96,75 +97,27 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
                 response.MensajeError = ex.ToString();
                 logger.Error("[{0}] | UsuarioViewModel: [{1}] | Excepcion: {2}.", nameof(UsuarioAutenticar), model.Clave1, ex.ToString());
                 ModelState.AddModelError("ErrorRegistro", ex.Message);
-                return View("~/Views/Seguridad/Login.cshtml");
+                return RedirectToAction("UsuarioAutenticar", "Seguridad");
             }
         }
 
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult UsuarioRegistrar()
-        {
-            ViewData["ReCaptchaKey"] = webSettings.Value.SiteKey;
-            return View("~/Views/Seguridad/Registro.cshtml");
-        }
+        public IActionResult UsuarioSalir() {
 
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<IActionResult> UsuarioRegistrar(UsuarioViewModel model)
-        {
-
-            ResponseModel<UsuarioViewModel> response = new ResponseModel<UsuarioViewModel>();
-            var logger = NLog.LogManager.GetCurrentClassLogger();
-            ViewData["ReCaptchaKey"] = webSettings.Value.SiteKey;
-
-            logger.Info("[{0}] | UsuarioViewModel: [{1}] | Inicio.", nameof(UsuarioRegistrar), model.Clave1);
+            UsuarioViewModel usuario = new UsuarioViewModel();
+            Logger logger = LogManager.GetCurrentClassLogger();
 
             try
             {
-                if (ModelState.IsValid)
-                {
-                    
-                    if (await GoogleReCaptchaValidation.ReCaptchaPassed(
-                        Request.Form["g-recaptcha-response"],
-                        webSettings.Value.SecretKey,
-                        logger))
-                    {
-                        model.Clave2 = Criptografia.Encriptar(model.Clave2);
-                        model.AceptoTerminos = Constantes.strUsuarioZiPago_AceptoTerminos;
-                        var requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.UsuarioZiPago_Registrar));
-                        response = await ApiClientFactory.Instance.PostAsync<UsuarioViewModel>(requestUrl, model);
-
-                        if (!response.HizoError)
-                        {
-                            logger.Info("[{0}] | UsuarioViewModel: [{1}] | Realizado.", nameof(UsuarioRegistrar), model.Clave1);
-                            return RedirectToAction("Iniciar", "Afiliacion", response.Model);
-                        }
-                        else
-                        {
-                            logger.Info("[{0}] | UsuarioViewModel: [{1}] | " + response.Mensaje, nameof(UsuarioRegistrar), model.Clave1);
-                            ModelState.AddModelError("ErrorRegistro", response.MensajeError);
-                            return View("~/Views/Seguridad/Registro.cshtml");
-                        }
-                    }
-                    else
-                    {
-                        return View("~/Views/Seguridad/Registro.cshtml");
-                    }
-                                                            
-                }
-                else {
-                    return View("~/Views/Seguridad/Registro.cshtml");
-                }
+                usuario = HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session") ?? null;
+                HttpContext.Session.Remove("ZiPago.Session");
+                HttpContext.Session.Clear();
             }
             catch (Exception ex)
             {
-                response.HizoError = true;
-                response.MensajeError = ex.ToString();
-                logger.Error("[{0}] | UsuarioViewModel: [{1}] | Excepcion: {2}.", nameof(UsuarioRegistrar), model.Clave1, ex.ToString());
-                ModelState.AddModelError("ErrorRegistro", ex.Message);
-                return View("~/Views/Seguridad/Registro.cshtml");
+                logger.Error("[Aplicacion.Web.Controllers.SeguridadController.UsuarioSalir] | UsuarioZiPago: [{0}] | Excepcion: {1}.", JsonConvert.SerializeObject(usuario), ex.ToString());
             }
 
+            return RedirectToAction("UsuarioAutenticar", "Seguridad");
         }
 
     }
