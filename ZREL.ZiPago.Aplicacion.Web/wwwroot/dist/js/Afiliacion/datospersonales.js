@@ -102,14 +102,17 @@
                     validarrubronegocio: true
                 },
                 numeroruc: {
-                    validarpersonajuridica: true
+                    validarpersonajuridica: true,
+                    minlength: 11,
+                    maxlength: 11
                 },
                 razonsocial: {
                     validarpersonajuridica: true
                 },
                 numerodni: {
                     required: true,
-                    minlength: 8
+                    minlength: 8,
+                    maxlength: 8
                 },
                 nombres: {
                     required: true
@@ -139,14 +142,17 @@
             messages: {
                 CodigoTipoPersona: "Por favor seleccione el Tipo de Persona correspondiente.",
                 numeroruc: {
-                    validarpersonajuridica: "Al seleccionar Persona Juridica debe ingresar el numero de RUC."
+                    validarpersonajuridica: "Al seleccionar Persona Juridica debe ingresar el numero de RUC.",
+                    minlength: "El numero de RUC debe contener minimo 11 digitos.",
+                    maxlength: "El numero de RUC debe contener maximo 11 digitos."
                 }, 
                 razonsocial: {
                     validarpersonajuridica: "Al seleccionar Persona Juridica debe ingresar la Razon Social segun SUNAT."
                 },
                 numerodni: {
                     required: "Por favor ingrese un numero de DNI.",
-                    minlength: "Por favor ingrese numero de DNI valido."
+                    minlength: "El numero de DNI debe contener minimo 8 digitos.",
+                    maxlength: "El numero de DNI debe contener maximo 8 digitos."
                 },
                 nombres: "Por favor ingrese un nombre.",
                 apellidopaterno: "Por favor ingrese un Apellido Paterno",

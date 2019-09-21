@@ -30,3 +30,7 @@ input.valid {
 .required-value {
     color: red;
 }
+
+.bg-button-acept {
+    background-color: #163758;
+}

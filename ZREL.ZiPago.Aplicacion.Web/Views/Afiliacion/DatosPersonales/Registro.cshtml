@@ -23,12 +23,13 @@
         <div class="col-md-12">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Datos Personales</h3>
+                    <h3 class="box-title">Datos Personales</h3>&nbsp;&nbsp;
+                    <small class="text-red">(*) Datos obligatorios.</small>
                 </div>
+
                 <!-- form start -->
                 <form class="form-horizontal margen-cero" id="frmAfiliacion" asp-controller="" asp-action="" method="post">
-                    <div class="box-body" style="padding-left: 20px; padding-right: 20px;">
-
+                    <div class="box-body" style="padding-left: 20px; padding-right: 20px;">                        
                         <input id="idusuariozipago" name="idusuariozipago" type="hidden" asp-for="IdUsuarioZiPago" />
                         @Html.HiddenFor(x => x.EstadoRegistro)
                         <input id="fecha" name="fecha" type="hidden" asp-for="FechaNacimiento" />
@@ -39,7 +40,9 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2">Tipo de Persona</label><span class="required-value">*</span>
+                            <div class="col-sm-2">
+                                <label>Tipo de Persona:</label><label class="text-red">&nbsp;*</label>
+                            </div>
                             @foreach (var item in Model.TipoPersona)
                             {
                                 <div class="col-sm-1 form-check form-check-inline">
@@ -49,7 +52,9 @@
                             }
                         </div>
                         <div class="form-group">
-                            <label for="codigorubronegocio" class="col-sm-2">Rubro del Negocio:</label><span class="required-value">*</span>
+                            <div class="col-sm-2">
+                                <label for="codigorubronegocio">Rubro del Negocio:</label><label class="text-red">&nbsp;*</label>
+                            </div>
                             <div class="form-group col-sm-2" style="margin-left:0px; margin-right:0px;">
                                 <select id="codigorubronegocio" name="codigorubronegocio" asp-for="CodigoRubroNegocio" asp-items="@(new SelectList(Model.RubroNegocio,"Valor", "Descr_Valor", Model.CodigoRubroNegocio))" class="form-control" style="width: 100%;"></select>
                             </div>
@@ -60,11 +65,15 @@
                         </div>
                         <div id="DivJuridica">
                             <div class="form-group">
-                                <label for="numeroruc" class="col-sm-2">RUC:</label><span class="required-value">*</span>
+                                <div class="col-sm-2">
+                                    <label for="numeroruc">RUC:</label><label class="text-red">&nbsp;*</label>
+                                </div>
                                 <div class="col-sm-2">
                                     <input id="numeroruc" name="numeroruc" type="text" class="form-control" placeholder="Numero de Registro Unico de Contribuyente" asp-for="NumeroDocumento" maxlength="11">
                                 </div>
-                                <label for="razonsocial" class="col-sm-2">Razon Social:</label><span class="required-value">*</span>
+                                <div class="col-sm-2">
+                                    <label for="razonsocial">Razon Social:</label><label class="text-red">&nbsp;*</label>
+                                </div>
                                 <div class="col-sm-3">
                                     <input id="razonsocial" name="razonsocial" type="text" class="form-control" placeholder="Razon Social segun SUNAT" asp-for="RazonSocial">
                                 </div>
@@ -75,28 +84,37 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="numerodni" class="col-sm-2">DNI:</label><span class="required-value">*</span>
+                            <div class="col-sm-2">
+                                <label for="numerodni">DNI:</label><label class="text-red">&nbsp;*</label>
+                            </div>
                             <div class="col-sm-2">
                                 <input id="numerodni" name="numerodni" type="text" class="form-control" placeholder="Numero de DNI" asp-for="NumeroDocumentoContacto" maxlength="8">
                             </div>
-                            <label for="nombres" class="col-sm-2">Nombres:</label><span class="required-value">*</span>
+                            <div class="col-sm-2">
+                                <label for="nombres">Nombres:</label><label class="text-red">&nbsp;*</label>
+                            </div>
                             <div class="col-sm-2">
                                 <input id="nombres" name="nombres" type="text" class="form-control" placeholder="Nombres" asp-for="Nombres">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="apellidopaterno" class="col-sm-2">Apellido Paterno:</label><span class="required-value">*</span>
+                            <div class="col-sm-2">
+                                <label for="apellidopaterno">Apellido Paterno:</label><label class="text-red">&nbsp;*</label>
+                            </div>
                             <div class="col-sm-2">
                                 <input id="apellidopaterno" name="apellidopaterno" type="text" class="form-control" placeholder="Apellido Paterno" asp-for="ApellidoPaterno">
                             </div>
-                            <label for="apellidomaterno" class="col-sm-2">Apellido Materno:</label><span class="required-value">*</span>
+                            <div class="col-sm-2">
+                                <label for="apellidomaterno">Apellido Materno:</label><label class="text-red">&nbsp;*</label>
+                            </div>
                             <div class="col-sm-2">
                                 <input id="apellidomaterno" name="apellidomaterno" type="text" class="form-control" placeholder="Apellido Materno" asp-for="ApellidoMaterno">
                             </div>
                         </div>
                         <div class="form-group">
-
-                            <label class="col-sm-2">Sexo:</label><span class="required-value">*</span>
+                            <div class="col-sm-2">
+                                <label>Sexo:</label><label class="text-red">&nbsp;*</label>
+                            </div>
                             <div id="divGroupSexo" class="col-sm-2">
                                 <div id="divSexo" class="col-sm-6 form-check form-check-inline">
                                     <input class="form-check-input" type="radio" asp-for="Sexo" id="optMasculino" value="M">
@@ -107,8 +125,9 @@
                                     <label class="label-radio" for="optFemenino">Femenino</label>
                                 </div>
                             </div>
-
-                            <label for="fechanacimiento" class="col-sm-2">Fecha de Nacimiento:</label><span class="required-value">*</span>
+                            <div class="col-sm-2">
+                                <label for="fechanacimiento">Fecha de Nacimiento:</label><label class="text-red">&nbsp;*</label>
+                            </div>
                             <div class="date col-sm-2">
                                 <input id="fechanacimiento" name="fechanacimiento" type="text" class="form-control pull-right">
                             </div>
@@ -130,7 +149,9 @@
                             <label class="col-sm-2"><strong>Domicilio: </strong></label>
                         </div>
                         <div class="form-group">
-                            <label for="codigodepartamento" class="col-sm-2">Departamento:</label><span class="required-value">*</span>
+                            <div class="col-sm-2">
+                                <label for="codigodepartamento">Departamento:</label><label class="text-red">&nbsp;*</label>
+                            </div>
                             <div class="col-sm-2">
                                 @Html.DropDownListFor(x => x.CodigoDepartamento, departamentos, new { @class = "form-control",
                                     id = "departamento",
@@ -140,9 +161,11 @@
                                     data_cascade_combo2 = "#distrito",
                                     data_cascade_combo_source = Url.Action("ListarPorUbigeo", "DatosPersonales"),
                                     data_cascade_combo_param_name = "strCodigoUbigeo"
-                           })
+                                })
                             </div>
-                            <label for="codigoprovincia" class="col-sm-2">Provincia:</label><span class="required-value">*</span>
+                            <div class="col-sm-2">
+                                <label for="codigoprovincia">Departamento:</label><label class="text-red">&nbsp;*</label>
+                            </div>
                             <div class="col-sm-2">
                                 @Html.DropDownListFor(x => x.CodigoProvincia, provincias, new { @class = "form-control" ,
                                     style = "width: 100%;",
@@ -153,14 +176,16 @@
                                     data_cascade_combo_param_name = "strCodigoUbigeo"
                                 })
                             </div>
-                            <div class="col-sm-1">
+                            @*<div class="col-sm-1">
                                 <button type="button" id="btnHistorico" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg" data-backdrop="static" data-keyboard="false">
-                                    <i class="fa fa-home"></i> Ver Historico                                    
+                                    <i class="fa fa-home"></i> Ver Historico
                                 </button>
-                            </div>
+                            </div>*@
                         </div>
                         <div class="form-group">
-                            <label for="codigodistrito" class="col-sm-2">Distrito:</label><span class="required-value">*</span>
+                            <div class="col-sm-2">
+                                <label for="codigodistrito">Departamento:</label><label class="text-red">&nbsp;*</label>
+                            </div>                            
                             <div class="col-sm-2">
                                 @Html.DropDownListFor(x => x.CodigoDistrito, distritos, new { @class = "form-control",
                                     style = "width: 100%;",
@@ -170,8 +195,8 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <div>
-                                <label for="via" class="col-sm-2">Direccion:</label><span class="required-value">*</span>
+                            <div class="col-sm-2">
+                                <label for="via">Direccion:</label><label class="text-red">&nbsp;*</label>
                             </div>
                             <div class="col-sm-6">
                                 <input id="via" name="via" type="text" class="form-control" placeholder="Calle, Jiron, Avenida, Pasaje, etc." asp-for="Via">

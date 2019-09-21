@@ -7,16 +7,16 @@ namespace ZREL.ZiPago.Libreria.Mail
     public class Manage
     {
 
-        public bool Enviar(string receptor, string direccion, string asunto, string mensaje)
+        public string Enviar(string receptor, string direccion, string asunto, string mensaje, Mail.Settings settings)
         {
-            bool respuesta = false;
+            string respuesta = "";
             var message = new MimeMessage();
 
             try
             {
-                message.From.Add(new MailboxAddress(Settings.NombreRemitente, Settings.DireccionRemitente));
+                message.From.Add(new MailboxAddress(settings.NombreRemitente, settings.DireccionRemitente));
                 message.To.Add(new MailboxAddress(receptor, direccion));
-                message.ReplyTo.Add(new MailboxAddress(Settings.NombreRemitente, Settings.DireccionRemitente));
+                message.ReplyTo.Add(new MailboxAddress(settings.NombreRemitente, settings.DireccionRemitente));
                 message.Subject = asunto;
                 message.Body = new TextPart(MimeKit.Text.TextFormat.Html)
                 {
@@ -27,30 +27,29 @@ namespace ZREL.ZiPago.Libreria.Mail
                 using (var client = new SmtpClient())
                 {
                     client.ServerCertificateValidationCallback = (s, c, h, e) => true;
-                    client.Connect(Settings.Host, Settings.Puerto);                    
-                    client.Authenticate(Settings.Usuario, Settings.Clave);
+                    client.Connect(settings.Host, Convert.ToInt32(settings.Puerto));
+                    client.Authenticate(settings.Usuario, settings.Clave);
                     client.Send(message);
-                    client.Disconnect(true);
-                    respuesta = true;
+                    client.Disconnect(true);                    
                 }
             }
             catch (Exception ex)
             {
-                throw ex;
+                respuesta = ex.ToString();
             }
             return respuesta;
         }
 
-        public bool Enviar(string receptor, string direccion, string concopia, string asunto, string mensaje)
+        public string Enviar(string receptor, string direccion, string concopia, string asunto, string mensaje, Mail.Settings settings)
         {
-            bool respuesta = false;
+            string respuesta = "";
             var message = new MimeMessage();
 
             try
             {
-                message.From.Add(new MailboxAddress(Settings.NombreRemitente, Settings.DireccionRemitente));
+                message.From.Add(new MailboxAddress(settings.NombreRemitente, settings.DireccionRemitente));
                 message.To.Add(new MailboxAddress(receptor, direccion));
-                message.ReplyTo.Add(new MailboxAddress(Settings.NombreRemitente, Settings.DireccionRemitente));
+                message.ReplyTo.Add(new MailboxAddress(settings.NombreRemitente, settings.DireccionRemitente));
                 message.Cc.Add(new MailboxAddress(concopia, concopia));
                 message.Subject = asunto;
                 message.Body = new TextPart(MimeKit.Text.TextFormat.Html)
@@ -62,28 +61,27 @@ namespace ZREL.ZiPago.Libreria.Mail
                 using (var client = new SmtpClient())
                 {
                     client.ServerCertificateValidationCallback = (s, c, h, e) => true;
-                    client.Connect(Settings.Host, Settings.Puerto);
-                    client.Authenticate(Settings.Usuario, Settings.Clave);
+                    client.Connect(settings.Host, Convert.ToInt32(settings.Puerto));
+                    client.Authenticate(settings.Usuario, settings.Clave);
                     client.Send(message);
-                    client.Disconnect(true);
-                    respuesta = true;
+                    client.Disconnect(true);                    
                 }
             }
             catch (Exception ex)
             {
-                throw ex;
+                respuesta = ex.ToString();
             }
             return respuesta;
         }
 
-        public bool SendMail(string[] direccion, string[] concopia, string asunto, string mensaje)
+        public string SendMail(string[] direccion, string[] concopia, string asunto, string mensaje, Mail.Settings settings)
         {
-            bool respuesta = false;
+            string respuesta = "";
             var message = new MimeMessage();
 
             try
             {
-                message.From.Add(new MailboxAddress(Settings.NombreRemitente, Settings.DireccionRemitente));
+                message.From.Add(new MailboxAddress(settings.NombreRemitente, settings.DireccionRemitente));
                 foreach (string mail in direccion)
                 {
                     message.To.Add(new MailboxAddress(mail, mail));
@@ -109,16 +107,15 @@ namespace ZREL.ZiPago.Libreria.Mail
                 using (var client = new SmtpClient())
                 {
                     client.ServerCertificateValidationCallback = (s, c, h, e) => true;
-                    client.Connect(Settings.Host, Settings.Puerto);                    
-                    client.Authenticate(Settings.Usuario, Settings.Clave);
+                    client.Connect(settings.Host, Convert.ToInt32(settings.Puerto));
+                    client.Authenticate(settings.Usuario, settings.Clave);
                     client.Send(message);
-                    client.Disconnect(true);
-                    respuesta = true;
+                    client.Disconnect(true);                    
                 }
             }
             catch (Exception ex)
             {
-                throw ex;
+                respuesta = ex.ToString();
             }
             return respuesta;
         }

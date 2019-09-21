@@ -3291,17 +3291,17 @@ table.text-center th {
 .register-logo {
   font-size: 35px;
   text-align: center;
-  margin-bottom: 25px;
+  margin-bottom: 0px;
   font-weight: 300;
 }
 .login-logo a,
 .register-logo a {
-  color: #444;
+    color: #444;    
 }
 .login-page,
 .register-page {
-  height: auto;
-  background: #d2d6de;
+    height: auto;
+    background: #FF740D;
 }
 .login-box,
 .register-box {

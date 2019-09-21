@@ -1,20 +1,20 @@
 ﻿
 namespace ZREL.ZiPago.Libreria.Mail
 {
-    public static class Settings
+    public class Settings
     {       
         
-        public static string Host { get; set; }
+        public string Host { get; set; }
 
-        public static int Puerto { get; set; }
+        public string Puerto { get; set; }
 
-        public static string Usuario { get; set; }
+        public string Usuario { get; set; }
 
-        public static string Clave { get; set; }
+        public string Clave { get; set; }
 
-        public static string NombreRemitente { get; set; }
+        public string NombreRemitente { get; set; }
 
-        public static string DireccionRemitente { get; set; }
+        public string DireccionRemitente { get; set; }
 
         //public string NombreReceptor { get; set; }
 

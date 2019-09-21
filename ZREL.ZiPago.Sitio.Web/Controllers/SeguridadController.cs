@@ -64,11 +64,7 @@ namespace ZREL.ZiPago.Sitio.Web.Controllers
                         if (!response.HizoError)
                         {                            
                             logger.Info("[Sitio.Web.Controllers.SeguridadController.{0}] | UsuarioViewModel: [{1}] | Registro Realizado.", nameof(UsuarioRegistrar), model.Clave1);
-
-                            Libreria.Mail.Manage managemail = new Libreria.Mail.Manage();
-                            
-
-
+                            var mensaje = EnviarCorreo(response.Model);
                             return Redirect(webSettings.Value.ZZiPagoPortalUrl);
 
                         }
@@ -110,7 +106,34 @@ namespace ZREL.ZiPago.Sitio.Web.Controllers
             return Redirect(webSettings.Value.ZZiPagoPortalUrl);
         }
 
+        private string EnviarCorreo(UsuarioViewModel usuario) {
+            
+            string respuesta = "";            
+            var logger = NLog.LogManager.GetCurrentClassLogger();
+            Libreria.Mail.Manage mail = new Libreria.Mail.Manage();
+            Libreria.Mail.Settings mailsettings = new Libreria.Mail.Settings();
 
+            try
+            {
+                configuration.GetSection("ZRELZiPagoMail").Bind(mailsettings);
+                respuesta = mail.Enviar(usuario.NombresUsuario + " " + usuario.ApellidosUsuario,
+                                        usuario.Clave1,
+                                        configuration.GetValue<string>("ZRELZiPagoCuerpoMailRegistro:Asunto"),
+                                        configuration.GetValue<string>("ZRELZiPagoCuerpoMailRegistro:Mensaje").Replace("clave1", usuario.Clave1).Replace("clave2", usuario.Clave2),
+                                        mailsettings);
+                if (respuesta.Trim().Length > 0)                
+                    logger.Error("[Sitio.Web.Controllers.SeguridadController.EnviarCorreo] | UsuarioViewModel: [{0}] | Mensaje: {1}.", nameof(UsuarioRegistrar), usuario.Clave1, respuesta);
+                
+            }
+            catch (Exception ex)
+            {
+                respuesta = ex.ToString();
+                logger.Error("[Sitio.Web.Controllers.SeguridadController.EnviarCorreo] | UsuarioViewModel: [{0}] | Excepcion: {1}.", nameof(UsuarioRegistrar), usuario.Clave1, ex.ToString());
+            }
+
+            return respuesta;
+
+        }
 
     }
 }
