@@ -33,5 +33,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Models.Seguridad
         [DataMember]
         public string AceptoTerminos { get; set; }
 
+        [DataMember]
+        public bool Recordarme { get; set; }
     }
 }

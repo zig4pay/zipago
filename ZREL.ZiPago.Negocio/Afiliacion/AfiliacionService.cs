@@ -71,7 +71,6 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
             return response;
         }
 
-
         public async Task<ISingleResponse<ComercioZiPago>> ObtenerComercioZiPagoAsync(Logger logger, string codigoComercio)
         {
             SingleResponse<ComercioZiPago> response = new SingleResponse<ComercioZiPago>();
@@ -111,8 +110,6 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
 
             return response;
         }
-
-
 
         public async Task<IResponse> RegistrarAsync(Logger logger, DatosPersonalesRequest request)
         {

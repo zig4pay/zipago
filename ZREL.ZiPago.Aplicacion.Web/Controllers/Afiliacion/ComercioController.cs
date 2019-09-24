@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using NLog;
@@ -11,7 +12,6 @@ using ZREL.ZiPago.Aplicacion.Web.Clients;
 using ZREL.ZiPago.Aplicacion.Web.Extensions;
 using ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion;
 using ZREL.ZiPago.Aplicacion.Web.Models.Response;
-using ZREL.ZiPago.Aplicacion.Web.Models.Seguridad;
 using ZREL.ZiPago.Aplicacion.Web.Models.Settings;
 using ZREL.ZiPago.Entidad.Afiliacion;
 using ZREL.ZiPago.Entidad.Comun;
@@ -31,6 +31,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             
@@ -40,24 +41,24 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
             
             try
             {
-                if (HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session") != null) {
-                    model.IdUsuarioZiPago = HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session").IdUsuarioZiPago;
-                    
-                    requestUrl = ApiClientFactory.Instance.CreateRequestUri(
+                //if (HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session") != null) {
+                model.IdUsuarioZiPago = User.GetLoggedInUserId<int>();
+
+                requestUrl = ApiClientFactory.Instance.CreateRequestUri(
                         string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_BancosPorUsuarioListar) +
                         model.IdUsuarioZiPago.ToString()
                         );
-                    responseBanco = await ApiClientFactory.Instance.GetListAsync<BancoZiPago>(requestUrl);
-                    responseBanco.Model.Insert(0, new BancoZiPago { IdBancoZiPago = 0, NombreLargo = "Seleccione" });
+                responseBanco = await ApiClientFactory.Instance.GetListAsync<BancoZiPago>(requestUrl);
+                responseBanco.Model.Insert(0, new BancoZiPago { IdBancoZiPago = 0, NombreLargo = "Seleccione" });
 
-                    model.Bancos = responseBanco.Model;
+                model.Bancos = responseBanco.Model;
 
-                    return View("~/Views/Afiliacion/Comercio/Consulta.cshtml", model);
-                }
-                else
-                {
-                    return View("~/Views/Seguridad/Login.cshtml");
-                }
+                return View("~/Views/Afiliacion/Comercio/Consulta.cshtml", model);
+                //}
+                //else
+                //{
+                //    return View("~/Views/Seguridad/Login.cshtml");
+                //}
             }
             catch (Exception)
             {
@@ -67,6 +68,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<JsonResult> ListarCuentasBancarias(int idUsuarioZiPago, int idBancoZiPago)
         {
 
@@ -90,6 +92,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> ListarComercios(string order, int idUsuarioZiPago, string codigoComercio, string descripcion, string activo, int idBancoZiPago, string numeroCuenta)
         {                        
             Uri requestUrl;            
@@ -135,6 +138,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Registrar()
         {
 
@@ -144,26 +148,26 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
 
             try
             {
-                if (HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session") != null)
-                {
-                    model.IdUsuarioZiPago = HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session").IdUsuarioZiPago;
-                    model.Clave1 = HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session").Clave1;
+                //if (HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session") != null)
+                //{
+                model.IdUsuarioZiPago = User.GetLoggedInUserId<int>();
+                model.Clave1 = User.GetLoggedInUserEmail();
 
-                    requestUrl = ApiClientFactory.Instance.CreateRequestUri(
-                        string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_BancosPorUsuarioListar) +
-                        model.IdUsuarioZiPago.ToString()
-                        );
-                    responseBanco = await ApiClientFactory.Instance.GetListAsync<BancoZiPago>(requestUrl);
-                    responseBanco.Model.Insert(0, new BancoZiPago { IdBancoZiPago = 0, NombreLargo = "Seleccione" });
+                requestUrl = ApiClientFactory.Instance.CreateRequestUri(
+                    string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_BancosPorUsuarioListar) +
+                    model.IdUsuarioZiPago.ToString()
+                    );
+                responseBanco = await ApiClientFactory.Instance.GetListAsync<BancoZiPago>(requestUrl);
+                responseBanco.Model.Insert(0, new BancoZiPago { IdBancoZiPago = 0, NombreLargo = "Seleccione" });
 
-                    model.Bancos = responseBanco.Model;
+                model.Bancos = responseBanco.Model;
 
-                    return View("~/Views/Afiliacion/Comercio/Registro.cshtml", model);
-                }
-                else
-                {
-                    return View("~/Views/Seguridad/Login.cshtml");
-                }
+                return View("~/Views/Afiliacion/Comercio/Registro.cshtml", model);
+                //}
+                //else
+                //{
+                //    return View("~/Views/Seguridad/Login.cshtml");
+                //}
             }
             catch (Exception)
             {
@@ -173,6 +177,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<JsonResult> VerificarExisteComercioZiPago(string strCodigoComercio)
         {
             JsonResult response;
@@ -203,6 +208,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<JsonResult> Registrar(List<ComercioZiPago> comercios)
         {
             JsonResult responseJson;

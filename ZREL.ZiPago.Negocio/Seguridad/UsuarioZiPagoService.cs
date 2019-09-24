@@ -44,8 +44,7 @@ namespace ZREL.ZiPago.Negocio.Seguridad
             }
             return response;
         }
-
-
+        
         public async Task<ISingleResponse<UsuarioZiPago>> AutenticarAsync(Logger logger, UsuarioZiPago entidad)
         {
             var response = new SingleResponse<UsuarioZiPago>();
@@ -115,6 +114,57 @@ namespace ZREL.ZiPago.Negocio.Seguridad
                     response.Model = null;
                     response.Mensaje = Constantes.strMensajeUsuarioError;
                     response.SetError(logger, "Negocio.Seguridad.UsuarioZiPagoService.RegistrarAsync", nameof(UsuarioZiPago), ex);
+                }
+            }
+
+            return response;
+        }
+
+        public async Task<IResponse> RecuperarAsync(Logger logger, string clave1)
+        {
+            var response = new Response();
+            UsuarioZiPago usuario = new UsuarioZiPago();
+            string token = "";
+
+            using (var txAsync = await DbContext.Database.BeginTransactionAsync())
+            {   
+                try
+                {
+                    usuario = await DbContext.ObtenerUsuarioZiPagoAsync(clave1);
+
+                    if (usuario != null && !string.IsNullOrWhiteSpace(usuario.Clave1))
+                    {
+                        token = Criptografia.Encriptar(Criptografia.Encoder64(usuario.IdUsuarioZiPago.ToString() + Criptografia.Encoder64(usuario.Clave1.Trim())));
+
+                        usuario.Activo = Constantes.strValor_NoActivo;
+                        usuario.ClaveRecuperacion = token;
+                        usuario.FechaGeneracionClave = DateTime.Now;
+                        usuario.FechaActualizacion = DateTime.Now;
+
+                        DbContext.Attach(usuario);
+                        DbContext.Entry(usuario).Property("Activo").IsModified = true;
+                        DbContext.Entry(usuario).Property("ClaveRecuperacion").IsModified = true;
+                        DbContext.Entry(usuario).Property("FechaGeneracionClave").IsModified = true;
+                        DbContext.Entry(usuario).Property("FechaActualizacion").IsModified = true;
+                        logger.Info("[Negocio.Seguridad.UsuarioZiPagoService.RecuperarAsync] | UsuarioZiPago: [{0}]", JsonConvert.SerializeObject(usuario));
+
+                        await DbContext.SaveChangesAsync();
+
+                        txAsync.Commit();
+                        response.Mensaje = token;
+                    }
+                    else {
+                        response.HizoError = true;
+                        response.MensajeError = Constantes.strMensajeUsuarioNoRegistrado;
+                        txAsync.Rollback();
+                    }
+                                        
+                }
+                catch (Exception ex)
+                {
+                    txAsync.Rollback();
+                    response.Mensaje = Constantes.strMensajeUsuarioError;
+                    response.SetError(logger, "Negocio.Seguridad.UsuarioZiPagoService.RecuperarAsync", nameof(UsuarioZiPago), ex);
                 }
             }
 

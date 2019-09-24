@@ -28,6 +28,8 @@ Begin Tran
       [AceptoTerminos]              char(1)           Not Null,
       [EstadoRegistro]              char(1)           Not Null,
 	   [Activo]	                     char(1)	         Not Null,
+      [ClaveRecuperacion]           varchar(500)	   Null,
+      [FechaGeneracionClave]        datetime	         Null,
 	   [FechaCreacion]	            datetime	         Not Null,
 	   [FechaActualizacion]          datetime	         Null
       

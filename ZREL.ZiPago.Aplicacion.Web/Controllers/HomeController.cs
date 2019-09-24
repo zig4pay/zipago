@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
@@ -10,7 +11,6 @@ using System.Threading.Tasks;
 using ZREL.ZiPago.Aplicacion.Web.Clients;
 using ZREL.ZiPago.Aplicacion.Web.Extensions;
 using ZREL.ZiPago.Aplicacion.Web.Models.Response;
-using ZREL.ZiPago.Aplicacion.Web.Models.Seguridad;
 using ZREL.ZiPago.Aplicacion.Web.Models.Settings;
 using ZREL.ZiPago.Libreria;
 
@@ -28,6 +28,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             Logger logger = LogManager.GetCurrentClassLogger();
@@ -37,44 +38,52 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
 
             try
             {
-                if (HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session") != null)
-                {
-                    UsuarioViewModel usuario = HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session");
+                //if (HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session") != null)
+                //{
+                //    UsuarioViewModel usuario = HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session");
 
-                    requestUrl = ApiClientFactory.Instance.CreateRequestUri(
-                        string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_ComerciosObtenerCantidadPorUsuarioAsync) +
-                        usuario.IdUsuarioZiPago.ToString()
-                        );
-                    jsonResponse = await ApiClientFactory.Instance.GetJsonAsync(requestUrl);
-                    jsonResponse = jsonResponse.Replace("\\", string.Empty);
-                    jsonResponse = jsonResponse.Trim('"');
-                    response = JsonConvert.DeserializeObject<ResponseSummaryModel>(jsonResponse);
-                    ViewData["ComerciosCantidad"] = response.CantidadTotal;
-                    ViewData["ComerciosTexto"] = Constantes.strComerciosTexto;
+                //UsuarioViewModel usuario = new UsuarioViewModel {
+                //                                IdUsuarioZiPago = User.GetLoggedInUserId<int>(),
+                //                                Clave1 = User.GetLoggedInUserEmail(),
+                //                                NombresUsuario = User.GetLoggedInUserName(),
+                //                                ApellidosUsuario = User.GetLoggedInUserLastName(),
+                //                                AceptoTerminos = User.GetLoggedInUserAcceptTerms()
+                //                            };
 
-                    requestUrl = ApiClientFactory.Instance.CreateRequestUri(
-                        string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_CuentasBancariasObtenerCantidadPorUsuarioAsync) +
-                        usuario.IdUsuarioZiPago.ToString()
-                        );
-                    jsonResponse = await ApiClientFactory.Instance.GetJsonAsync(requestUrl);
-                    jsonResponse = jsonResponse.Replace("\\", string.Empty);
-                    jsonResponse = jsonResponse.Trim('"');
-                    response = JsonConvert.DeserializeObject<ResponseSummaryModel>(jsonResponse);
-                    ViewData["CuentasBancariasCantidad"] = response.CantidadTotal;
-                    ViewData["CuentasBancariasTexto"] = Constantes.strCuentasBancariasTexto;
+                requestUrl = ApiClientFactory.Instance.CreateRequestUri(
+                    string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_ComerciosObtenerCantidadPorUsuarioAsync) +
+                    User.GetLoggedInUserId<int>().ToString()
+                    );
+                jsonResponse = await ApiClientFactory.Instance.GetJsonAsync(requestUrl);
+                jsonResponse = jsonResponse.Replace("\\", string.Empty);
+                jsonResponse = jsonResponse.Trim('"');
+                response = JsonConvert.DeserializeObject<ResponseSummaryModel>(jsonResponse);
+                ViewData["ComerciosCantidad"] = response.CantidadTotal;
+                ViewData["ComerciosTexto"] = Constantes.strComerciosTexto;
 
-                    ViewData["TransaccionesCantidad"] = "0";
-                    ViewData["TransaccionesTexto"] = Constantes.strTransaccionesTexto;
+                requestUrl = ApiClientFactory.Instance.CreateRequestUri(
+                    string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_CuentasBancariasObtenerCantidadPorUsuarioAsync) +
+                    User.GetLoggedInUserId<int>().ToString()
+                    );
+                jsonResponse = await ApiClientFactory.Instance.GetJsonAsync(requestUrl);
+                jsonResponse = jsonResponse.Replace("\\", string.Empty);
+                jsonResponse = jsonResponse.Trim('"');
+                response = JsonConvert.DeserializeObject<ResponseSummaryModel>(jsonResponse);
+                ViewData["CuentasBancariasCantidad"] = response.CantidadTotal;
+                ViewData["CuentasBancariasTexto"] = Constantes.strCuentasBancariasTexto;
 
-                    ViewData["PagosMonto"] = "S/ 0.00";
-                    ViewData["PagosTexto"] = Constantes.strMontoPagosTexto;
+                ViewData["TransaccionesCantidad"] = "0";
+                ViewData["TransaccionesTexto"] = Constantes.strTransaccionesTexto;
 
-                    return View("~/Views/Home/Index.cshtml");
-                }
-                else
-                {
-                    return RedirectToAction("UsuarioAutenticar", "Seguridad");
-                }
+                ViewData["PagosMonto"] = "S/ 0.00";
+                ViewData["PagosTexto"] = Constantes.strMontoPagosTexto;
+
+                return View("~/Views/Home/Index.cshtml");
+                //}
+                //else
+                //{
+                //    return RedirectToAction("UsuarioAutenticar", "Seguridad");
+                //}
             }
             catch (Exception ex)
             {

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
@@ -32,6 +33,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             Uri requestUrl;            
@@ -41,7 +43,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
 
             try
             {
-                if (HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session") != null) {
+                //if (HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session") != null) {
 
                     model.IdUsuarioZiPago = HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session").IdUsuarioZiPago;
 
@@ -61,11 +63,11 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
                     model.TipoMonedas = responseTD.Model;
 
                     return View("~/Views/Afiliacion/CuentaBancaria/Consulta.cshtml", model);
-                }
-                else
-                {
-                    return View("~/Views/Seguridad/Login.cshtml");
-                }
+                //}
+                //else
+                //{
+                //    return View("~/Views/Seguridad/Login.cshtml");
+                //}
             }
             catch (Exception ex)
             {
@@ -74,6 +76,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Listar(string order, int idUsuarioZiPago, int idBancoZiPago, string codigoTipoCuenta, string codigoTipoMoneda, string activo, string numeroCuenta)
         {
             Uri requestUrl;
@@ -118,6 +121,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
         }
         
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Registrar()
         {
 
@@ -162,6 +166,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<JsonResult> RegistrarCuentasBancarias(List<CuentaBancariaZiPago> cuentasBancarias)
         {
             JsonResult response;

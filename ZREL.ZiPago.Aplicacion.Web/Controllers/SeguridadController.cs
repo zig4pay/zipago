@@ -1,13 +1,14 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using NLog;
 using System;
 using System.Globalization;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using ZREL.ZiPago.Aplicacion.Web.Clients;
-using ZREL.ZiPago.Aplicacion.Web.Extensions;
 using ZREL.ZiPago.Aplicacion.Web.Models.Response;
 using ZREL.ZiPago.Aplicacion.Web.Models.Seguridad;
 using ZREL.ZiPago.Aplicacion.Web.Models.Settings;
@@ -29,6 +30,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult UsuarioAutenticar() {
             ViewData["ReCaptchaKey"] = webSettings.Value.SiteKey;
             return View("~/Views/Seguridad/Login.cshtml");
@@ -62,8 +64,20 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
 
                         if (response.Mensaje == "1")
                         {
+                            var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Email);                            
+                            identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, response.Model.IdUsuarioZiPago.ToString()));
+                            identity.AddClaim(new Claim(ClaimTypes.Email, response.Model.Clave1));                            
+                            identity.AddClaim(new Claim(ClaimTypes.Name, response.Model.NombresUsuario));
+                            identity.AddClaim(new Claim("ApellidosUsuario", response.Model.ApellidosUsuario));
+                            identity.AddClaim(new Claim("AceptoTerminos", response.Model.ApellidosUsuario));
+
+                            var principal = new ClaimsPrincipal(identity);
+                            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, 
+                                                          principal, 
+                                                          new AuthenticationProperties { IsPersistent = model.Recordarme });
+
                             logger.Info("[Aplicacion.Web.Controllers.SeguridadController.{0}] | UsuarioViewModel: [{1}] | Realizado.", nameof(UsuarioAutenticar), model.Clave1);
-                            HttpContext.Session.Set<UsuarioViewModel>("ZiPago.Session", response.Model);
+                            //HttpContext.Session.Set<UsuarioViewModel>("ZiPago.Session", response.Model);
                             return RedirectToAction("Index", "Home");
                         }
                         else
@@ -101,23 +115,46 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
             }
         }
 
-        public IActionResult UsuarioSalir() {
-
-            UsuarioViewModel usuario = new UsuarioViewModel();
+        public async Task<IActionResult> UsuarioSalir() {
+            
             Logger logger = LogManager.GetCurrentClassLogger();
 
             try
-            {
-                usuario = HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session") ?? null;
-                HttpContext.Session.Remove("ZiPago.Session");
-                HttpContext.Session.Clear();
+            {                
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             }
             catch (Exception ex)
             {
-                logger.Error("[Aplicacion.Web.Controllers.SeguridadController.UsuarioSalir] | UsuarioZiPago: [{0}] | Excepcion: {1}.", JsonConvert.SerializeObject(usuario), ex.ToString());
+                logger.Error("[Aplicacion.Web.Controllers.SeguridadController.UsuarioSalir] | UsuarioZiPago: [{0}] | Excepcion: {1}.", HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier), ex.ToString());
             }
 
             return RedirectToAction("UsuarioAutenticar", "Seguridad");
+        }
+
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> Recuperar(string clave1) {
+
+            Logger logger = LogManager.GetCurrentClassLogger();
+            Uri requestUrl;
+            string response = "";
+            
+            try
+            {
+
+                requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.UsuarioZiPago_Recuperar) + clave1);
+                response = await ApiClientFactory.Instance.GetJsonAsync(requestUrl);
+
+
+
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
         }
 
     }

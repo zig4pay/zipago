@@ -40,6 +40,8 @@ namespace ZREL.ZiPago.Datos.Configuraciones.Seguridad
             builder.Property(p => p.AceptoTerminos).HasColumnType("char(1)").IsRequired();
             builder.Property(p => p.EstadoRegistro).HasColumnType("char(1)").IsRequired();
             builder.Property(p => p.Activo).HasColumnType("char(1)").IsRequired();
+            builder.Property(p => p.ClaveRecuperacion).HasColumnType("varchar(500)");
+            builder.Property(p => p.FechaGeneracionClave).HasColumnType("datetime");
             builder.Property(p => p.FechaCreacion).HasColumnType("datetime").IsRequired();
             builder.Property(p => p.FechaActualizacion).HasColumnType("datetime");
         }

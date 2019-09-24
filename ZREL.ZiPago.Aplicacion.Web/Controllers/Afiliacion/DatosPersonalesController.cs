@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
@@ -35,10 +35,11 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             Logger logger = LogManager.GetCurrentClassLogger();
-            UsuarioViewModel usuario = new UsuarioViewModel();
+            UsuarioViewModel usuario;
             DatosPersonalesViewModel model = new DatosPersonalesViewModel();
             ResponseListModel<TablaDetalle> responseTD;
             ResponseListModel<UbigeoZiPago> response;
@@ -48,100 +49,107 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
 
             int posicion = 0;
 
+            usuario = new UsuarioViewModel
+            {
+                IdUsuarioZiPago = User.GetLoggedInUserId<int>(),
+                Clave1 = User.GetLoggedInUserEmail(),
+                NombresUsuario = User.GetLoggedInUserName(),
+                ApellidosUsuario = User.GetLoggedInUserLastName(),
+                AceptoTerminos = User.GetLoggedInUserAcceptTerms()
+            };
+
             try
             {
-                if (HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session") != null)
+                //if (HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session") != null)
+                //{
+                // Tipo de Persona
+                responseTD = new ResponseListModel<TablaDetalle>();
+                requestUrl = ApiClientFactory.Instance.CreateRequestUri(
+                                string.Format(CultureInfo.InvariantCulture, webSettings.Value.TablaDetalle_Listar) + Constantes.strCodTablaTipoPersona);
+                responseTD = await ApiClientFactory.Instance.GetListAsync<TablaDetalle>(requestUrl);
+                model.TipoPersona = responseTD.Model;
+
+                // Rubro de Negocio
+                responseTD = new ResponseListModel<TablaDetalle>();
+                requestUrl = ApiClientFactory.Instance.CreateRequestUri(
+                                string.Format(CultureInfo.InvariantCulture, webSettings.Value.TablaDetalle_Listar) + Constantes.strCodTablaRubroNegocio);
+                responseTD = await ApiClientFactory.Instance.GetListAsync<TablaDetalle>(requestUrl);
+                model.RubroNegocio = responseTD.Model;
+                model.RubroNegocio.Insert(0, new TablaDetalle
                 {
-                    usuario = HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session");
+                    Cod_Tabla = Constantes.strCodTablaRubroNegocio,
+                    Valor = "000",
+                    Descr_Valor = "Seleccione"
+                });
                     
-                    // Tipo de Persona
-                    responseTD = new ResponseListModel<TablaDetalle>();
-                    requestUrl = ApiClientFactory.Instance.CreateRequestUri(
-                                    string.Format(CultureInfo.InvariantCulture, webSettings.Value.TablaDetalle_Listar) + Constantes.strCodTablaTipoPersona);
-                    responseTD = await ApiClientFactory.Instance.GetListAsync<TablaDetalle>(requestUrl);
-                    model.TipoPersona = responseTD.Model;
+                // Departamento
+                requestUrl = ApiClientFactory.Instance.CreateRequestUri(
+                                string.Format(CultureInfo.InvariantCulture, webSettings.Value.UbigeoZiPago_Listar) + Constantes.strUbigeoZiPago_Departamentos);
+                response = await ApiClientFactory.Instance.GetListAsync<UbigeoZiPago>(requestUrl);
+                departamentos = new List<SelectListItem>();
+                foreach (UbigeoZiPago item in response.Model)
+                {
+                    departamentos.Add(new SelectListItem { Value = item.CodigoUbigeo, Text = item.Nombre});
+                }
+                departamentos.Insert(0, new SelectListItem { Value = "XX", Text = "Seleccione" });
+                ViewBag.Departamentos = departamentos;
 
-                    // Rubro de Negocio
-                    responseTD = new ResponseListModel<TablaDetalle>();
-                    requestUrl = ApiClientFactory.Instance.CreateRequestUri(
-                                    string.Format(CultureInfo.InvariantCulture, webSettings.Value.TablaDetalle_Listar) + Constantes.strCodTablaRubroNegocio);
-                    responseTD = await ApiClientFactory.Instance.GetListAsync<TablaDetalle>(requestUrl);
-                    model.RubroNegocio = responseTD.Model;
-                    model.RubroNegocio.Insert(0, new TablaDetalle
-                    {
-                        Cod_Tabla = Constantes.strCodTablaRubroNegocio,
-                        Valor = "000",
-                        Descr_Valor = "Seleccione"
-                    });
-                    
-                    // Departamento
-                    requestUrl = ApiClientFactory.Instance.CreateRequestUri(
-                                    string.Format(CultureInfo.InvariantCulture, webSettings.Value.UbigeoZiPago_Listar) + Constantes.strUbigeoZiPago_Departamentos);
-                    response = await ApiClientFactory.Instance.GetListAsync<UbigeoZiPago>(requestUrl);
-                    departamentos = new List<SelectListItem>();
-                    foreach (UbigeoZiPago item in response.Model)
-                    {
-                        departamentos.Add(new SelectListItem { Value = item.CodigoUbigeo, Text = item.Nombre});
-                    }
-                    departamentos.Insert(0, new SelectListItem { Value = "XX", Text = "Seleccione" });
-                    ViewBag.Departamentos = departamentos;
+                // Datos registrados
+                responseDatos = new ResponseModel<DatosPersonales>();
+                requestUrl = ApiClientFactory.Instance.CreateRequestUri(
+                                string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_DatosPersonalesObtener + usuario.IdUsuarioZiPago.ToString()));
+                responseDatos = await ApiClientFactory.Instance.GetAsync<DatosPersonales>(requestUrl);
 
-                    // Datos registrados
-                    responseDatos = new ResponseModel<DatosPersonales>();
-                    requestUrl = ApiClientFactory.Instance.CreateRequestUri(
-                                    string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_DatosPersonalesObtener + usuario.IdUsuarioZiPago.ToString()));
-                    responseDatos = await ApiClientFactory.Instance.GetAsync<DatosPersonales>(requestUrl);
-
-                    if (responseDatos.Model != null)
-                    {
-                        model.CodigoTipoPersona = responseDatos.Model.CodigoTipoPersona == "" ? Constantes.strTipoPersonaJuridica : responseDatos.Model.CodigoTipoPersona;
-                        model.IdUsuarioZiPago = responseDatos.Model.IdUsuarioZiPago;
-                        model.Clave1 = responseDatos.Model.Clave1;
-                        model.ApellidosUsuario = responseDatos.Model.ApellidosUsuario;
-                        model.NombresUsuario = responseDatos.Model.NombresUsuario;
-                        model.EstadoRegistro = responseDatos.Model.EstadoRegistro;
-                        model.AceptoTerminos = responseDatos.Model.AceptoTerminos;
+                if (responseDatos.Model != null)
+                {
+                    model.CodigoTipoPersona = responseDatos.Model.CodigoTipoPersona == "" ? Constantes.strTipoPersonaJuridica : responseDatos.Model.CodigoTipoPersona;
+                    model.IdUsuarioZiPago = responseDatos.Model.IdUsuarioZiPago;
+                    model.Clave1 = responseDatos.Model.Clave1;
+                    model.ApellidosUsuario = responseDatos.Model.ApellidosUsuario;
+                    model.NombresUsuario = responseDatos.Model.NombresUsuario;
+                    model.EstadoRegistro = responseDatos.Model.EstadoRegistro;
+                    model.AceptoTerminos = responseDatos.Model.AceptoTerminos;
                         
-                        if (responseDatos.Model.EstadoRegistro == Constantes.strEstadoRegistro_Nuevo)
-                        {
-                            model.Nombres = usuario.NombresUsuario;
-                            posicion = usuario.ApellidosUsuario.IndexOf(" ");
-                            model.ApellidoPaterno = posicion > 0 ? usuario.ApellidosUsuario.Substring(0, posicion) : usuario.ApellidosUsuario;
-                            model.ApellidoMaterno = posicion > 0 ? usuario.ApellidosUsuario.Substring(posicion + 1) : "";
-                        }
-                        else
-                        {                            
-                            model.CodigoRubroNegocio = responseDatos.Model.CodigoRubroNegocio;
-                            model.NumeroDocumento = responseDatos.Model.NumeroDocumento;
-                            model.RazonSocial = responseDatos.Model.RazonSocial;
-                            model.NumeroDocumentoContacto = responseDatos.Model.NumeroDocumentoContacto;
-                            model.Nombres = responseDatos.Model.Nombres;                            
-                            model.ApellidoPaterno = responseDatos.Model.ApellidoPaterno;
-                            model.ApellidoMaterno = responseDatos.Model.ApellidoMaterno;
-                            model.Sexo = responseDatos.Model.Sexo;
-                            model.FechaNacimiento = responseDatos.Model.FechaNacimiento.Value.ToShortDateString();                            
-                            model.TelefonoFijo = responseDatos.Model.TelefonoFijo;
-                            model.TelefonoMovil = responseDatos.Model.TelefonoMovil;
-                            model.CodigoDepartamento = responseDatos.Model.CodigoDepartamento;
-                            model.CodigoProvincia = responseDatos.Model.CodigoProvincia;
-                            model.CodigoDistrito = responseDatos.Model.CodigoDistrito;
-                            model.Via = responseDatos.Model.Via;
-                            model.DireccionFacturacion = responseDatos.Model.DireccionFacturacion;
-                            model.Referencia = responseDatos.Model.Referencia;
-                        }
-                        ViewBag.Provincias = await ListarUbigeoPorCodigo(responseDatos.Model.CodigoDepartamento);
-                        ViewBag.Distritos = await ListarUbigeoPorCodigo(responseDatos.Model.CodigoProvincia);
+                    if (responseDatos.Model.EstadoRegistro == Constantes.strEstadoRegistro_Nuevo)
+                    {
+                        model.Nombres = usuario.NombresUsuario;
+                        posicion = usuario.ApellidosUsuario.IndexOf(" ");
+                        model.ApellidoPaterno = posicion > 0 ? usuario.ApellidosUsuario.Substring(0, posicion) : usuario.ApellidosUsuario;
+                        model.ApellidoMaterno = posicion > 0 ? usuario.ApellidosUsuario.Substring(posicion + 1) : "";
                     }
                     else
-                    {
-                        return RedirectToAction("UsuarioAutenticar", "Seguridad");                        
+                    {                            
+                        model.CodigoRubroNegocio = responseDatos.Model.CodigoRubroNegocio;
+                        model.NumeroDocumento = responseDatos.Model.NumeroDocumento;
+                        model.RazonSocial = responseDatos.Model.RazonSocial;
+                        model.NumeroDocumentoContacto = responseDatos.Model.NumeroDocumentoContacto;
+                        model.Nombres = responseDatos.Model.Nombres;                            
+                        model.ApellidoPaterno = responseDatos.Model.ApellidoPaterno;
+                        model.ApellidoMaterno = responseDatos.Model.ApellidoMaterno;
+                        model.Sexo = responseDatos.Model.Sexo;
+                        model.FechaNacimiento = responseDatos.Model.FechaNacimiento.Value.ToShortDateString();                            
+                        model.TelefonoFijo = responseDatos.Model.TelefonoFijo;
+                        model.TelefonoMovil = responseDatos.Model.TelefonoMovil;
+                        model.CodigoDepartamento = responseDatos.Model.CodigoDepartamento;
+                        model.CodigoProvincia = responseDatos.Model.CodigoProvincia;
+                        model.CodigoDistrito = responseDatos.Model.CodigoDistrito;
+                        model.Via = responseDatos.Model.Via;
+                        model.DireccionFacturacion = responseDatos.Model.DireccionFacturacion;
+                        model.Referencia = responseDatos.Model.Referencia;
                     }
-                    return View("~/Views/Afiliacion/DatosPersonales/Registro.cshtml", model);
+                    ViewBag.Provincias = await ListarUbigeoPorCodigo(responseDatos.Model.CodigoDepartamento);
+                    ViewBag.Distritos = await ListarUbigeoPorCodigo(responseDatos.Model.CodigoProvincia);
                 }
                 else
                 {
-                    return RedirectToAction("UsuarioAutenticar", "Seguridad");
+                    return RedirectToAction("UsuarioAutenticar", "Seguridad");                        
                 }
+                return View("~/Views/Afiliacion/DatosPersonales/Registro.cshtml", model);
+                //}
+                //else
+                //{
+                //    return RedirectToAction("UsuarioAutenticar", "Seguridad");
+                //}
             }
             catch (Exception ex)
             {
@@ -152,6 +160,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<JsonResult> ListarPorUbigeo(string strCodigoUbigeo)
         {
 
@@ -170,6 +179,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
             return response;
         }
 
+        [Authorize]
         private async Task<List<SelectListItem>> ListarUbigeoPorCodigo(string strCodigoUbigeo)
         {
             Uri requestUrl;
@@ -195,6 +205,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
         }
         
         [HttpGet]
+        [Authorize]
         public async Task<JsonResult> ListarDomiciliosHistorico(int idUsuarioZiPago)
         {
 
@@ -219,6 +230,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<JsonResult> Registrar(DatosPersonalesViewModel model)
         {
             Logger logger = LogManager.GetCurrentClassLogger();
