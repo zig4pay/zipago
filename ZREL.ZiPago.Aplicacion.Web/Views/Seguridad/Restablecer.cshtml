@@ -1,0 +1,61 @@
+﻿@model ZREL.ZiPago.Aplicacion.Web.Models.Seguridad.UsuarioViewModel
+@{
+    ViewData["Title"] = "ZiPago | Recuperar contrasena";
+    Layout = "_LayoutSeguridad";
+}
+
+<div class="login-box">
+
+    <div class="login-logo" style="border-radius: 12px 12px 0px 0px">
+        <img src="~/dist/img/zipago/Imagotipo_ZiPago-300x200.png" />
+    </div>
+
+    <div id="loginBox" class="login-box-body" style="border-radius: 0px 0px 12px 12px">
+        <p class="login-box-msg">
+            <strong>Ingrese sus datos para iniciar sesion</strong>
+        </p>
+
+        <form id="frmRestablecer" asp-controller="Seguridad" asp-action="Restablecer" method="post">
+            <div class="form-group has-feedback">
+                <input asp-for="Clave1" type="email" id="clave1" name="clave1" class="form-control" disabled>
+                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <input type="password" id="clave2" name="clave2" class="form-control" placeholder="Contrase&ntilde;a">
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <input type="password" id="confirmeclave" name="confirmeclave" class="form-control" placeholder="Repita la Contrase&ntilde;a">
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback" style="text-align: center;">
+                <div class="g-recaptcha" data-sitekey="@ViewData["ReCaptchaKey"]" style="display: inline-block;"></div>
+                <div id="errorCaptcha" style="display:none;" class="text-red">
+                    Debe marcar la casilla No soy un robot.
+                </div>
+            </div>
+
+            <div class="form-group has-feedback">
+                @Html.ValidationMessage("ErrorLogin", "", new { @class = "text-red" })
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6">                    
+                </div>
+                <div class="col-xs-6">
+                    <button type="submit" id="btnRestablecer" class="btn text-gray bg-blue btn-block btn-flat">Restablecer</button>
+                </div>
+
+            </div>
+        </form>
+
+    </div>
+
+</div>
+
+<script src="~/bower_components/jquery/dist/jquery-3.3.1.min.js"></script>
+<script src="~/bower_components/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="~/plugins/iCheck/icheck.min.js"></script>
+<script src="~/dist/js/Seguridad/restablecer.js"></script>
+<script src='https://www.google.com/recaptcha/api.js' defer async></script>

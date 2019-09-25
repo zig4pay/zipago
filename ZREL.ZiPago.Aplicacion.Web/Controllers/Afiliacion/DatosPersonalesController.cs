@@ -139,17 +139,13 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
                     }
                     ViewBag.Provincias = await ListarUbigeoPorCodigo(responseDatos.Model.CodigoDepartamento);
                     ViewBag.Distritos = await ListarUbigeoPorCodigo(responseDatos.Model.CodigoProvincia);
+
+                    return View("~/Views/Afiliacion/DatosPersonales/Registro.cshtml", model);
                 }
                 else
                 {
                     return RedirectToAction("UsuarioAutenticar", "Seguridad");                        
-                }
-                return View("~/Views/Afiliacion/DatosPersonales/Registro.cshtml", model);
-                //}
-                //else
-                //{
-                //    return RedirectToAction("UsuarioAutenticar", "Seguridad");
-                //}
+                }                
             }
             catch (Exception ex)
             {

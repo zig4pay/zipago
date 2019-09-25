@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using NLog;
 using System;
 using System.Globalization;
@@ -13,6 +15,7 @@ using ZREL.ZiPago.Aplicacion.Web.Models.Response;
 using ZREL.ZiPago.Aplicacion.Web.Models.Seguridad;
 using ZREL.ZiPago.Aplicacion.Web.Models.Settings;
 using ZREL.ZiPago.Aplicacion.Web.Utility;
+using ZREL.ZiPago.Entidad.Seguridad;
 using ZREL.ZiPago.Libreria;
 using ZREL.ZiPago.Libreria.Seguridad;
 
@@ -21,10 +24,12 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
     public class SeguridadController : Controller
     {
 
+        private readonly IConfiguration configuration;
         private readonly IOptions<WebSiteSettingsModel> webSettings;
         
-        public SeguridadController(IOptions<WebSiteSettingsModel> app)
+        public SeguridadController(IConfiguration config, IOptions<WebSiteSettingsModel> app)
         {
+            this.configuration = config;
             webSettings = app;
             ApiClientSettings.ZZiPagoApiUrl = webSettings.Value.ZZiPagoApiUrl;            
         }
@@ -37,7 +42,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
+        [AllowAnonymous]        
         public async Task<IActionResult> UsuarioAutenticar(UsuarioViewModel model)
         {
 
@@ -115,6 +120,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
             }
         }
 
+        [Route("Seguridad/UsuarioSalir")]
         public async Task<IActionResult> UsuarioSalir() {
             
             Logger logger = LogManager.GetCurrentClassLogger();
@@ -130,32 +136,128 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
 
             return RedirectToAction("UsuarioAutenticar", "Seguridad");
         }
-
-
+        
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> Recuperar(string clave1) {
+        [Route("Seguridad/Recuperar/{correo}")]
+        public async Task<JsonResult> Recuperar(string correo) {
 
             Logger logger = LogManager.GetCurrentClassLogger();
             Uri requestUrl;
-            string response = "";
+            ResponseModel<UsuarioZiPago> response = new ResponseModel<UsuarioZiPago>();
+            string responseGetJson;
+            JsonResult result;
             
             try
             {
+                requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.UsuarioZiPago_Recuperar) + correo);
+                responseGetJson = await ApiClientFactory.Instance.GetJsonAsync(requestUrl);
+                responseGetJson = responseGetJson.Replace("\\", string.Empty);
+                responseGetJson = responseGetJson.Trim('"');
+                response = JsonConvert.DeserializeObject<ResponseModel<UsuarioZiPago>>(responseGetJson);
 
-                requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.UsuarioZiPago_Recuperar) + clave1);
-                response = await ApiClientFactory.Instance.GetJsonAsync(requestUrl);
+                if (!response.HizoError) {
+                    var callbackurl = Url.Action(
+                                            controller: "Seguridad",
+                                            action: "Restablecer",
+                                            values: new { code = response.Model.ClaveRecuperacion },
+                                            protocol: Request.Scheme
+                                        );
+                    EnviarCorreo(response.Model, callbackurl);
+                }
 
+                response.Mensaje = "Se realizo el envio de un enlace a su correo electronico para que pueda restablecer su contrasena.";
+                response.Model = null;
 
-
+                result = Json(response);
             }
             catch (Exception ex)
             {
-
-                throw;
+                response.HizoError = true;
+                response.MensajeError = ex.Message;
+                result = Json(response);
+                logger.Error("[Aplicacion.Web.Controllers.SeguridadController.Recuperar] | UsuarioZiPago: [{0}] | Excepcion: {1}.", correo, ex.ToString());
             }
 
+            return result;
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("Seguridad/Restablecer")]
+        public async Task<IActionResult> Restablecer(string code)
+        {
+            Logger logger = LogManager.GetCurrentClassLogger();
+            ResponseModel<UsuarioZiPago> usuario = new ResponseModel<UsuarioZiPago>();
+            Uri requestUrl;
+            string token;
+            string clave1;
+            string responseGetJson;
+
+            try
+            {
+                token = Criptografia.Decoder64(Criptografia.Desencriptar(code));
+                clave1 = token.Substring(token.IndexOf("|") + 1);
+
+                requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.UsuarioZiPago_Obtener) + clave1);
+                responseGetJson = await ApiClientFactory.Instance.GetJsonAsync(requestUrl);
+                responseGetJson = responseGetJson.Replace("\\", string.Empty);
+                responseGetJson = responseGetJson.Trim('"');
+                usuario = JsonConvert.DeserializeObject<ResponseModel<UsuarioZiPago>>(responseGetJson);
+
+                if (usuario.Model.Activo == Constantes.strValor_NoActivo)
+                {
+                    UsuarioViewModel model = new UsuarioViewModel {
+                                                IdUsuarioZiPago = usuario.Model.IdUsuarioZiPago,
+                                                Clave1 = usuario.Model.Clave1
+                                                };
+                    return View("~/Views/Seguridad/Restablecer.cshtml", model);
+                }
+                else
+                {
+                    return RedirectToAction("UsuarioAutenticar", "Seguridad");
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error("[Aplicacion.Web.Controllers.SeguridadController.Recuperar] | Clave: [{0}] | Excepcion: {1}.", code, ex.ToString());
+                return RedirectToAction("UsuarioAutenticar", "Seguridad");
+            }
+        }
+        
+        private string EnviarCorreo(UsuarioZiPago usuario, string callbackurl)
+        {
+
+            string respuesta = "";
+            var logger = NLog.LogManager.GetCurrentClassLogger();
+            Libreria.Mail.Manage mail = new Libreria.Mail.Manage();
+            Libreria.Mail.Settings mailsettings = new Libreria.Mail.Settings();
+            string nombres = "";
+            
+            try
+            {
+                nombres = string.IsNullOrEmpty(usuario.Nombres) ?
+                            usuario.NombresUsuario + " " + usuario.ApellidosUsuario :
+                                usuario.Nombres + " " + usuario.ApellidoPaterno + " " + usuario.ApellidoMaterno;
+
+                configuration.GetSection("ZRELZiPagoMail").Bind(mailsettings);
+                respuesta = mail.Enviar(usuario.NombresUsuario + " " + usuario.ApellidosUsuario,
+                                        usuario.Clave1,
+                                        configuration.GetValue<string>("ZRELZiPagoCuerpoMailRecuperar:Asunto"),
+                                        configuration.GetValue<string>("ZRELZiPagoCuerpoMailRecuperar:Mensaje").Replace("usuario", nombres).Replace("callbackurl", callbackurl),
+                                        mailsettings);
+                if (respuesta.Trim().Length > 0)
+                    logger.Error("[Aplicacion.Web.Controllers.SeguridadController.EnviarCorreo] | UsuarioViewModel: [{0}] | Mensaje: {1}.", usuario.Clave1, respuesta);
+            }
+            catch (Exception ex)
+            {
+                respuesta = ex.ToString();
+                logger.Error("[Aplicacion.Web.Controllers.SeguridadController.EnviarCorreo] | UsuarioViewModel: [{0}] | Excepcion: {1}.", usuario.Clave1, ex.ToString());
+            }
+
+            return respuesta;
+
+        }
+               
     }
 }

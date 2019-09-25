@@ -27,7 +27,7 @@
 
     $(document).ready(function () {
 
-        var $validator = $("#frmLogin").validate({
+        $("#frmLogin").validate({
             rules: {
                 clave1: {
                     required: true,
@@ -44,7 +44,20 @@
             }
         });
 
-        
+        $("#frmRecuperar").validate({
+            rules: {
+                txtcorreo: {
+                    required: true,
+                    email: true
+                }
+            },
+            messages: {
+                txtcorreo: {
+                    required: "Por favor ingrese su cuenta de correo electrónico.",
+                    email: "Por favor ingrese una cuenta de correo electrónico válida."
+                }
+            }
+        });
 
     });
 
@@ -68,6 +81,16 @@
 
     $('#btnOlvidoClave').click(function () {
         MostrarRecuperarClave(true);
+    });
+
+    $('#btnRecuperar').click(function () {
+        var $valid = $('#frmRecuperar').valid();
+        
+        if (!$valid) {
+            return false;
+        } else {            
+            RecuperarClave();            
+        }
     });
 
     $('#btnRegresaLogin').click(function () {
@@ -94,4 +117,50 @@ function VerificarCaptcha() {
     } else {
         return true;
     }
+}
+
+function RecuperarClave() {
+
+    $.ajax(
+        {
+            url: 'Seguridad/Recuperar/' + $("#txtcorreo").val(),
+            type: "GET",            
+            datatype: 'json',
+            contentType: 'application/json; utf-8'
+        })
+        .done(function (content) {
+
+            console.log(content);
+
+            //var content = JSON.parse(resp);
+            if (!content.hizoError) {                
+                swal("Operacion realizada correctamente", content.mensaje, "success");                
+            } else {
+                swal({
+                    title: "Error",
+                    text: content.mensajeError,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonClass: "btn-default",
+                    confirmButtonText: "Ok",
+                    closeOnConfirm: false
+                });
+            }
+        })
+        .fail(function (err) {
+
+            console.log(err);
+
+            swal({
+                title: "Error",
+                text: "Ocurrio un error al intentar realizar la operacion. Por favor intentelo en unos minutos.",
+                type: "error",
+                showCancelButton: false,
+                confirmButtonClass: "btn-default",
+                confirmButtonText: "Ok",
+                closeOnConfirm: false
+            });
+        });
+
+
 }

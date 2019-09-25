@@ -80,7 +80,7 @@ namespace ZREL.ZiPago.Servicio.WebAPI.Controllers.Seguridad
             Logger logger = LogManager.GetCurrentClassLogger();
             logger.Info("[Servicio.WebAPI.Controllers.Seguridad.UsuarioZiPagoController.RecuperarAsync] | UsuarioZiPago: [{0}] | Inicio.", clave1);
 
-            IResponse response = await oIUsuarioZiPagoService.RecuperarAsync(logger, clave1);
+            ISingleResponse<UsuarioZiPago> response = await oIUsuarioZiPagoService.RecuperarAsync(logger, clave1);
 
             return response.ToHttpResponse();
         }

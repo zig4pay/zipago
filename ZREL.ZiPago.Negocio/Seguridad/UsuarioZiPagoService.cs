@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using NLog;
 using System;
 using System.Threading.Tasks;
@@ -120,9 +121,9 @@ namespace ZREL.ZiPago.Negocio.Seguridad
             return response;
         }
 
-        public async Task<IResponse> RecuperarAsync(Logger logger, string clave1)
+        public async Task<ISingleResponse<UsuarioZiPago>> RecuperarAsync(Logger logger, string clave1)
         {
-            var response = new Response();
+            ISingleResponse<UsuarioZiPago> response = new SingleResponse<UsuarioZiPago>();
             UsuarioZiPago usuario = new UsuarioZiPago();
             string token = "";
 
@@ -134,7 +135,7 @@ namespace ZREL.ZiPago.Negocio.Seguridad
 
                     if (usuario != null && !string.IsNullOrWhiteSpace(usuario.Clave1))
                     {
-                        token = Criptografia.Encriptar(Criptografia.Encoder64(usuario.IdUsuarioZiPago.ToString() + Criptografia.Encoder64(usuario.Clave1.Trim())));
+                        token = Criptografia.Encriptar(Criptografia.Encoder64(usuario.IdUsuarioZiPago.ToString() + "|" + usuario.Clave1));
 
                         usuario.Activo = Constantes.strValor_NoActivo;
                         usuario.ClaveRecuperacion = token;
@@ -149,9 +150,11 @@ namespace ZREL.ZiPago.Negocio.Seguridad
                         logger.Info("[Negocio.Seguridad.UsuarioZiPagoService.RecuperarAsync] | UsuarioZiPago: [{0}]", JsonConvert.SerializeObject(usuario));
 
                         await DbContext.SaveChangesAsync();
-
                         txAsync.Commit();
-                        response.Mensaje = token;
+
+                        response.Model = await DbContext.UsuariosZiPago.AsNoTracking().FirstOrDefaultAsync(item => item.Clave1 == clave1);
+                        response.Model.Clave2 = string.Empty;
+                        response.Mensaje = Constantes.strRegistroRealizado;
                     }
                     else {
                         response.HizoError = true;

@@ -10,6 +10,6 @@ namespace ZREL.ZiPago.Negocio.Contracts
         Task<ISingleResponse<UsuarioZiPago>> ObtenerAsync(Logger logger, string clave1);
         Task<ISingleResponse<UsuarioZiPago>> AutenticarAsync(Logger logger, UsuarioZiPago entidad);
         Task<ISingleResponse<UsuarioZiPago>> RegistrarAsync(Logger logger, UsuarioZiPago entidad);
-        Task<IResponse> RecuperarAsync(Logger logger, string clave1);
+        Task<ISingleResponse<UsuarioZiPago>> RecuperarAsync(Logger logger, string clave1);
     }
 }
