@@ -1,0 +1,54 @@
+﻿@model ZREL.ZiPago.Aplicacion.Web.Models.Seguridad.UsuarioViewModel
+@{
+    ViewData["Title"] = "ZiPago | Olvido Contrasena";
+    Layout = "_LayoutSeguridad";
+}
+
+<div class="login-box">
+
+    <div class="login-logo" style="border-radius: 12px 12px 0px 0px">
+        <img src="~/dist/img/zipago/Imagotipo_ZiPago-300x200.png" />
+    </div>
+
+    <div id="olvidoClaveBox" style="border-radius: 0px 0px 12px 12px" class="login-box-body">
+        <p class="login-box-msg">
+            <strong>Recuperar Clave</strong>
+        </p>
+        <p>
+            Ingrese su Id ZiPago (dirección de correo electrónico).<br />
+            Se enviará a su correo el procedimiento a traves del cual podrá restablecer su contraseña.
+        </p>
+
+        <form id="frmRecuperar" asp-controller="Seguridad" asp-action="" method="post">
+
+            <div class="form-group has-feedback">
+                <input type="text" id="correo" name="correo" asp-for="Clave1" class="form-control" placeholder="Correo Electr&oacute;nico">
+                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback" style="text-align: center;">
+                <div class="g-recaptcha" data-sitekey="@ViewData["ReCaptchaKey"]" style="display: inline-block;"></div>
+                <div id="errorCaptcha" style="display:none;" class="text-red">
+                    Debe marcar la casilla No soy un robot.
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <a asp-controller="Seguridad" asp-action="UsuarioAutenticar">Login ZiPago</a>
+                </div>
+                <div class="col-xs-6">
+                    <button id="btnRecuperar" class="btn text-gray bg-blue btn-block btn-flat">Recuperar clave</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+
+</div>
+
+<script src="~/bower_components/jquery/dist/jquery-3.3.1.min.js"></script>
+<script src="~/bower_components/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="~/bower_components/sweetalert/sweetalert.min.js"></script>
+<script src="~/dist/js/Seguridad/recuperar.js"></script>
+<script src='https://www.google.com/recaptcha/api.js' defer async></script>

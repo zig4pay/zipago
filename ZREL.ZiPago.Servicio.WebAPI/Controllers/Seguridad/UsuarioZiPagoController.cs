@@ -85,5 +85,21 @@ namespace ZREL.ZiPago.Servicio.WebAPI.Controllers.Seguridad
             return response.ToHttpResponse();
         }
 
+        [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        [Route("Restablecer")]
+        public async Task<IActionResult> RestablecerAsync([FromBody] UsuarioZiPago entidad)
+        {
+
+            Logger logger = LogManager.GetCurrentClassLogger();
+            logger.Info("[Servicio.WebAPI.Controllers.Seguridad.UsuarioZiPagoController.RestablecerAsync] | UsuarioZiPago: [{0}] | Inicio.", entidad.Clave1);
+
+            IResponse response = await oIUsuarioZiPagoService.RestablecerAsync(logger, entidad);
+
+            return response.ToHttpResponse();
+        }
+
     }
 }

@@ -174,5 +174,36 @@ namespace ZREL.ZiPago.Negocio.Seguridad
             return response;
         }
 
+        public async Task<IResponse> RestablecerAsync(Logger logger, UsuarioZiPago entidad)
+        {
+            IResponse response = new Response();
+            
+            using (var txAsync = await DbContext.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    entidad.Activo = Constantes.strValor_Activo;
+                    entidad.FechaActualizacion = DateTime.Now;
+
+                    DbContext.Attach(entidad);
+                    DbContext.Entry(entidad).Property("Clave2").IsModified = true;
+                    DbContext.Entry(entidad).Property("Activo").IsModified = true;
+                    DbContext.Entry(entidad).Property("FechaActualizacion").IsModified = true;                    
+                    await DbContext.SaveChangesAsync();
+
+                    response.HizoError = false;
+                    response.Mensaje = Constantes.strMensajeContrasenaRestablecida;
+                }
+                catch (Exception ex)
+                {
+                    txAsync.Rollback();
+                    response.Mensaje = Constantes.strMensajeErrorRestablecerContrasena;
+                    response.SetError(logger, "Negocio.Seguridad.UsuarioZiPagoService.RecuperarAsync", nameof(UsuarioZiPago), ex);
+                }
+            }
+
+            return response;
+        }
+
     }
 }

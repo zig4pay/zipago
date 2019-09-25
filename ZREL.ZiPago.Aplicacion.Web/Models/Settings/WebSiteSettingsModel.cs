@@ -10,6 +10,7 @@
         public string UsuarioZiPago_Autenticar { get; set; }
         public string UsuarioZiPago_Registrar { get; set; }
         public string UsuarioZiPago_Recuperar { get; set; }
+        public string UsuarioZiPago_Restablecer { get; set; }
 
         //Comun
         public string BancoZiPago_Listar { get; set; }

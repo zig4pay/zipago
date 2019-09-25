@@ -136,21 +136,30 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
 
             return RedirectToAction("UsuarioAutenticar", "Seguridad");
         }
-        
+
+
         [HttpGet]
         [AllowAnonymous]
-        [Route("Seguridad/Recuperar/{correo}")]
-        public async Task<JsonResult> Recuperar(string correo) {
+        [Route("Seguridad/Recuperar")]
+        public IActionResult Recuperar()
+        {
+            ViewData["ReCaptchaKey"] = webSettings.Value.SiteKey;
+            return View("~/Views/Seguridad/Recuperar.cshtml");
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("Seguridad/Recuperar")]
+        public async Task<IActionResult> Recuperar(UsuarioViewModel model) {
 
             Logger logger = LogManager.GetCurrentClassLogger();
             Uri requestUrl;
             ResponseModel<UsuarioZiPago> response = new ResponseModel<UsuarioZiPago>();
-            string responseGetJson;
-            JsonResult result;
+            string responseGetJson;            
             
             try
             {
-                requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.UsuarioZiPago_Recuperar) + correo);
+                requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.UsuarioZiPago_Recuperar) + model.Clave1);
                 responseGetJson = await ApiClientFactory.Instance.GetJsonAsync(requestUrl);
                 responseGetJson = responseGetJson.Replace("\\", string.Empty);
                 responseGetJson = responseGetJson.Trim('"');
@@ -165,21 +174,25 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
                                         );
                     EnviarCorreo(response.Model, callbackurl);
                 }
+                else
+                {
+
+                }
 
                 response.Mensaje = "Se realizo el envio de un enlace a su correo electronico para que pueda restablecer su contrasena.";
                 response.Model = null;
 
-                result = Json(response);
             }
             catch (Exception ex)
             {
                 response.HizoError = true;
                 response.MensajeError = ex.Message;
-                result = Json(response);
-                logger.Error("[Aplicacion.Web.Controllers.SeguridadController.Recuperar] | UsuarioZiPago: [{0}] | Excepcion: {1}.", correo, ex.ToString());
+                
+                logger.Error("[Aplicacion.Web.Controllers.SeguridadController.Recuperar] | UsuarioZiPago: [{0}] | Excepcion: {1}.", model.Clave1, ex.ToString());
             }
 
-            return result;
+            ViewData["ReCaptchaKey"] = webSettings.Value.SiteKey;
+            return View("~/Views/Seguridad/Recuperar.cshtml");
         }
 
         [HttpGet]
@@ -196,6 +209,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
 
             try
             {
+                ViewData["ReCaptchaKey"] = webSettings.Value.SiteKey;
                 token = Criptografia.Decoder64(Criptografia.Desencriptar(code));
                 clave1 = token.Substring(token.IndexOf("|") + 1);
 
@@ -209,8 +223,14 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
                 {
                     UsuarioViewModel model = new UsuarioViewModel {
                                                 IdUsuarioZiPago = usuario.Model.IdUsuarioZiPago,
-                                                Clave1 = usuario.Model.Clave1
-                                                };
+                                                Clave1 = usuario.Model.Clave1,
+                                                Clave2 = string.Empty,
+                                                ApellidosUsuario = string.Empty,
+                                                NombresUsuario = string.Empty,
+                                                AceptoTerminos = usuario.Model.AceptoTerminos,
+                                                Recordarme = false
+                                            };
+                    ViewData["clave1"] = usuario.Model.Clave1;
                     return View("~/Views/Seguridad/Restablecer.cshtml", model);
                 }
                 else
@@ -224,7 +244,69 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
                 return RedirectToAction("UsuarioAutenticar", "Seguridad");
             }
         }
-        
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> Restablecer(UsuarioViewModel model)
+        {
+            Response response = new Response();
+            Logger logger = LogManager.GetCurrentClassLogger();
+            ViewData["ReCaptchaKey"] = webSettings.Value.SiteKey;
+            string responseJson = "";
+
+            logger.Info("[Aplicacion.Web.Controllers.SeguridadController.Restablecer] | UsuarioViewModel: [{0}] | Inicio.", model.Clave1);
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+
+                    if (await GoogleReCaptchaValidation.ReCaptchaPassed(
+                            Request.Form["g-recaptcha-response"],
+                            webSettings.Value.SecretKey,
+                            logger)
+                        )
+                    {
+                        model.Clave2 = Criptografia.Encriptar(model.Clave2);
+                        var requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.UsuarioZiPago_Restablecer));
+                        responseJson  = await ApiClientFactory.Instance.PostJsonAsync(requestUrl, model);
+                        responseJson = responseJson.Replace("\\", string.Empty);
+                        responseJson = responseJson.Trim('"');
+
+                        response = JsonConvert.DeserializeObject<Response>(responseJson);
+
+                        if (!response.HizoError)
+                        {
+                            logger.Info("[Aplicacion.Web.Controllers.SeguridadController.{0}] | UsuarioViewModel: [{1}] | Realizado.", nameof(UsuarioAutenticar), model.Clave1);
+                            return Content("<script language='javascript' type='text/javascript'>alert('" + response.Mensaje + "');</script>");
+                        }
+                        else
+                        {
+                            logger.Error("[{0}] | UsuarioViewModel: [{1}] | Excepcion: {2}.", nameof(Restablecer), model.Clave1, response.MensajeError);
+                            ModelState.AddModelError("ErrorRestablecer", response.MensajeError);
+                            return Content("<script language='javascript' type='text/javascript'>alert('" + response.MensajeError + "');</script>");
+                        }
+                    }
+                    else
+                    {
+                        return RedirectToAction("UsuarioAutenticar", "Seguridad");
+                    }
+                }
+                else
+                {                    
+                    return RedirectToAction("UsuarioAutenticar", "Seguridad");
+                }
+            }
+            catch (Exception ex)
+            {
+                response.HizoError = true;
+                response.MensajeError = ex.ToString();
+                logger.Error("[{0}] | UsuarioViewModel: [{1}] | Excepcion: {2}.", nameof(Restablecer), model.Clave1, ex.ToString());
+                ModelState.AddModelError("ErrorRestablecer", ex.Message);
+                return RedirectToAction("UsuarioAutenticar", "Seguridad");
+            }
+        }
+
         private string EnviarCorreo(UsuarioZiPago usuario, string callbackurl)
         {
 

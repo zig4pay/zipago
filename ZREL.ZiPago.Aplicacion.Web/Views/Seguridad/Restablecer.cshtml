@@ -16,8 +16,9 @@
         </p>
 
         <form id="frmRestablecer" asp-controller="Seguridad" asp-action="Restablecer" method="post">
+            <input id="idusuariozipago" name="idusuariozipago" type="hidden" asp-for="IdUsuarioZiPago" />
             <div class="form-group has-feedback">
-                <input asp-for="Clave1" type="email" id="clave1" name="clave1" class="form-control" disabled>
+                <input type="text" id="clave1" name="clave1" value="@ViewData["clave1"]" class="form-control">
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
@@ -36,11 +37,11 @@
             </div>
 
             <div class="form-group has-feedback">
-                @Html.ValidationMessage("ErrorLogin", "", new { @class = "text-red" })
+                @Html.ValidationMessage("ErrorRestablecer", "", new { @class = "text-red" })
             </div>
 
             <div class="row">
-                <div class="col-xs-6">                    
+                <div class="col-xs-6">
                 </div>
                 <div class="col-xs-6">
                     <button type="submit" id="btnRestablecer" class="btn text-gray bg-blue btn-block btn-flat">Restablecer</button>
@@ -57,5 +58,6 @@
 <script src="~/bower_components/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="~/plugins/iCheck/icheck.min.js"></script>
+<script src="~/dist/js/adminlte.min.js"></script>
 <script src="~/dist/js/Seguridad/restablecer.js"></script>
 <script src='https://www.google.com/recaptcha/api.js' defer async></script>

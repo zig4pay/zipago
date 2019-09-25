@@ -17,7 +17,7 @@
 
         <form id="frmLogin" asp-controller="Seguridad" asp-action="UsuarioAutenticar" method="post">
             <div class="form-group has-feedback">
-                <input type="email" id="clave1" name="clave1" class="form-control" placeholder="Correo Electr&oacute;nico">
+                <input type="text" id="clave1" name="clave1" class="form-control" placeholder="Correo Electr&oacute;nico">
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
@@ -51,38 +51,9 @@
             </div>
         </form>
 
-        <a href="#" id="btnOlvidoClave">¿Olvidaste tu clave?</a>
+        <a asp-controller="Seguridad" asp-action="Recuperar" id="btnOlvidoClave">¿Olvidaste tu clave?</a>
 
     </div>
-
-    <div id="olvidoClaveBox" style="display:none; border-radius: 0px 0px 12px 12px" class="login-box-body">
-        <p class="login-box-msg">
-            <strong>Restablecer Clave</strong>
-        </p>
-        <p class="login-box-msg">
-            Ingrese su Id ZiPago (dirección de correo electrónico).
-            Se enviará a su correo el procedimiento a traves del cual podrá restablecer su contraseña.
-        </p>
-
-        <form id="frmRecuperar">
-
-            <div class="form-group has-feedback">
-                <input type="email" id="txtcorreo" name="txtcorreo" asp-for="Clave1" class="form-control" placeholder="Correo Electr&oacute;nico">
-                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-            </div>
-            
-            <div class="row">
-                <div class="col-xs-6">
-                    <a id="btnRegresaLogin" href="#">Login ZiPago</a>
-                </div>
-                <div class="col-xs-6">
-                    <button id="btnRecuperar" class="btn text-gray bg-blue btn-block btn-flat">Recuperar clave</button>
-                </div>
-            </div>
-
-        </form>
-    </div>
-
 
 </div>
 

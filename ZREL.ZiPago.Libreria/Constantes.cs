@@ -28,6 +28,9 @@
         public const string strMensajeErrorValidarCaptcha = "No hemos podido validar que no seas un robot.";
         public const string strMensajeDatosIncorrectos = "No se ha ingresado correctamente todos los datos solicitados.";
 
+        public const string strMensajeContrasenaRestablecida = "La contrasena ha sido restablecida correctamente.";
+        public const string strMensajeErrorRestablecerContrasena = "No se pudo restablecer la contasena, por favor intente en unos minutos.";
+
         public const string strUsuarioZiPago_AceptoTerminos = "S";
         public const string strEstadoRegistro_Nuevo = "N";
         public const string strEstadoRegistro_Registrado = "R";
