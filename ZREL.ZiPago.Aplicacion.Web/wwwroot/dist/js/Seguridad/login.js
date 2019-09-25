@@ -129,7 +129,7 @@ function RecuperarClave() {
             contentType: 'application/json; utf-8'
         })
         .done(function (content) {
-
+            alert("Done");
             console.log(content);
 
             //var content = JSON.parse(resp);
@@ -148,7 +148,7 @@ function RecuperarClave() {
             }
         })
         .fail(function (err) {
-
+            alert("Fail");
             console.log(err);
 
             swal({
