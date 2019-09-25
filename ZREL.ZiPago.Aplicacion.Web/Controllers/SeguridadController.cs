@@ -144,6 +144,10 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
         public IActionResult Recuperar()
         {
             ViewData["ReCaptchaKey"] = webSettings.Value.SiteKey;
+            ViewData["Post"] = false;
+            ViewData["HizoError"] = false;
+            ViewData["Mensaje"] = string.Empty;
+
             return View("~/Views/Seguridad/Recuperar.cshtml");
         }
 
@@ -155,43 +159,35 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
             Logger logger = LogManager.GetCurrentClassLogger();
             Uri requestUrl;
             ResponseModel<UsuarioZiPago> response = new ResponseModel<UsuarioZiPago>();
-            string responseGetJson;            
-            
+            string responseGetJson;
+
+            ViewData["ReCaptchaKey"] = webSettings.Value.SiteKey;
+            ViewData["Post"] = true;
+
             try
             {
                 requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.UsuarioZiPago_Recuperar) + model.Clave1);
                 responseGetJson = await ApiClientFactory.Instance.GetJsonAsync(requestUrl);
                 responseGetJson = responseGetJson.Replace("\\", string.Empty);
                 responseGetJson = responseGetJson.Trim('"');
-                response = JsonConvert.DeserializeObject<ResponseModel<UsuarioZiPago>>(responseGetJson);
+                response = JsonConvert.DeserializeObject<ResponseModel<UsuarioZiPago>>(responseGetJson);                                
+                ViewData["HizoError"] = response.HizoError;
 
-                if (!response.HizoError) {
-                    var callbackurl = Url.Action(
-                                            controller: "Seguridad",
-                                            action: "Restablecer",
-                                            values: new { code = response.Model.ClaveRecuperacion },
-                                            protocol: Request.Scheme
-                                        );
-                    EnviarCorreo(response.Model, callbackurl);
-                }
-                else
-                {
-
-                }
-
-                response.Mensaje = "Se realizo el envio de un enlace a su correo electronico para que pueda restablecer su contrasena.";
-                response.Model = null;
-
+                var callbackurl = response.HizoError ? string.Empty : Url.Action(
+                                                                            controller: "Seguridad",
+                                                                            action: "Restablecer",
+                                                                            values: new { code = response.Model.ClaveRecuperacion },
+                                                                            protocol: Request.Scheme
+                                                                        );
+                string respuestaEnvioMail = !string.IsNullOrWhiteSpace(callbackurl) ? EnviarCorreo(response.Model, callbackurl) : Constantes.strMensajeErrorEnvioEnlace;
+                ViewData["Mensaje"] = respuestaEnvioMail.Trim().Length == 0 ? Constantes.strMensajeEnvioEnlace : respuestaEnvioMail;
             }
             catch (Exception ex)
             {
-                response.HizoError = true;
-                response.MensajeError = ex.Message;
-                
+                ViewData["HizoError"] = true;
+                ViewData["Mensaje"] = Constantes.strMensajeErrorEnvioEnlace;
                 logger.Error("[Aplicacion.Web.Controllers.SeguridadController.Recuperar] | UsuarioZiPago: [{0}] | Excepcion: {1}.", model.Clave1, ex.ToString());
             }
-
-            ViewData["ReCaptchaKey"] = webSettings.Value.SiteKey;
             return View("~/Views/Seguridad/Recuperar.cshtml");
         }
 
@@ -247,6 +243,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
 
         [HttpPost]
         [AllowAnonymous]
+        [Route("Seguridad/Restablecer")]
         public async Task<IActionResult> Restablecer(UsuarioViewModel model)
         {
             Response response = new Response();

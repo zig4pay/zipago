@@ -19,10 +19,14 @@
             Se enviará a su correo el procedimiento a traves del cual podrá restablecer su contraseña.
         </p>
 
-        <form id="frmRecuperar" asp-controller="Seguridad" asp-action="" method="post">
+        <form id="frmRecuperar" asp-controller="Seguridad" asp-action="Recuperar" method="post">
+
+            <input id="jsparam1" name="jsparam1" type="hidden" value="@ViewData["Post"]" />
+            <input id="jsparam2" name="jsparam2" type="hidden" value="@ViewData["HizoError"]" />
+            <input id="jsparam3" name="jsparam3" type="hidden" value="@ViewData["Mensaje"]" />
 
             <div class="form-group has-feedback">
-                <input type="text" id="correo" name="correo" asp-for="Clave1" class="form-control" placeholder="Correo Electr&oacute;nico">
+                <input type="text" id="clave1" name="clave1" class="form-control" placeholder="Correo Electr&oacute;nico">
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback" style="text-align: center;">
@@ -36,7 +40,7 @@
                     <a asp-controller="Seguridad" asp-action="UsuarioAutenticar">Login ZiPago</a>
                 </div>
                 <div class="col-xs-6">
-                    <button id="btnRecuperar" class="btn text-gray bg-blue btn-block btn-flat">Recuperar clave</button>
+                    <button id="btnRecuperar" type="submit" class="btn text-gray bg-blue btn-block btn-flat">Recuperar clave</button>
                 </div>
             </div>
 

@@ -37,18 +37,33 @@
 
         $("#frmRecuperar").validate({
             rules: {
-                correo: {
+                clave1: {
                     required: true,
                     validarcorreo: true
                 }
             },
             messages: {
-                correo: {
+                clave1: {
                     required: "Por favor ingrese su cuenta de correo electrónico."
                 }
             }
         });
 
+    });
+
+    $(window).on("load", function () {
+        if ($('#jsparam1').val()) {
+            swal({
+                title: $('#jsparam2').val() ? "Error" : "Mensaje",
+                text: $('#jsparam3').val(),
+                type: $('#jsparam2').val() ? "error" : "success",
+                showCancelButton: false,
+                confirmButtonClass: "btn-default",
+                confirmButtonText: "Ok",
+                closeOnConfirm: false
+            });
+            $('#jsparam1').val(false);
+        }
     });
 
     $(document).bind("contextmenu", function (e) {

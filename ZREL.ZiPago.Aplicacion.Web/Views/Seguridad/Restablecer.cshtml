@@ -18,7 +18,7 @@
         <form id="frmRestablecer" asp-controller="Seguridad" asp-action="Restablecer" method="post">
             <input id="idusuariozipago" name="idusuariozipago" type="hidden" asp-for="IdUsuarioZiPago" />
             <div class="form-group has-feedback">
-                <input type="text" id="clave1" name="clave1" value="@ViewData["clave1"]" class="form-control">
+                <input type="text" id="clave1" name="clave1" value="@ViewData["clave1"]" class="form-control" readonly>
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">

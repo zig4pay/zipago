@@ -30,6 +30,8 @@
 
         public const string strMensajeContrasenaRestablecida = "La contrasena ha sido restablecida correctamente.";
         public const string strMensajeErrorRestablecerContrasena = "No se pudo restablecer la contasena, por favor intente en unos minutos.";
+        public const string strMensajeEnvioEnlace = "Se realizo el envio de un enlace a su correo electronico para que pueda restablecer su contrasena.";
+        public const string strMensajeErrorEnvioEnlace = "No se pudo enviar a su correo electronico el procedimiento para que pueda restablecer su contrasena, por favor intente en unos minutos.";
 
         public const string strUsuarioZiPago_AceptoTerminos = "S";
         public const string strEstadoRegistro_Nuevo = "N";
