@@ -59,6 +59,21 @@
         return false;
     });
 
+    $(window).on("load", function () {
+        if ($('#jsparam1').val()) {
+            swal({
+                title: $('#jsparam2').val() ? "Error" : "Mensaje",
+                text: $('#jsparam3').val(),
+                type: $('#jsparam2').val() ? "error" : "success",
+                showCancelButton: false,
+                confirmButtonClass: "btn-default",
+                confirmButtonText: "Ok",
+                closeOnConfirm: false
+            });
+            $('#jsparam1').val(false);
+        }
+    });
+
     $('#btnRestablecer').click(function () {
         var $valid = $('#frmRestablecer').valid();
         $('#errorCaptcha').hide();

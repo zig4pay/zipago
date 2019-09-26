@@ -247,11 +247,12 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
         public async Task<IActionResult> Restablecer(UsuarioViewModel model)
         {
             Response response = new Response();
-            Logger logger = LogManager.GetCurrentClassLogger();
-            ViewData["ReCaptchaKey"] = webSettings.Value.SiteKey;
+            Logger logger = LogManager.GetCurrentClassLogger();            
             string responseJson = "";
 
             logger.Info("[Aplicacion.Web.Controllers.SeguridadController.Restablecer] | UsuarioViewModel: [{0}] | Inicio.", model.Clave1);
+            ViewData["ReCaptchaKey"] = webSettings.Value.SiteKey;
+            ViewData["Post"] = true;
 
             try
             {
@@ -271,18 +272,20 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
                         responseJson = responseJson.Trim('"');
 
                         response = JsonConvert.DeserializeObject<Response>(responseJson);
+                        ViewData["HizoError"] = response.HizoError;
 
                         if (!response.HizoError)
                         {
                             logger.Info("[Aplicacion.Web.Controllers.SeguridadController.{0}] | UsuarioViewModel: [{1}] | Realizado.", nameof(UsuarioAutenticar), model.Clave1);
-                            return Content("<script language='javascript' type='text/javascript'>alert('" + response.Mensaje + "');</script>");
+                            ViewData["Mensaje"] = "";
                         }
                         else
                         {
                             logger.Error("[{0}] | UsuarioViewModel: [{1}] | Excepcion: {2}.", nameof(Restablecer), model.Clave1, response.MensajeError);
                             ModelState.AddModelError("ErrorRestablecer", response.MensajeError);
-                            return Content("<script language='javascript' type='text/javascript'>alert('" + response.MensajeError + "');</script>");
+                            
                         }
+                        return View("~/Views/Seguridad/Restablecer.cshtml");
                     }
                     else
                     {
