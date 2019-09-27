@@ -1,9 +1,5 @@
 ﻿jQuery(function ($) {
     
-    $(document).bind("contextmenu", function (e) {
-        return false;
-    });
-
     $('#btnCancelar').click(function () {
         LimpiarFormulario();        
     });
@@ -13,17 +9,11 @@
     });
 
     $(document).ready(function () {
-        $("#numerocuenta").keypress(SoloNumeros);
-        $("#cci").keypress(SoloNumeros);
+        $("#numerocuenta").keypress(PermitirSoloNumeros);
+        $("#cci").keypress(PermitirSoloNumeros);
     });
 
 });
-
-function SoloNumeros(e) {
-    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
-        return false;
-    }
-}
 
 function LimpiarFormulario() {
     $("#idbancozipago").val(0);

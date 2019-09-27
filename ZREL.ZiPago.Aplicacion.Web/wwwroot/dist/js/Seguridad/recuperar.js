@@ -1,30 +1,5 @@
 ﻿jQuery(function ($) {
 
-    $.validator.setDefaults({
-        highlight: function (element) {
-            $(element).closest('.form-group').addClass('has-error');
-        },
-        unhighlight: function (element) {
-            $(element).closest('.form-group').removeClass('has-error');
-        },
-        errorElement: 'span',
-        errorClass: 'help-block',
-        errorPlacement: function (error, element) {
-            if (element.parent('.input-group').length) {
-                error.insertAfter(element.parent());
-            }
-            else if (element.prop('type') === 'radio' && element.parent('.radio-inline').length) {
-                error.insertAfter(element.parent().parent());
-            }
-            else if (element.prop('type') === 'checkbox' || element.prop('type') === 'radio') {
-                error.insertAfter(element.parent());
-            }
-            else {
-                error.insertAfter(element);
-            }
-        }
-    });
-
     $(document).ready(function () {
 
         $.validator.addMethod("validarcorreo", function (value) {
@@ -65,11 +40,7 @@
             $('#jsparam1').val(false);
         }
     });
-
-    $(document).bind("contextmenu", function (e) {
-        return false;
-    });
-    
+        
     $('#btnRecuperar').click(function () {        
         var $valid = $('#frmRecuperar').valid();
         $('#errorCaptcha').hide();
@@ -85,13 +56,3 @@
     });
     
 });
-
-function VerificarCaptcha() {
-    var response = grecaptcha.getResponse();
-
-    if (response.length === 0) {
-        return false;
-    } else {
-        return true;
-    }
-}

@@ -1,24 +1,5 @@
 ﻿jQuery(function ($) {
 
-    $.validator.setDefaults({
-        highlight: function (element) {
-            $(element).closest('.form-group').addClass('has-error');
-        },
-        unhighlight: function (element) {
-            $(element).closest('.form-group').removeClass('has-error');
-        },
-        errorElement: 'span',
-        errorClass: 'help-block',
-        errorPlacement: function (error, element) {
-            if (element.parent('.form-control').length) {
-                error.insertAfter(element.parent());
-            }            
-            else {
-                error.insertAfter(element);
-            }
-        }
-    });
-
     $.validator.addMethod("validarcorreo", function (value) {
         var respuesta = true;
         var reg = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -34,10 +15,6 @@
         return respuesta;
     }, "Por favor primero seleccione un Banco y a continuacion seleccione una Cuenta Bancaria.");
     
-    $(document).bind('contextmenu', function (e) {
-        return false;
-    });
-
     $('#btnCancelar').click(function () {
         LimpiarFormulario();        
     });
@@ -129,33 +106,6 @@
     });
 
 });
-
-function PermitirSoloLetrasyNumeros(e) {
-    var regex = new RegExp("^[a-zA-Z0-9\b]+$");
-    var key = String.fromCharCode(!e.charCode ? e.which : e.charCode);
-    if (!regex.test(key)) {
-        e.preventDefault();
-        return false;
-    }
-}
-
-function ValidarCorreo(mail) {
-    var respuesta = true;
-    var reg = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    var regOficial = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-
-    if (reg.test(mail) && regOficial.test(mail)) {
-        respuesta = true;
-    }
-    else {
-        respuesta = false;
-    }
-    return respuesta;
-}
-
-function ValidarSeleccion(valor) {
-    return valor === 0 ? false : true;
-}
 
 function LimpiarFormulario() {
     $('#codigocomercio').val('');    

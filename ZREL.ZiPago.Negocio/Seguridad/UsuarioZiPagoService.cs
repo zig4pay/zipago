@@ -23,7 +23,7 @@ namespace ZREL.ZiPago.Negocio.Seguridad
 
         public async Task<ISingleResponse<UsuarioZiPago>> ObtenerAsync(Logger logger, string clave1) {
             var response = new SingleResponse<UsuarioZiPago>();
-            logger.Info("[Negocio.Seguridad.UsuarioZiPagoService.{0}] | UsuarioZiPago: [{1}] | Inicio.", nameof(ObtenerAsync), clave1);
+            logger.Info("[Negocio.Seguridad.UsuarioZiPagoService.ObtenerAsync] | UsuarioZiPago: [{0}] | Inicio.", clave1);
             try
             {
                 response.Model = await DbContext.ObtenerUsuarioZiPagoAsync(clave1);
@@ -190,6 +190,7 @@ namespace ZREL.ZiPago.Negocio.Seguridad
                     DbContext.Entry(entidad).Property("Activo").IsModified = true;
                     DbContext.Entry(entidad).Property("FechaActualizacion").IsModified = true;                    
                     await DbContext.SaveChangesAsync();
+                    txAsync.Commit();
 
                     response.HizoError = false;
                     response.Mensaje = Constantes.strMensajeContrasenaRestablecida;

@@ -30,7 +30,7 @@ namespace ZREL.ZiPago.Servicio.WebAPI.Controllers.Seguridad
         {
 
             Logger logger = LogManager.GetCurrentClassLogger();
-            logger.Info("[Servicio.WebAPI.Controllers.Seguridad.UsuarioZiPagoController.{0}] | UsuarioZiPago: [{1}] | Inicio.", nameof(ObtenerAsync), clave1);
+            logger.Info("[Servicio.WebAPI.Controllers.Seguridad.UsuarioZiPagoController.ObtenerAsync] | UsuarioZiPago: [{1}] | Inicio.", clave1);
 
             ISingleResponse<UsuarioZiPago> response = await oIUsuarioZiPagoService.ObtenerAsync(logger, clave1);
 
@@ -46,7 +46,7 @@ namespace ZREL.ZiPago.Servicio.WebAPI.Controllers.Seguridad
         public async Task<IActionResult> AutenticarAsync([FromBody] UsuarioZiPago entidad) {
 
             Logger logger = LogManager.GetCurrentClassLogger();            
-            logger.Info("[Servicio.WebAPI.Controllers.Seguridad.UsuarioZiPagoController.{0}] | UsuarioZiPago: [{1}] | Inicio.", nameof(AutenticarAsync), entidad.Clave1);
+            logger.Info("[Servicio.WebAPI.Controllers.Seguridad.UsuarioZiPagoController.AutenticarAsync] | UsuarioZiPago: [{0}] | Inicio.", entidad.Clave1);
 
             ISingleResponse<UsuarioZiPago> response = await oIUsuarioZiPagoService.AutenticarAsync(logger, entidad);
             

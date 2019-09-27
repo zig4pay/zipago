@@ -13,24 +13,25 @@ namespace ZREL.ZiPago.Aplicacion.Web.Utility
         
         public async static Task<bool> ReCaptchaPassed(string gRecaptchaResponse, string secret, Logger logger)
         {
-            HttpClient httpClient = new HttpClient();
+            HttpClient httpClient = new HttpClient();            
 
             try
             {
+                logger.Info("[Aplicacion.Web.Utility.GoogleReCaptchaValidation.ReCaptchaPassed] | gRecaptchaResponse: [{0}] | Inicio.", gRecaptchaResponse);
                 var res = httpClient.GetAsync($"https://www.google.com/recaptcha/api/siteverify?secret={secret}&response={gRecaptchaResponse}").Result;
+
                 if (res.StatusCode != HttpStatusCode.OK)
                 {
-                    logger.Error("Error al enviar request a Google ReCaptcha.");
+                    logger.Error("[Aplicacion.Web.Utility.GoogleReCaptchaValidation.ReCaptchaPassed] | Error: [Error al enviar request a Google ReCaptcha - HttpStatusCode {0}]", res.StatusCode.ToString());
                     return false;
                 }
 
                 string JSONres = await res.Content.ReadAsStringAsync();
-                logger.Info("ReCaptchaPassed1: JSONres[" + JSONres + "]");
-
+                logger.Info("[Aplicacion.Web.Utility.GoogleReCaptchaValidation.ReCaptchaPassed] | Response Site Verify: [{0}]", JSONres);
+                
                 ResponseGoogleReCaptcha response = new ResponseGoogleReCaptcha();
                 response = JsonConvert.DeserializeObject<ResponseGoogleReCaptcha>(JSONres);
-                logger.Info("ReCaptchaPassed2: JSONres[" + JSONres + "]");
-
+                
                 if (!response.Success)
                 {
                     return false;
@@ -38,12 +39,10 @@ namespace ZREL.ZiPago.Aplicacion.Web.Utility
             }
             catch (Exception ex)
             {
-                logger.Error(ex.ToString);
+                logger.Error("[Aplicacion.Web.Utility.GoogleReCaptchaValidation.ReCaptchaPassed] | Excepcion: [{0}].", ex.ToString());
                 return false;
             }
-
             return true;
-
         }
 
     }

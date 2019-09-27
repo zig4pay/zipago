@@ -114,27 +114,32 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
         public async Task<IResponse> RegistrarAsync(Logger logger, DatosPersonalesRequest request)
         {
             var response = new Response();
-            string codRubro;
-            
+            string codRubro = "";            
+
             logger.Info("[{0}] | UsuarioZiPago: [{1}] | Inicio.", nameof(RegistrarAsync));
 
             using (var txAsync = await DbContext.Database.BeginTransactionAsync())
             {
                 try
                 {
-                    if (!string.IsNullOrEmpty(request.OtroRubroNegocio) &&
-                        !await tdService.VerificarExisteTablaDetalleAsync(logger, Constantes.strCodTablaRubroNegocio, request.OtroRubroNegocio)) {
+                    if (!string.IsNullOrEmpty(request.OtroRubroNegocio)) {
 
-                        codRubro = await tdService.ObtenerMaxTablaDetalleAsync(logger, Constantes.strCodTablaRubroNegocio);
-                        codRubro = Convert.ToString(Convert.ToInt32(codRubro) + 1).PadLeft(3, '0');
+                        TablaDetalle rubro = await tdService.VerificarExisteTablaDetalleAsync(logger, Constantes.strCodTablaRubroNegocio, request.OtroRubroNegocio);
 
-                        TablaDetalle td = new TablaDetalle {
-                            Cod_Tabla = Constantes.strCodTablaRubroNegocio,
-                            Valor = codRubro,
-                            Descr_Valor = request.OtroRubroNegocio
-                        };
+                        if(rubro == null || string.IsNullOrWhiteSpace(rubro.Cod_Tabla))
+                        {
+                            codRubro = await tdService.ObtenerMaxTablaDetalleAsync(logger, Constantes.strCodTablaRubroNegocio);
+                            codRubro = Convert.ToString(Convert.ToInt32(codRubro) + 1).PadLeft(3, '0');
 
-                        DbContext.TablasDetalle.Add(td);
+                            rubro = new TablaDetalle
+                            {
+                                Cod_Tabla = Constantes.strCodTablaRubroNegocio,
+                                Valor = codRubro,
+                                Descr_Valor = request.OtroRubroNegocio
+                            };
+                        }
+
+                        DbContext.TablasDetalle.Add(rubro);
                         request.EntidadUsuario.CodigoRubroNegocio = codRubro;
                     }
 

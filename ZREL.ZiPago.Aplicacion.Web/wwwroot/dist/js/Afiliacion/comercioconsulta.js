@@ -1,30 +1,18 @@
 ﻿jQuery(function ($) {
 
-    $(document).bind('contextmenu', function(e){
-        return false;
-    });
-
     $('#btnCancelar').click(function(){
         LimpiarFormulario();
     });
 
     $('#btnConsultar').click(function(){
-        ConsultarComercios();        
+        ConsultarComercios();
     });
 
     $(document).ready(function(){
-
-        $('#numerocuenta').keypress(PermitirSoloNumeros);       
-
+        $('#numerocuenta').keypress(PermitirSoloNumeros);
     });
 
 });
-
-function PermitirSoloNumeros(e){
-    if (e.which !== 8 && e.which !== 0 && (e.which < 48 || e.which > 57)) {
-        return false;
-    }
-}
 
 function LimpiarFormulario() {
     $('#codigocomercio').val('');

@@ -8,7 +8,7 @@ namespace ZREL.ZiPago.Negocio.Contracts
     public interface ITablaDetalleService : IService
     {
         Task<ListResponse<TablaDetalle>> ListarTablaDetalleAsync(Logger logger, string CodTabla);
-        Task<bool> VerificarExisteTablaDetalleAsync(Logger logger, string codTabla, string valor);
+        Task<TablaDetalle> VerificarExisteTablaDetalleAsync(Logger logger, string codTabla, string valor);
         Task<string> ObtenerMaxTablaDetalleAsync(Logger logger, string CodTabla);
     }
 }
