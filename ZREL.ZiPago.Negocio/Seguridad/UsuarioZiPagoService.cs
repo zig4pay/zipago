@@ -75,48 +75,55 @@ namespace ZREL.ZiPago.Negocio.Seguridad
         public async Task<ISingleResponse<UsuarioZiPago>> RegistrarAsync(Logger logger, UsuarioZiPago entidad)
         {
             var response = new SingleResponse<UsuarioZiPago>();
-            logger.Info("[Negocio.Seguridad.UsuarioZiPagoService.{0}] | UsuarioZiPago: [{1}] | Inicio.", nameof(RegistrarAsync), entidad.Clave1);
+            logger.Info("[Negocio.Seguridad.UsuarioZiPagoService.RegistrarAsync] | UsuarioZiPago: [{0}] | Inicio.", entidad.Clave1);
 
-            using (var txAsync = await DbContext.Database.BeginTransactionAsync())
+            try
             {
-                try
+                response.Model = await DbContext.ObtenerUsuarioZiPagoAsync(entidad.Clave1);
+
+                if (response.Model is null || response.Model.IdUsuarioZiPago == 0)
                 {
-                    response.Model = await DbContext.ObtenerUsuarioZiPagoAsync(entidad.Clave1);
-
-                    if (response.Model is null || response.Model.IdUsuarioZiPago == 0)
+                    using (var txAsync = await DbContext.Database.BeginTransactionAsync())
                     {
-                        entidad.EstadoRegistro = Constantes.strEstadoRegistro_Nuevo;
-                        entidad.Activo = Constantes.strValor_Activo;
-                        entidad.FechaCreacion = DateTime.Now;
-                        DbContext.Add(entidad);
+                        try
+                        {
+                            entidad.EstadoRegistro = Constantes.strEstadoRegistro_Nuevo;
+                            entidad.Activo = Constantes.strValor_Activo;
+                            entidad.FechaCreacion = DateTime.Now;
 
-                        await DbContext.SaveChangesAsync();
-                        txAsync.Commit();
-                        response.Mensaje = Constantes.strEstadoRegistro_Nuevo;
-                        logger.Info("[Negocio.Seguridad.UsuarioZiPagoService.{0}] | UsuarioZiPago: [{1}] | Transaccion realizada.", nameof(RegistrarAsync), entidad.Clave1);
+                            DbContext.Add(entidad);
+                            await DbContext.SaveChangesAsync();
+                            txAsync.Commit();
 
-                        response.Model = await DbContext.ObtenerUsuarioZiPagoAsync(entidad.Clave1);
-                        response.Model.Clave2 = "";                        
-                        logger.Info("[Negocio.Seguridad.UsuarioZiPagoService.{0}] | UsuarioZiPago: [{1}] | Obtener usuario registrado.", nameof(RegistrarAsync), entidad.Clave1);
+                            entidad.Clave2 = string.Empty;
+                            response.Mensaje = Constantes.RegistroUsuario.UsuarioRegistradoCorrectamente.ToString();                            
+                            logger.Info("[Negocio.Seguridad.UsuarioZiPagoService.RegistrarAsync] | UsuarioZiPago: [{0}] | Transaccion realizada.", JsonConvert.SerializeObject(entidad));
 
-                    }
-                    else
-                    {
-                        txAsync.Rollback();
-                        response.HizoError = true;
-                        response.Model.Clave2 = "";
-                        response.MensajeError = string.Format(Constantes.strMensajeUsuarioYaExiste, response.Model.Clave1.Trim());
-                        logger.Info("[Negocio.Seguridad.UsuarioZiPagoService.{0}] | UsuarioZiPago: [{1}] | Id ZiPago ya se encuentra registrado.", nameof(RegistrarAsync), entidad.Clave1);
+                            response.Model = await DbContext.ObtenerUsuarioZiPagoAsync(entidad.Clave1);
+                            response.Model.Clave2 = "";
+                            logger.Info("[Negocio.Seguridad.UsuarioZiPagoService.RegistrarAsync] | UsuarioZiPago: [{0}] | Obtener usuario registrado.", JsonConvert.SerializeObject(response.Model));
+                        }
+                        catch (Exception ex)
+                        {
+                            txAsync.Rollback();
+                            throw ex;
+                        }
                     }
                 }
-                catch (Exception ex)
+                else
                 {
-                    txAsync.Rollback();
-                    response.Model = null;
-                    response.Mensaje = Constantes.strMensajeUsuarioError;
-                    response.SetError(logger, "Negocio.Seguridad.UsuarioZiPagoService.RegistrarAsync", nameof(UsuarioZiPago), ex);
+                    response.HizoError = false;
+                    response.Model.Clave2 = string.Empty;
+                    response.Mensaje = Constantes.RegistroUsuario.UsuarioYaExiste.ToString();
+                    logger.Warn("[Negocio.Seguridad.UsuarioZiPagoService.RegistrarAsync] | UsuarioZiPago: [{0}] | Id ZiPago ya se encuentra registrado.", JsonConvert.SerializeObject(response.Model));
                 }
             }
+            catch (Exception ex)
+            {
+                response.Model = null;
+                response.Mensaje = Constantes.RegistroUsuario.ErrorAlRegistrar.ToString();
+                response.SetError(logger, "Negocio.Seguridad.UsuarioZiPagoService.RegistrarAsync", "UsuarioZiPago - " + JsonConvert.SerializeObject(entidad) , ex);
+            }                                 
 
             return response;
         }

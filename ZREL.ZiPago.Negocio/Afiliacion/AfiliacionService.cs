@@ -126,7 +126,7 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
 
                         TablaDetalle rubro = await tdService.VerificarExisteTablaDetalleAsync(logger, Constantes.strCodTablaRubroNegocio, request.OtroRubroNegocio);
 
-                        if(rubro == null || string.IsNullOrWhiteSpace(rubro.Cod_Tabla))
+                        if (rubro == null || string.IsNullOrWhiteSpace(rubro.Cod_Tabla))
                         {
                             codRubro = await tdService.ObtenerMaxTablaDetalleAsync(logger, Constantes.strCodTablaRubroNegocio);
                             codRubro = Convert.ToString(Convert.ToInt32(codRubro) + 1).PadLeft(3, '0');
@@ -137,14 +137,16 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
                                 Valor = codRubro,
                                 Descr_Valor = request.OtroRubroNegocio
                             };
+                            DbContext.TablasDetalle.Add(rubro);
+                            request.EntidadUsuario.CodigoRubroNegocio = codRubro;
                         }
-
-                        DbContext.TablasDetalle.Add(rubro);
-                        request.EntidadUsuario.CodigoRubroNegocio = codRubro;
+                        else {
+                            request.EntidadUsuario.CodigoRubroNegocio = rubro.Valor;
+                        }                        
                     }
 
                     request.EntidadUsuario.EstadoRegistro = 
-                        request.EntidadUsuario.EstadoRegistro == Constantes.strEstadoRegistro_Nuevo ? Constantes.strEstadoRegistro_Registrado : Constantes.strEstadoRegistro_Actualizado;
+                        request.EntidadUsuario.EstadoRegistro == Constantes.strEstadoRegistro_Nuevo ? Constantes.strEstadoRegistro_ConDatosPersonales : Constantes.strEstadoRegistro_DatosActualizados;
 
                     DbContext.Attach(request.EntidadUsuario);
                     DbContext.Entry(request.EntidadUsuario).Property("CodigoRubroNegocio").IsModified = true;

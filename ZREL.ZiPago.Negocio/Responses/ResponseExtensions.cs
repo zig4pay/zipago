@@ -4,11 +4,11 @@ namespace ZREL.ZiPago.Negocio.Responses
 {
     public static class ResponseExtensions
     {
-        public static void SetError(this IResponse response, NLog.Logger logger, string mensaje, string entityName, Exception ex)
+        public static void SetError(this IResponse response, NLog.Logger logger, string ruta, string datos, Exception ex)
         {
             response.HizoError = true;
             response.MensajeError = ex.Message;
-            logger.Error("[{0}] | {1} | Excepcion: {2}.", mensaje, entityName, ex.ToString());
+            logger.Error("[{0}] | {1} | Exception: {2} - InnerException: {3}.", ruta, datos, ex.ToString(), ex.InnerException.ToString() ?? string.Empty);
         }
     }
 }

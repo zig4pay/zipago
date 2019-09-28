@@ -42,13 +42,12 @@ namespace ZREL.ZiPago.Sitio.Web.Controllers
             var logger = NLog.LogManager.GetCurrentClassLogger();
             ViewData["ReCaptchaKey"] = webSettings.Value.SiteKey;
 
-            logger.Info("[Sitio.Web.Controllers.SeguridadController.{0}] | UsuarioViewModel: [{1}] | Inicio.", nameof(UsuarioRegistrar), model.Clave1);
+            logger.Info("[Sitio.Web.Controllers.SeguridadController.UsuarioRegistrar] | UsuarioZiPago: [{1}] | Inicio.", model.Clave1);
 
             try
             {
                 if (ModelState.IsValid)
                 {
-
                     if (await GoogleReCaptchaValidation.ReCaptchaPassed(
                                 Request.Form["g-recaptcha-response"],
                                 webSettings.Value.SecretKey,
@@ -58,29 +57,29 @@ namespace ZREL.ZiPago.Sitio.Web.Controllers
                     {
                         model.Clave2 = Criptografia.Encriptar(model.Clave2);
                         model.AceptoTerminos = Constantes.strUsuarioZiPago_AceptoTerminos;
+
                         var requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.UsuarioZiPago_Registrar));
                         response = await ApiClientFactory.Instance.PostAsync<UsuarioViewModel>(requestUrl, model);
 
                         if (!response.HizoError)
-                        {                            
-                            logger.Info("[Sitio.Web.Controllers.SeguridadController.{0}] | UsuarioViewModel: [{1}] | Registro Realizado.", nameof(UsuarioRegistrar), model.Clave1);
-                            var mensaje = EnviarCorreo(response.Model);
+                        {
+                            logger.Info("[Sitio.Web.Controllers.SeguridadController.UsuarioRegistrar] | UsuarioZiPago: [{0}] | {1}.", response.Model.Clave1, response.Mensaje);
+                            EnviarCorreo(response.Model);
                             return Redirect(webSettings.Value.ZZiPagoPortalUrl);
-
                         }
                         else
                         {
                             ViewBag.Incorrecto = true;
                             ViewBag.MensajeError = response.MensajeError;
-                            logger.Error("Sitio.Web.Controllers.SeguridadController.[{0}] | UsuarioViewModel: [{1}] | Error: " + response.MensajeError, nameof(UsuarioRegistrar), model.Clave1);
+                            logger.Error("[Sitio.Web.Controllers.SeguridadController.UsuarioRegistrar] | UsuarioZiPago: [{0}] | Error: {1}", model.Clave1, response.MensajeError);
                             return View("~/Views/Seguridad/Registro.cshtml");
-                        }                        
+                        }
                     }
                     else
                     {
                         ViewBag.Incorrecto = true;
                         ViewBag.MensajeError = Constantes.strMensajeErrorValidarCaptcha;
-                        logger.Error("[Sitio.Web.Controllers.SeguridadController.{0}] | UsuarioViewModel: [{1}] | Error: " + Constantes.strMensajeErrorValidarCaptcha, nameof(UsuarioRegistrar), model.Clave1);
+                        logger.Error("[Sitio.Web.Controllers.SeguridadController.UsuarioRegistrar] | UsuarioZiPago: [{0}] | Error: {1}", model.Clave1, Constantes.strMensajeErrorValidarCaptcha);
                         return View("~/Views/Seguridad/Registro.cshtml");
                     }
                 }
@@ -88,15 +87,15 @@ namespace ZREL.ZiPago.Sitio.Web.Controllers
                 {
                     ViewBag.Incorrecto = true;
                     ViewBag.MensajeError = Constantes.strMensajeDatosIncorrectos;
-                    logger.Error("[Sitio.Web.Controllers.SeguridadController.{0}] | UsuarioViewModel: [{1}] | Error: " + Constantes.strMensajeDatosIncorrectos, nameof(UsuarioRegistrar), model.Clave1);
+                    logger.Error("[Sitio.Web.Controllers.SeguridadController.UsuarioRegistrar] | UsuarioZiPago: [{0}] | Error: {1}", model.Clave1, Constantes.strMensajeDatosIncorrectos);
                     return View("~/Views/Seguridad/Registro.cshtml");
                 }
             }
             catch (Exception ex)
             {
                 ViewBag.Incorrecto = true;
-                ViewBag.MensajeError = ex.ToString();
-                logger.Error("[Sitio.Web.Controllers.SeguridadController.UsuarioRegistrar] | UsuarioViewModel: [{1}] | Excepcion: {2}.", nameof(UsuarioRegistrar), model.Clave1, ex.ToString());
+                ViewBag.MensajeError = ex.Message;
+                logger.Error("[Sitio.Web.Controllers.SeguridadController.UsuarioRegistrar] | UsuarioZiPago: [{0}] | Excepcion: {1} - InnerException: {2}.", model.Clave1, ex.ToString(), ex.InnerException.ToString() ?? string.Empty);
                 return View("~/Views/Seguridad/Registro.cshtml");
             }
 
@@ -106,9 +105,10 @@ namespace ZREL.ZiPago.Sitio.Web.Controllers
             return Redirect(webSettings.Value.ZZiPagoPortalUrl);
         }
 
-        private string EnviarCorreo(UsuarioViewModel usuario) {
-            
-            string respuesta = "";            
+        private bool EnviarCorreo(UsuarioViewModel usuario) {
+
+            bool respuesta = false;    
+            string mensaje = string.Empty;            
             var logger = NLog.LogManager.GetCurrentClassLogger();
             Libreria.Mail.Manage mail = new Libreria.Mail.Manage();
             Libreria.Mail.Settings mailsettings = new Libreria.Mail.Settings();
@@ -116,23 +116,27 @@ namespace ZREL.ZiPago.Sitio.Web.Controllers
             try
             {
                 configuration.GetSection("ZRELZiPagoMail").Bind(mailsettings);
-                respuesta = mail.Enviar(usuario.NombresUsuario + " " + usuario.ApellidosUsuario,
+                mensaje = mail.Enviar(usuario.NombresUsuario + " " + usuario.ApellidosUsuario,
                                         usuario.Clave1,
                                         configuration.GetValue<string>("ZRELZiPagoCuerpoMailRegistro:Asunto"),
                                         configuration.GetValue<string>("ZRELZiPagoCuerpoMailRegistro:Mensaje").Replace("clave1", usuario.Clave1).Replace("clave2", usuario.Clave2),
                                         mailsettings);
-                if (respuesta.Trim().Length > 0)                
-                    logger.Error("[Sitio.Web.Controllers.SeguridadController.EnviarCorreo] | UsuarioViewModel: [{0}] | Mensaje: {1}.", nameof(UsuarioRegistrar), usuario.Clave1, respuesta);
-                
+                if (mensaje.Trim().Length > 0)
+                {                    
+                    logger.Error("[Sitio.Web.Controllers.SeguridadController.EnviarCorreo] | UsuarioZiPago: [{0}] | Mensaje: {1}.", usuario.Clave1, mensaje);
+                }
+                else
+                {
+                    respuesta = true;
+                    logger.Info("[Sitio.Web.Controllers.SeguridadController.EnviarCorreo] | UsuarioZiPago: [{0}] | {1}.", usuario.Clave1, Constantes.strMensajeEnvioMail);
+                }                    
             }
             catch (Exception ex)
             {
-                respuesta = ex.ToString();
-                logger.Error("[Sitio.Web.Controllers.SeguridadController.EnviarCorreo] | UsuarioViewModel: [{0}] | Excepcion: {1}.", nameof(UsuarioRegistrar), usuario.Clave1, ex.ToString());
+                respuesta = false;
+                logger.Error("[Sitio.Web.Controllers.SeguridadController.EnviarCorreo] | UsuarioZiPago: [{0}] | Excepcion: {1}.", usuario.Clave1, ex.ToString());
             }
-
             return respuesta;
-
         }
 
     }

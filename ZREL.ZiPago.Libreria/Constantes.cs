@@ -2,7 +2,12 @@
 {
     public static class Constantes
     {
-
+        public enum RegistroUsuario {
+            UsuarioRegistradoCorrectamente = 1,
+            UsuarioYaExiste = 2,
+            ErrorAlRegistrar = 3
+        }
+        
         //[TD_TABLA_TABLAS]
         public const string strCodTablaRubroNegocio = "RUBRO_NEGOCIO";
 
@@ -20,23 +25,26 @@
         public const string strValor_NoActivo = "N";
 
         //SEGURIDAD_USUARIO_REGISTRAR
-        public const string strMensajeUsuarioIncorrecto = "El usuario o contrasena ingresados son incorrectos.";
-        public const string strMensajeUsuarioRegistrado = "Usuario registrado correctamente.";
-        public const string strMensajeUsuarioNoRegistrado = "El Usuario ingresado no existe.";
-        public const string strMensajeUsuarioYaExiste = "El Id ZiPago {0} ya se encuentra registrado. Intente registrarse con otra cuenta de correo electronico.";
+        public const string strMensajeUsuarioIncorrecto = "El usuario o contraseña ingresados son incorrectos.";
+        public const string strMensajeUsuarioRegistroCorrecto = "Usuario registrado correctamente.";
+        public const string strMensajeUsuarioNoRegistrado = "El Usuario ingresado no se encuentra registrado.";
+        public const string strMensajeUsuarioYaExiste = "El Id ZiPago {0} ya se encuentra registrado. Intente registrarse con otra cuenta de correo electrónico.";
         public const string strMensajeUsuarioError = "Error al intentar registrar el usuario.";
         public const string strMensajeErrorValidarCaptcha = "No hemos podido validar que no seas un robot.";
         public const string strMensajeDatosIncorrectos = "No se ha ingresado correctamente todos los datos solicitados.";
+        public const string strMensajeEnvioMail = "Envio de correo electrónico realizado.";
+        public const string strMensajeErrorEnvioMail = "No se pudo realizar el envio del correo electrónico.";
 
-        public const string strMensajeContrasenaRestablecida = "La contrasena ha sido restablecida correctamente.";
-        public const string strMensajeErrorRestablecerContrasena = "No se pudo restablecer la contasena, por favor intente en unos minutos.";
-        public const string strMensajeEnvioEnlace = "Se realizo el envio de un enlace a su correo electronico para que pueda restablecer su contrasena.";
-        public const string strMensajeErrorEnvioEnlace = "No se pudo enviar a su correo electronico el procedimiento para que pueda restablecer su contrasena, por favor intente en unos minutos.";
 
-        public const string strUsuarioZiPago_AceptoTerminos = "S";
+        public const string strMensajeContrasenaRestablecida = "La contraseña ha sido restablecida correctamente.";
+        public const string strMensajeErrorRestablecerContrasena = "No se pudo restablecer la contraseña, por favor intente en unos minutos.";
+        public const string strMensajeEnvioEnlace = "Se realizo el envio de un enlace a su correo electrónico para que pueda restablecer su contraseña.";
+        public const string strMensajeErrorEnvioEnlace = "No se pudo enviar a su correo electrónico el procedimiento para que pueda restablecer su contraseña, por favor intente en unos minutos.";
+
+        public const string strUsuarioZiPago_AceptoTerminos = "S";        
         public const string strEstadoRegistro_Nuevo = "N";
-        public const string strEstadoRegistro_Registrado = "R";
-        public const string strEstadoRegistro_Actualizado = "A";
+        public const string strEstadoRegistro_ConDatosPersonales = "R";
+        public const string strEstadoRegistro_DatosActualizados = "A";
 
         //UBIGEO
         public const string strUbigeoZiPago_Departamentos = "00";
