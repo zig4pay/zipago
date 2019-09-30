@@ -64,13 +64,23 @@ namespace ZREL.ZiPago.Sitio.Web.Controllers
                         if (!response.HizoError)
                         {
                             logger.Info("[Sitio.Web.Controllers.SeguridadController.UsuarioRegistrar] | UsuarioZiPago: [{0}] | {1}.", response.Model.Clave1, response.Mensaje);
-                            EnviarCorreo(response.Model);
-                            return Redirect(webSettings.Value.ZZiPagoPortalUrl);
+                            if (response.Mensaje == Constantes.RegistroUsuario.UsuarioRegistradoCorrectamente.ToString())
+                            {
+                                EnviarCorreo(response.Model);
+                                return Redirect(webSettings.Value.ZZiPagoPortalUrl);
+                            }
+                            else {
+                                ViewBag.Incorrecto = true;
+                                ViewBag.Mensaje = string.Format(Constantes.strMensajeUsuarioYaExiste, response.Model.Clave1);
+                                ViewBag.Tipo = "warning";
+                                return View("~/Views/Seguridad/Registro.cshtml");
+                            }
                         }
                         else
                         {
                             ViewBag.Incorrecto = true;
-                            ViewBag.MensajeError = response.MensajeError;
+                            ViewBag.Mensaje = response.MensajeError;
+                            ViewBag.Tipo = "error";
                             logger.Error("[Sitio.Web.Controllers.SeguridadController.UsuarioRegistrar] | UsuarioZiPago: [{0}] | Error: {1}", model.Clave1, response.MensajeError);
                             return View("~/Views/Seguridad/Registro.cshtml");
                         }

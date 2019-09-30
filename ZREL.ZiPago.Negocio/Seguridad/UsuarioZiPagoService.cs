@@ -103,10 +103,11 @@ namespace ZREL.ZiPago.Negocio.Seguridad
                             response.Model.Clave2 = "";
                             logger.Info("[Negocio.Seguridad.UsuarioZiPagoService.RegistrarAsync] | UsuarioZiPago: [{0}] | Obtener usuario registrado.", JsonConvert.SerializeObject(response.Model));
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
+                            response.Mensaje = Constantes.RegistroUsuario.ErrorAlRegistrar.ToString();
                             txAsync.Rollback();
-                            throw ex;
+                            throw;
                         }
                     }
                 }
