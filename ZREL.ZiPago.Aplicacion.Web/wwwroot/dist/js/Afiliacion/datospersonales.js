@@ -47,7 +47,7 @@
         });
 
         $.validator.addMethod("validarseleccion", function (value, element) {            
-            if (value === "" || value === "00" || value === "000" || value === "XX" || value === 0) {
+            if (value === "" || value === "0" || value === "00" || value === "000" || value === "XX" || value === 0) {
                 return false;
             } else {
                 return true;
@@ -127,13 +127,13 @@
                     required: true,
                     validaredad: true
                 },
-                departamento: {
+                CodigoDepartamento: {
                     validarseleccion: true
                 },
-                provincia: {
+                CodigoProvincia: {
                     validarseleccion: true
                 },
-                distrito: {
+                CodigoDistrito: {
                     validarseleccion: true
                 },
                 via: "required"
@@ -160,13 +160,13 @@
                 fechanacimiento: {
                     required: "Por favor ingrese una fecha valida"
                 },
-                departamento: {
+                CodigoDepartamento: {
                     validarseleccion: "Por favor seleccione el Departamento al cual pertenece la direccion."
                 },
-                provincia: {
+                CodigoProvincia: {
                     validarseleccion: "Por favor seleccione la Provincia a la cual pertenece la direccion."
                 },
-                distrito: {
+                CodigoDistrito: {
                     validarseleccion: "Por favor seleccione el Distrito al cual pertenece la direccion."
                 },
                 via: "Por favor ingrese una direccion"
@@ -201,10 +201,6 @@
             }
         });
 
-    });
-
-    $(document).bind("contextmenu", function (e) {
-        return false;
     });
 
     $(document).on('change', '[data-cascade-combo]', function (event) {

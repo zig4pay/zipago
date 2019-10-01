@@ -16,7 +16,7 @@ using ZREL.ZiPago.Aplicacion.Web.Models.Settings;
 using ZREL.ZiPago.Aplicacion.Web.Utility;
 using ZREL.ZiPago.Entidad.Afiliacion;
 using ZREL.ZiPago.Entidad.Comun;
-using ZREL.ZiPago.Entidad.Seguridad;
+
 using ZREL.ZiPago.Libreria;
 
 namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
@@ -45,24 +45,24 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
             {
                 //if (HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session") != null) {
 
-                    model.IdUsuarioZiPago = HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session").IdUsuarioZiPago;
+                model.IdUsuarioZiPago = User.GetLoggedInUserId<int>();
 
-                    requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.BancoZiPago_Listar));
-                    responseBanco = await ApiClientFactory.Instance.GetListAsync<BancoZiPago>(requestUrl);
-                    responseBanco.Model.Insert(0, new BancoZiPago { IdBancoZiPago = 0, NombreLargo = "Seleccione" });
-                    model.Bancos = responseBanco.Model;
+                requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.BancoZiPago_Listar));
+                responseBanco = await ApiClientFactory.Instance.GetListAsync<BancoZiPago>(requestUrl);
+                responseBanco.Model.Insert(0, new BancoZiPago { IdBancoZiPago = 0, NombreLargo = "Seleccione" });
+                model.Bancos = responseBanco.Model;
                     
-                    requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.TablaDetalle_Listar) + Constantes.strCodTablaTipoCuenta);
-                    responseTD = await ApiClientFactory.Instance.GetListAsync<TablaDetalle>(requestUrl);
-                    responseTD.Model.Insert(0, new TablaDetalle {Cod_Tabla = Constantes.strCodTablaTipoCuenta, Valor = "00", Descr_Valor = "Seleccione"});
-                    model.TipoCuentas = responseTD.Model;
+                requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.TablaDetalle_Listar) + Constantes.strCodTablaTipoCuenta);
+                responseTD = await ApiClientFactory.Instance.GetListAsync<TablaDetalle>(requestUrl);
+                responseTD.Model.Insert(0, new TablaDetalle {Cod_Tabla = Constantes.strCodTablaTipoCuenta, Valor = "00", Descr_Valor = "Seleccione"});
+                model.TipoCuentas = responseTD.Model;
 
-                    requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.TablaDetalle_Listar) + Constantes.strCodTablaTipoMoneda);
-                    responseTD = await ApiClientFactory.Instance.GetListAsync<TablaDetalle>(requestUrl);
-                    responseTD.Model.Insert(0, new TablaDetalle { Cod_Tabla = Constantes.strCodTablaTipoMoneda, Valor = "00", Descr_Valor = "Seleccione" });
-                    model.TipoMonedas = responseTD.Model;
+                requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.TablaDetalle_Listar) + Constantes.strCodTablaTipoMoneda);
+                responseTD = await ApiClientFactory.Instance.GetListAsync<TablaDetalle>(requestUrl);
+                responseTD.Model.Insert(0, new TablaDetalle { Cod_Tabla = Constantes.strCodTablaTipoMoneda, Valor = "00", Descr_Valor = "Seleccione" });
+                model.TipoMonedas = responseTD.Model;
 
-                    return View("~/Views/Afiliacion/CuentaBancaria/Consulta.cshtml", model);
+                return View("~/Views/Afiliacion/CuentaBancaria/Consulta.cshtml", model);
                 //}
                 //else
                 //{
@@ -132,9 +132,9 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
 
             try
             {
-                if (HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session") != null)
-                {
-                    model.IdUsuarioZiPago = HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session").IdUsuarioZiPago;
+                //if (HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session") != null)
+                //{
+                    model.IdUsuarioZiPago = User.GetLoggedInUserId<int>();
                     
                     requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.BancoZiPago_Listar));
                     responseBanco = await ApiClientFactory.Instance.GetListAsync<BancoZiPago>(requestUrl);
@@ -152,11 +152,11 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
                     model.TipoMonedas = responseTD.Model;
 
                     return View("~/Views/Afiliacion/CuentaBancaria/Registro.cshtml", model);
-                }
-                else
-                {
-                    return View("~/Views/Seguridad/Login.cshtml");
-                }
+                //}
+                //else
+                //{
+                //    return View("~/Views/Seguridad/Login.cshtml");
+                //}
             }
             catch (Exception)
             {

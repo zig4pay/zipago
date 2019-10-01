@@ -39,8 +39,7 @@ function ConsultarCuentas() {
 
     var $table = $('#tblcuentas');
 
-    $table.bootstrapTable('refreshOptions', {
-        url: "Listar",
+    $table.bootstrapTable('refreshOptions', {        
         showPaginationSwitch: false
     });
 

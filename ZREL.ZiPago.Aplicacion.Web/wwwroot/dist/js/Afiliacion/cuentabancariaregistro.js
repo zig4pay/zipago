@@ -1,71 +1,88 @@
 ﻿jQuery(function ($) {
 
-    $('#btnCancelar').click(function () {
+    $.validator.setDefaults({
+        highlight: function (element) {
+            $(element).closest('.form-control').addClass('has-error');
+        },
+        unhighlight: function (element) {
+            $(element).closest('.form-control').removeClass('has-error');
+        },
+        errorElement: 'span',
+        errorClass: 'help-block',
+        errorPlacement: function (error, element) {
+            if (element.parent('.form-group').length) {
+                error.insertAfter(element);
+            }
+            else if (element.prop('type') === 'radio') {
+                error.appendTo($('#divGroupSexo'));
+            }
+            else if (element.prop('type') === 'checkbox') {
+                error.appendTo(element.parent().parent());
+            }
+            else {
+                error.insertAfter(element);
+            }
+        }
+    });
+
+    $('#btnLimpiar').click(function () {
         LimpiarFormulario();
     });
 
     $(document).ready(function () {
+
+        $.validator.setDefaults({});
+
+        $.validator.addMethod("validarseleccion", function (value, element) {
+            if (value === "" || value === "0" || value === "00" || value === "000" || value === "XX" || value === 0) {
+                return false;
+            } else {
+                return true;
+            }
+        });
+
         $("#numerocuenta").keypress(PermitirSoloNumeros);
         $("#cci").keypress(PermitirSoloNumeros);
-    });
 
-    $('#btnAnadir').click(function () {
-        var banco = $("#idbancozipago").val();
-        var tipocuenta = $("#codigotipocuenta").val();
-        var moneda = $("#codigomoneda").val();
-        var numerocuenta = $("#numerocuenta").val();
-        var cci = $("#cci").val();
-
-        if (ValidarDatos(banco, tipocuenta, moneda, numerocuenta)) {
-            if (ValidarCuentasAgregadas(banco, tipocuenta, moneda, numerocuenta)) {
-                AgregarCuentas(banco, tipocuenta, moneda, numerocuenta, cci);
-            } else {
-                swal({
-                    title: "Alerta",
-                    text: "Los datos de la cuenta a ingresar ya han sido agregados a la lista.",
-                    type: "info",
-                    showCancelButton: false,
-                    confirmButtonClass: "btn-default",
-                    confirmButtonText: "Ok",
-                    closeOnConfirm: false
-                });
+        var validator = $('#frmRegistro').validate({
+            rules: {                
+                idbancozipago: {
+                    validarseleccion: true
+                },
+                codigotipocuenta: {
+                    validarseleccion: true
+                },
+                codigomoneda: {
+                    validarseleccion: true
+                },
+                numerocuenta: "required"
+            },
+            messages: {
+                idbancozipago: {
+                    validarseleccion: "Por favor seleccione el Banco al cual pertenece la Cuenta Bancaria."
+                },
+                codigotipocuenta: {
+                    validarseleccion: "Por favor seleccione el Tipo de Cuenta Bancaria."
+                },
+                codigomoneda: {
+                    validarseleccion: "Por favor seleccione el Tipo de Moneda de la Cuenta Bancaria."
+                },
+                numerocuenta: {
+                    required: "Por favor ingrese el Numero de la Cuenta Bancaria, sin guiones u otros caracteres."
+                }                
             }
-        } else {
-            swal({
-                title: "Alerta",
-                text: "Debe seleccionar un Banco, el Tipo de Cuenta, la Moneda e ingresar el Numero de Cuenta.",
-                type: "info",
-                showCancelButton: false,
-                confirmButtonClass: "btn-default",
-                confirmButtonText: "Ok",
-                closeOnConfirm: false
-            });
-        }
-    });
-
-    $(document).on('click', '.elimina', function (event) {
-        var nro = 0;
-
-        $(this).closest('tr').remove();
-        $("#tblCuentas tbody tr").each(function (index) {
-            nro++;
-            $(this).children("td").each(function (indextd) {
-                switch (indextd) {
-                    case 0:
-                        $(this).html(nro);
-                        break;
-                }
-            });
         });
     });
 
     $('#btnRegistrar').click(function () {
-        var filas = $("#tblCuentas tr").length;
+        var $valid = $('#frmRegistro').valid();
 
-        if (filas > 1) {
+        if (!$valid) {
+            return false;
+        } else {            
             swal({
-                title: "Desea registrar Cuentas Bancarias?",
-                text: "Se realizara el registro de " + (filas - 1) + " Comercio(s).",
+                title: "Registro de Cuenta Bancaria",
+                text: "Desea registrar los datos ingresados?",
                 type: "info",
                 showCancelButton: true,
                 confirmButtonClass: "btn-primary",
@@ -73,18 +90,8 @@
                 cancelButtonText: "No, cancelar",
                 closeOnConfirm: false
             },
-                function () {
-                    RegistrarCuentasBancarias();
-                });
-        } else {
-            swal({
-                title: "Alerta",
-                text: "Debe seleccionar un Banco, el Tipo de Cuenta, la Moneda e ingresar el Numero de Cuenta, luego presionar el boton Anadir.",
-                type: "warning",
-                showCancelButton: false,
-                confirmButtonClass: "btn-default",
-                confirmButtonText: "Ok",
-                closeOnConfirm: false
+            function () {
+                Registrar();
             });
         }
     });
@@ -99,99 +106,20 @@ function LimpiarFormulario() {
     $("#cci").val("");
 }
 
-function ValidarDatos(banco, tipocuenta, moneda, numerocuenta) {
-
-    if (banco === 0 || tipocuenta === "00" || moneda === "00" || numerocuenta === "") {
-        return false;
-    } else {
-        return true;
-    }
-
-}
-
-function ValidarCuentasAgregadas(banco, tipocuenta, moneda, cuenta) {
-    var result = true;
-
-    $("#tblCuentas tbody tr").each(function (index) {
-        var idBanco, idTipoCuenta, idMoneda, nroCuenta;
-
-        $(this).children("td").each(function (indextd) {
-            switch (indextd) {
-                case 1:
-                    idBanco = $(this).text();
-                    break;
-                case 3:
-                    idTipoCuenta = $(this).text();
-                    break;
-                case 5:
-                    idMoneda = $(this).text();
-                    break;
-                case 7:
-                    nroCuenta = $(this).text();
-                    break;
-            }
-            if (banco === idBanco && tipocuenta === idTipoCuenta && moneda === idMoneda && cuenta === nroCuenta) {
-                result = false;
-            }
-        });
-    });
-    return result;
-}
-
-function AgregarCuentas(banco, tipocuenta, moneda, cuenta, cci) {
-
-    var nro = $("#tblCuentas tr").length;
-
-    var htmlTags = '<tr>' +
-        '<td>' + nro + '</td>' +
-        '<td style="display:none;">' + banco + '</td>' +
-        '<td>' + $('select[name="idbancozipago"] option:selected').text() + '</td>' +
-        '<td style="display:none;">' + tipocuenta + '</td>' +
-        '<td>' + $('select[name="codigotipocuenta"] option:selected').text() + '</td>' +
-        '<td style="display:none;">' + moneda + '</td>' +
-        '<td>' + $('select[name="codigomoneda"] option:selected').text() + '</td>' +
-        '<td>' + cuenta + '</td>' +
-        '<td>' + cci + '</td>' +
-        '<td><a id="btnQuitarCta" class="btn btn-danger elimina"> Eliminar </a></td>' +
-        '</tr>';
-
-    $('#tblCuentas tbody').append(htmlTags);
-
-    LimpiarFormulario();
-}
-
-function RegistrarCuentasBancarias() {
+function Registrar() {
 
     var cuentas = new Array();
+    var cuentaBancaria = new Object();
 
-    $("#tblCuentas tbody tr").each(function (index) {
-
-        var cuentaBancaria = new Object();
-        cuentaBancaria.IdUsuarioZiPago = $("#idusuariozipago").val();
-
-        $(this).children("td").each(function (indextd) {
-            switch (indextd) {
-                case 1:
-                    cuentaBancaria.IdBancoZiPago = $(this).text();
-                    break;
-                case 3:
-                    cuentaBancaria.CodigoTipoCuenta = $(this).text();
-                    break;
-                case 5:
-                    cuentaBancaria.CodigoTipoMoneda = $(this).text();
-                    break;
-                case 7:
-                    cuentaBancaria.NumeroCuenta = $(this).text();
-                    break;
-                case 8:
-                    cuentaBancaria.CCI = $(this).text();
-                    break;
-            }
-        });
-        cuentas.push(cuentaBancaria);
-
-    });
-
+    cuentaBancaria.IdUsuarioZiPago = $("#idusuariozipago").val();
+    cuentaBancaria.IdBancoZiPago = $("#idbancozipago").val();    
+    cuentaBancaria.CodigoTipoCuenta = $("#codigotipocuenta").val();    
+    cuentaBancaria.CodigoTipoMoneda = $("#codigomoneda").val();    
+    cuentaBancaria.NumeroCuenta = $("#numerocuenta").val();    
+    cuentaBancaria.CCI = $("#cci").val();
+        
+    cuentas.push(cuentaBancaria);
+    
     var DTO = { 'cuentasBancarias': cuentas };
 
     $.ajax(
@@ -204,24 +132,26 @@ function RegistrarCuentasBancarias() {
     })
     .done(function (resp) {
         var content = JSON.parse(resp);
+
+        swal({
+            title: "Registro de Cuenta Bancaria",
+            text: content.hizoError ? "Ocurrio un error al registrar las Cuentas Bancarias. Por favor intentelo en unos minutos." : "Datos registrados correctamente.",
+            type: content.hizoError ? "error" : "success",
+            showCancelButton: false,
+            confirmButtonClass: "btn-default",
+            confirmButtonText: "Ok",
+            closeOnConfirm: false
+        }, function () {
+            window.location = "/CuentaBancaria/Index";
+        });
+
         if (!content.hizoError) {
-            $("#tblCuentas > tbody").html("");
-            swal("Cuentas Bancarias registradas correctamente", content.mensaje, "success");
-        } else {
-            swal({
-                title: "Error",
-                text: "Ocurrio un error al registrar las Cuentas Bancarias. Por favor intentelo en unos minutos.",
-                type: "error",
-                showCancelButton: false,
-                confirmButtonClass: "btn-default",
-                confirmButtonText: "Ok",
-                closeOnConfirm: false
-            });
+            LimpiarFormulario();
         }
     })
     .fail(function (err) {
         swal({
-            title: "Error",
+            title: "Registro de Cuenta Bancaria",
             text: "Ocurrio un error al registrar las Cuentas Bancarias. Por favor intentelo en unos minutos.",
             type: "error",
             showCancelButton: false,
@@ -229,5 +159,5 @@ function RegistrarCuentasBancarias() {
             confirmButtonText: "Ok",
             closeOnConfirm: false
         });
-    });    
+    });
 }

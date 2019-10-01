@@ -38,8 +38,7 @@ function ConsultarComercios() {
 
     var $table = $('#tblcomercios');    
 
-    $table.bootstrapTable('refreshOptions', {
-        url: "ListarComercios",
+    $table.bootstrapTable('refreshOptions', {        
         showPaginationSwitch: false
     });
 

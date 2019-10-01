@@ -5,7 +5,7 @@
 
 <section class="content-header">
     <h1>
-        Comercios
+        Cuentas Bancarias
         <small>Registro</small>
     </h1>
     <ol class="breadcrumb">
@@ -20,20 +20,22 @@
         <div class="col-md-12">
 
             <div class="box box-primary">
-                <div class="box-header with-border">
+                <div class="box-header">
                     <h3 class="box-title">Registro de Cuentas Bancarias</h3>
+                    <div class="box-tools">
+                        <a asp-controller="CuentaBancaria" asp-action="Index" id="btnCancelar" class="btn btn-default">
+                            <i class="fa fa-undo"></i>&nbsp;Cancelar
+                        </a>
+                    </div>
                 </div>
                 <div class="box-body">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="box box-widget">
                                 <div class="box-header">
-                                    <h3 class="box-title">Datos a registrar:</h3>
-                                    <div class="box-tools">
-                                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                                            <i class="fa fa-minus"></i>
-                                        </button>
-                                    </div>
+                                    <h3 class="box-title">Selecciona e ingresa los siguientes datos, luego haz clic en el boton <strong>Registrar:</strong></h3>
+                                    <br><br>
+                                    <small class="text-red">(*) Datos obligatorios.</small>
                                 </div>
                                 <div class="box-body">
 
@@ -42,44 +44,50 @@
                                             <form class="form-horizontal" id="frmRegistro" method="post">
                                                 <input id="idusuariozipago" name="idusuariozipago" type="hidden" asp-for="IdUsuarioZiPago" />
                                                 <div class="form-group">
-                                                    <h4>Selecciona e ingresa los siguientes datos, luego haz clic en el boton <strong>Añadir:</strong></h4>
-                                                </div>                                                
-                                                <div class="form-group">
-                                                    <label for="idbancozipago" class="col-sm-2">Banco:</label>
+                                                    <div class="col-sm-2">
+                                                        <label for="idbancozipago">Banco:</label><label class="text-red">&nbsp;*</label>
+                                                    </div>
                                                     <div class="col-sm-3">
                                                         <select id="idbancozipago" name="idbancozipago" asp-items="@(new SelectList(Model.Bancos,"IdBancoZiPago", "NombreLargo"))" class="form-control"></select>
-                                                    </div>
+                                                    </div>                                                                        
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label for="codigotipocuenta" class="col-sm-2">Tipo de Cuenta:</label>
+                                                    <div class="col-sm-2">
+                                                        <label for="codigotipocuenta">Tipo de Cuenta:</label><label class="text-red">&nbsp;*</label>
+                                                    </div>
                                                     <div class="col-sm-3">
                                                         <select id="codigotipocuenta" name="codigotipocuenta" asp-items="@(new SelectList(Model.TipoCuentas,"Valor", "Descr_Valor"))" class="form-control"></select>
+                                                    </div>                                                
+                                                    <div class="col-sm-2">
+                                                        <label for="codigomoneda">Moneda:</label><label class="text-red">&nbsp;*</label>
                                                     </div>
-
-                                                    <label for="codigomoneda" class="col-sm-2">Moneda:</label>
                                                     <div class="col-sm-3">
                                                         <select id="codigomoneda" name="codigomoneda" asp-items="@(new SelectList(Model.TipoMonedas,"Valor", "Descr_Valor"))" class="form-control"></select>
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label for="numerocuenta" class="col-sm-2">Numero de Cta. Bancaria:</label>
+                                                    <div class="col-sm-2">
+                                                        <label for="numerocuenta">Numero de Cta. Bancaria:</label><label class="text-red">&nbsp;*</label>
+                                                    </div>
                                                     <div class="col-sm-3">
                                                         <input id="numerocuenta" name="numerocuenta" type="text" class="form-control" placeholder="Nro. de Cta. Bancaria" maxlength="20">
+                                                    </div>                                                
+                                                    <div class="col-sm-2">
+                                                        <label for="cci" >Codigo de Cta. Interbancario - CCI:</label>
                                                     </div>
-
-                                                    <label for="cci" class="col-sm-2">Codigo de Cta. Interbancario - CCI:</label>
                                                     <div class="col-sm-3">
                                                         <input id="cci" name="cci" type="text" class="form-control" placeholder="Codigo CCI" maxlength="20">
                                                     </div>
-
-                                                    <div class="col-sm-2" style="text-align:right">
-                                                        <button type="button" id="btnCancelar" class="btn btn-default">
-                                                            <i class="fa fa-undo"></i>&nbsp;Cancelar
+                                                    <div class="col-sm-1" style="text-align:right">
+                                                        <button type="button" id="btnLimpiar" class="btn btn-default">
+                                                            <i class="fa fa-eraser"></i>&nbsp;Limpiar
                                                         </button>
-                                                        <button type="button" id="btnAnadir" class="btn btn-primary">
-                                                            <i class="fa fa-plus"></i>&nbsp;Anadir
+                                                    </div>
+                                                    <div class="col-sm-1">
+                                                        <button type="button" id="btnRegistrar" class="btn btn-primary">
+                                                            <i class="fa fa-save"></i>&nbsp;Registrar
                                                         </button>
                                                     </div>
                                                 </div>
@@ -91,40 +99,6 @@
 
                             </div>
 
-                            <div class="box box-widget">
-                                <div class="box-header">
-                                    <h3 class="box-title">Cuentas Bancarias a registrar:</h3>
-                                </div>
-                                <div class="box-body">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <table id="tblCuentas" class="table table-hover">
-                                                <thead>
-                                                    <tr>
-                                                        <th scope="col">Nro.</th>
-                                                        <th scope="col" style="display:none;">CodigoBanco</th>
-                                                        <th scope="col">Banco</th>
-                                                        <th scope="col" style="display:none;">CodigoTipoCuenta</th>
-                                                        <th scope="col">Tipo de Cuenta</th>
-                                                        <th scope="col" style="display:none;">CodigoMoneda</th>
-                                                        <th scope="col">Moneda</th>
-                                                        <th scope="col">Numero de Cuenta</th>
-                                                        <th scope="col">Codigo Cta. Interbancario - CCI</th>
-                                                        <th scope="col">Eliminar</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody></tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="box-footer">
-                                    <button type="button" id="btnRegistrar" name="btnRegistrar" class="btn btn-success pull-right">
-                                        <i class="fa fa-save"></i>&nbsp;Registrar
-                                    </button>
-                                </div>
-
-                            </div>
                         </div>
                     </div>
                 </div>

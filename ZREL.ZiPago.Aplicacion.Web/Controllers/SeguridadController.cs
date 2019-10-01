@@ -96,14 +96,20 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
                             else
                             {
                                 ModelState.AddModelError("ErrorLogin", response.Mensaje);
-                                logger.Info("[Aplicacion.Web.Controllers.SeguridadController.UsuarioAutenticar] | UsuarioZiPago: [{0}] | {1}", model.Clave1, response.MensajeError);
+                                logger.Info("[Aplicacion.Web.Controllers.SeguridadController.UsuarioAutenticar] | UsuarioZiPago: [{0}] | {1}", model.Clave1, response.Mensaje);
                             }
-                            return RedirectToAction("UsuarioAutenticar", "Seguridad");
+                            //return RedirectToAction("UsuarioAutenticar", "Seguridad");
+                            ViewData["ReCaptchaKey"] = webSettings.Value.SiteKey;
+                            //ViewData["Post"] = false;
+                            //ViewData["HizoError"] = false;
+                            //ViewData["Mensaje"] = string.Empty;
+                            return View("~/Views/Seguridad/Login.cshtml");
                         }
                     }
                     else
                     {
-                        logger.Warn("[Aplicacion.Web.Controllers.SeguridadController.UsuarioAutenticar] | UsuarioZiPago: [{0}] | {1}", model.Clave1, response.MensajeError);
+                        ModelState.AddModelError("ErrorLogin", Constantes.strMensajeErrorValidarCaptcha);
+                        logger.Warn("[Aplicacion.Web.Controllers.SeguridadController.UsuarioAutenticar] | UsuarioZiPago: [{0}] | {1}", model.Clave1, Constantes.strMensajeErrorValidarCaptcha);
                         return RedirectToAction("UsuarioAutenticar", "Seguridad");
                     }                    
                 }

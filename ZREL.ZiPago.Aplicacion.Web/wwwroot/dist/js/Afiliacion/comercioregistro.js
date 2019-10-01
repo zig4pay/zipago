@@ -15,55 +15,6 @@
         return respuesta;
     }, "Por favor primero seleccione un Banco y a continuacion seleccione una Cuenta Bancaria.");
     
-    $('#btnCancelar').click(function () {
-        LimpiarFormulario();        
-    });
-
-    $('#btnAnadir').click(function () {
-        var form = $("#frmRegistro");
-        $("#comercioexiste").hide();
-        form.validate();
-        if (form.valid()) {
-            VerificaExisteComercio();
-        }
-    });
-
-    $(document).on('click', '.elimina', function (event) {
-        var nro = 0;
-        $(this).closest('tr').remove();
-        $("#tblComercios tbody tr").each(function (index) {
-            nro++;
-            $(this).children("td").each(function (indextd) {
-                switch (indextd) {
-                    case 0:
-                        $(this).html(nro);
-                        break;
-                }
-            });
-        });
-    });
-
-    $('#btnRegistrar').click(function () {
-
-        var filas = $("#tblComercios tr").length;
-
-        if (filas > 1) {            
-            swal({
-                title: "Desea registrar los Comercios?",
-                text: "Se realizara el registro de " + (filas - 1) + " Comercio(s).",
-                type: "info",
-                showCancelButton: true,
-                confirmButtonClass: "btn-primary",
-                confirmButtonText: "Si, registrar",
-                cancelButtonText: "No, cancelar",
-                closeOnConfirm: false
-                },
-                function () {
-                    RegistrarComercios();
-                });
-        }
-
-    });
     
     $(document).ready(function () {
         
@@ -102,8 +53,36 @@
                 });
             });
         });
+                
+    });
+
+    $('#btnLimpiar').click(function () {
+        LimpiarFormulario();
+    });
+
+    $('#btnRegistrar').click(function () {
+        var $valid = $('#frmRegistro').valid();
+
+        if (!$valid) {
+            return false;
+        } else {
+            swal({
+                title: "Registro de Comercio",
+                text: "Desea registrar los datos ingresados?",
+                type: "info",
+                showCancelButton: true,
+                confirmButtonClass: "btn-primary",
+                confirmButtonText: "Si, registrar",
+                cancelButtonText: "No, cancelar",
+                closeOnConfirm: false
+            },
+                function () {
+                    Registrar();
+                });
+        }
 
     });
+
 
 });
 
@@ -159,75 +138,23 @@ function VerificaExisteComercio() {
         });
 }
 
-function ValidarComercios() {
-
-    var result = true;
-    var codigocomercio;
-
-    $("#tblComercios tbody tr").each(function (index) {
-
-        $(this).children("td").each(function (indextd) {
-            switch (indextd) {
-                case 1:
-                    codigocomercio = $(this).text();
-                    break;
-            }
-            if ($("#codigocomercio").val() === codigocomercio) {
-                result = false;
-            }            
-        });
-    });
-    return result;
-}
-
-function AgregarComercios() {
-
-    var nro = $("#tblComercios tr").length;
-
-    var htmlTags =  '<tr>' +
-                        '<td>' + nro + '</td>' +        
-                        '<td>' + $("#codigocomercio").val().toUpperCase() + '</td>' +
-                        '<td>' + $("#descripcioncomercio").val() + '</td>' +
-                        '<td>' + $("#correonotificacion").val() + '</td>' +
-                        '<td>' + $('select[name="idbancozipago"] option:selected').text() + '</td>' +
-                        '<td style="display:none;">' + $("#cuentasxbanco").val() + '</td>' +        
-                        '<td>' + $('select[name="cuentasxbanco"] option:selected').text() + '</td>' +
-                        '<td><a id="btnQuitarComercio" class="btn btn-danger elimina"> Quitar </a></td>' +
-                    '</tr>';
-
-    $('#tblComercios tbody').append(htmlTags);
-    LimpiarFormulario();
-
-}
-
-function RegistrarComercios() {
+function Registrar() {
 
     var comercios = new Array();
-
-    $("#tblComercios tbody tr").each(function (index) {        
-        var comercio = new Object();
+    var comercio = new Object();
         
         comercio.IdUsuarioZiPago = $('#idusuariozipago').val();
-        $(this).children("td").each(function (indextd) {
-            switch (indextd) {
-                case 1:
+        
                     comercio.CodigoComercio = $(this).text();
-                    break;
-                case 2:
+        
                     comercio.Descripcion = $(this).text();
-                    break;
-                case 3:
+        
                     comercio.CorreoNotificacion = $(this).text();
-                    break;
-                case 5:
+        
                     comercio.CodigoCuenta = $(this).text();
-                    break;
-            }
-        });
+        
 
         comercios.push(comercio);
-
-    });
 
     var DTO = { 'comercios': comercios };
 

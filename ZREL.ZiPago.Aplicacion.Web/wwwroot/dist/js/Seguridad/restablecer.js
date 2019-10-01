@@ -1,5 +1,30 @@
 ﻿jQuery(function ($) {
 
+    $.validator.setDefaults({
+        highlight: function (element) {
+            $(element).closest('.form-group').addClass('has-error');
+        },
+        unhighlight: function (element) {
+            $(element).closest('.form-group').removeClass('has-error');
+        },
+        errorElement: 'span',
+        errorClass: 'help-block',
+        errorPlacement: function (error, element) {
+            if (element.parent('.input-group').length) {
+                error.insertAfter(element.parent());
+            }
+            else if (element.prop('type') === 'radio' && element.parent('.radio-inline').length) {
+                error.insertAfter(element.parent().parent());
+            }
+            else if (element.prop('type') === 'checkbox' || element.prop('type') === 'radio') {
+                error.insertAfter(element.parent());
+            }
+            else {
+                error.insertAfter(element);
+            }
+        }
+    });
+
     $(document).ready(function () {
 
         $.validator.addMethod("validarcaracterespassword", function (value) {            
@@ -33,13 +58,15 @@
     $(window).on("load", function () {
         if ($('#jsparam1').val()) {
             swal({
-                title: $('#jsparam2').val() ? "Error" : "Mensaje",
+                title: $('#jsparam2').val() ? "Error" : "Restablecer Contraseña",
                 text: $('#jsparam3').val(),
                 type: $('#jsparam2').val() ? "error" : "success",
                 showCancelButton: false,
                 confirmButtonClass: "btn-default",
                 confirmButtonText: "Ok",
                 closeOnConfirm: false
+            }, function () {
+                window.location = "https://localhost:44393/";                
             });
             $('#jsparam1').val(false);
         }
