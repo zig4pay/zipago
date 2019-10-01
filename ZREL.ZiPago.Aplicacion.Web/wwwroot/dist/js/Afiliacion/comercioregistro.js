@@ -1,5 +1,30 @@
 ﻿jQuery(function ($) {
 
+    $.validator.setDefaults({
+        highlight: function (element) {
+            $(element).closest('.form-control').addClass('has-error');
+        },
+        unhighlight: function (element) {
+            $(element).closest('.form-control').removeClass('has-error');
+        },
+        errorElement: 'span',
+        errorClass: 'help-block',
+        errorPlacement: function (error, element) {
+            if (element.parent('.form-group').length) {
+                error.insertAfter(element);
+            }
+            else if (element.prop('type') === 'radio') {
+                error.appendTo($('#divGroupSexo'));
+            }
+            else if (element.prop('type') === 'checkbox') {
+                error.appendTo(element.parent().parent());
+            }
+            else {
+                error.insertAfter(element);
+            }
+        }
+    });
+
     $.validator.addMethod("validarcorreo", function (value) {
         var respuesta = true;
         var reg = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -14,8 +39,7 @@
         respuesta = parseInt(value) === 0 ? false : true;
         return respuesta;
     }, "Por favor primero seleccione un Banco y a continuacion seleccione una Cuenta Bancaria.");
-    
-    
+        
     $(document).ready(function () {
         
         $.validator.setDefaults({});
@@ -66,23 +90,10 @@
         if (!$valid) {
             return false;
         } else {
-            swal({
-                title: "Registro de Comercio",
-                text: "Desea registrar los datos ingresados?",
-                type: "info",
-                showCancelButton: true,
-                confirmButtonClass: "btn-primary",
-                confirmButtonText: "Si, registrar",
-                cancelButtonText: "No, cancelar",
-                closeOnConfirm: false
-            },
-                function () {
-                    Registrar();
-                });
+            VerificaExisteComercio();
         }
 
     });
-
 
 });
 
@@ -112,24 +123,26 @@ function VerificaExisteComercio() {
                     if (field === "Existe") {
                         $("#comercioexiste").show();
                     } else {
-                        if (ValidarComercios()) {
-                            AgregarComercios();
-                        } else {
-                            swal({
-                                title: "Alerta",
-                                text: "Los datos del comercio que desea anadir ya se encuentran en el listado.",
-                                type: "warning",
-                                confirmButtonText: "OK",
-                                confirmButtonClass: 'btn text-white bg-button-acept'
-                            });
-                        }
+                        swal({
+                            title: "Registro de Comercio",
+                            text: "Desea registrar los datos ingresados?",
+                            type: "info",
+                            showCancelButton: true,
+                            confirmButtonClass: "btn-primary",
+                            confirmButtonText: "Si, registrar",
+                            cancelButtonText: "No, cancelar",
+                            closeOnConfirm: false
+                        },
+                        function () {
+                            Registrar();
+                        });
                     }
                 }
             });
         })
         .fail(function (err) {
             swal({
-                title: "Error",
+                title: "Registro de Comercio",
                 text: "Se ha producido un error al validar el Codigo del Comercio, por favor intentelo en unos minutos.",
                 type: "error",
                 confirmButtonText: "OK",
@@ -143,18 +156,12 @@ function Registrar() {
     var comercios = new Array();
     var comercio = new Object();
         
-        comercio.IdUsuarioZiPago = $('#idusuariozipago').val();
-        
-                    comercio.CodigoComercio = $(this).text();
-        
-                    comercio.Descripcion = $(this).text();
-        
-                    comercio.CorreoNotificacion = $(this).text();
-        
-                    comercio.CodigoCuenta = $(this).text();
-        
-
-        comercios.push(comercio);
+    comercio.IdUsuarioZiPago = $('#idusuariozipago').val();
+    comercio.CodigoComercio = $("#codigocomercio").val();
+    comercio.Descripcion = $("#descripcioncomercio").val();
+    comercio.CorreoNotificacion = $("#correonotificacion").val();
+    comercio.CodigoCuenta = $("#cuentasxbanco").val();
+    comercios.push(comercio);
 
     var DTO = { 'comercios': comercios };
 
@@ -169,11 +176,11 @@ function Registrar() {
         .done(function (resp) {
             var content = JSON.parse(resp);            
             if (!content.hizoError) {
-                $("#tblComercios > tbody").html("");
-                swal("Comercios registrados correctamente", content.mensaje, "success");
+                LimpiarFormulario();
+                swal("Registro de Comercio", content.mensaje, "success");
             } else {
                 swal({
-                    title: "Error",
+                    title: "Registro de Comercio",
                     text: "Ocurrio un error al registrar los Comercios. Por favor intentelo en unos minutos.",
                     type: "error",
                     showCancelButton: false,
@@ -185,7 +192,7 @@ function Registrar() {
         })
         .fail(function (err) {
             swal({
-                title: "Error",
+                title: "Registro de Comercio",
                 text: "Ocurrio un error al registrar los Comercios. Por favor intentelo en unos minutos.",
                 type: "error",
                 showCancelButton: false,
