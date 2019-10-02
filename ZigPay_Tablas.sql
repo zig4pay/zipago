@@ -12,6 +12,7 @@ Begin Tran
       [ApellidosUsuario]	         varchar(200)	   Not Null,
       [NombresUsuario]	            varchar(100)	   Not Null,
       [CodigoRubroNegocio]	         varchar(20)       Null,
+      [OtroRubroNegocio]	         varchar(100)      Null,
 	   [CodigoTipoPersona]	         varchar(20)       Null,
 	   [CodigoTipoDocumento]         varchar(20)       Null,
 	   [NumeroDocumento]	            varchar(11)	      Null,
@@ -96,7 +97,7 @@ Begin Tran
       [IdUsuarioZiPago]	   int	            Not Null,
       [Descripcion]	      varchar(30)	      Not Null,      
       [CorreoNotificacion] varchar(100)	   Not Null,
-      [Confirmado]	      char(1)	         Null,
+      [Estado]	            char(1)	         Not Null,
       [Activo]	            char(1)	         Not Null,
       [FechaCreacion]	   datetime	         Not Null,
       [FechaActualizacion]	datetime	         Null

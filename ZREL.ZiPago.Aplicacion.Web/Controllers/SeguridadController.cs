@@ -41,6 +41,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
             ViewData["Post"] = false;
             ViewData["HizoError"] = false;
             ViewData["Mensaje"] = string.Empty;
+            ViewData["UrlRegistrar"] = webSettings.Value.ZZiPagoWebSiteRegistrarUrl;
             return View("~/Views/Seguridad/Login.cshtml");
         }
 
@@ -100,6 +101,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
                             }
                             //return RedirectToAction("UsuarioAutenticar", "Seguridad");
                             ViewData["ReCaptchaKey"] = webSettings.Value.SiteKey;
+                            ViewData["UrlRegistrar"] = webSettings.Value.ZZiPagoWebSiteRegistrarUrl;
                             //ViewData["Post"] = false;
                             //ViewData["HizoError"] = false;
                             //ViewData["Mensaje"] = string.Empty;

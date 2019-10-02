@@ -34,6 +34,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion
         [DataMember]
         public string CodigoRubroNegocio { get; set; }
 
+        [DataMember]
         public string OtroRubroNegocio { get; set; }
 
         [DataMember]
@@ -108,7 +109,8 @@ namespace ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion
 
         #region -- Listas --
         public List<TablaDetalle> TipoPersona { get; set; }
-        public List<TablaDetalle> RubroNegocio { get; set; }        
+        public List<TablaDetalle> RubroNegocio { get; set; }
+        public List<TablaDetalle> TipoDocIdentidad { get; set; }
         public List<UbigeoZiPago> Departamento { get; set; }
         public List<UbigeoZiPago> Provincia { get; set; }
         public List<UbigeoZiPago> Distrito { get; set; }

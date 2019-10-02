@@ -20,6 +20,7 @@ namespace ZREL.ZiPago.Entidad.Seguridad
         public string ApellidosUsuario { get; set; }        
         public string NombresUsuario { get; set; }
         public string CodigoRubroNegocio { get; set; }
+        public string OtroRubroNegocio { get; set; }
         public string CodigoTipoPersona { get; set; }
         public string CodigoTipoDocumento { get; set; }
         public string NumeroDocumento { get; set; }

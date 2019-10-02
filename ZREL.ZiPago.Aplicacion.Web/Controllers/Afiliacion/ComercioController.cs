@@ -93,7 +93,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> ListarComercios(string order, int idUsuarioZiPago, string codigoComercio, string descripcion, string activo, int idBancoZiPago, string numeroCuenta)
+        public async Task<IActionResult> ListarComercios(string order, int idUsuarioZiPago, string codigoComercio, string descripcion, string estado, int idBancoZiPago, string numeroCuenta)
         {                        
             Uri requestUrl;            
             JsonResult response;
@@ -108,7 +108,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
                     IdUsuarioZiPago = idUsuarioZiPago,
                     CodigoComercio = codigoComercio,
                     Descripcion = descripcion,
-                    Activo = activo,
+                    Estado = estado,
                     IdBancoZiPago = idBancoZiPago,
                     NumeroCuenta = numeroCuenta
                 };

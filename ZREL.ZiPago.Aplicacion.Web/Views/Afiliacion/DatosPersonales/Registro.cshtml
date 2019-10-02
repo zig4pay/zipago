@@ -34,7 +34,7 @@
 
                 <!-- form start -->
                 <form class="form-horizontal margen-cero" id="frmAfiliacion" asp-controller="" asp-action="" method="post">
-                    <div class="box-body" style="padding-left: 20px; padding-right: 20px;">                        
+                    <div class="box-body" style="padding-left: 20px; padding-right: 20px;">
                         <input id="idusuariozipago" name="idusuariozipago" type="hidden" asp-for="IdUsuarioZiPago" />
                         @Html.HiddenFor(x => x.EstadoRegistro)
                         <input id="fecha" name="fecha" type="hidden" asp-for="FechaNacimiento" />
@@ -90,11 +90,19 @@
                         </div>
                         <div class="form-group">
                             <div class="col-sm-2">
-                                <label for="numerodni">DNI:</label><label class="text-red">&nbsp;*</label>
+                                <label for="tipodocidentidad">Tipo de Doc. de Identidad:</label><label class="text-red">&nbsp;*</label>
+                            </div>
+                            <div class="form-group col-sm-2" style="margin-left:0px; margin-right:0px;">
+                                <select id="tipodocidentidad" name="tipodocidentidad" asp-for="CodigoTipoDocumentoContacto" asp-items="@(new SelectList(Model.TipoDocIdentidad,"Valor", "Descr_Valor", Model.CodigoTipoDocumentoContacto))" class="form-control" style="width: 100%;"></select>
                             </div>
                             <div class="col-sm-2">
-                                <input id="numerodni" name="numerodni" type="text" class="form-control" placeholder="Numero de DNI" asp-for="NumeroDocumentoContacto" maxlength="8">
+                                <label for="numerodocumentocontacto">Numero de Doc. de Identidad:</label><label class="text-red">&nbsp;*</label>
                             </div>
+                            <div class="col-sm-2">
+                                <input id="numerodocumentocontacto" name="numerodocumentocontacto" type="text" class="form-control" placeholder="Nro. de Doc. de Identidad" asp-for="NumeroDocumentoContacto" maxlength="8">
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <div class="col-sm-2">
                                 <label for="nombres">Nombres:</label><label class="text-red">&nbsp;*</label>
                             </div>
@@ -142,7 +150,9 @@
                             <div class="col-sm-2">
                                 <input id="telefonofijo" name="telefonofijo" type="text" class="form-control" placeholder="Numero de Telefono Fijo" asp-for="TelefonoFijo">
                             </div>
-                            <label for="telefonomovil" class="col-sm-2">Telefono Movil:</label>
+                            <div class="col-sm-2">
+                                <label for="telefonomovil">Telefono Movil:</label><label class="text-red">&nbsp;*</label>
+                            </div>
                             <div class="col-sm-2">
                                 <input id="telefonomovil" name="telefonomovil" type="text" class="form-control" placeholder="Numero de Telefono Movil" asp-for="TelefonoMovil">
                             </div>
@@ -151,7 +161,7 @@
                         <hr />
                         <input id="iddomiciliozipago" name="iddomiciliozipago" type="hidden" asp-for="IdDomicilioZiPago" />
                         <div class="form-group">
-                            <label class="col-sm-2"><strong>Domicilio: </strong></label>
+                            <label class="col-sm-2"><strong>Domicilio de Facturacion: </strong></label>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-2">
@@ -182,15 +192,15 @@
                                 })
                             </div>
                             @*<div class="col-sm-1">
-                                <button type="button" id="btnHistorico" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg" data-backdrop="static" data-keyboard="false">
-                                    <i class="fa fa-home"></i> Ver Historico
-                                </button>
-                            </div>*@
+                <button type="button" id="btnHistorico" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg" data-backdrop="static" data-keyboard="false">
+                    <i class="fa fa-home"></i> Ver Historico
+                </button>
+            </div>*@
                         </div>
                         <div class="form-group">
                             <div class="col-sm-2">
                                 <label for="distrito">Distrito:</label><label class="text-red">&nbsp;*</label>
-                            </div>                            
+                            </div>
                             <div class="col-sm-2">
                                 @Html.DropDownListFor(x => x.CodigoDistrito, distritos, new { @class = "form-control",
                                     style = "width: 100%;",

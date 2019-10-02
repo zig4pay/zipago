@@ -15,7 +15,7 @@
             <strong>Ingrese sus datos para iniciar sesion</strong>
         </p>
 
-        <form id="frmLogin" asp-controller="Seguridad" asp-action="UsuarioAutenticar" method="post">            
+        <form id="frmLogin" asp-controller="Seguridad" asp-action="UsuarioAutenticar" method="post">
             <div class="form-group has-feedback">
                 <input type="text" id="clave1" name="clave1" class="form-control" placeholder="Correo Electr&oacute;nico">
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
@@ -37,11 +37,11 @@
 
             <div class="row">
                 <div class="col-xs-6">
-                    <div class="checkbox icheck">
+                    @*<div class="checkbox icheck">
                         <label>
                             <input asp-for="Recordarme" type="checkbox"> Recordarme
                         </label>
-                    </div>
+                    </div>*@
                 </div>
 
                 <div class="col-xs-6">
@@ -50,8 +50,15 @@
 
             </div>
         </form>
-
-        <a asp-controller="Seguridad" asp-action="Recuperar" id="btnOlvidoClave">¿Olvidaste tu clave?</a>
+        <br />
+        <div class="row">
+            <div class="col-xs-6">                
+                <a asp-controller="Seguridad" asp-action="Recuperar" id="btnOlvidoClave">¿Olvidaste tu clave?</a>                
+            </div>            
+            <div class="col-xs-6" style="text-align:right">                
+                <a href="@ViewData["UrlRegistrar"]" id="btnRegistrar">Registrar Nuevo Usuario</a>
+            </div>
+        </div>        
 
     </div>
 

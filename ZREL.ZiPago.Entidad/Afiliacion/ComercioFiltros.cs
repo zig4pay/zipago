@@ -8,7 +8,7 @@
 
         public string Descripcion { get; set; }
 
-        public string Activo { get; set; }
+        public string Estado { get; set; }
 
         public int? IdBancoZiPago { get; set; }
 

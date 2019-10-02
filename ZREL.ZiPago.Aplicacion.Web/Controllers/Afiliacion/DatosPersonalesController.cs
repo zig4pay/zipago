@@ -59,9 +59,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
             };
 
             try
-            {
-                //if (HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session") != null)
-                //{
+            {                
                 // Tipo de Persona
                 responseTD = new ResponseListModel<TablaDetalle>();
                 requestUrl = ApiClientFactory.Instance.CreateRequestUri(
@@ -75,13 +73,25 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
                                 string.Format(CultureInfo.InvariantCulture, webSettings.Value.TablaDetalle_Listar) + Constantes.strCodTablaRubroNegocio);
                 responseTD = await ApiClientFactory.Instance.GetListAsync<TablaDetalle>(requestUrl);
                 model.RubroNegocio = responseTD.Model;
-                model.RubroNegocio.Insert(0, new TablaDetalle
-                {
+                model.RubroNegocio.Insert(0, new TablaDetalle {
                     Cod_Tabla = Constantes.strCodTablaRubroNegocio,
                     Valor = "000",
                     Descr_Valor = "Seleccione"
                 });
-                    
+
+                // Tipo de Documento de Identidad
+                responseTD = new ResponseListModel<TablaDetalle>();
+                requestUrl = ApiClientFactory.Instance.CreateRequestUri(
+                                string.Format(CultureInfo.InvariantCulture, webSettings.Value.TablaDetalle_Listar) + Constantes.strCodTablaTipoDocIdentidad);
+                responseTD = await ApiClientFactory.Instance.GetListAsync<TablaDetalle>(requestUrl);
+                model.TipoDocIdentidad = responseTD.Model;
+                model.TipoDocIdentidad.Insert(0, new TablaDetalle
+                {
+                    Cod_Tabla = Constantes.strCodTablaTipoDocIdentidad,
+                    Valor = "000",
+                    Descr_Valor = "Seleccione"
+                });
+                
                 // Departamento
                 requestUrl = ApiClientFactory.Instance.CreateRequestUri(
                                 string.Format(CultureInfo.InvariantCulture, webSettings.Value.UbigeoZiPago_Listar) + Constantes.strUbigeoZiPago_Departamentos);
@@ -122,6 +132,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
                         model.CodigoRubroNegocio = responseDatos.Model.CodigoRubroNegocio;
                         model.NumeroDocumento = responseDatos.Model.NumeroDocumento;
                         model.RazonSocial = responseDatos.Model.RazonSocial;
+                        model.CodigoTipoDocumentoContacto = responseDatos.Model.CodigoTipoDocumentoContacto;
                         model.NumeroDocumentoContacto = responseDatos.Model.NumeroDocumentoContacto;
                         model.Nombres = responseDatos.Model.Nombres;                            
                         model.ApellidoPaterno = responseDatos.Model.ApellidoPaterno;

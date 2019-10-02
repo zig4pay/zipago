@@ -5,6 +5,8 @@
 
         public string ZZiPagoApiUrl { get; set; }
 
+        public string ZZiPagoWebSiteRegistrarUrl { get; set; }
+
         //Seguridad
         public string UsuarioZiPago_Obtener { get; set; }
         public string UsuarioZiPago_Autenticar { get; set; }

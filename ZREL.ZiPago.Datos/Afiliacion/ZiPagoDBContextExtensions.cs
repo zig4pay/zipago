@@ -334,7 +334,7 @@ namespace ZREL.ZiPago.Datos.Afiliacion
                              TipoCuentaBancaria = tipocuenta.Descr_Valor.Trim(),
                              MonedaCuentaBancaria = tipomoneda.Descr_Valor.Trim(),
                              CuentaBancaria = cuentabancaria.NumeroCuenta.Trim(),
-                             Estado = comercios.Activo,
+                             Estado = comercios.Estado,
                              FechaCreacion = comercios.FechaCreacion
                          };
 
@@ -346,8 +346,8 @@ namespace ZREL.ZiPago.Datos.Afiliacion
             if (!string.IsNullOrWhiteSpace(comercioFiltros.Descripcion))
                 result = result.Where(p => p.Descripcion.Contains(comercioFiltros.Descripcion));
 
-            if (!string.IsNullOrWhiteSpace(comercioFiltros.Activo) && comercioFiltros.Activo != "0")
-                result = result.Where(p => p.Estado == comercioFiltros.Activo);
+            if (!string.IsNullOrWhiteSpace(comercioFiltros.Estado) && comercioFiltros.Estado != "0")
+                result = result.Where(p => p.Estado == comercioFiltros.Estado);
 
             if (comercioFiltros.IdBancoZiPago != null && comercioFiltros.IdBancoZiPago > 0)
                 result = result.Where(p => p.IdBancoZiPago == comercioFiltros.IdBancoZiPago);

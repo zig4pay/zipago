@@ -141,6 +141,8 @@ Begin Tran
       -------------------------------------------------------------------------
       ('TIPO_DOC_ID', '01', 'DNI - Documento Nacional de Identidad'),
       ('TIPO_DOC_ID', '02', 'RUC - Registro Unico de Contribuyente'),      
+      ('TIPO_DOC_ID', '03', 'CE - Carnet de Extranjeria'),
+      ('TIPO_DOC_ID', '04', 'OTR - Otros'),
       -------------------------------------------------------------------------
       -------------------------------------------------------------------------
       ('TIPO_CUENTA', '01', 'Cuenta Corriente'),

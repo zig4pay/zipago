@@ -122,34 +122,18 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
             {
                 try
                 {
-                    if (!string.IsNullOrEmpty(request.OtroRubroNegocio)) {
-
-                        TablaDetalle rubro = await tdService.VerificarExisteTablaDetalleAsync(logger, Constantes.strCodTablaRubroNegocio, request.OtroRubroNegocio);
-
-                        if (rubro == null || string.IsNullOrWhiteSpace(rubro.Cod_Tabla))
-                        {
-                            codRubro = await tdService.ObtenerMaxTablaDetalleAsync(logger, Constantes.strCodTablaRubroNegocio);
-                            codRubro = Convert.ToString(Convert.ToInt32(codRubro) + 1).PadLeft(3, '0');
-
-                            rubro = new TablaDetalle
-                            {
-                                Cod_Tabla = Constantes.strCodTablaRubroNegocio,
-                                Valor = codRubro,
-                                Descr_Valor = request.OtroRubroNegocio
-                            };
-                            DbContext.TablasDetalle.Add(rubro);
-                            request.EntidadUsuario.CodigoRubroNegocio = codRubro;
-                        }
-                        else {
-                            request.EntidadUsuario.CodigoRubroNegocio = rubro.Valor;
-                        }                        
+                    if (!string.IsNullOrWhiteSpace(request.OtroRubroNegocio)) {
+                        TablaDetalle rubro = await tdService.VerificarExisteTablaDetalleAsync(logger, Constantes.strCodTablaRubroNegocio, request.OtroRubroNegocio.Trim());
+                        request.EntidadUsuario.CodigoRubroNegocio = rubro.Valor;
+                        request.EntidadUsuario.OtroRubroNegocio = string.Empty;
                     }
-
                     request.EntidadUsuario.EstadoRegistro = 
                         request.EntidadUsuario.EstadoRegistro == Constantes.strEstadoRegistro_Nuevo ? Constantes.strEstadoRegistro_ConDatosPersonales : Constantes.strEstadoRegistro_DatosActualizados;
 
                     DbContext.Attach(request.EntidadUsuario);
+
                     DbContext.Entry(request.EntidadUsuario).Property("CodigoRubroNegocio").IsModified = true;
+                    DbContext.Entry(request.EntidadUsuario).Property("OtroRubroNegocio").IsModified = true;
                     DbContext.Entry(request.EntidadUsuario).Property("CodigoTipoPersona").IsModified = true;
                     DbContext.Entry(request.EntidadUsuario).Property("CodigoTipoDocumento").IsModified = true;
                     DbContext.Entry(request.EntidadUsuario).Property("NumeroDocumento").IsModified = true;
@@ -340,12 +324,12 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
                             IdUsuarioZiPago = item.ComercioZiPago.IdUsuarioZiPago,
                             Descripcion = item.ComercioZiPago.Descripcion,
                             CorreoNotificacion = item.ComercioZiPago.CorreoNotificacion,
+                            Estado = Constantes.EstadoComercio.PendienteDeActivar.ToString(),
                             Activo = Constantes.strValor_Activo,
                             FechaCreacion = DateTime.Now
                         };
 
-                        CuentaBancariaZiPago cuenta = await DbContext.CuentasBancariasZiPago.FirstOrDefaultAsync(p => p.IdCuentaBancaria == item.CuentaBancariaZiPago.IdCuentaBancaria
-                                                                                                                    && p.Activo == Constantes.strValor_Activo);
+                        CuentaBancariaZiPago cuenta = await DbContext.CuentasBancariasZiPago.FirstOrDefaultAsync(p => p.IdCuentaBancaria == item.CuentaBancariaZiPago.IdCuentaBancaria);
                         
                         ComercioCuentaZiPago comercioCuenta = new ComercioCuentaZiPago
                         {                            

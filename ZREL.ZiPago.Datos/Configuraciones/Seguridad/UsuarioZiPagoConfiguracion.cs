@@ -24,6 +24,7 @@ namespace ZREL.ZiPago.Datos.Configuraciones.Seguridad
             builder.Property(p => p.ApellidosUsuario).HasColumnType("varchar(200)").IsRequired();            
             builder.Property(p => p.NombresUsuario).HasColumnType("varchar(100)").IsRequired();
             builder.Property(p => p.CodigoRubroNegocio).HasColumnType("varchar(20)");
+            builder.Property(p => p.OtroRubroNegocio).HasColumnType("varchar(100)");
             builder.Property(p => p.CodigoTipoPersona).HasColumnType("varchar(20)");
             builder.Property(p => p.CodigoTipoDocumento).HasColumnType("varchar(20)");
             builder.Property(p => p.NumeroDocumento).HasColumnType("varchar(11)");

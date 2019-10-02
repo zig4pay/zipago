@@ -27,7 +27,7 @@ function extraServerParams(params) {
     params.IdUsuarioZiPago = $('#idusuariozipago').val();
     params.CodigoComercio = $('#codigocomercio').val().trim();
     params.Descripcion = $('#descripcion').val().trim();
-    params.Activo = $('#estado').val();
+    params.Estado = $('#estado').val();
     params.IdBancoZiPago = $('#idbancozipago').val();
     params.NumeroCuenta = $('#numerocuenta').val().trim();
 

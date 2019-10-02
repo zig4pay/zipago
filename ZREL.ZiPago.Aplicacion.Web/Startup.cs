@@ -33,7 +33,7 @@ namespace ZREL.ZiPago.Aplicacion.Web
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
             services.Configure<WebSiteSettingsModel>(Configuration.GetSection("ZRELZiPagoWebApi"));
-            services.Configure<WebSiteSettingsModel>(Configuration.GetSection("ZRELZiPagoPortalWeb"));
+            services.Configure<WebSiteSettingsModel>(Configuration.GetSection("ZRELZiPagoWebSite"));
             services.Configure<WebSiteSettingsModel>(Configuration.GetSection("GoogleReCaptcha"));
             //services.AddCors();
 

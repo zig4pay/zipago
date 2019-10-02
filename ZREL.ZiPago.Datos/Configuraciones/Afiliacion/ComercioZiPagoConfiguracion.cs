@@ -23,7 +23,7 @@ namespace ZREL.ZiPago.Datos.Configuraciones.Afiliacion
             builder.Property(p => p.IdUsuarioZiPago).HasColumnType("int").IsRequired();
             builder.Property(p => p.Descripcion).HasColumnType("varchar(30)").IsRequired();
             builder.Property(p => p.CorreoNotificacion).HasColumnType("varchar(100)").IsRequired();
-            builder.Property(p => p.Confirmado).HasColumnType("char(1)");
+            builder.Property(p => p.Estado).HasColumnType("char(1)");
             builder.Property(p => p.Activo).HasColumnType("char(1)").IsRequired();
             builder.Property(p => p.FechaCreacion).HasColumnType("Datetime").IsRequired();
             builder.Property(p => p.FechaActualizacion).HasColumnType("Datetime");

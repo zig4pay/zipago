@@ -7,7 +7,13 @@
             UsuarioYaExiste = 2,
             ErrorAlRegistrar = 3
         }
-        
+
+        public enum EstadoComercio
+        {
+            PendienteDeActivar = 1,
+            Activo = 2
+        }
+
         //[TD_TABLA_TABLAS]
         public const string strCodTablaRubroNegocio = "RUBRO_NEGOCIO";
 
@@ -17,6 +23,8 @@
 
         public const string strCodTablaTipoPersona = "TIPO_PERSONA";
         public const string strTipoPersonaJuridica = "01";
+
+        public const string strCodTablaTipoDocIdentidad = "TIPO_DOC_ID";
 
         public const string strTipoDocIdDNI = "01";
         public const string strTipoDocIdRUC = "02";
@@ -56,7 +64,11 @@
         public const string strComerciosTexto = "Comercios registrados";
         public const string strCuentasBancariasTexto = "Cuentas Bancarias registradas";
         public const string strTransaccionesTexto = "Transacciones registradas";
-        public const string strMontoPagosTexto = "Pagos registradas";
+        public const string strMontoPagosTexto = "Pagos registrados";
+
+        //ESTADOS COMERCIO
+        public const string strEstadoComercio_Pendiente = "Pendiente de Activar";
+        public const string strEstadoComercio_Activo = "Activo";
 
         //Google ReCaptcha
         public const string GoogleRecaptchaSecretKey = "6Le0OasUAAAAALW4hoX9kXI_61sI-lVxim3MTBlc";

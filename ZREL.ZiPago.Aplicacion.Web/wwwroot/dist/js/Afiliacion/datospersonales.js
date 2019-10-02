@@ -30,7 +30,7 @@
         $.validator.setDefaults({});
 
         $.validator.addMethod("validarrubronegocio", function (value) {
-            if (value === "000" && $("#otrorubronegocio").val().trim() === "") {
+            if (parseInt(value) === 0 && $("#otrorubronegocio").val().trim() === "") {
                 return false;
             } else {
                 return true;
@@ -88,7 +88,7 @@
         }
                 
         $("#numeroruc").keypress(PermitirSoloNumeros);
-        $("#numerodni").keypress(PermitirSoloNumeros);
+        $("#numerodocumentocontacto").keypress(PermitirSoloNumeros);
         $("#telefonofijo").keypress(SoloNumeroTelefonico);
         $("#telefonomovil").keypress(SoloNumeroTelefonico);
         $("#apellidopaterno").keypress(PermitirSoloLetras);
@@ -99,7 +99,7 @@
                 CodigoTipoPersona: "required",
                 codigorubronegocio: {
                     validarrubronegocio: true
-                },
+                },                
                 numeroruc: {
                     validarpersonajuridica: true,
                     minlength: 11,
@@ -108,7 +108,10 @@
                 razonsocial: {
                     validarpersonajuridica: true
                 },
-                numerodni: {
+                tipodocidentidad: {
+                    validarseleccion: true
+                },
+                numerodocumentocontacto: {
                     required: true,
                     minlength: 8,
                     maxlength: 8
@@ -127,6 +130,7 @@
                     required: true,
                     validaredad: true
                 },
+                telefonomovil: "required",
                 CodigoDepartamento: {
                     validarseleccion: true
                 },
@@ -148,8 +152,11 @@
                 razonsocial: {
                     validarpersonajuridica: "Al seleccionar Persona Juridica debe ingresar la Razon Social segun SUNAT."
                 },
-                numerodni: {
-                    required: "Por favor ingrese un numero de DNI.",
+                tipodocidentidad: {
+                    validarseleccion: "Por favor seleccione un Tipo de Documento de Identidad."
+                },
+                numerodocumentocontacto: {
+                    required: "Por favor ingrese el numero de Documento de Identidad.",
                     minlength: "El numero de DNI debe contener minimo 8 digitos.",
                     maxlength: "El numero de DNI debe contener maximo 8 digitos."
                 },
@@ -160,6 +167,7 @@
                 fechanacimiento: {
                     required: "Por favor ingrese una fecha valida"
                 },
+                telefonomovil: "Por favor ingrese un numero de telefono movil.",
                 CodigoDepartamento: {
                     validarseleccion: "Por favor seleccione el Departamento al cual pertenece la direccion."
                 },
@@ -175,6 +183,15 @@
 
         $('#btnHistorico').click(function () {
             ConsultarDomicilios();
+        });
+
+        $('#codigorubronegocio').on('change', function () {            
+            if (parseInt($('#codigorubronegocio').val()) > 0) {
+                $("#otrorubronegocio").val("");
+                $("#otrorubronegocio").prop('disabled', true);
+            } else {
+                $("#otrorubronegocio").prop('disabled', false);
+            }
         });
 
         $('#btnRegistrar').click(function () {
@@ -242,7 +259,7 @@
             MostrarDivJuridica(false);
         }
     });
-    
+
 });
 
 function Deshabilitar() {
@@ -260,6 +277,12 @@ function Deshabilitar() {
     $("#fechanacimiento").prop('disabled', true);
     $("#telefonofijo").prop('disabled', true);
     $("#telefonomovil").prop('disabled', true);
+    $("#CodigoDepartamento").prop('disabled', true);
+    $("#CodigoProvincia").prop('disabled', true);
+    $("#CodigoDistrito").prop('disabled', true);
+    $("#via").prop('disabled', true);
+    $("#direccionfacturacion").prop('disabled', true);
+    $("#referencia").prop('disabled', true);
 
 }
 
