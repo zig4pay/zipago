@@ -77,7 +77,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
                     Cod_Tabla = Constantes.strCodTablaRubroNegocio,
                     Valor = "000",
                     Descr_Valor = "Seleccione"
-                });
+                });                
 
                 // Tipo de Documento de Identidad
                 responseTD = new ResponseListModel<TablaDetalle>();
@@ -88,10 +88,11 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
                 model.TipoDocIdentidad.Insert(0, new TablaDetalle
                 {
                     Cod_Tabla = Constantes.strCodTablaTipoDocIdentidad,
-                    Valor = "000",
+                    Valor = "00",
                     Descr_Valor = "Seleccione"
                 });
-                
+                model.TipoDocIdentidad.RemoveAt(4);
+
                 // Departamento
                 requestUrl = ApiClientFactory.Instance.CreateRequestUri(
                                 string.Format(CultureInfo.InvariantCulture, webSettings.Value.UbigeoZiPago_Listar) + Constantes.strUbigeoZiPago_Departamentos);
@@ -130,6 +131,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
                     else
                     {                            
                         model.CodigoRubroNegocio = responseDatos.Model.CodigoRubroNegocio;
+                        model.OtroRubroNegocio = responseDatos.Model.OtroRubroNegocio;
                         model.NumeroDocumento = responseDatos.Model.NumeroDocumento;
                         model.RazonSocial = responseDatos.Model.RazonSocial;
                         model.CodigoTipoDocumentoContacto = responseDatos.Model.CodigoTipoDocumentoContacto;
@@ -241,6 +243,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
         public async Task<JsonResult> Registrar(DatosPersonalesViewModel model)
         {
             Logger logger = LogManager.GetCurrentClassLogger();
+            string responseJson;
             JsonResult response;
             Uri requestUrl;
             DatosPersonalesRequest request = new DatosPersonalesRequest();
@@ -254,21 +257,21 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
                 usuario.ApellidosUsuario = model.ApellidosUsuario;
                 usuario.NombresUsuario = model.NombresUsuario;
                 usuario.CodigoRubroNegocio = model.CodigoRubroNegocio;
+                usuario.OtroRubroNegocio = model.OtroRubroNegocio;
                 usuario.CodigoTipoPersona = model.CodigoTipoPersona;
-
                 if (model.CodigoTipoPersona == Constantes.strTipoPersonaJuridica)
                 {
-                    usuario.CodigoTipoDocumento = Constantes.strTipoDocIdRUC;
+                    usuario.CodigoTipoDocumento = Constantes.strTipoDocIdRUC_Codigo;
                     usuario.NumeroDocumento = model.NumeroDocumento;
                     usuario.RazonSocial = model.RazonSocial;
-                    usuario.CodigoTipoDocumentoContacto = Constantes.strTipoDocIdDNI;
+                    usuario.CodigoTipoDocumentoContacto = model.CodigoTipoDocumentoContacto;
                     usuario.NumeroDocumentoContacto = model.NumeroDocumentoContacto;
                 }
                 else
                 {
-                    usuario.CodigoTipoDocumento = Constantes.strTipoDocIdDNI;
-                    usuario.NumeroDocumento = model.NumeroDocumento;
-                    usuario.CodigoTipoDocumentoContacto = Constantes.strTipoDocIdDNI;
+                    usuario.CodigoTipoDocumento = model.CodigoTipoDocumentoContacto;
+                    usuario.NumeroDocumento = model.NumeroDocumentoContacto;
+                    usuario.CodigoTipoDocumentoContacto = model.CodigoTipoDocumentoContacto;
                     usuario.NumeroDocumentoContacto = model.NumeroDocumentoContacto;
                 }
 
@@ -279,7 +282,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
                 usuario.FechaNacimiento = DateTime.ParseExact(model.FechaNacimiento, "dd/mm/yyyy", CultureInfo.InvariantCulture);
                 usuario.TelefonoMovil = model.TelefonoMovil;
                 usuario.TelefonoFijo = model.TelefonoFijo;
-                usuario.FechaActualizacion = DateTime.Now;
+                usuario.EstadoRegistro = model.EstadoRegistro;
 
                 domicilio.IdUsuarioZiPago = model.IdUsuarioZiPago;
                 domicilio.CodigoDepartamento = model.CodigoDepartamento;
@@ -289,16 +292,16 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
                 domicilio.DireccionFacturacion = model.DireccionFacturacion;
                 domicilio.Referencia = model.Referencia;
 
-                //----------------Luego mover a Servicio (Negocio)
-                domicilio.Activo = Constantes.strValor_Activo;
-                domicilio.FechaCreacion = DateTime.Now;
-
                 request.EntidadUsuario = usuario;
                 request.OtroRubroNegocio = model.OtroRubroNegocio;
                 request.EntidadDomicilio = domicilio;
 
                 requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_Registrar));
-                response = Json(await ApiClientFactory.Instance.PostJsonAsync<DatosPersonalesRequest>(requestUrl, request));
+                responseJson = await ApiClientFactory.Instance.PostJsonAsync<DatosPersonalesRequest>(requestUrl, request);
+                responseJson = responseJson.Replace("\\", string.Empty);
+                responseJson = responseJson.Trim('"');
+                response = Json(responseJson);
+
             }
             catch (Exception ex)
             {

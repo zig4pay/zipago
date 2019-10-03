@@ -25,10 +25,10 @@
         public const string strTipoPersonaJuridica = "01";
 
         public const string strCodTablaTipoDocIdentidad = "TIPO_DOC_ID";
+        public const string strTipoDocIdDNI_Codigo = "01";
+        public const string strTipoDocIdRUC_Codigo = "02";
+        public const string strTipoDocIdRUC_Descripcion = "RUC - Registro Unico de Contribuyente";
 
-        public const string strTipoDocIdDNI = "01";
-        public const string strTipoDocIdRUC = "02";
-                
         public const string strValor_Activo = "S";
         public const string strValor_NoActivo = "N";
 

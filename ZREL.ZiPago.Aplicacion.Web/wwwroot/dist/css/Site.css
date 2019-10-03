@@ -34,3 +34,7 @@ input.valid {
 .bg-button-acept {
     background-color: #163758;
 }
+
+::-webkit-input-placeholder {
+    text-transform: none;
+}

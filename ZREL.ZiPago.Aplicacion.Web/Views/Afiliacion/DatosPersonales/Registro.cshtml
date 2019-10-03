@@ -74,13 +74,13 @@
                                     <label for="numeroruc">RUC:</label><label class="text-red">&nbsp;*</label>
                                 </div>
                                 <div class="col-sm-2">
-                                    <input id="numeroruc" name="numeroruc" type="text" class="form-control" placeholder="Numero de Registro Unico de Contribuyente" asp-for="NumeroDocumento" maxlength="11">
+                                    <input id="numeroruc" name="numeroruc" type="text" class="form-control" placeholder="Nro. de Registro Unico de Contribuyente" asp-for="NumeroDocumento" maxlength="11">
                                 </div>
                                 <div class="col-sm-2">
                                     <label for="razonsocial">Razon Social:</label><label class="text-red">&nbsp;*</label>
                                 </div>
                                 <div class="col-sm-3">
-                                    <input id="razonsocial" name="razonsocial" type="text" class="form-control" placeholder="Razon Social segun SUNAT" asp-for="RazonSocial">
+                                    <input id="razonsocial" name="razonsocial" type="text" class="form-control text-uppercase" placeholder="Razon Social segun SUNAT" asp-for="RazonSocial">
                                 </div>
                             </div>
                             <hr />
@@ -146,15 +146,15 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="telefonofijo" class="col-sm-2">Telefono Fijo:</label>
-                            <div class="col-sm-2">
-                                <input id="telefonofijo" name="telefonofijo" type="text" class="form-control" placeholder="Numero de Telefono Fijo" asp-for="TelefonoFijo">
-                            </div>
                             <div class="col-sm-2">
                                 <label for="telefonomovil">Telefono Movil:</label><label class="text-red">&nbsp;*</label>
                             </div>
                             <div class="col-sm-2">
                                 <input id="telefonomovil" name="telefonomovil" type="text" class="form-control" placeholder="Numero de Telefono Movil" asp-for="TelefonoMovil">
+                            </div>
+                            <label for="telefonofijo" class="col-sm-2">Telefono Fijo:</label>
+                            <div class="col-sm-2">
+                                <input id="telefonofijo" name="telefonofijo" type="text" class="form-control" placeholder="Numero de Telefono Fijo" asp-for="TelefonoFijo">
                             </div>
                         </div>
 
@@ -173,7 +173,7 @@
                                     name = "CodigoDepartamento",
                                     style = "width: 100%;",
                                     data_cascade_combo = "#CodigoProvincia",
-                                    data_cascade_combo2 = "#distrito",
+                                    data_cascade_combo2 = "#CodigoDistrito",
                                     data_cascade_combo_source = Url.Action("ListarPorUbigeo", "DatosPersonales"),
                                     data_cascade_combo_param_name = "strCodigoUbigeo"
                                 })

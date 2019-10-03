@@ -114,7 +114,7 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
         public async Task<IResponse> RegistrarAsync(Logger logger, DatosPersonalesRequest request)
         {
             var response = new Response();
-            string codRubro = "";            
+            TablaDetalle rubro = new TablaDetalle();
 
             logger.Info("[{0}] | UsuarioZiPago: [{1}] | Inicio.", nameof(RegistrarAsync));
 
@@ -123,13 +123,17 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
                 try
                 {
                     if (!string.IsNullOrWhiteSpace(request.OtroRubroNegocio)) {
-                        TablaDetalle rubro = await tdService.VerificarExisteTablaDetalleAsync(logger, Constantes.strCodTablaRubroNegocio, request.OtroRubroNegocio.Trim());
-                        request.EntidadUsuario.CodigoRubroNegocio = rubro.Valor;
-                        request.EntidadUsuario.OtroRubroNegocio = string.Empty;
+                        rubro = await tdService.VerificarExisteTablaDetalleAsync(logger, Constantes.strCodTablaRubroNegocio, request.OtroRubroNegocio.Trim());
+                        if (rubro != null) {
+                            request.EntidadUsuario.CodigoRubroNegocio = rubro.Valor;
+                            request.EntidadUsuario.OtroRubroNegocio = string.Empty;
+                        }                         
                     }
                     request.EntidadUsuario.EstadoRegistro = 
                         request.EntidadUsuario.EstadoRegistro == Constantes.strEstadoRegistro_Nuevo ? Constantes.strEstadoRegistro_ConDatosPersonales : Constantes.strEstadoRegistro_DatosActualizados;
-
+                    request.EntidadUsuario.RazonSocial = string.IsNullOrWhiteSpace(request.EntidadUsuario.RazonSocial) ? request.EntidadUsuario.RazonSocial : request.EntidadUsuario.RazonSocial.ToUpper();
+                    request.EntidadUsuario.FechaActualizacion = DateTime.Now;
+                    
                     DbContext.Attach(request.EntidadUsuario);
 
                     DbContext.Entry(request.EntidadUsuario).Property("CodigoRubroNegocio").IsModified = true;
@@ -148,7 +152,7 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
                     DbContext.Entry(request.EntidadUsuario).Property("TelefonoMovil").IsModified = true;
                     DbContext.Entry(request.EntidadUsuario).Property("TelefonoFijo").IsModified = true;
                     DbContext.Entry(request.EntidadUsuario).Property("EstadoRegistro").IsModified = true;
-                    DbContext.Entry(request.EntidadUsuario).Property("FechaActualizacion").IsModified = true;                    
+                    DbContext.Entry(request.EntidadUsuario).Property("FechaActualizacion").IsModified = true;
                     await DbContext.SaveChangesAsync();
                     
                     var domicilios = DbContext.DomiciliosZiPago.Where(p => p.IdUsuarioZiPago == request.EntidadUsuario.IdUsuarioZiPago &&
@@ -160,18 +164,19 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
                                             }
                                         );
                     await DbContext.SaveChangesAsync();
-                    
+
+                    request.EntidadDomicilio.FechaCreacion = DateTime.Now;
+                    request.EntidadDomicilio.Activo = Constantes.strValor_Activo;
                     DbContext.Add(request.EntidadDomicilio);
                     await DbContext.SaveChangesAsync();
                     
                     txAsync.Commit();
                     response.Mensaje = Constantes.strRegistroRealizado;
-
                 }
                 catch (Exception ex)
                 {
-                    txAsync.Rollback();                                        
-                    response.Mensaje = ex.ToString();                    
+                    txAsync.Rollback();
+                    response.Mensaje = ex.Message;
                     response.SetError(logger, nameof(RegistrarAsync), nameof(UsuarioZiPago), ex);
                 }
             }

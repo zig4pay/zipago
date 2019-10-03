@@ -39,6 +39,7 @@ namespace ZREL.ZiPago.Datos.Afiliacion
                                  ApellidosUsuario = usuario.ApellidosUsuario,
                                  NombresUsuario = usuario.NombresUsuario,
                                  CodigoRubroNegocio = usuario.CodigoRubroNegocio ?? "",
+                                 OtroRubroNegocio = usuario.OtroRubroNegocio ?? string.Empty,
                                  CodigoTipoPersona = usuario.CodigoTipoPersona ?? "",
                                  CodigoTipoDocumento = usuario.CodigoTipoDocumento ?? "",
                                  NumeroDocumento = usuario.NumeroDocumento ?? "",
