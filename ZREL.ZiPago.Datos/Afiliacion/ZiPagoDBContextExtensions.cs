@@ -219,6 +219,8 @@ namespace ZREL.ZiPago.Datos.Afiliacion
                              FechaCreacion = cuentabancaria.FechaCreacion
                          };
 
+            result = result.Where(p => p.Id == cuentaFiltros.IdUsuarioZiPago);
+
             if (cuentaFiltros.IdBancoZiPago != null && cuentaFiltros.IdBancoZiPago > 0)
                 result = result.Where(p => p.IdBancoZiPago == cuentaFiltros.IdBancoZiPago);
 

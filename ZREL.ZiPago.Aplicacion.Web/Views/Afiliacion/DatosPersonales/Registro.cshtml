@@ -5,6 +5,9 @@
     var departamentos = ViewBag.Departamentos as List<SelectListItem>;
     var provincias = ViewBag.Provincias as List<SelectListItem>;
     var distritos = ViewBag.Distritos as List<SelectListItem>;
+    ViewData["DatPerActivo"] = " class=\"active\" ";
+    ViewData["CtaBanActivo"] = "";
+    ViewData["ComActivo"] = "";
 }
 
 <section class="content-header">
@@ -24,11 +27,7 @@
             <div class="box box-primary">
                 <div class="box-header">
                     <h3 class="box-title">Datos Personales</h3>&nbsp;&nbsp; 
-                    <div class="box-tools">
-                        <a asp-controller="Home" asp-action="Index" id="btnCancelar" class="btn btn-default">
-                            <i class="fa fa-undo"></i>&nbsp;Cancelar
-                        </a>
-                    </div><br /><br />
+                    <br /><br />
                     <small class="text-red">(*) Datos obligatorios.</small>
                 </div>
 
@@ -74,7 +73,7 @@
                                     <label for="numeroruc">RUC:</label><label class="text-red">&nbsp;*</label>
                                 </div>
                                 <div class="col-sm-2">
-                                    <input id="numeroruc" name="numeroruc" type="text" class="form-control" placeholder="Nro. de Registro Unico de Contribuyente" asp-for="NumeroDocumento" maxlength="11">
+                                    <input id="numeroruc" name="numeroruc" type="text" class="form-control" placeholder="Nro. de Reg. Unico de Contribuyente" asp-for="NumeroDocumento" maxlength="11">
                                 </div>
                                 <div class="col-sm-2">
                                     <label for="razonsocial">Razon Social:</label><label class="text-red">&nbsp;*</label>
@@ -99,7 +98,7 @@
                                 <label for="numerodocumentocontacto">Numero de Doc. de Identidad:</label><label class="text-red">&nbsp;*</label>
                             </div>
                             <div class="col-sm-2">
-                                <input id="numerodocumentocontacto" name="numerodocumentocontacto" type="text" class="form-control" placeholder="Nro. de Doc. de Identidad" asp-for="NumeroDocumentoContacto" maxlength="8">
+                                <input id="numerodocumentocontacto" name="numerodocumentocontacto" type="text" class="form-control" placeholder="Nro. de Doc. de Identidad" asp-for="NumeroDocumentoContacto">
                             </div>
                         </div>
                         <div class="form-group">

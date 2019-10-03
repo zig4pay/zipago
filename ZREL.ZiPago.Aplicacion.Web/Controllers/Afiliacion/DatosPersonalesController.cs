@@ -59,7 +59,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
             };
 
             try
-            {                
+            {
                 // Tipo de Persona
                 responseTD = new ResponseListModel<TablaDetalle>();
                 requestUrl = ApiClientFactory.Instance.CreateRequestUri(

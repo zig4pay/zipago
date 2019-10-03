@@ -105,9 +105,9 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a asp-controller="DatosPersonales" asp-action="Index"><i class="fa fa-circle-o"></i> Datos Personales</a></li>
-                            <li><a asp-controller="CuentaBancaria" asp-action="Index"><i class="fa fa-circle-o"></i> Cuentas Bancarias</a></li>
-                            <li><a asp-controller="Comercio" asp-action="Index"><i class="fa fa-circle-o"></i> Comercios</a></li>
+                            <li @Html.Raw(ViewData["DatPerActivo"])><a asp-controller="DatosPersonales" asp-action="Index"><i class="fa fa-circle-o"></i> Datos Personales</a></li>
+                            <li @Html.Raw(ViewData["CtaBanActivo"])><a asp-controller="CuentaBancaria" asp-action="Index"><i class="fa fa-circle-o"></i> Cuentas Bancarias</a></li>
+                            <li @Html.Raw(ViewData["ComActivo"])><a asp-controller="Comercio" asp-action="Index"><i class="fa fa-circle-o"></i> Comercios</a></li>
                         </ul>
                     </li>
                     <li>

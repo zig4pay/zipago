@@ -298,7 +298,7 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
                 response.Model = await DbContext.ListarComerciosAsync(comercioFiltros);
                 foreach (ComercioListado comercio in response.Model)
                 {
-                    comercio.Estado = comercio.Estado == Constantes.strValor_Activo ? "Activo" : "Inactivo";
+                    comercio.Estado = comercio.Estado == Constantes.EstadoComercio.Activo.ToString("d") ? Constantes.strEstadoComercio_Activo : Constantes.strEstadoComercio_Pendiente;
                 }
                 response.Mensaje = Constantes.strConsultaRealizada;
                 logger.Info("[Negocio.Afiliacion.AfiliacionService.ListarComerciosAsync] | ComercioFiltros: [{0}] | Mensaje: [{1}].", JsonConvert.SerializeObject(comercioFiltros), Constantes.strConsultaRealizada);
@@ -329,7 +329,7 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
                             IdUsuarioZiPago = item.ComercioZiPago.IdUsuarioZiPago,
                             Descripcion = item.ComercioZiPago.Descripcion,
                             CorreoNotificacion = item.ComercioZiPago.CorreoNotificacion,
-                            Estado = Constantes.EstadoComercio.PendienteDeActivar.ToString(),
+                            Estado = Constantes.EstadoComercio.PendienteDeActivar.ToString("d"),
                             Activo = Constantes.strValor_Activo,
                             FechaCreacion = DateTime.Now
                         };

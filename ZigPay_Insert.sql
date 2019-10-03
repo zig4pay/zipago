@@ -139,10 +139,10 @@ Begin Tran
       ('TIPO_MONEDA', '02', 'Dolares ($)'),
       -------------------------------------------------------------------------
       -------------------------------------------------------------------------
-      ('TIPO_DOC_ID', '01', 'DNI - Documento Nacional de Identidad'),
-      ('TIPO_DOC_ID', '02', 'RUC - Registro Unico de Contribuyente'),      
-      ('TIPO_DOC_ID', '03', 'CE - Carnet de Extranjeria'),
-      ('TIPO_DOC_ID', '04', 'OTR - Otros'),
+      ('TIPO_DOC_ID', '01', 'DNI - Doc. Nacional de Identidad'),     -->  8
+      ('TIPO_DOC_ID', '02', 'RUC - Reg. Unico de Contribuyentes'),   --> 11
+      ('TIPO_DOC_ID', '03', 'CE - Carnet de Extranjeria'),           --> 12
+      ('TIPO_DOC_ID', '04', 'OTROS - Otros'),                        --> 15
       -------------------------------------------------------------------------
       -------------------------------------------------------------------------
       ('TIPO_CUENTA', '01', 'Cuenta Corriente'),

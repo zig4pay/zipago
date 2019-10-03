@@ -40,8 +40,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
             ResponseListModel<BancoZiPago> responseBanco;
             
             try
-            {
-                //if (HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session") != null) {
+            {                
                 model.IdUsuarioZiPago = User.GetLoggedInUserId<int>();
 
                 requestUrl = ApiClientFactory.Instance.CreateRequestUri(
@@ -53,12 +52,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
 
                 model.Bancos = responseBanco.Model;
 
-                return View("~/Views/Afiliacion/Comercio/Consulta.cshtml", model);
-                //}
-                //else
-                //{
-                //    return View("~/Views/Seguridad/Login.cshtml");
-                //}
+                return View("~/Views/Afiliacion/Comercio/Consulta.cshtml", model);                
             }
             catch (Exception)
             {
@@ -147,9 +141,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
             ResponseListModel<BancoZiPago> responseBanco;
 
             try
-            {
-                //if (HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session") != null)
-                //{
+            {                
                 model.IdUsuarioZiPago = User.GetLoggedInUserId<int>();
                 model.Clave1 = User.GetLoggedInUserEmail();
 
@@ -162,12 +154,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
 
                 model.Bancos = responseBanco.Model;
 
-                return View("~/Views/Afiliacion/Comercio/Registro.cshtml", model);
-                //}
-                //else
-                //{
-                //    return View("~/Views/Seguridad/Login.cshtml");
-                //}
+                return View("~/Views/Afiliacion/Comercio/Registro.cshtml", model);             
             }
             catch (Exception)
             {
@@ -218,10 +205,8 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
             ComercioZiPago comercio;
             CuentaBancariaZiPago cuentaBancaria;
             string response = string.Empty;
-
             try
             {
-
                 foreach (ComercioZiPago item in comercios)
                 {
                     comercio = new ComercioZiPago{
@@ -242,22 +227,18 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
 
                     lstComercioCuenta.Add(comercioCuenta);
                 }
-
                 requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_ComerciosRegistrar));
                 response = await ApiClientFactory.Instance.PostJsonAsync<List<ComercioCuentaZiPago>>(requestUrl, lstComercioCuenta);
                 response = response.ToString().Replace("\\", string.Empty);
                 response = response.Trim('"');
 
                 responseJson = Json(response);
-
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-
             return responseJson;
-
         }
 
     }

@@ -177,7 +177,8 @@ function Registrar() {
             var content = JSON.parse(resp);            
             if (!content.hizoError) {
                 LimpiarFormulario();
-                swal("Registro de Comercio", content.mensaje, "success");
+                swal("Registro de Comercio", content.mensaje, "success");                
+                window.location = "/Comercio/Index";
             } else {
                 swal({
                     title: "Registro de Comercio",

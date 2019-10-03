@@ -3,6 +3,9 @@
 
 @{
     Layout = "_Layout";
+    ViewData["DatPerActivo"] = "";
+    ViewData["CtaBanActivo"] = "";
+    ViewData["ComActivo"] = " class=\"active\" ";
 }
 
 <section class="content-header">
@@ -31,7 +34,7 @@
 
                             <div class="box box-widget collapsed-box">
                                 <div class="box-header">
-                                    <h3 class="box-title">Filtros de busqueda avanzada:</h3>
+                                    <h3 class="box-title">Filtros de busqueda:</h3>
                                     <div class="box-tools">
                                         <button type="button" class="btn btn-box-tool" data-widget="collapse">
                                             <i class="fa fa-plus"></i>
@@ -59,8 +62,8 @@
                                             <div class="col-sm-2">
                                                 <select id="estado" name="estado" class="form-control">
                                                     <option value="0">Seleccione</option>
-                                                    <option value="@Constantes.EstadoComercio.PendienteDeActivar">Pendiente de Activar</option>
-                                                    <option value="@Constantes.EstadoComercio.Activo">Activo</option>
+                                                    <option value="@Constantes.EstadoComercio.PendienteDeActivar">@Constantes.strEstadoComercio_Pendiente</option>
+                                                    <option value="@Constantes.EstadoComercio.Activo">@Constantes.strEstadoComercio_Activo</option>
                                                 </select>
                                             </div>
                                         </div>

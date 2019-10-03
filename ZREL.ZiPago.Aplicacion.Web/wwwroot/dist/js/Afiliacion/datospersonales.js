@@ -30,14 +30,21 @@
         $.validator.setDefaults({});
 
         $.validator.addMethod("validarrubronegocio", function (value) {
-            if (parseInt(value) === 0 && $("#otrorubronegocio").val().trim() === "") {
-                console.log(parseInt(value));
-                console.log($("#otrorubronegocio").val().trim());
+            if (parseInt(value) === 0 && $("#otrorubronegocio").val().trim() === "") {                
                 return false;
             } else {
                 return true;                
             }
         }, "Por favor seleccione el Rubro de Negocio al cual pertenece, en caso no lo encuentre ingreselo en la casilla Otro.");
+
+        $.validator.addMethod("minlenghtnrodoccontacto", function (value) {
+            if (parseInt($("#tipodocidentidad").val()) === 1) {
+                cantdigitos = 8;
+                return $("#numerodocumentocontacto").val().trim().length < 8 ? false : true;
+            } else {
+                return true;
+            }
+        }, "El Numero de Documento de Identidad debe contener minimo 8 digitos.");
 
         $.validator.addMethod("validarpersonajuridica", function (value, element) {
             
@@ -97,8 +104,8 @@
             MostrarDivJuridica(false);
         }
 
-        $("#numeroruc").keypress(PermitirSoloNumeros);        
-        $("#numerodocumentocontacto").keypress(PermitirSoloNumeros);
+        $("#numeroruc").keypress(PermitirSoloNumeros);
+        $("#numerodocumentocontacto").keypress(DeterminarTipoDato);
         $("#telefonofijo").keypress(SoloNumeroTelefonico);
         $("#telefonomovil").keypress(SoloNumeroTelefonico);
         $("#apellidopaterno").keypress(PermitirSoloLetras);
@@ -123,8 +130,7 @@
                 },
                 numerodocumentocontacto: {
                     required: true,
-                    minlength: 8,
-                    maxlength: 8
+                    minlenghtnrodoccontacto: true
                 },
                 nombres: {
                     required: true
@@ -166,9 +172,7 @@
                     validarseleccion: "Por favor seleccione un Tipo de Documento de Identidad."
                 },
                 numerodocumentocontacto: {
-                    required: "Por favor ingrese el numero de Documento de Identidad.",
-                    minlength: "El numero de DNI debe contener minimo 8 digitos.",
-                    maxlength: "El numero de DNI debe contener maximo 8 digitos."
+                    required: "Por favor ingrese el numero de Documento de Identidad."
                 },
                 nombres: "Por favor ingrese un nombre.",
                 apellidopaterno: "Por favor ingrese un Apellido Paterno",
@@ -229,7 +233,7 @@
                 });
             }
         });
-    
+
     });
 
     $(document).on('change', '[data-cascade-combo]', function (event) {
@@ -260,6 +264,21 @@
         });
     });
 
+    $(document).on('change', '#tipodocidentidad', function (event) {
+        $("#numerodocumentocontacto").val("");
+        switch (parseInt($("#tipodocidentidad").val())) {            
+            case 1:
+                $("#numerodocumentocontacto").prop('maxLength', 8);
+                break;
+            case 3:                
+                $("#numerodocumentocontacto").prop('maxLength', 12);
+                break;
+            case 4:                
+                $("#numerodocumentocontacto").prop('maxLength', 15);
+                break;
+        }
+    });
+
     $('#optPersonaJuridica').on('change', function () {
         if ($(this).is(":checked")) {
             MostrarDivJuridica(true);
@@ -271,8 +290,30 @@
             MostrarDivJuridica(false);
         }
     });
-
+        
 });
+
+function DeterminarTipoDato(e) {
+
+    var regex;
+    var key;
+
+    switch (parseInt($("#tipodocidentidad").val())) {
+        case 1:
+            if (e.which !== 8 && e.which !== 0 && (e.which < 48 || e.which > 57)) {
+                return false;
+            }
+            break;
+        default:
+            regex = new RegExp("^[a-zA-Z0-9\b]+$");
+            key = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+            if (!regex.test(key)) {
+                e.preventDefault();
+                return false;
+            }
+    }
+}
+
 
 function Deshabilitar() {
 

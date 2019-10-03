@@ -2,6 +2,9 @@
 @using ZREL.ZiPago.Libreria
 @{
     Layout = "_Layout";
+    ViewData["DatPerActivo"] = "";
+    ViewData["CtaBanActivo"] = " class=\"active\" ";
+    ViewData["ComActivo"] = "";
 }
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -30,7 +33,7 @@
 
                             <div class="box box-widget collapsed-box">
                                 <div class="box-header">
-                                    <h3 class="box-title">Filtros de busqueda avanzada:</h3>
+                                    <h3 class="box-title">Filtros de busqueda:</h3>
                                     <div class="box-tools">
                                         <button type="button" class="btn btn-box-tool" data-widget="collapse">
                                             <i class="fa fa-plus"></i>
