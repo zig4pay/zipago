@@ -38,18 +38,6 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
 
             try
             {
-                //if (HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session") != null)
-                //{
-                //    UsuarioViewModel usuario = HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session");
-
-                //UsuarioViewModel usuario = new UsuarioViewModel {
-                //                                IdUsuarioZiPago = User.GetLoggedInUserId<int>(),
-                //                                Clave1 = User.GetLoggedInUserEmail(),
-                //                                NombresUsuario = User.GetLoggedInUserName(),
-                //                                ApellidosUsuario = User.GetLoggedInUserLastName(),
-                //                                AceptoTerminos = User.GetLoggedInUserAcceptTerms()
-                //                            };
-
                 requestUrl = ApiClientFactory.Instance.CreateRequestUri(
                     string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_ComerciosObtenerCantidadPorUsuarioAsync) +
                     User.GetLoggedInUserId<int>().ToString()
@@ -78,12 +66,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
                 ViewData["PagosMonto"] = "S/ 0.00";
                 ViewData["PagosTexto"] = Constantes.strMontoPagosTexto;
 
-                return View("~/Views/Home/Index.cshtml");
-                //}
-                //else
-                //{
-                //    return RedirectToAction("UsuarioAutenticar", "Seguridad");
-                //}
+                return View("~/Views/Home/Index.cshtml");                
             }
             catch (Exception ex)
             {

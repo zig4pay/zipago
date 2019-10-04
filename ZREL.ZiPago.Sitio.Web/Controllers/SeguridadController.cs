@@ -23,21 +23,20 @@ namespace ZREL.ZiPago.Sitio.Web.Controllers
         public SeguridadController(IConfiguration configuration, IOptions<WebSiteSettingsModel> app)
         {
             this.configuration = configuration;
-            webSettings = app;            
+            webSettings = app;
             ApiClientSettings.ZZiPagoApiUrl = webSettings.Value.ZZiPagoApiUrl;
         }
 
         [HttpGet]        
         public IActionResult UsuarioRegistrar()
-        {
+        {            
             ViewData["ReCaptchaKey"] = webSettings.Value.SiteKey;
-            return View("~/Views/Seguridad/Registro.cshtml");
+            return View("~/Views/Seguridad/Registro.cshtml");            
         }
 
         [HttpPost]        
         public async Task<IActionResult> UsuarioRegistrar(UsuarioViewModel model)
         {
-
             ResponseModel<UsuarioViewModel> response = new ResponseModel<UsuarioViewModel>();            
             var logger = NLog.LogManager.GetCurrentClassLogger();
             ViewData["ReCaptchaKey"] = webSettings.Value.SiteKey;

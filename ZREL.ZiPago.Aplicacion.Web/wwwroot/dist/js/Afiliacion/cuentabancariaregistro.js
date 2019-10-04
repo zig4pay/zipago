@@ -142,7 +142,7 @@ function Registrar() {
             confirmButtonText: "Ok",
             closeOnConfirm: false
         }, function () {
-            window.location = "/CuentaBancaria/Index";
+            window.location = "/ZIPAGO_WebApp/CuentaBancaria/Index";
         });
 
         if (!content.hizoError) {

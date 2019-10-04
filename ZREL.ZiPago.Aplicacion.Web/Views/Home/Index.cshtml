@@ -1,5 +1,10 @@
 ﻿@{
     Layout = "_Layout";
+    ViewData["Inicio"] = " class=\"active\" ";
+    ViewData["Afiliacion"] = "";
+    ViewData["DatosPersonales"] = "";
+    ViewData["CuentaBancaria"] = "";
+    ViewData["Comercio"] = "";
 }
 
 <section class="content-header">
@@ -13,16 +18,15 @@
 </section>
 
 <section class="content">
-
     <div class="row">
         <div class="col-lg-3 col-xs-6">
             <div class="small-box bg-aqua">
                 <div class="inner">
-                    <h3>@ViewData["ComerciosCantidad"]</h3>
-                    <p>@ViewData["ComerciosTexto"]</p>
+                    <h3>@ViewData["CuentasBancariasCantidad"]</h3>
+                    <p>@ViewData["CuentasBancariasTexto"]</p>
                 </div>
                 <div class="icon">
-                    <i class="ion ion-bag"></i>
+                    <i class="fa fa-credit-card"></i>
                 </div>
                 <a class="small-box-footer">&nbsp;</a>
             </div>
@@ -30,11 +34,11 @@
         <div class="col-lg-3 col-xs-6">
             <div class="small-box bg-green">
                 <div class="inner">
-                    <h3>@ViewData["CuentasBancariasCantidad"]</h3>
-                    <p>@ViewData["CuentasBancariasTexto"]</p>
+                    <h3>@ViewData["ComerciosCantidad"]</h3>
+                    <p>@ViewData["ComerciosTexto"]</p>                    
                 </div>
                 <div class="icon">
-                    <i class="fa fa-credit-card"></i>
+                    <i class="ion ion-bag"></i>                    
                 </div>
                 <a class="small-box-footer">&nbsp;</a>
             </div>
@@ -50,8 +54,8 @@
                 </div>
                 <a class="small-box-footer">&nbsp;</a>
             </div>
-        </div>        
-        <div class="col-lg-3 col-xs-6">            
+        </div>
+        <div class="col-lg-3 col-xs-6">
             <div class="small-box bg-red">
                 <div class="inner">
                     <h3>@ViewData["PagosMonto"]</h3>
@@ -62,7 +66,20 @@
                 </div>
                 <a class="small-box-footer">&nbsp;</a>
             </div>
-        </div>        
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+
+            @*<ul class="timeline">
+                <li>
+                    <i class="fa fa-envelope bg-blue"></i>        
+
+                </li>
+            </ul>*@
+
+        </div>
     </div>
 </section>
 

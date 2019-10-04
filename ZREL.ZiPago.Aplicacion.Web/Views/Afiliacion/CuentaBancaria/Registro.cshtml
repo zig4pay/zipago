@@ -1,9 +1,11 @@
 ﻿@model ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion.CuentaBancariaViewModel
 @{
     Layout = "_Layout";
-    ViewData["DatPerActivo"] = "";
-    ViewData["CtaBanActivo"] = " class=\"active\" ";
-    ViewData["ComActivo"] = "";
+    ViewData["Inicio"] = "";
+    ViewData["Afiliacion"] = " active";
+    ViewData["DatosPersonales"] = "";
+    ViewData["CuentaBancaria"] = " class=\"active\" ";
+    ViewData["Comercio"] = "";
 }
 
 <section class="content-header">
@@ -73,7 +75,7 @@
                                                         <input id="numerocuenta" name="numerocuenta" type="text" class="form-control" placeholder="Nro. de Cta. Bancaria" maxlength="20">
                                                     </div>                                                
                                                     <div class="col-sm-2">
-                                                        <label for="cci" >Codigo de Cta. Interbancario - CCI:</label>
+                                                        <label for="cci" >Codigo de Cta. Interbancario - CCI:</label><label id="labelCCI"></label>
                                                     </div>
                                                     <div class="col-sm-3">
                                                         <input id="cci" name="cci" type="text" class="form-control" placeholder="Codigo CCI" maxlength="20">

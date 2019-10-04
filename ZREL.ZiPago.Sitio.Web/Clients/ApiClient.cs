@@ -52,7 +52,7 @@ namespace ZREL.ZiPago.Sitio.Web.Clients
         public async Task<string> PostJsonAsync<T>(Uri requestUrl, T content)
         {
             var response = await httpClient.PostAsync(requestUrl.ToString(), CreateHttpContent<T>(content));
-            response.EnsureSuccessStatusCode();
+            response.EnsureSuccessStatusCode();            
             var data = await response.Content.ReadAsStringAsync();
             return JsonConvert.SerializeObject(data);
         }
