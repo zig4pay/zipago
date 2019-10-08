@@ -41,6 +41,21 @@
             }
         });
 
+        $.validator.addMethod("validarcci", function () {
+
+            var bancos = $("#bancosafiliados").val().split(",");
+            var resultado = true;    
+
+            for (var i = 0; i < bancos.length; i++) {
+                if (parseInt(bancos[i]) !== parseInt($('#idbancozipago').val())) {                    
+                    resultado = $('#cci').val() === "" ? false : true;                    
+                    return resultado;
+                }
+            }
+
+            return resultado;
+        });
+
         $("#numerocuenta").keypress(PermitirSoloNumeros);
         $("#cci").keypress(PermitirSoloNumeros);
 
@@ -55,7 +70,10 @@
                 codigomoneda: {
                     validarseleccion: true
                 },
-                numerocuenta: "required"
+                numerocuenta: "required",
+                cci: {
+                    validarcci: true
+                }
             },
             messages: {
                 idbancozipago: {
@@ -69,30 +87,34 @@
                 },
                 numerocuenta: {
                     required: "Por favor ingrese el Numero de la Cuenta Bancaria, sin guiones u otros caracteres."
-                }                
+                },
+                cci: {
+                    validarcci: "Por favor ingrese el Numero de Codigo de Cuenta Interbancario o CCI."
+                }
             }
         });
     });
 
+    $('#idbancozipago').on('change', function () {
+
+        $("#labelCCI").text(" *");
+        var bancos = $("#bancosafiliados").val().split(",");
+        for (var i = 0; i < bancos.length; i++) {
+            if (parseInt(bancos[i]) === parseInt($('#idbancozipago').val())) {                
+                $("#labelCCI").text("");
+                return;
+            }
+        }
+    });
+
     $('#btnRegistrar').click(function () {
         var $valid = $('#frmRegistro').valid();
+        $("#cuentabancariaexiste").hide();
 
         if (!$valid) {
             return false;
-        } else {            
-            swal({
-                title: "Registro de Cuenta Bancaria",
-                text: "Desea registrar los datos ingresados?",
-                type: "info",
-                showCancelButton: true,
-                confirmButtonClass: "btn-primary",
-                confirmButtonText: "Si, registrar",
-                cancelButtonText: "No, cancelar",
-                closeOnConfirm: false
-            },
-            function () {
-                Registrar();
-            });
+        } else {                        
+            VerificaExisteCuentaBancaria();            
         }
     });
 
@@ -104,6 +126,59 @@ function LimpiarFormulario() {
     $("#codigomoneda").val("00");
     $("#numerocuenta").val("");
     $("#cci").val("");
+}
+
+function VerificaExisteCuentaBancaria() {
+
+    var CuentaBancaria = new Object;
+    CuentaBancaria.IdUsuarioZiPago = $("#idusuariozipago").val();
+    CuentaBancaria.IdBancoZiPago = $("#idbancozipago").val();
+    CuentaBancaria.NumeroCuenta = $("#numerocuenta").val();
+    CuentaBancaria.CodigoTipoCuenta = $("#codigotipocuenta").val();
+    CuentaBancaria.CodigoTipoMoneda = $("#codigomoneda").val();
+    
+    var DTO = { "cuentabancaria": CuentaBancaria };
+
+    $.ajax(
+        {
+            url: 'VerificarExistenciaCuentaBancaria/',
+            type: "POST",
+            data: DTO,
+            datatype: 'json',
+            ContentType: 'application/json;utf-8'
+        })
+        .done(function (resp) {
+            $.each(resp, function (i, field) {
+                if (i === "Mensaje") {
+                    if (field === "Existe") {
+                        $("#cuentabancariaexiste").show();
+                    } else {
+                        swal({
+                            title: "Registro de Cuenta Bancaria",
+                            text: "Desea registrar los datos ingresados?",
+                            type: "info",
+                            showCancelButton: true,
+                            confirmButtonClass: "btn-primary",
+                            confirmButtonText: "Si, registrar",
+                            cancelButtonText: "No, cancelar",
+                            closeOnConfirm: false
+                        },
+                            function () {
+                                Registrar();
+                            });
+                    }
+                }
+            });
+        })
+        .fail(function (err) {
+            swal({
+                title: "Registro de Cuenta Bancaria",
+                text: "Se ha producido un error al validar la Cuenta Bancaria, por favor intentelo en unos minutos.",
+                type: "error",
+                confirmButtonText: "OK",
+                confirmButtonClass: 'btn text-white bg-button-acept'
+            });
+        });
 }
 
 function Registrar() {
@@ -142,7 +217,7 @@ function Registrar() {
             confirmButtonText: "Ok",
             closeOnConfirm: false
         }, function () {
-            window.location = "/ZIPAGO_WebApp/CuentaBancaria/Index";
+            window.location = "/CuentaBancaria/Index";
         });
 
         if (!content.hizoError) {

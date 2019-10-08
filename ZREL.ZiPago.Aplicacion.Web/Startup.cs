@@ -34,17 +34,11 @@ namespace ZREL.ZiPago.Aplicacion.Web
                 .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
             services.Configure<WebSiteSettingsModel>(Configuration.GetSection("ZRELZiPagoWebApi"));
             services.Configure<WebSiteSettingsModel>(Configuration.GetSection("ZRELZiPagoWebSite"));
+            services.Configure<WebSiteSettingsModel>(Configuration.GetSection("ZRELZiPagoDatos"));
             services.Configure<WebSiteSettingsModel>(Configuration.GetSection("GoogleReCaptcha"));
-            //services.AddCors();
+            services.AddCors();
 
             services.AddDistributedMemoryCache();
-
-            //services.AddSession(options =>
-            //{                
-            //    options.IdleTimeout = TimeSpan.FromMinutes(30);
-            //    options.Cookie.HttpOnly = true;
-            //    options.Cookie.IsEssential = true;
-            //});
 
             services.AddAuthentication(options =>
             {

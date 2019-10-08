@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -11,7 +12,6 @@ using ZREL.ZiPago.Aplicacion.Web.Clients;
 using ZREL.ZiPago.Aplicacion.Web.Extensions;
 using ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion;
 using ZREL.ZiPago.Aplicacion.Web.Models.Response;
-using ZREL.ZiPago.Aplicacion.Web.Models.Seguridad;
 using ZREL.ZiPago.Aplicacion.Web.Models.Settings;
 using ZREL.ZiPago.Aplicacion.Web.Utility;
 using ZREL.ZiPago.Entidad.Afiliacion;
@@ -42,8 +42,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
             ResponseListModel<TablaDetalle> responseTD;
 
             try
-            {
-                //if (HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session") != null) {
+            {                
 
                 model.IdUsuarioZiPago = User.GetLoggedInUserId<int>();
 
@@ -63,16 +62,39 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
                 model.TipoMonedas = responseTD.Model;
 
                 return View("~/Views/Afiliacion/CuentaBancaria/Consulta.cshtml", model);
-                //}
-                //else
-                //{
-                //    return View("~/Views/Seguridad/Login.cshtml");
-                //}
+                
             }
             catch (Exception ex)
             {
                 return View("~/Views/Seguridad/Login.cshtml");
             }            
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<JsonResult> VerificarExistenciaCuentaBancaria(CuentaBancariaZiPago cuentabancaria)
+        {
+            JsonResult response;
+            Uri requestUrl;
+            ResponseModel<CuentaBancariaZiPago> responseCuentaBancaria = new ResponseModel<CuentaBancariaZiPago>();
+            var logger = LogManager.GetCurrentClassLogger();
+            try
+            {
+                logger.Info("[Aplicacion.Web.Controllers.Afiliacion.ComerciosController.VerificarExistenciaCuentaBancaria] | CuentaBancaria [{0}]", JsonConvert.SerializeObject(cuentabancaria));
+                requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_CuentaBancariaObtener));                
+                responseCuentaBancaria = await ApiClientFactory.Instance.PostAsync<CuentaBancariaZiPago>(requestUrl, cuentabancaria);
+                if (!responseCuentaBancaria.HizoError)
+                {
+                    responseCuentaBancaria.Mensaje = responseCuentaBancaria.Model is null ? "NoExiste" : "Existe";
+                }
+                response = Json(responseCuentaBancaria);
+            }
+            catch (Exception ex)
+            {
+                response = Json("");
+                logger.Error("[Aplicacion.Web.Controllers.Afiliacion.ComerciosController.VerificarExistenciaCuentaBancaria] | Error [0]", ex.ToString());
+            }
+            return response;
         }
 
         [HttpGet]
@@ -131,32 +153,28 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
             ResponseListModel<TablaDetalle> responseTD;
 
             try
-            {
-                //if (HttpContext.Session.Get<UsuarioViewModel>("ZiPago.Session") != null)
-                //{
-                    model.IdUsuarioZiPago = User.GetLoggedInUserId<int>();
+            {                
+                model.IdUsuarioZiPago = User.GetLoggedInUserId<int>();
                     
-                    requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.BancoZiPago_Listar));
-                    responseBanco = await ApiClientFactory.Instance.GetListAsync<BancoZiPago>(requestUrl);
-                    responseBanco.Model.Insert(0, new BancoZiPago { IdBancoZiPago = 0, NombreLargo = "Seleccione" });
-                    model.Bancos = responseBanco.Model;
+                requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.BancoZiPago_Listar));
+                responseBanco = await ApiClientFactory.Instance.GetListAsync<BancoZiPago>(requestUrl);
+                responseBanco.Model.Insert(0, new BancoZiPago { IdBancoZiPago = 0, NombreLargo = "Seleccione" });
+                model.Bancos = responseBanco.Model;
 
-                    requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.TablaDetalle_Listar) + Constantes.strCodTablaTipoCuenta);
-                    responseTD = await ApiClientFactory.Instance.GetListAsync<TablaDetalle>(requestUrl);
-                    responseTD.Model.Insert(0, new TablaDetalle { Cod_Tabla = Constantes.strCodTablaTipoCuenta, Valor = "00", Descr_Valor = "Seleccione" });
-                    model.TipoCuentas = responseTD.Model;
+                requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.TablaDetalle_Listar) + Constantes.strCodTablaTipoCuenta);
+                responseTD = await ApiClientFactory.Instance.GetListAsync<TablaDetalle>(requestUrl);
+                responseTD.Model.Insert(0, new TablaDetalle { Cod_Tabla = Constantes.strCodTablaTipoCuenta, Valor = "00", Descr_Valor = "Seleccione" });
+                model.TipoCuentas = responseTD.Model;
 
-                    requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.TablaDetalle_Listar) + Constantes.strCodTablaTipoMoneda);
-                    responseTD = await ApiClientFactory.Instance.GetListAsync<TablaDetalle>(requestUrl);
-                    responseTD.Model.Insert(0, new TablaDetalle { Cod_Tabla = Constantes.strCodTablaTipoMoneda, Valor = "00", Descr_Valor = "Seleccione" });
-                    model.TipoMonedas = responseTD.Model;
+                requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.TablaDetalle_Listar) + Constantes.strCodTablaTipoMoneda);
+                responseTD = await ApiClientFactory.Instance.GetListAsync<TablaDetalle>(requestUrl);
+                responseTD.Model.Insert(0, new TablaDetalle { Cod_Tabla = Constantes.strCodTablaTipoMoneda, Valor = "00", Descr_Valor = "Seleccione" });
+                model.TipoMonedas = responseTD.Model;
+                
+                ViewData["BancosAfiliados"] = webSettings.Value.BancosAfiliados_Codigos;
 
-                    return View("~/Views/Afiliacion/CuentaBancaria/Registro.cshtml", model);
-                //}
-                //else
-                //{
-                //    return View("~/Views/Seguridad/Login.cshtml");
-                //}
+                return View("~/Views/Afiliacion/CuentaBancaria/Registro.cshtml", model);
+                
             }
             catch (Exception)
             {

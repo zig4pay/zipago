@@ -23,6 +23,8 @@ namespace ZREL.ZiPago.Negocio.Contracts
 
         #region Cuentas Bancarias
 
+        Task<ISingleResponse<CuentaBancariaZiPago>> ObtenerCuentaBancariaZiPagoAsync(Logger logger, CuentaBancariaZiPago cuentabancaria);
+
         Task<IListResponse<BancoZiPago>> ListarBancosPorUsuarioAsync(Logger logger, int idUsuarioZiPago);
 
         Task<IListResponse<CuentaBancariaListado>> ListarCuentasBancariasAsync(Logger logger, CuentaBancariaFiltros cuentaFiltros);

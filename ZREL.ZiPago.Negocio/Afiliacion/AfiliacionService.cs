@@ -71,6 +71,24 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
             return response;
         }
 
+        public async Task<ISingleResponse<CuentaBancariaZiPago>> ObtenerCuentaBancariaZiPagoAsync(Logger logger, CuentaBancariaZiPago cuentabancaria)
+        {
+            SingleResponse<CuentaBancariaZiPago> response = new SingleResponse<CuentaBancariaZiPago>();
+            logger.Info("[Negocio.Afiliacion.AfiliacionService.ObtenerCuentaBancariaZiPagoAsync] | CuentaBancariaZiPago: [{0}] | Inicio.", JsonConvert.SerializeObject(cuentabancaria));
+            try
+            {
+                response.Model = await DbContext.ObtenerCuentaBancariaZiPagoAsync(cuentabancaria);
+                response.Mensaje = Constantes.strConsultaRealizada;
+                logger.Info("[Negocio.Afiliacion.AfiliacionService.ObtenerCuentaBancariaZiPagoAsync] | CuentaBancariaZiPago: [{0}] | Mensaje: [{1}].", JsonConvert.SerializeObject(cuentabancaria), Constantes.strConsultaRealizada);
+            }
+            catch (Exception ex)
+            {
+                response.Model = null;
+                response.SetError(logger, nameof(ObtenerComercioZiPagoAsync), "CuentaBancariaZiPago", ex);
+            }
+            return response;
+        }
+
         public async Task<ISingleResponse<ComercioZiPago>> ObtenerComercioZiPagoAsync(Logger logger, string codigoComercio)
         {
             SingleResponse<ComercioZiPago> response = new SingleResponse<ComercioZiPago>();
