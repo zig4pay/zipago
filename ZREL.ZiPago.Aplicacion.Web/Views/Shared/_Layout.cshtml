@@ -107,23 +107,27 @@
                             </li>
                         </ul>
                     </li>
-                    <li>
+                    <li class="treeview @ViewData["X"]">
                         <a href="#">
-                            <i class="fa fa-money"></i>
-                            <span>Pagos</span>
+                            <i class="fa fa-money"></i><span>X</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
                         </a>
+                        <ul class="treeview-menu">
+                            <li @Html.Raw(ViewData["Pagos"])>
+                                <a asp-controller="" asp-action=""><i class="fa fa-circle-o"></i> Pagos</a>
+                            </li>                            
+                        </ul>
                     </li>
                 </ul>
             </section>
-            <!-- /.sidebar -->
         </aside>
-
-        <!-- Content Wrapper. Contains page content -->
+                
         <div class="content-wrapper">
             @RenderBody()
         </div>
-        <!-- /.content-wrapper -->
-
+        
         <footer class="main-footer">
             <div class="pull-right hidden-xs">
                 <b>Version</b> 1.0

@@ -14,6 +14,8 @@
             Activo = 2
         }
 
+
+
         //[TD_TABLA_TABLAS]
         public const string strCodTablaRubroNegocio = "RUBRO_NEGOCIO";
 
@@ -69,6 +71,9 @@
         //ESTADOS COMERCIO
         public const string strEstadoComercio_Pendiente = "Pendiente de Activar";
         public const string strEstadoComercio_Activo = "Activo";
+
+        //BANCOS AFILIADOS
+        public const string strBancosAfiliados_Codigos = "[2],[5],[7],[9]";
 
         //Google ReCaptcha
         public const string GoogleRecaptchaSecretKey = "6Le0OasUAAAAALW4hoX9kXI_61sI-lVxim3MTBlc";

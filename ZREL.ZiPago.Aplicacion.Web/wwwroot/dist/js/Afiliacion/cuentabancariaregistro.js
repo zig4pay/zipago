@@ -46,18 +46,22 @@
             var bancos = $("#bancosafiliados").val().split(",");
             var resultado = false;    
 
-            for (var i = 0; i < bancos.length; i++) {
-                if (parseInt(bancos[i]) !== parseInt($('#idbancozipago').val())) {                    
-                    resultado = true;                    
-                }
+            if (parseInt($('#idbancozipago').val()) === 0) {
+                return true;
             }
 
-            if (!resultado) {
-                if ($("#cci").val().trim() !== "") {
+            for (var i = 0; i < bancos.length; i++) {
+                if (parseInt(bancos[i]) === parseInt($('#idbancozipago').val())) {
                     resultado = true;
                 }
             }
 
+            if (!resultado) {                
+                if ($("#cci").val().trim() !== "") {
+                    resultado = true;
+                }                
+            }
+            
             return resultado;
         });
 
@@ -138,9 +142,7 @@ function VerificaExisteCuentaBancaria() {
     var CuentaBancaria = new Object;
     CuentaBancaria.IdUsuarioZiPago = $("#idusuariozipago").val();
     CuentaBancaria.IdBancoZiPago = $("#idbancozipago").val();
-    CuentaBancaria.NumeroCuenta = $("#numerocuenta").val();
-    CuentaBancaria.CodigoTipoCuenta = $("#codigotipocuenta").val();
-    CuentaBancaria.CodigoTipoMoneda = $("#codigomoneda").val();
+    CuentaBancaria.NumeroCuenta = $("#numerocuenta").val();    
     
     var DTO = { "cuentabancaria": CuentaBancaria };
 

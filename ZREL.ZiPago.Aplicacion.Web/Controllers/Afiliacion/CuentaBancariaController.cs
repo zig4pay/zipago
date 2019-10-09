@@ -92,7 +92,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
             catch (Exception ex)
             {
                 response = Json("");
-                logger.Error("[Aplicacion.Web.Controllers.Afiliacion.ComerciosController.VerificarExistenciaCuentaBancaria] | Error [0]", ex.ToString());
+                logger.Error("[Aplicacion.Web.Controllers.Afiliacion.ComerciosController.VerificarExistenciaCuentaBancaria] | Error [{0}]", ex.ToString());
             }
             return response;
         }

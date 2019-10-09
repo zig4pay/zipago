@@ -143,9 +143,7 @@ namespace ZREL.ZiPago.Datos.Afiliacion
         {
             return await dbContext.CuentasBancariasZiPago.AsNoTracking().FirstOrDefaultAsync(item => item.IdUsuarioZiPago == entidad.IdUsuarioZiPago &&
                                                                                                      item.IdBancoZiPago == entidad.IdBancoZiPago &&
-                                                                                                     item.NumeroCuenta == entidad.NumeroCuenta &&
-                                                                                                     item.CodigoTipoCuenta == entidad.CodigoTipoCuenta &&
-                                                                                                     item.CodigoTipoMoneda == entidad.CodigoTipoMoneda
+                                                                                                     item.NumeroCuenta == entidad.NumeroCuenta 
                                                                                             );
         }
 
@@ -336,7 +334,7 @@ namespace ZREL.ZiPago.Datos.Afiliacion
                              Banco = banco.NombreLargo,
                              TipoCuentaBancaria = tipocuenta.Descr_Valor.Trim(),
                              MonedaCuentaBancaria = tipomoneda.Descr_Valor.Trim(),
-                             CuentaBancaria = cuentabancaria.NumeroCuenta.Trim(),
+                             CuentaBancaria = Constantes.strBancosAfiliados_Codigos.Contains("["+ banco.IdBancoZiPago.ToString()+"]") ? cuentabancaria.NumeroCuenta.Trim() : cuentabancaria.CCI.Trim(),
                              Estado = comercios.Estado,
                              FechaCreacion = comercios.FechaCreacion
                          };
