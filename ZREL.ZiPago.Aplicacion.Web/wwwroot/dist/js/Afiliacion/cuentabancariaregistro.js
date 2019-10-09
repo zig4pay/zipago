@@ -44,12 +44,17 @@
         $.validator.addMethod("validarcci", function () {
 
             var bancos = $("#bancosafiliados").val().split(",");
-            var resultado = true;    
+            var resultado = false;    
 
             for (var i = 0; i < bancos.length; i++) {
                 if (parseInt(bancos[i]) !== parseInt($('#idbancozipago').val())) {                    
-                    resultado = $('#cci').val() === "" ? false : true;                    
-                    return resultado;
+                    resultado = true;                    
+                }
+            }
+
+            if (!resultado) {
+                if ($("#cci").val().trim() !== "") {
+                    resultado = true;
                 }
             }
 
