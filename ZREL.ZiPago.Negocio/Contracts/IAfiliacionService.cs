@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using ZREL.ZiPago.Entidad.Afiliacion;
 using ZREL.ZiPago.Entidad.Comun;
+using ZREL.ZiPago.Entidad.Util;
 using ZREL.ZiPago.Negocio.Requests.Afiliacion;
 using ZREL.ZiPago.Negocio.Responses;
 
@@ -40,6 +41,8 @@ namespace ZREL.ZiPago.Negocio.Contracts
         #region Comercios
 
         Task<ISingleResponse<ComercioZiPago>> ObtenerComercioZiPagoAsync(Logger logger, string codigoComercio);
+
+        Task<IListResponse<EntidadGenerica>> ListarComerciosAsync(Logger logger);
 
         Task<IListResponse<ComercioListado>> ListarComerciosAsync(Logger logger, ComercioFiltros comercioFiltros);
 

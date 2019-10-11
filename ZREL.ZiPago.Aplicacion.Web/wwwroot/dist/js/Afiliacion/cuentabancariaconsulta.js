@@ -44,3 +44,15 @@ function ConsultarCuentas() {
     });
 
 }
+
+function FormatearFecha(value) {
+    var fecha = new Date(value);
+    var anio  = fecha.getFullYear();
+    var mes = (1 + fecha.getMonth()).toString();    
+    var dia = fecha.getDate().toString();
+
+    mes = mes.length > 1 ? mes : '0' + mes;
+    dia = dia.length > 1 ? dia : '0' + dia;
+
+    return dia + '/' + mes + '/' + anio;
+}

@@ -1290,6 +1290,8 @@
     <Content Include="wwwroot\bower_components\PACE\themes\yellow\pace-theme-loading-bar.css" />
     <Content Include="wwwroot\bower_components\PACE\themes\yellow\pace-theme-mac-osx.css" />
     <Content Include="wwwroot\bower_components\PACE\themes\yellow\pace-theme-minimal.css" />
+    <Content Include="wwwroot\bower_components\select2\dist\css\select2.css" />
+    <Content Include="wwwroot\bower_components\select2\dist\css\select2.min.css" />
     <Content Include="wwwroot\bower_components\sweetalert\sweetalert.css" />
   </ItemGroup>
 
@@ -1675,6 +1677,12 @@
     <None Include="wwwroot\bower_components\PACE\pace.coffee" />
     <None Include="wwwroot\bower_components\PACE\pace.js" />
     <None Include="wwwroot\bower_components\PACE\pace.min.js" />
+    <None Include="wwwroot\bower_components\select2\dist\js\i18n\en.js" />
+    <None Include="wwwroot\bower_components\select2\dist\js\i18n\es.js" />
+    <None Include="wwwroot\bower_components\select2\dist\js\select2.full.js" />
+    <None Include="wwwroot\bower_components\select2\dist\js\select2.full.min.js" />
+    <None Include="wwwroot\bower_components\select2\dist\js\select2.js" />
+    <None Include="wwwroot\bower_components\select2\dist\js\select2.min.js" />
     <None Include="wwwroot\bower_components\sweetalert\sweetalert.js" />
     <None Include="wwwroot\bower_components\sweetalert\sweetalert.min.js" />
   </ItemGroup>
@@ -1691,6 +1699,11 @@
   <ItemGroup>
     <ProjectReference Include="..\ZREL.ZiPago.Entidad\ZREL.ZiPago.Entidad.csproj" />
     <ProjectReference Include="..\ZREL.ZiPago.Libreria\ZREL.ZiPago.Libreria.csproj" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Models\Cobranza\" />
   </ItemGroup>
 
 </Project>

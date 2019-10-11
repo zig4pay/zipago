@@ -10,6 +10,7 @@ using ZREL.ZiPago.Datos.Afiliacion;
 using ZREL.ZiPago.Entidad.Afiliacion;
 using ZREL.ZiPago.Entidad.Comun;
 using ZREL.ZiPago.Entidad.Seguridad;
+using ZREL.ZiPago.Entidad.Util;
 using ZREL.ZiPago.Libreria;
 using ZREL.ZiPago.Negocio.Contracts;
 using ZREL.ZiPago.Negocio.Requests.Afiliacion;
@@ -300,6 +301,26 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
                     response.Mensaje = ex.ToString();
                     response.SetError(logger, "[Negocio.Afiliacion.AfiliacionService.RegistrarCuentasBancariasAsync]", nameof(CuentaBancariaZiPago), ex);
                 }
+            }
+
+            return response;
+        }
+        
+        public async Task<IListResponse<EntidadGenerica>> ListarComerciosAsync(Logger logger, int idUsuarioZiPago)
+        {
+            ListResponse<EntidadGenerica> response = new ListResponse<EntidadGenerica>();
+            logger.Info("[Negocio.Afiliacion.AfiliacionService.ListarComerciosAsync] | IdUsuarioZiPago : {0} | Inicio.", idUsuarioZiPago.ToString());
+
+            try
+            {
+                response.Model = await DbContext.ListarComerciosAsync(idUsuarioZiPago);
+                response.Mensaje = Constantes.strConsultaRealizada;
+                logger.Info("[Negocio.Afiliacion.AfiliacionService.ListarComerciosAsync] | Response : [{0}] | Mensaje: [{1}].", JsonConvert.SerializeObject(response), Constantes.strConsultaRealizada);
+            }
+            catch (Exception ex)
+            {
+                response.Model = null;
+                response.SetError(logger, "Negocio.Afiliacion.AfiliacionService.ListarComerciosAsync", "IdUsuarioZiPago", ex);
             }
 
             return response;

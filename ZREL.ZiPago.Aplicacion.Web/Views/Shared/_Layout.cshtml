@@ -14,7 +14,8 @@
     <link rel="stylesheet" href="~/bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="~/bower_components/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="~/bower_components/Ionicons/css/ionicons.min.css">
-
+        
+    <link rel="stylesheet" href="~/bower_components/select2/dist/css/select2.min.css">
     <link rel="stylesheet" href="~/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
     <link rel="stylesheet" href="~/bower_components/bootstrap-table-master/dist/bootstrap-table.min.css">
     <link rel="stylesheet" href="~/bower_components/sweetalert/sweetalert.css">
@@ -107,16 +108,16 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="treeview @ViewData["X"]">
+                    <li class="treeview @ViewData["Cobranza"]">
                         <a href="#">
-                            <i class="fa fa-money"></i><span>X</span>
+                            <i class="fa fa-money"></i><span>Cobranza</span>
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
                         </a>
                         <ul class="treeview-menu">
                             <li @Html.Raw(ViewData["Pagos"])>
-                                <a asp-controller="" asp-action=""><i class="fa fa-circle-o"></i> Pagos</a>
+                                <a asp-controller="Pagos" asp-action="Index"><i class="fa fa-circle-o"></i> Pagos</a>
                             </li>                            
                         </ul>
                     </li>

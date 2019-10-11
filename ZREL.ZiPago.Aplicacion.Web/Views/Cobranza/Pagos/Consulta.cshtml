@@ -1,7 +1,181 @@
-﻿
-@{
-    ViewData["Title"] = "Consulta";
+﻿@{
+    Layout = "_Layout";
+    ViewData["Inicio"] = "";
+    ViewData["Afiliacion"] = "";
+    ViewData["DatosPersonales"] = "";
+    ViewData["CuentaBancaria"] = "";
+    ViewData["Comercio"] = "";
+    ViewData["Cobranza"] = " active";
+    ViewData["Pagos"] = " class=\"active\" ";
 }
 
-<h2>Consulta</h2>
+<section class="content-header">
+    <h1>
+        Pagos
+        <small>Consulta</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
+        <li><a href="#">Cobranza</a></li>
+        <li class="active">Pagos</li>
+    </ol>
+</section>
 
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Consulta de Pagos</h3>
+                </div>
+                <div class="box-body">
+
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <div class="box box-widget collapsed-box">
+                                <div class="box-header">
+                                    <h3 class="box-title">Filtros de busqueda:</h3>
+                                    <div class="box-tools">
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="box-body">
+
+                                    <form class="form-horizontal" id="frmConsulta" method="post">
+
+                                        @*<input id="idusuariozipago" name="idusuariozipago" type="hidden" asp-for="IdUsuarioZiPago" />*@
+
+                                        <div class="form-group">
+                                            <label for="clave1" class="col-sm-2">ID ZiPago:</label>
+                                            <div class="col-sm-2">
+                                                <input id="clave1" name="clave1" type="text" class="form-control" disabled>
+                                            </div>
+                                            <label for="descripcion" class="col-sm-2">Nombre/Raz&oacute;n Social:</label>
+                                            <div class="col-sm-3">
+                                                <input id="nombres" name="nombres" type="text" class="form-control" disabled>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="codigocomercio" class="col-sm-2">Comercio:</label>
+                                            <div class="col-sm-2">
+                                                <select id="codigocomercio" name="codigocomercio" class="form-control select2" style="width: 100%;"></select>
+                                            </div>
+                                            <label for="servicio" class="col-sm-2">Servicio:</label>
+                                            <div class="col-sm-2">
+                                                <select id="Servicio" name="servicio" class="form-control">
+                                                    <option value="0">Seleccione</option>
+                                                    <option value="1">Deuda Soles</option>
+                                                    <option value="2">Deuda Dolares</option>
+                                                    <option value="3">Pago Libre Soles</option>
+                                                    <option value="4">Pago Libre Dolares</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="codigocomercio" class="col-sm-2">Nro. Documento Pagado:</label>
+                                            <div class="col-sm-2">
+                                                <input id="documentopagado" name="documentopagado" type="text" class="form-control" placeholder="Nro. del Documento Pagado">
+                                            </div>
+                                            <label for="fechapagodesde" class="col-sm-2">Fecha del Pago:</label>
+                                            <div class="col-sm-1">
+                                                <input id="fechapagodesde" name="fechapagodesde" type="text" class="form-control datepicker pull-right">
+                                            </div>
+                                            <label for="fechapagohasta" class="col-sm-1">Hasta:</label>
+                                            <div class="col-sm-1">
+                                                <input id="fechapagohasta" name="fechapagohasta" type="text" class="form-control datepicker pull-right">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="codigocomercio" class="col-sm-2">Estado de la Transacci&oacute;n (TXN):</label>
+                                            <div class="col-sm-2">
+                                                <select id="Servicio" name="servicio" class="form-control">
+                                                    <option value="0">Seleccione</option>
+                                                    <option value="1">En Proceso</option>
+                                                    <option value="2">Anulado</option>
+                                                    <option value="3">OK</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-5"></div>
+                                            <div class="col-sm-2" style="text-align:right">
+                                                <button type="button" id="btnLimpiar" name="btnLimpiar" class="btn btn-default">
+                                                    <i class="fa fa-eraser"></i>&nbsp;Limpiar
+                                                </button>
+                                                <button type="button" id="btnConsultar" name="btnConsultar" class="btn btn-primary">
+                                                    <i class="fa fa-search"></i>&nbsp;Consultar
+                                                </button>
+                                            </div>
+
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+
+                            <div class="box box-widget">
+                                <div class="box-header">
+                                    <h3 class="box-title">Pagos registrados:</h3>
+                                </div>
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <table id="tblpagos"
+                                               data-classes="table table-hover table-striped"
+                                               data-locale="es-ES"
+                                               data-toggle="table"
+                                               data-search="false"
+                                               data-show-refresh="false"
+                                               data-pagination="true"
+                                               data-show-pagination-switch="false"
+                                               data-page-size="5"
+                                               data-page-list="[5, 10, 15, 20, All]"
+                                               data-pagination-pre-text="Anterior"
+                                               data-pagination-next-text="Siguiente">
+                                            <thead>
+                                                <tr>
+                                                    <th data-field="Id" data-visible="false">Id</th>
+                                                    <th data-field="1">Banco</th>
+                                                    <th data-field="2">Canal</th>
+                                                    <th data-field="3">Comercio</th>
+                                                    <th data-field="4">Servicio</th>
+                                                    <th data-field="5">Nombre</th>
+                                                    <th data-field="6">Nro. Doc. Pagado</th>
+                                                    <th data-field="7">Nro. Referencia</th>
+                                                    <th data-field="8">Descripcion Transac.</th>
+                                                    <th data-field="9">Fecha Transac.</th>
+                                                    <th data-field="10">Hora Transac.</th>
+                                                    <th data-field="11">Importe</th>
+                                                    <th data-field="12">Moneda</th>
+                                                    <th data-field="13">TXN</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script src="~/bower_components/jquery/dist/jquery-3.3.1.min.js"></script>
+<script src="~/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="~/bower_components/bootstrap-table-master/dist/bootstrap-table.min.js"></script>
+<script src="~/bower_components/bootstrap-table-master/dist/locale/bootstrap-table-es-ES.min.js"></script>
+<script src="~/bower_components/select2/dist/js/select2.full.min.js"></script>
+<script src="~/bower_components/select2/dist/js/i18n/es.js"></script>
+<script src="~/bower_components/moment/min/moment.min.js"></script>
+<script src="~/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<script src="~/bower_components/bootstrap-datepicker/dist/locales/bootstrap-datepicker.es.min.js"></script>
+<script src="~/dist/js/adminlte.min.js"></script>
+<script src="~/dist/js/Cobranza/pagosconsulta.js"></script>

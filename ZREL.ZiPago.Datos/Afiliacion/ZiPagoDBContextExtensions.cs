@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ZREL.ZiPago.Entidad.Afiliacion;
 using ZREL.ZiPago.Entidad.Comun;
+using ZREL.ZiPago.Entidad.Util;
 using ZREL.ZiPago.Libreria;
 
 namespace ZREL.ZiPago.Datos.Afiliacion
@@ -286,11 +287,25 @@ namespace ZREL.ZiPago.Datos.Afiliacion
         }
 
         //Comercios
+        public static async Task<IEnumerable<EntidadGenerica>> ListarComerciosAsync(this ZiPagoDBContext dbContext, int idUsuarioZiPago)
+        {
+            return await dbContext.ComerciosZiPago
+                            .AsNoTracking()
+                            .Where(item => item.IdUsuarioZiPago == idUsuarioZiPago &&
+                                           item.Activo == Constantes.strValor_Activo)
+                            .OrderBy(item => item.CodigoComercio)
+                            .Select(item => new EntidadGenerica
+                            {
+                                IdEntidad = item.IdComercioZiPago,
+                                Descripcion = item.CodigoComercio
+                            })
+                            .ToListAsync();                            
+        }
+
         public static async Task<ComercioZiPago> ObtenerComercioZiPagoAsync(this ZiPagoDBContext dbContext, string codigoComercio)
         {
             return await dbContext.ComerciosZiPago.AsNoTracking().FirstOrDefaultAsync(item => item.CodigoComercio == codigoComercio);
         }
-
         public static async Task<IEnumerable<ComercioListado>> ListarComerciosAsync(this ZiPagoDBContext dbContext, ComercioFiltros comercioFiltros)
         {
 
