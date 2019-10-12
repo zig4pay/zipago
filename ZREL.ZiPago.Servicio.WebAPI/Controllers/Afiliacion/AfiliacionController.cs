@@ -168,6 +168,20 @@ namespace ZREL.ZiPago.Servicio.WebAPI.Controllers.Afiliacion
             return response.ToHttpResponse();
         }
 
+        [HttpGet("{idUsuarioZiPago}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        [Route("ComerciosListar/{idUsuarioZiPago}")]
+        public async Task<IActionResult> ComerciosListarAsync(int idUsuarioZiPago)
+        {
+            Logger logger = LogManager.GetCurrentClassLogger();
+            logger.Info("[Servicio.WebAPI.Controllers.Afiliacion.AfiliacionController.ComerciosListarAsync] | idUsuarioZiPago: [{0}] | Inicio.", idUsuarioZiPago.ToString());
+            var response = await oIAfiliacionService.ListarComerciosAsync(logger, idUsuarioZiPago);
+            return response.ToHttpResponse();
+
+        }
+
         [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]

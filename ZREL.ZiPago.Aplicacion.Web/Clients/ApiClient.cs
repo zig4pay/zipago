@@ -36,6 +36,11 @@ namespace ZREL.ZiPago.Aplicacion.Web.Clients
             return JsonConvert.DeserializeObject<ResponseListModel<T>>(data);
         }
 
+        internal Uri CreateRequestUri(object p)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<string> GetJsonAsync (Uri requestUrl)
         {
             var response = await httpClient.GetAsync(requestUrl, HttpCompletionOption.ResponseHeadersRead);

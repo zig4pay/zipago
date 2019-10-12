@@ -31,6 +31,10 @@
         public const string strTipoDocIdRUC_Codigo = "02";
         public const string strTipoDocIdRUC_Descripcion = "RUC - Registro Unico de Contribuyente";
 
+        public const string strCodTablaEstadoTransaccion = "ESTADO_TXN";
+
+        public const string strCodTablaServiciosRecaudacion = "SERVICIO_ZIPAGO";
+
         public const string strValor_Activo = "S";
         public const string strValor_NoActivo = "N";
 

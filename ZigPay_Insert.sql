@@ -125,7 +125,9 @@ Begin Tran
       ('RUBRO_NEGOCIO', 'LISTA DE RUBROS DE NEGOCIO (ZIPAGO)'),
       ('DEPARTAMENTO', 'LISTA DE DEPARTAMENTOS DEL PERU (ZIPAGO)'),
       ('PROVINCIA', 'LISTA DE PROVINCIAS DEL PERU (ZIPAGO)'),
-      ('DISTRITO', 'LISTA DE DISTRITOS DEL PERU (ZIPAGO)')
+      ('DISTRITO', 'LISTA DE DISTRITOS DEL PERU (ZIPAGO)'),
+      ('ESTADO_TXN', 'ESTADO DE LA TRANSACCION - CLIENTE (ZIPAGO)'),
+      ('SERVICIO_ZIPAGO', 'SERVICIOS DE RECAUDACION DE LA EMPRESA ZIPAGO')
          
    Insert Into [TD_TABLA_TABLAS](
       COD_TABLA, VALOR, DESCR_VALOR
@@ -172,10 +174,18 @@ Begin Tran
       ('RUBRO_NEGOCIO', '021', 'Peluquería'),
       ('RUBRO_NEGOCIO', '022', 'Repuestos'),
       ('RUBRO_NEGOCIO', '023', 'Ropa'),
-      ('RUBRO_NEGOCIO', '024', 'Telas')
+      ('RUBRO_NEGOCIO', '024', 'Telas'),
       -------------------------------------------------------------------------
       -------------------------------------------------------------------------
-      
+      ('ESTADO_TXN', '01', 'En Proceso'),
+      ('ESTADO_TXN', '02', 'Anulado'),
+      ('ESTADO_TXN', '03', 'OK'),
+      -------------------------------------------------------------------------
+      -------------------------------------------------------------------------
+      ('SERVICIO_ZIPAGO', '01', 'Deuda Soles'),
+      ('SERVICIO_ZIPAGO', '02', 'Deuda Dolares'),
+      ('SERVICIO_ZIPAGO', '03', 'Pago Libre Soles'),
+      ('SERVICIO_ZIPAGO', '04', 'Pago Libre Dolares')
 
 Commit Tran
 Go

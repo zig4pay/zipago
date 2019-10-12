@@ -1,4 +1,5 @@
-﻿@{
+﻿@model ZREL.ZiPago.Aplicacion.Web.Models.Cobranza.PagosViewModel
+@{
     Layout = "_Layout";
     ViewData["Inicio"] = "";
     ViewData["Afiliacion"] = "";
@@ -46,7 +47,7 @@
 
                                     <form class="form-horizontal" id="frmConsulta" method="post">
 
-                                        @*<input id="idusuariozipago" name="idusuariozipago" type="hidden" asp-for="IdUsuarioZiPago" />*@
+                                        <input id="idusuariozipago" name="idusuariozipago" type="hidden" asp-for="IdUsuarioZiPago" />
 
                                         <div class="form-group">
                                             <label for="clave1" class="col-sm-2">ID ZiPago:</label>
@@ -62,17 +63,11 @@
                                         <div class="form-group">
                                             <label for="codigocomercio" class="col-sm-2">Comercio:</label>
                                             <div class="col-sm-2">
-                                                <select id="codigocomercio" name="codigocomercio" class="form-control select2" style="width: 100%;"></select>
+                                                <select id="codigocomercio" name="codigocomercio" asp-items="@(new SelectList(Model.Comercios,"IdEntidad", "Descripcion"))" class="form-control select2" style="width: 100%;"></select>                                                
                                             </div>
                                             <label for="servicio" class="col-sm-2">Servicio:</label>
                                             <div class="col-sm-2">
-                                                <select id="Servicio" name="servicio" class="form-control">
-                                                    <option value="0">Seleccione</option>
-                                                    <option value="1">Deuda Soles</option>
-                                                    <option value="2">Deuda Dolares</option>
-                                                    <option value="3">Pago Libre Soles</option>
-                                                    <option value="4">Pago Libre Dolares</option>
-                                                </select>
+                                                <select id="servicio" name="servicio" asp-items="@(new SelectList(Model.Servicios,"Valor", "Descr_Valor"))" class="form-control"></select>
                                             </div>
                                         </div>
 
@@ -92,14 +87,9 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="codigocomercio" class="col-sm-2">Estado de la Transacci&oacute;n (TXN):</label>
+                                            <label for="estado" class="col-sm-2">Estado de la Transacci&oacute;n (TXN):</label>
                                             <div class="col-sm-2">
-                                                <select id="Servicio" name="servicio" class="form-control">
-                                                    <option value="0">Seleccione</option>
-                                                    <option value="1">En Proceso</option>
-                                                    <option value="2">Anulado</option>
-                                                    <option value="3">OK</option>
-                                                </select>
+                                                <select id="estado" name="estado" asp-items="@(new SelectList(Model.EstadosTxn,"Valor", "Descr_Valor"))" class="form-control"></select>
                                             </div>
                                             <div class="col-sm-5"></div>
                                             <div class="col-sm-2" style="text-align:right">
