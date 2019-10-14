@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ZREL.ZiPago.Datos;
 using ZREL.ZiPago.Entidad.Comun;
+using ZREL.ZiPago.Entidad.Util;
 using ZREL.ZiPago.Negocio.Contracts;
 using ZREL.ZiPago.Negocio.Responses;
 
@@ -17,7 +18,7 @@ namespace ZREL.ZiPago.Negocio.Comun
 
         }
 
-        public async Task<ListResponse<BancoZiPago>> ListarBancoZiPagoAsync(Logger logger)
+        public async Task<ListResponse<EntidadGenerica>> ListarBancoZiPagoAsync(Logger logger)
         {
             ListResponse<BancoZiPago> response = new ListResponse<BancoZiPago>();
             logger.Info("[{0}] | BancoZiPago: [{1}] | Inicio.", nameof(ListarBancoZiPagoAsync));

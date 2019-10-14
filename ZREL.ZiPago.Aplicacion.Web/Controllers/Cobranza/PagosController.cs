@@ -12,6 +12,7 @@ using ZREL.ZiPago.Aplicacion.Web.Models.Response;
 using ZREL.ZiPago.Aplicacion.Web.Models.Settings;
 using ZREL.ZiPago.Aplicacion.Web.Utility;
 using ZREL.ZiPago.Entidad.Comun;
+using ZREL.ZiPago.Entidad.Seguridad;
 using ZREL.ZiPago.Entidad.Util;
 using ZREL.ZiPago.Libreria;
 
@@ -35,6 +36,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Cobranza
 
             Logger logger = LogManager.GetCurrentClassLogger();            
             PagosViewModel model = new PagosViewModel();
+            ResponseModel<UsuarioZiPago> responseUser;  
             ResponseListModel<TablaDetalle> responseTD;
             ResponseListModel<EntidadGenerica> response;
             
@@ -44,12 +46,21 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Cobranza
             {
                 model.IdUsuarioZiPago = User.GetLoggedInUserId<int>();
 
+                responseUser = new ResponseModel<UsuarioZiPago>();
+                requestUrl = ApiClientFactory.Instance.CreateRequestUri(
+                                string.Format(CultureInfo.InvariantCulture, webSettings.Value.UsuarioZiPago_Obtener) + User.GetLoggedInUserEmail());
+                responseUser = await ApiClientFactory.Instance.GetAsync<UsuarioZiPago>(requestUrl);
+                model.Clave1 = responseUser.Model.Clave1;
+                model.Nombre = responseUser.Model.CodigoTipoPersona == Constantes.strTipoPersonaJuridica ? responseUser.Model.RazonSocial :
+                    responseUser.Model.Nombres.Trim() + " " + responseUser.Model.ApellidoPaterno.Trim() + " " + responseUser.Model.ApellidoMaterno.Trim();
+
                 // Comercios
                 response = new ResponseListModel<EntidadGenerica>();
                 requestUrl = ApiClientFactory.Instance.CreateRequestUri(
                                 string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_ComerciosListar) + "/" + User.GetLoggedInUserId<int>().ToString());
                 response = await ApiClientFactory.Instance.GetListAsync<EntidadGenerica>(requestUrl);
                 model.Comercios = response.Model;
+                model.Comercios.Insert(0, new EntidadGenerica { IdEntidad = 0, Descripcion = "Seleccione" });
 
                 // Servicios
                 responseTD = new ResponseListModel<TablaDetalle>();
@@ -57,6 +68,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Cobranza
                                 string.Format(CultureInfo.InvariantCulture, webSettings.Value.TablaDetalle_Listar) + Constantes.strCodTablaServiciosRecaudacion);
                 responseTD = await ApiClientFactory.Instance.GetListAsync<TablaDetalle>(requestUrl);
                 model.Servicios = responseTD.Model;
+                model.Servicios.Insert(0, new TablaDetalle { Cod_Tabla = Constantes.strCodTablaServiciosRecaudacion, Valor = "00", Descr_Valor = "Seleccione" });
 
                 // Estados TXN
                 responseTD = new ResponseListModel<TablaDetalle>();
@@ -64,6 +76,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Cobranza
                                 string.Format(CultureInfo.InvariantCulture, webSettings.Value.TablaDetalle_Listar) + Constantes.strCodTablaEstadoTransaccion);
                 responseTD = await ApiClientFactory.Instance.GetListAsync<TablaDetalle>(requestUrl);
                 model.EstadosTxn = responseTD.Model;
+                model.EstadosTxn.Insert(0, new TablaDetalle { Cod_Tabla = Constantes.strCodTablaEstadoTransaccion, Valor = "00", Descr_Valor = "Seleccione" });
 
             }
             catch (Exception ex)

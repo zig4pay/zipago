@@ -52,11 +52,11 @@
                                         <div class="form-group">
                                             <label for="clave1" class="col-sm-2">ID ZiPago:</label>
                                             <div class="col-sm-2">
-                                                <input id="clave1" name="clave1" type="text" class="form-control" disabled>
+                                                <input id="clave1" name="clave1" type="text" class="form-control" asp-for="Clave1" disabled>
                                             </div>
                                             <label for="descripcion" class="col-sm-2">Nombre/Raz&oacute;n Social:</label>
                                             <div class="col-sm-3">
-                                                <input id="nombres" name="nombres" type="text" class="form-control" disabled>
+                                                <input id="nombres" name="nombres" type="text" class="form-control" asp-for="Nombre" disabled>
                                             </div>
                                         </div>
 
@@ -91,7 +91,13 @@
                                             <div class="col-sm-2">
                                                 <select id="estado" name="estado" asp-items="@(new SelectList(Model.EstadosTxn,"Valor", "Descr_Valor"))" class="form-control"></select>
                                             </div>
-                                            <div class="col-sm-5"></div>
+                                            <label for="banco" class="col-sm-2">Banco:</label>
+                                            <div class="col-sm-3">
+                                                
+                                            </div>
+
+
+
                                             <div class="col-sm-2" style="text-align:right">
                                                 <button type="button" id="btnLimpiar" name="btnLimpiar" class="btn btn-default">
                                                     <i class="fa fa-eraser"></i>&nbsp;Limpiar
@@ -169,3 +175,4 @@
 <script src="~/bower_components/bootstrap-datepicker/dist/locales/bootstrap-datepicker.es.min.js"></script>
 <script src="~/dist/js/adminlte.min.js"></script>
 <script src="~/dist/js/Cobranza/pagosconsulta.js"></script>
+<script src="~/dist/js/comun.js"></script>
