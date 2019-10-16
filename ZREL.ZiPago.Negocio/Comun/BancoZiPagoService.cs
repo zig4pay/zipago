@@ -20,15 +20,19 @@ namespace ZREL.ZiPago.Negocio.Comun
 
         public async Task<ListResponse<EntidadGenerica>> ListarBancoZiPagoAsync(Logger logger)
         {
-            ListResponse<BancoZiPago> response = new ListResponse<BancoZiPago>();
-            logger.Info("[{0}] | BancoZiPago: [{1}] | Inicio.", nameof(ListarBancoZiPagoAsync));
+            ListResponse<EntidadGenerica> response = new ListResponse<EntidadGenerica>();
+            logger.Info("[Negocio.Comun.BancoZiPagoService.ListarBancoZiPagoAsync] | Inicio.");
             try
             {
-                var query = DbContext.BancosZiPago.OrderBy(item => item.NombreLargo);
-
+                var query = DbContext.BancosZiPago.
+                                Select(item => new EntidadGenerica
+                                {
+                                    IdEntidad = item.IdBancoZiPago,
+                                    Descripcion = item.NombreLargo
+                                }).
+                                OrderBy(item => item.Descripcion);
                 response.Model = await query.ToListAsync();
-
-                logger.Info("[{0}] | BancoZiPago: [{1}] | Mensaje: [Realizado].", nameof(ListarBancoZiPagoAsync));
+                logger.Info("[Negocio.Comun.BancoZiPagoService.ListarBancoZiPagoAsync] | Realizado.");
             }
             catch (Exception ex)
             {

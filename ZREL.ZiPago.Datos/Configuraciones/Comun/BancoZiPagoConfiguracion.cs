@@ -18,6 +18,7 @@ namespace ZREL.ZiPago.Datos.Configuraciones.Comun
             builder.Property(p => p.IdBancoZiPago).HasColumnType("int").IsRequired();
             builder.Property(p => p.NombreLargo).HasColumnType("varchar(60)").IsRequired();
             builder.Property(p => p.NombreCorto).HasColumnType("varchar(20)");
+            builder.Property(p => p.CodigoRecaudador).HasColumnType("varchar(11)");
             builder.Property(p => p.Activo).HasColumnType("char(1)").IsRequired();
             builder.Property(p => p.FechaCreacion).HasColumnType("datetime").IsRequired();
             builder.Property(p => p.FechaActualizacion).HasColumnType("datetime");

@@ -6,25 +6,25 @@ Go
 Begin Tran
 
    Insert Into [BANCOZIPAGO](      
-      NombreLargo, NombreCorto, Activo, FechaCreacion
+      NombreLargo, NombreCorto, CodigoRecaudador,  Activo, FechaCreacion
    )
    Values
-      ('Banco de Comercio'                , Null      , 'S', getdate()),
-      ('Banco de Crédito del Perú'        , 'BCP'     , 'S', getdate()),
-      ('Banco Interamericano de Finanzas' , 'BANBIF'  , 'S', getdate()),
-      ('Banco Pichincha'                  , Null      , 'S', getdate()),
-      ('BBVA Continental'                 , Null      , 'S', getdate()),
-      ('Citibank Peru'                    , Null      , 'S', getdate()),
-      ('Interbank'                        , Null      , 'S', getdate()),
-      ('MiBanco'                          , Null      , 'S', getdate()),
-      ('Scotiabank'                       , Null      , 'S', getdate()),
-      ('Banco GNB Peru'                   , Null      , 'S', getdate()),
-      ('Banco Falabella'                  , Null      , 'S', getdate()),
-      ('Banco Ripley'                     , Null      , 'S', getdate()),
-      ('Banco Santander Peru'             , Null      , 'S', getdate()),
-      ('Banco Azteca'                     , Null      , 'S', getdate()),
-      ('Banco Cencosud'                   , Null      , 'S', getdate()),
-      ('ICBC Peru Bank'                   , Null      , 'S', getdate())
+      ('Banco de Comercio'                , Null      , '1026', 'S', getdate()),
+      ('Banco de Crédito del Perú'        , 'BCP'     , '1020', 'S', getdate()),
+      ('Banco Interamericano de Finanzas' , 'BANBIF'  , '1021', 'S', getdate()),
+      ('Banco Pichincha'                  , Null      , '1025', 'S', getdate()),
+      ('BBVA Continental'                 , Null      , '1023', 'S', getdate()),
+      ('Citibank Peru'                    , Null      , Null  , 'S', getdate()),
+      ('Interbank'                        , Null      , '1022', 'S', getdate()),
+      ('MiBanco'                          , Null      , Null  , 'S', getdate()),
+      ('Scotiabank'                       , Null      , '1024', 'S', getdate()),
+      ('Banco GNB Peru'                   , Null      , Null  , 'S', getdate()),
+      ('Banco Falabella'                  , Null      , Null  , 'S', getdate()),
+      ('Banco Ripley'                     , Null      , Null  , 'S', getdate()),
+      ('Banco Santander Peru'             , Null      , Null  , 'S', getdate()),
+      ('Banco Azteca'                     , Null      , Null  , 'S', getdate()),
+      ('Banco Cencosud'                   , Null      , Null  , 'S', getdate()),
+      ('ICBC Peru Bank'                   , Null      , Null  , 'S', getdate())
    
    
    Insert Into [UBIGEOZIPAGO](      

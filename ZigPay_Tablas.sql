@@ -63,6 +63,7 @@ Begin Tran
 	   [IdBancoZiPago]      Int Identity(1,1) Not Null,
       [NombreLargo]        varchar(60)       Not Null,
       [NombreCorto]        varchar(20)       Null,
+      [CodigoRecaudador]   varchar(11)       Null,
       [Activo]	            char(1)	         Not Null,
       [FechaCreacion]	   datetime	         Not Null,
       [FechaActualizacion]	datetime	         Null

@@ -28,7 +28,7 @@ namespace ZREL.ZiPago.Servicio.WebAPI.Controllers.Comun
         {
 
             var logger = LogManager.GetCurrentClassLogger();
-            logger.Info("[{0}] | BancoZiPago: [{1}] | Inicio.", nameof(ListarAsync));
+            logger.Info("[Servicio.WebAPI.Controllers] | BancoZiPago: [{1}] | Inicio.", nameof(ListarAsync));
 
             var response = await oIBancoZiPagoService.ListarBancoZiPagoAsync(logger);
 
