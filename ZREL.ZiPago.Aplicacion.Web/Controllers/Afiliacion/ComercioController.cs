@@ -97,7 +97,6 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
 
             try
             {
-
                 ComercioFiltros comercioFiltros = new ComercioFiltros {
                     IdUsuarioZiPago = idUsuarioZiPago,
                     CodigoComercio = codigoComercio,
