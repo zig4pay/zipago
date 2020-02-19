@@ -1,141 +1,215 @@
-Use ZIGPAY
+Use Master
 Go
 SET ANSI_NULLS ON
 SET QUOTED_IDENTIFIER ON
 Go
+
+If Not Exists (SELECT dbid
+               FROM master.dbo.sysdatabases 
+               WHERE ('[' + name + ']' = 'ZIGPAY_DEV' 
+                  OR name = 'ZIGPAY_DEV'))
+   
+   Create Database ZIGPAY_DEV
+
+Go
+
+Use ZIGPAY_DEV
+
+Go
+
 Begin Tran
-   
-   CREATE TABLE [dbo].[USUARIOZIPAGO](
-	   [IdUsuarioZiPago]	            Int Identity(1,1) Not Null,
-      [Clave1]	                     varchar(100)	   Not Null,
-	   [Clave2]	                     varchar(500)	   Not Null,
-      [ApellidosUsuario]	         varchar(200)	   Not Null,
-      [NombresUsuario]	            varchar(100)	   Not Null,
-      [CodigoRubroNegocio]	         varchar(20)       Null,
-      [OtroRubroNegocio]	         varchar(100)      Null,
-	   [CodigoTipoPersona]	         varchar(20)       Null,
-	   [CodigoTipoDocumento]         varchar(20)       Null,
-	   [NumeroDocumento]	            varchar(15)	      Null,
-	   [RazonSocial]	               varchar(100)	   Null,
-      [CodigoTipoDocumentoContacto] varchar(20)       Null,
-	   [NumeroDocumentoContacto]     varchar(15)	      Null,
-	   [ApellidoPaterno]	            varchar(100)	   Null,
-	   [ApellidoMaterno]	            varchar(100)	   Null,
-      [Nombres]	                  varchar(100)	   Null,
-	   [Sexo]	                     char(1)	         Null,
-	   [FechaNacimiento]	            smalldatetime	   Null,
-	   [TelefonoMovil]	            varchar(20)	      Null,
-	   [TelefonoFijo]	               varchar(15)	      Null,
-      [AceptoTerminos]              char(1)           Not Null,
-      [EstadoRegistro]              char(1)           Not Null,
-	   [Activo]	                     char(1)	         Not Null,
-      [ClaveRecuperacion]           varchar(500)	   Null,
-      [FechaGeneracionClave]        datetime	         Null,
-	   [FechaCreacion]	            datetime	         Not Null,
-	   [FechaActualizacion]          datetime	         Null
+  
+   If Not Exists (Select * 
+                  From sys.objects 
+                  Where Type = 'U' 
+                    And Name = 'USUARIOZIPAGO')
+
+      CREATE TABLE [dbo].[USUARIOZIPAGO](
+	      [IdUsuarioZiPago]	            Int Identity(1,1) Not Null,
+         [Clave1]	                     varchar(100)	   Not Null,
+	      [Clave2]	                     varchar(500)	   Not Null,
+         [ApellidosUsuario]	         varchar(200)	   Not Null,
+         [NombresUsuario]	            varchar(100)	   Not Null,
+         [CodigoRubroNegocio]	         varchar(20)       Null,
+         [OtroRubroNegocio]	         varchar(100)      Null,
+	      [CodigoTipoPersona]	         varchar(20)       Null,
+	      [CodigoTipoDocumento]         varchar(20)       Null,
+	      [NumeroDocumento]	            varchar(15)	      Null,
+	      [RazonSocial]	               varchar(100)	   Null,
+         [CodigoTipoDocumentoContacto] varchar(20)       Null,
+	      [NumeroDocumentoContacto]     varchar(15)	      Null,
+	      [ApellidoPaterno]	            varchar(100)	   Null,
+	      [ApellidoMaterno]	            varchar(100)	   Null,
+         [Nombres]	                  varchar(100)	   Null,
+	      [Sexo]	                     char(1)	         Null,
+	      [FechaNacimiento]	            smalldatetime	   Null,
+	      [TelefonoMovil]	            varchar(20)	      Null,
+	      [TelefonoFijo]	               varchar(15)	      Null,
+         [AceptoTerminos]              char(1)           Not Null,
+         [EstadoRegistro]              char(1)           Not Null,
+	      [Activo]	                     char(1)	         Not Null,
+         [ClaveRecuperacion]           varchar(500)	   Null,
+         [FechaGeneracionClave]        datetime	         Null,
+	      [FechaCreacion]	            datetime	         Not Null,
+	      [FechaActualizacion]          datetime	         Null
       
-      CONSTRAINT [PK_USUARIOZIPAGO] PRIMARY KEY CLUSTERED 
-      (
-	      [IdUsuarioZiPago]
+         CONSTRAINT [PK_USUARIOZIPAGO] PRIMARY KEY CLUSTERED 
+         (
+	         [IdUsuarioZiPago]
+         )
       )
-   )
+
+   If Not Exists (Select * 
+                  From sys.objects 
+                  Where Type = 'U' 
+                    And Name = 'DOMICILIOZIPAGO')
    
-   CREATE TABLE [dbo].[DOMICILIOZIPAGO](
-	   [IdDomicilioZiPago]	   Int Identity(1,1) Not Null,
-      [IdUsuarioZiPago]	      Int               Not Null,      
-      [CodigoDepartamento]	   varchar(20)       Not Null,
-      [CodigoProvincia]	      varchar(20)       Not Null,
-      [CodigoDistrito]	      varchar(20)       Not Null,
-      [Via]	                  varchar(80)	      Not Null,
-      [DireccionFacturacion]	varchar(150)      Null,
-      [Referencia]	         varchar(200)	   Null,
-      [Activo]	               char(1)	         Not Null,
-      [FechaCreacion]	      datetime	         Not Null,
-      [FechaActualizacion]	   datetime	         Null
+      CREATE TABLE [dbo].[DOMICILIOZIPAGO](
+	      [IdDomicilioZiPago]	   Int Identity(1,1) Not Null,
+         [IdUsuarioZiPago]	      Int               Not Null,      
+         [CodigoDepartamento]	   varchar(20)       Not Null,
+         [CodigoProvincia]	      varchar(20)       Not Null,
+         [CodigoDistrito]	      varchar(20)       Not Null,
+         [Via]	                  varchar(80)	      Not Null,
+         [DireccionFacturacion]	varchar(150)      Null,
+         [Referencia]	         varchar(200)	   Null,
+         [Activo]	               char(1)	         Not Null,
+         [FechaCreacion]	      datetime	         Not Null,
+         [FechaActualizacion]	   datetime	         Null
       	   
-      CONSTRAINT [PK_DOMICILIOZIPAGO] PRIMARY KEY CLUSTERED 
-      (
-	      [IdDomicilioZiPago]
+         CONSTRAINT [PK_DOMICILIOZIPAGO] PRIMARY KEY CLUSTERED 
+         (
+	         [IdDomicilioZiPago]
+         )
       )
-   )
    
-   CREATE TABLE [dbo].[BANCOZIPAGO](
-	   [IdBancoZiPago]      Int Identity(1,1) Not Null,
-      [NombreLargo]        varchar(60)       Not Null,
-      [NombreCorto]        varchar(20)       Null,
-      [CodigoRecaudador]   varchar(11)       Null,
-      [Activo]	            char(1)	         Not Null,
-      [FechaCreacion]	   datetime	         Not Null,
-      [FechaActualizacion]	datetime	         Null
-            	   
-      CONSTRAINT [PK_BANCOSZIPAGO] PRIMARY KEY CLUSTERED 
-      (
-	      [IdBancoZiPago]
-      )
-   )
+   If Not Exists (Select * 
+                  From sys.objects 
+                  Where Type = 'U' 
+                    And Name = 'BANCOZIPAGO')
 
-   CREATE TABLE [dbo].[CUENTABANCARIAZIPAGO](
-	   [IdCuentaBancaria]   Int Identity(1,1) Not Null,
-      [IdUsuarioZiPago]	   Int               Not Null,
-      [IdBancoZiPago]	   Int               Not Null,
-      [NumeroCuenta]	      varchar(20)	      Not Null,
-      [CodigoTipoCuenta]	varchar(20)	      Not Null,
-      [CodigoTipoMoneda]	varchar(20)	      Not Null,
-      [CCI]	               char(20)	         Null,
-      [Activo]	            char(1)	         Not Null,
-      [FechaCreacion]	   datetime	         Not Null,
-      [FechaActualizacion]	datetime	         Null
+      CREATE TABLE [dbo].[BANCOZIPAGO](
+	      [IdBancoZiPago]      Int Identity(1,1) Not Null,
+         [NombreLargo]        varchar(60)       Not Null,
+         [NombreCorto]        varchar(20)       Null,
+         [CodigoRecaudador]   varchar(11)       Null,
+         [Activo]	            char(1)	         Not Null,
+         [FechaCreacion]	   datetime	         Not Null,
+         [FechaActualizacion]	datetime	         Null
+            	   
+         CONSTRAINT [PK_BANCOSZIPAGO] PRIMARY KEY CLUSTERED 
+         (
+	         [IdBancoZiPago]
+         )
+      )
+
+   If Not Exists (Select * 
+                  From sys.objects 
+                  Where Type = 'U' 
+                    And Name = 'CUENTABANCARIAZIPAGO')
+
+      CREATE TABLE [dbo].[CUENTABANCARIAZIPAGO](
+	      [IdCuentaBancaria]   Int Identity(1,1) Not Null,
+         [IdUsuarioZiPago]	   Int               Not Null,
+         [IdBancoZiPago]	   Int               Not Null,
+         [NumeroCuenta]	      varchar(20)	      Not Null,
+         [CodigoTipoCuenta]	varchar(20)	      Not Null,
+         [CodigoTipoMoneda]	varchar(20)	      Not Null,
+         [CCI]	               char(20)	         Null,
+         [Activo]	            char(1)	         Not Null,
+         [FechaCreacion]	   datetime	         Not Null,
+         [FechaActualizacion]	datetime	         Null
       
-      CONSTRAINT [PK_CUENTABANCARIAZIPAGO] PRIMARY KEY CLUSTERED 
-      (
-	      [IdCuentaBancaria]
+         CONSTRAINT [PK_CUENTABANCARIAZIPAGO] PRIMARY KEY CLUSTERED 
+         (
+	         [IdCuentaBancaria]
+         )
       )
-   )
-   
-   CREATE TABLE [dbo].[COMERCIOZIPAGO](
-	   [IdComercioZiPago]   Int Identity(1,1) Not Null,
-      [CodigoComercio]     varchar(14)       Not Null,
-      [IdUsuarioZiPago]	   int	            Not Null,
-      [Descripcion]	      varchar(30)	      Not Null,      
-      [CorreoNotificacion] varchar(100)	   Not Null,
-      [Estado]	            char(1)	         Not Null,
-      [Activo]	            char(1)	         Not Null,
-      [FechaCreacion]	   datetime	         Not Null,
-      [FechaActualizacion]	datetime	         Null
-            	   
-      CONSTRAINT [PK_COMERCIOZIPAGO] PRIMARY KEY CLUSTERED 
-      (
-	      [IdComercioZiPago]
-      )
-   )
 
-   CREATE TABLE [dbo].[COMERCIOCUENTAZIPAGO](
-	   [IdComercioZiPago]   Int      Not Null,
-      [IdCuentaBancaria]   Int      Not Null,
-      [Activo]	            char(1)	Not Null,
-      [FechaCreacion]	   datetime	Not Null,
-      [FechaActualizacion]	datetime	Null
-            	   
-      CONSTRAINT [PK_COMERCIOCUENTAZIPAGO] PRIMARY KEY CLUSTERED 
-      (
-	      [IdComercioZiPago], [IdCuentaBancaria]
-      )
-   )
+   If Not Exists (Select * 
+                  From sys.objects 
+                  Where Type = 'U' 
+                    And Name = 'COMERCIOZIPAGO')
    
-   CREATE TABLE [dbo].[UBIGEOZIPAGO](
-	   [IdUbigeoZiPago]     Int Identity(1,1) Not Null,
-      [CodigoUbigeo]       varchar(6)        Not Null,
-      [CodigoUbigeoPadre]  varchar(6)        Null,
-      [Nombre]             varchar(50)       Not Null,
-      [Activo]	            char(1)	         Not Null,
-      [FechaCreacion]	   datetime	         Not Null,
-      [FechaActualizacion]	datetime	         Null
+      CREATE TABLE [dbo].[COMERCIOZIPAGO](
+	      [IdComercioZiPago]   Int Identity(1,1) Not Null,
+         [CodigoComercio]     varchar(14)       Not Null,
+         [IdUsuarioZiPago]	   int	            Not Null,
+         [Descripcion]	      varchar(30)	      Not Null,      
+         [CorreoNotificacion] varchar(100)	   Not Null,
+         [Confirmado]         char(1)	         Not Null,
+         [Activo]	            char(1)	         Not Null,
+         [FechaCreacion]	   datetime	         Not Null,
+         [FechaActualizacion]	datetime	         Null
             	   
-      CONSTRAINT [PK_UBIGEOZIPAGO] PRIMARY KEY CLUSTERED 
-      (
-	      [IdUbigeoZiPago]
+         CONSTRAINT [PK_COMERCIOZIPAGO] PRIMARY KEY CLUSTERED 
+         (
+	         [IdComercioZiPago]
+         )
       )
-   )
+
+
+   If Not Exists (Select * 
+                  From sys.objects 
+                  Where Type = 'U' 
+                    And Name = 'COMERCIOZIPAGOREG')
+
+      CREATE TABLE [dbo].[COMERCIOZIPAGOREG](
+	      [IdComercioZiPagoReg]   Int Identity(1,1) Not Null,
+         [CodigoComercio]        varchar(14)       Not Null,
+         [IdUsuarioZiPago]	      int	            Not Null,
+         [Descripcion]	         varchar(30)	      Not Null,      
+         [CorreoNotificacion]    varchar(100)	   Not Null,
+         [Estado]                char(1)	         Not Null,
+         [Activo]	               char(1)	         Not Null,
+         [FechaCreacion]	      datetime	         Not Null,
+         [FechaActualizacion]	   datetime	         Null
+            	   
+         CONSTRAINT [PK_COMERCIOZIPAGOREG] PRIMARY KEY CLUSTERED 
+         (
+	         [IdComercioZiPagoReg]
+         )
+      )
+
+   If Not Exists (Select * 
+                  From sys.objects 
+                  Where Type = 'U' 
+                    And Name = 'COMERCIOCUENTAZIPAGO')
+
+      CREATE TABLE [dbo].[COMERCIOCUENTAZIPAGO](
+	      [IdComercioZiPagoReg]   Int      Not Null,
+         [IdCuentaBancaria]      Int      Not Null,
+         [Activo]	               char(1)	Not Null,
+         [FechaCreacion]	      datetime	Not Null,
+         [FechaActualizacion]	   datetime	Null
+            	   
+         CONSTRAINT [PK_COMERCIOCUENTAZIPAGO] PRIMARY KEY CLUSTERED 
+         (
+	         [IdComercioZiPagoReg], [IdCuentaBancaria]
+         )
+      )
+
+
+   If Not Exists (Select * 
+                  From sys.objects 
+                  Where Type = 'U' 
+                    And Name = 'UBIGEOZIPAGO')   
+
+      CREATE TABLE [dbo].[UBIGEOZIPAGO](
+	      [IdUbigeoZiPago]     Int Identity(1,1) Not Null,
+         [CodigoUbigeo]       varchar(6)        Not Null,
+         [CodigoUbigeoPadre]  varchar(6)        Null,
+         [Nombre]             varchar(50)       Not Null,
+         [Activo]	            char(1)	         Not Null,
+         [FechaCreacion]	   datetime	         Not Null,
+         [FechaActualizacion]	datetime	         Null
+            	   
+         CONSTRAINT [PK_UBIGEOZIPAGO] PRIMARY KEY CLUSTERED 
+         (
+	         [IdUbigeoZiPago]
+         )
+      )
+
 
    CREATE UNIQUE INDEX IX_USUARIOZIPAGO_01
       ON [USUARIOZIPAGO] (Clave1)
@@ -146,12 +220,15 @@ Begin Tran
    CREATE UNIQUE INDEX IX_COMERCIOZIPAGO_01
       ON [COMERCIOZIPAGO] (CodigoComercio)
    
+   CREATE UNIQUE INDEX IX_COMERCIOZIPAGOREG_01
+      ON [COMERCIOZIPAGOREG] (CodigoComercio)
+
    ALTER TABLE [DOMICILIOZIPAGO]
       ADD CONSTRAINT [FK_USUARIOZIPAGO_DOMICILIOZIPAGO]
          FOREIGN KEY ([IdUsuarioZiPago]) REFERENCES [USUARIOZIPAGO]([IdUsuarioZiPago])
 
-   ALTER TABLE [COMERCIOZIPAGO]
-      ADD CONSTRAINT [FK_USUARIOZIPAGO_COMERCIOZIPAGO]
+   ALTER TABLE [COMERCIOZIPAGOREG]
+      ADD CONSTRAINT [FK_USUARIOZIPAGO_COMERCIOZIPAGOREG]
          FOREIGN KEY ([IdUsuarioZiPago]) REFERENCES [USUARIOZIPAGO]([IdUsuarioZiPago])
    
    ALTER TABLE [CUENTABANCARIAZIPAGO]
@@ -167,11 +244,201 @@ Begin Tran
          FOREIGN KEY ([IdCuentaBancaria]) REFERENCES [CUENTABANCARIAZIPAGO]([IdCuentaBancaria])
    
    ALTER TABLE [COMERCIOCUENTAZIPAGO]
-      ADD CONSTRAINT [FK_COMERCIOZIPAGO_COMERCIOCUENTAZIPAGO]
-         FOREIGN KEY ([IdComercioZiPago]) REFERENCES [COMERCIOZIPAGO]([IdComercioZiPago])
+      ADD CONSTRAINT [FK_COMERCIOZIPAGOREG_COMERCIOCUENTAZIPAGO]
+         FOREIGN KEY ([IdComercioZiPagoReg]) REFERENCES [COMERCIOZIPAGOREG]([IdComercioZiPagoReg])
+   
+
+   -------------------------------
+   -- Insert Data
+   -------------------------------
+   If ((Select count(*) From [BANCOZIPAGO]) = 0)
+   Begin
+      Insert Into [BANCOZIPAGO](      
+         NombreLargo, NombreCorto, CodigoRecaudador,  Activo, FechaCreacion
+      )
+      Values
+         ('Banco de Comercio'                , Null      , '1026', 'S', getdate()),
+         ('Banco de Crédito del Perú'        , 'BCP'     , '1020', 'S', getdate()),
+         ('Banco Interamericano de Finanzas' , 'BANBIF'  , '1021', 'S', getdate()),
+         ('Banco Pichincha'                  , Null      , '1025', 'S', getdate()),
+         ('BBVA Continental'                 , Null      , '1023', 'S', getdate()),
+         ('Citibank Peru'                    , Null      , Null  , 'S', getdate()),
+         ('Interbank'                        , Null      , '1022', 'S', getdate()),
+         ('MiBanco'                          , Null      , Null  , 'S', getdate()),
+         ('Scotiabank'                       , Null      , '1024', 'S', getdate()),
+         ('Banco GNB Peru'                   , Null      , Null  , 'S', getdate()),
+         ('Banco Falabella'                  , Null      , Null  , 'S', getdate()),
+         ('Banco Ripley'                     , Null      , Null  , 'S', getdate()),
+         ('Banco Santander Peru'             , Null      , Null  , 'S', getdate()),
+         ('Banco Azteca'                     , Null      , Null  , 'S', getdate()),
+         ('Banco Cencosud'                   , Null      , Null  , 'S', getdate()),
+         ('ICBC Peru Bank'                   , Null      , Null  , 'S', getdate())
+   End
+
+   If ((Select count(*) From [UBIGEOZIPAGO]) = 0)
+   Begin
+      Insert Into [UBIGEOZIPAGO](      
+         CodigoUbigeo, CodigoUbigeoPadre, Nombre, Activo, FechaCreacion
+      )
+      Values
+         ('01', '00', 'Amazonas'       , 'S', getdate()),
+         ('02', '00', 'Ancash'         , 'S', getdate()),
+         ('03', '00', 'Apurimac'       , 'S', getdate()),
+         ('04', '00', 'Arequipa'       , 'S', getdate()),
+         ('05', '00', 'Ayacucho'       , 'S', getdate()),
+         ('06', '00', 'Cajamarca'      , 'S', getdate()),
+         ('07', '00', 'Cusco'          , 'S', getdate()),
+         ('08', '00', 'Huancavelica'   , 'S', getdate()),
+         ('09', '00', 'Huanuco'        , 'S', getdate()),
+         ('10', '00', 'Ica'            , 'S', getdate()),
+         ('11', '00', 'Junin'          , 'S', getdate()),
+         ('12', '00', 'La Libertad'    , 'S', getdate()),
+         ('13', '00', 'Lambayeque'     , 'S', getdate()),
+         ('14', '00', 'Lima'           , 'S', getdate()),
+         ('15', '00', 'Loreto'         , 'S', getdate()),
+         ('16', '00', 'Madre de Dios'  , 'S', getdate()),
+         ('17', '00', 'Moquegua'       , 'S', getdate()),
+         ('18', '00', 'Pasco'          , 'S', getdate()),
+         ('19', '00', 'Piura'          , 'S', getdate()),
+         ('20', '00', 'Puno'           , 'S', getdate()),
+         ('21', '00', 'San Martin'     , 'S', getdate()),
+         ('22', '00', 'Tacna'          , 'S', getdate()),
+         ('23', '00', 'Tumbes'         , 'S', getdate()),
+         ('24', '00', 'Callao'         , 'S', getdate()),
+         ('25', '00', 'Ucayali'        , 'S', getdate()),
+         ------------------------------------------------------------------------
+         ('1401', '14', 'Lima'      , 'S', getdate()),
+         ('1402', '14', 'Cajatambo' , 'S', getdate()),
+         ('1403', '14', 'Canta'     , 'S', getdate()),
+         ('1404', '14', 'Canete'    , 'S', getdate()),
+         ('1405', '14', 'Huaura'    , 'S', getdate()),
+         ('1406', '14', 'Huarochiri', 'S', getdate()),
+         ('1407', '14', 'Yauyos'    , 'S', getdate()),
+         ('1408', '14', 'Huaral'    , 'S', getdate()),
+         ('1409', '14', 'Barranca'  , 'S', getdate()),
+         ('1410', '14', 'Oyon'      , 'S', getdate()),
+         ------------------------------------------------------------------------
+         ('140101', '1401', 'Lima'                    , 'S', getdate()),
+         ('140102', '1401', 'Ancon'                   , 'S', getdate()),
+         ('140103', '1401', 'Ate'                     , 'S', getdate()),
+         ('140104', '1401', 'Breña'                   , 'S', getdate()),
+         ('140105', '1401', 'Carabayllo'              , 'S', getdate()),
+         ('140106', '1401', 'Comas'                   , 'S', getdate()),
+         ('140107', '1401', 'Chaclacayo'              , 'S', getdate()),
+         ('140108', '1401', 'Chorrillos'              , 'S', getdate()),
+         ('140109', '1401', 'La Victoria'             , 'S', getdate()),
+         ('140110', '1401', 'La Molina'               , 'S', getdate()),
+         ('140111', '1401', 'Lince'                   , 'S', getdate()),
+         ('140112', '1401', 'Lurigancho'              , 'S', getdate()),
+         ('140113', '1401', 'Lurin'                   , 'S', getdate()),
+         ('140114', '1401', 'Magdalena del Mar'       , 'S', getdate()),
+         ('140115', '1401', 'Miraflores'              , 'S', getdate()),
+         ('140116', '1401', 'Pachacamac'              , 'S', getdate()),
+         ('140117', '1401', 'Pueblo Libre'            , 'S', getdate()),
+         ('140118', '1401', 'Pucusana'                , 'S', getdate()),
+         ('140119', '1401', 'Puente Piedra'           , 'S', getdate()),
+         ('140120', '1401', 'Punta Hermosa'           , 'S', getdate()),
+         ('140121', '1401', 'Punta Negra'             , 'S', getdate()),
+         ('140122', '1401', 'Rimac'                   , 'S', getdate()),
+         ('140123', '1401', 'San Bartolo'             , 'S', getdate()),
+         ('140124', '1401', 'San Isidro'              , 'S', getdate()),
+         ('140125', '1401', 'Barranco'                , 'S', getdate()),
+         ('140126', '1401', 'San Martin de Porres'    , 'S', getdate()),
+         ('140127', '1401', 'San Miguel'              , 'S', getdate()),
+         ('140128', '1401', 'Santa Maria del Mar'     , 'S', getdate()),
+         ('140129', '1401', 'Santa Rosa'              , 'S', getdate()),
+         ('140130', '1401', 'Santiago de Surco'       , 'S', getdate()),
+         ('140131', '1401', 'Surquillo'               , 'S', getdate()),
+         ('140132', '1401', 'Villa Maria del Triunfo' , 'S', getdate()),
+         ('140133', '1401', 'Jesus Maria'             , 'S', getdate()),
+         ('140134', '1401', 'Independencia'           , 'S', getdate()),
+         ('140135', '1401', 'El Agustino'             , 'S', getdate()),
+         ('140136', '1401', 'San Juan de Miraflores'  , 'S', getdate()),
+         ('140137', '1401', 'San Juan de Lurigancho'  , 'S', getdate()),
+         ('140138', '1401', 'San Luis'                , 'S', getdate()),
+         ('140139', '1401', 'Cieneguilla'             , 'S', getdate()),
+         ('140140', '1401', 'San Borja'               , 'S', getdate()),
+         ('140141', '1401', 'Villa El Salvador'       , 'S', getdate()),
+         ('140142', '1401', 'Los Olivos'              , 'S', getdate()),
+         ('140143', '1401', 'Santa Anita'             , 'S', getdate())
+   End
 
 
-Commit Tran
+   Insert Into [TP_TABLA_TABLAS](
+      COD_TABLA, NOMBRE_TABLA
+      )
+   Values
+      ('TIPO_PERSONA', 'TIPOS DE PERSONA (ZIPAGO)'),
+      ('TIPO_MONEDA', 'TIPOS DE MONEDAS (ZIPAGO)'),
+      ('TIPO_DOC_ID', 'TIPOS DE DOCUMENTO DE IDENTIDAD (ZIPAGO)'),      
+      ('TIPO_CUENTA', 'TIPOS DE CUENTAS BANCARIAS (ZIPAGO)'),      
+      ('RUBRO_NEGOCIO', 'LISTA DE RUBROS DE NEGOCIO (ZIPAGO)'),
+      ('DEPARTAMENTO', 'LISTA DE DEPARTAMENTOS DEL PERU (ZIPAGO)'),
+      ('PROVINCIA', 'LISTA DE PROVINCIAS DEL PERU (ZIPAGO)'),
+      ('DISTRITO', 'LISTA DE DISTRITOS DEL PERU (ZIPAGO)'),
+      ('ESTADO_TXN', 'ESTADO DE LA TRANSACCION - CLIENTE (ZIPAGO)'),
+      ('SERVICIO_ZIPAGO', 'SERVICIOS DE RECAUDACION DE LA EMPRESA ZIPAGO')
+         
+   Insert Into [TD_TABLA_TABLAS](
+      COD_TABLA, VALOR, DESCR_VALOR
+      )
+   Values
+      ('TIPO_PERSONA', '01', 'Juridica'),
+      ('TIPO_PERSONA', '02', 'Natural'),
+      -------------------------------------------------------------------------
+      -------------------------------------------------------------------------      
+      ('TIPO_MONEDA', '01', 'Soles (S/)'),
+      ('TIPO_MONEDA', '02', 'Dolares ($)'),
+      -------------------------------------------------------------------------
+      -------------------------------------------------------------------------
+      ('TIPO_DOC_ID', '01', 'DNI - Doc. Nacional de Identidad'),     -->  8
+      ('TIPO_DOC_ID', '02', 'RUC - Reg. Unico de Contribuyentes'),   --> 11
+      ('TIPO_DOC_ID', '03', 'CE - Carnet de Extranjeria'),           --> 12
+      ('TIPO_DOC_ID', '04', 'OTROS - Otros'),                        --> 15
+      -------------------------------------------------------------------------
+      -------------------------------------------------------------------------
+      ('TIPO_CUENTA', '01', 'Cuenta Corriente'),
+      ('TIPO_CUENTA', '02', 'Cuenta de Ahorros'),
+      -------------------------------------------------------------------------
+      -------------------------------------------------------------------------
+      ('RUBRO_NEGOCIO', '001', 'Autos'),
+      ('RUBRO_NEGOCIO', '002', 'Arquitectura'),
+      ('RUBRO_NEGOCIO', '003', 'Boutique'),
+      ('RUBRO_NEGOCIO', '004', 'Café'),
+      ('RUBRO_NEGOCIO', '005', 'Calzado'),
+      ('RUBRO_NEGOCIO', '006', 'Carpintería'),
+      ('RUBRO_NEGOCIO', '007', 'Cerámicos'),
+      ('RUBRO_NEGOCIO', '008', 'Cirujía Estética'),
+      ('RUBRO_NEGOCIO', '009', 'Colegios'),
+      ('RUBRO_NEGOCIO', '010', 'Comida'),
+      ('RUBRO_NEGOCIO', '011', 'Consultorio Médico'),
+      ('RUBRO_NEGOCIO', '012', 'Ferretería'),
+      ('RUBRO_NEGOCIO', '013', 'Gimnasios'),
+      ('RUBRO_NEGOCIO', '014', 'Hotelería'),
+      ('RUBRO_NEGOCIO', '015', 'Ingenieria Civil'),
+      ('RUBRO_NEGOCIO', '016', 'Institutos'),
+      ('RUBRO_NEGOCIO', '017', 'Mecánica'),
+      ('RUBRO_NEGOCIO', '018', 'Movilidad'),
+      ('RUBRO_NEGOCIO', '019', 'Muebles'),
+      ('RUBRO_NEGOCIO', '020', 'Odontología'),
+      ('RUBRO_NEGOCIO', '021', 'Peluquería'),
+      ('RUBRO_NEGOCIO', '022', 'Repuestos'),
+      ('RUBRO_NEGOCIO', '023', 'Ropa'),
+      ('RUBRO_NEGOCIO', '024', 'Telas'),
+      -------------------------------------------------------------------------
+      -------------------------------------------------------------------------
+      ('ESTADO_TXN', '01', 'En Proceso'),
+      ('ESTADO_TXN', '02', 'Anulado'),
+      ('ESTADO_TXN', '03', 'OK'),
+      -------------------------------------------------------------------------
+      -------------------------------------------------------------------------
+      ('SERVICIO_ZIPAGO', '01', 'Deuda Soles'),
+      ('SERVICIO_ZIPAGO', '02', 'Deuda Dolares'),
+      ('SERVICIO_ZIPAGO', '03', 'Pago Libre Soles'),
+      ('SERVICIO_ZIPAGO', '04', 'Pago Libre Dolares')
+
+-- Commit Tran
+-- Rollback Tran
 Go
 SET ANSI_NULLS OFF
 SET QUOTED_IDENTIFIER OFF
