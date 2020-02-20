@@ -2,10 +2,9 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json.Serialization;
+using Microsoft.Extensions.Hosting;
 using ZREL.ZiPago.Aplicacion.Web.Models.Settings;
 
 namespace ZREL.ZiPago.Aplicacion.Web
@@ -29,9 +28,11 @@ namespace ZREL.ZiPago.Aplicacion.Web
                 options.MinimumSameSitePolicy = SameSiteMode.Strict;
             });
 
-            services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-                .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+            services.AddControllersWithViews();
+            services.AddRazorPages();
+            services.AddMvc(options => {
+                options.EnableEndpointRouting = false;
+            });            
             services.Configure<WebSiteSettingsModel>(Configuration.GetSection("ZRELZiPagoWebApi"));
             services.Configure<WebSiteSettingsModel>(Configuration.GetSection("ZRELZiPagoWebSite"));
             services.Configure<WebSiteSettingsModel>(Configuration.GetSection("ZRELZiPagoDatos"));
@@ -58,7 +59,7 @@ namespace ZREL.ZiPago.Aplicacion.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -71,11 +72,22 @@ namespace ZREL.ZiPago.Aplicacion.Web
                 app.UseHsts();
             }
 
+            //app.UseRouting();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
             //app.UseSession();
+            app.UseAuthorization();
             app.UseAuthentication();
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapRazorPages();
+            //    endpoints.MapControllers();
+            //    endpoints.MapControllerRoute(
+            //        name: "default",
+            //        pattern: "{controller=Seguridad}/{action=UsuarioAutenticar}/{id?}");
+            //});
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

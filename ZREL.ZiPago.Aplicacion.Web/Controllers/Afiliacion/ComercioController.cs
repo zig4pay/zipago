@@ -168,14 +168,14 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
         {
             JsonResult response;
             Uri requestUrl;
-            ResponseModel<ComercioZiPago> responseComercio = new ResponseModel<ComercioZiPago>();
+            ResponseModel<ComercioZiPagoReg> responseComercio = new ResponseModel<ComercioZiPagoReg>();
             var logger = LogManager.GetCurrentClassLogger();
 
             try
             {
                 requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_ComercioObtener) + strCodigoComercio);
                 logger.Info("Aplicacion.Web.Controllers.Afiliacion.ComerciosController.VerificarExisteComercioZiPago requestUrl [{0}]", requestUrl.ToString());
-                responseComercio = await ApiClientFactory.Instance.GetAsync<ComercioZiPago>(requestUrl);
+                responseComercio = await ApiClientFactory.Instance.GetAsync<ComercioZiPagoReg>(requestUrl);
 
                 if (!responseComercio.HizoError)
                 {                    
@@ -195,20 +195,20 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
 
         [HttpPost]
         [Authorize]
-        public async Task<JsonResult> Registrar(List<ComercioZiPago> comercios)
+        public async Task<JsonResult> Registrar(List<ComercioZiPagoReg> comercios)
         {
             JsonResult responseJson;
             Uri requestUrl;
             List<ComercioCuentaZiPago> lstComercioCuenta = new List<ComercioCuentaZiPago>();
             ComercioCuentaZiPago comercioCuenta;
-            ComercioZiPago comercio;
+            ComercioZiPagoReg comercio;
             CuentaBancariaZiPago cuentaBancaria;
             string response = string.Empty;
             try
             {
-                foreach (ComercioZiPago item in comercios)
+                foreach (ComercioZiPagoReg item in comercios)
                 {
-                    comercio = new ComercioZiPago{
+                    comercio = new ComercioZiPagoReg{
                         IdUsuarioZiPago = item.IdUsuarioZiPago,
                         CodigoComercio = item.CodigoComercio,
                         Descripcion = item.Descripcion,
@@ -220,7 +220,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
                     };
 
                     comercioCuenta = new ComercioCuentaZiPago {
-                        ComercioZiPago = comercio,
+                        ComercioZiPagoReg = comercio,
                         CuentaBancariaZiPago = cuentaBancaria
                     };
 

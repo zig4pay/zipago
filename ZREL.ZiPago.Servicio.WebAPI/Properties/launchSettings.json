@@ -15,7 +15,8 @@
       "launchUrl": "api/v1.0/values",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "ancmHostingModel": "InProcess"
     },
     "ZREL.ZiPago.Servicio.WebAPI": {
       "commandName": "Project",

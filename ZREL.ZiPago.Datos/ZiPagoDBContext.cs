@@ -22,7 +22,7 @@ namespace ZREL.ZiPago.Datos
         public DbSet<UbigeoZiPago> UbigeosZiPago { get; set; }
 
         public DbSet<ComercioCuentaZiPago> ComerciosCuentasZiPago { get; set; }
-        public DbSet<ComercioZiPago> ComerciosZiPago { get; set; }
+        public DbSet<ComercioZiPagoReg> ComerciosZiPagoReg { get; set; }
         public DbSet<CuentaBancariaZiPago> CuentasBancariasZiPago { get; set; }
         public DbSet<DomicilioZiPago> DomiciliosZiPago { get; set; }
 

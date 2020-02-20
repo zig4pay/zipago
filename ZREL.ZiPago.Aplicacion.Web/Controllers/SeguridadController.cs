@@ -329,16 +329,16 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
             
             try
             {
-                nombres = string.IsNullOrEmpty(usuario.Nombres) ?
-                            usuario.NombresUsuario + " " + usuario.ApellidosUsuario :
-                                usuario.Nombres + " " + usuario.ApellidoPaterno + " " + usuario.ApellidoMaterno;
+                //nombres = string.IsNullOrEmpty(usuario.Nombres) ?
+                //            usuario.NombresUsuario + " " + usuario.ApellidosUsuario :
+                //                usuario.Nombres + " " + usuario.ApellidoPaterno + " " + usuario.ApellidoMaterno;
 
-                configuration.GetSection("ZRELZiPagoMail").Bind(mailsettings);
-                respuesta = mail.Enviar(usuario.NombresUsuario + " " + usuario.ApellidosUsuario,
-                                        usuario.Clave1,
-                                        configuration.GetValue<string>("ZRELZiPagoCuerpoMailRecuperar:Asunto"),
-                                        configuration.GetValue<string>("ZRELZiPagoCuerpoMailRecuperar:Mensaje").Replace("usuario", nombres).Replace("callbackurl", callbackurl),
-                                        mailsettings);
+                //configuration.GetSection("ZRELZiPagoMail").Bind(mailsettings);
+                //respuesta = mail.Enviar(usuario.NombresUsuario + " " + usuario.ApellidosUsuario,
+                //                        usuario.Clave1,
+                //                        configuration.GetValue<string>("ZRELZiPagoCuerpoMailRecuperar:Asunto"),
+                //                        configuration.GetValue<string>("ZRELZiPagoCuerpoMailRecuperar:Mensaje").Replace("usuario", nombres).Replace("callbackurl", callbackurl),
+                //                        mailsettings);
                 if (respuesta.Trim().Length > 0)
                     logger.Error("[Aplicacion.Web.Controllers.SeguridadController.EnviarCorreo] | UsuarioViewModel: [{0}] | Mensaje: {1}.", usuario.Clave1, respuesta);
             }

@@ -4,8 +4,8 @@ namespace ZREL.ZiPago.Entidad.Afiliacion
 {
     public class ComercioCuentaZiPago
     {
-        public int IdComercioZiPago { get; set; }
-        public ComercioZiPago ComercioZiPago { get; set; }
+        public int IdComercioZiPagoReg { get; set; }
+        public ComercioZiPagoReg ComercioZiPagoReg { get; set; }
         
         public int IdCuentaBancaria { get; set; }
         public CuentaBancariaZiPago CuentaBancariaZiPago { get; set; }

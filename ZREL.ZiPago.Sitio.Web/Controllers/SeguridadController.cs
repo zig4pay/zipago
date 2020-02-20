@@ -65,7 +65,7 @@ namespace ZREL.ZiPago.Sitio.Web.Controllers
                             logger.Info("[Sitio.Web.Controllers.SeguridadController.UsuarioRegistrar] | UsuarioZiPago: [{0}] | {1}.", response.Model.Clave1, response.Mensaje);
                             if (response.Mensaje == Constantes.RegistroUsuario.UsuarioRegistradoCorrectamente.ToString())
                             {
-                                EnviarCorreo(response.Model);
+                                //EnviarCorreo(response.Model);
                                 return Redirect(webSettings.Value.ZZiPagoPortalUrl);
                             }
                             else {

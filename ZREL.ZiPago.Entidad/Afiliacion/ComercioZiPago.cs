@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace ZREL.ZiPago.Entidad.Afiliacion
 {
-    public class ComercioZiPago
+    public class ComercioZiPagoReg
     {
-        public int IdComercioZiPago { get; set; }
+        public int IdComercioZiPagoReg { get; set; }
         public string CodigoComercio { get; set; }
         public int IdUsuarioZiPago { get; set; }
         public string Descripcion { get; set; }

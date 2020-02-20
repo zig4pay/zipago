@@ -4,21 +4,21 @@ using ZREL.ZiPago.Entidad.Afiliacion;
 
 namespace ZREL.ZiPago.Datos.Configuraciones.Afiliacion
 {
-    public class ComercioZiPagoConfiguracion : IEntityTypeConfiguration<ComercioZiPago>
+    public class ComercioZiPagoConfiguracion : IEntityTypeConfiguration<ComercioZiPagoReg>
     {
-        public void Configure(EntityTypeBuilder<ComercioZiPago> builder)
+        public void Configure(EntityTypeBuilder<ComercioZiPagoReg> builder)
         {
             // Mapping for table 
-            builder.ToTable("COMERCIOZIPAGO", "dbo");
+            builder.ToTable("COMERCIOZIPAGOREG", "dbo");
 
             // Set key for entity
-            builder.HasKey(p => p.IdComercioZiPago);
+            builder.HasKey(p => p.IdComercioZiPagoReg);
 
             // Set identity for entity (auto increment)
-            builder.Property(p => p.IdComercioZiPago).UseSqlServerIdentityColumn();
+            builder.Property(p => p.IdComercioZiPagoReg).UseIdentityColumn();
 
             // Set mapping for columns
-            builder.Property(p => p.IdComercioZiPago).HasColumnType("int").IsRequired();
+            builder.Property(p => p.IdComercioZiPagoReg).HasColumnType("int").IsRequired();
             builder.Property(p => p.CodigoComercio).HasColumnType("varchar(14)").IsRequired();
             builder.Property(p => p.IdUsuarioZiPago).HasColumnType("int").IsRequired();
             builder.Property(p => p.Descripcion).HasColumnType("varchar(30)").IsRequired();

@@ -258,7 +258,7 @@
             }
             $.each(data,
                 function (index, type) {
-                    var content = '<option value="' + type.Value + '">' + type.Text + '</option>';
+                    var content = '<option value="' + type.value + '">' + type.text + '</option>';
                     $(id).append(content);
                 });
         });

@@ -15,7 +15,7 @@ namespace ZREL.ZiPago.Datos.Configuraciones.Afiliacion
             builder.HasKey(p => p.IdCuentaBancaria);
 
             // Set identity for entity (auto increment)
-            builder.Property(p => p.IdCuentaBancaria).UseSqlServerIdentityColumn();
+            builder.Property(p => p.IdCuentaBancaria).UseIdentityColumn();
 
             // Set mapping for columns
             builder.Property(p => p.IdCuentaBancaria).HasColumnType("int").IsRequired();

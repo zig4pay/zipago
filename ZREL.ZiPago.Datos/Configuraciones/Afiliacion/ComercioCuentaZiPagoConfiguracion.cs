@@ -12,18 +12,18 @@ namespace ZREL.ZiPago.Datos.Configuraciones.Afiliacion
             builder.ToTable("COMERCIOCUENTAZIPAGO", "dbo");
 
             // Set key for entity
-            builder.HasKey(p => new { p.IdComercioZiPago, p.IdCuentaBancaria });
+            builder.HasKey(p => new { p.IdComercioZiPagoReg, p.IdCuentaBancaria });
 
             // Set mapping for columns
-            builder.Property(p => p.IdComercioZiPago).HasColumnType("int").IsRequired();
+            builder.Property(p => p.IdComercioZiPagoReg).HasColumnType("int").IsRequired();
             builder.Property(p => p.IdCuentaBancaria).HasColumnType("int").IsRequired();
             builder.Property(p => p.Activo).HasColumnType("char(1)").IsRequired();
             builder.Property(p => p.FechaCreacion).HasColumnType("Datetime").IsRequired();
             builder.Property(p => p.FechaActualizacion).HasColumnType("Datetime");
 
-            builder.HasOne(x => x.ComercioZiPago)
+            builder.HasOne(x => x.ComercioZiPagoReg)
                    .WithMany(x => x.ComerciosCuentasZiPago)
-                   .HasForeignKey(x => x.IdComercioZiPago);
+                   .HasForeignKey(x => x.IdComercioZiPagoReg);
 
             builder.HasOne(x => x.CuentaBancariaZiPago)
                    .WithMany(x => x.ComerciosCuentasZiPago)

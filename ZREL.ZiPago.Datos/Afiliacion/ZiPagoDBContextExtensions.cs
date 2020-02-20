@@ -289,29 +289,29 @@ namespace ZREL.ZiPago.Datos.Afiliacion
         //Comercios
         public static async Task<IEnumerable<EntidadGenerica>> ListarComerciosAsync(this ZiPagoDBContext dbContext, int idUsuarioZiPago)
         {
-            return await dbContext.ComerciosZiPago
+            return await dbContext.ComerciosZiPagoReg
                             .AsNoTracking()
                             .Where(item => item.IdUsuarioZiPago == idUsuarioZiPago &&
                                            item.Activo == Constantes.strValor_Activo)
                             .OrderBy(item => item.CodigoComercio)
                             .Select(item => new EntidadGenerica
                             {
-                                IdEntidad = item.IdComercioZiPago,
+                                IdEntidad = item.IdComercioZiPagoReg,
                                 Descripcion = item.CodigoComercio
                             })
                             .ToListAsync();                            
         }
 
-        public static async Task<ComercioZiPago> ObtenerComercioZiPagoAsync(this ZiPagoDBContext dbContext, string codigoComercio)
+        public static async Task<ComercioZiPagoReg> ObtenerComercioZiPagoAsync(this ZiPagoDBContext dbContext, string codigoComercio)
         {
-            return await dbContext.ComerciosZiPago.AsNoTracking().FirstOrDefaultAsync(item => item.CodigoComercio == codigoComercio);
+            return await dbContext.ComerciosZiPagoReg.AsNoTracking().FirstOrDefaultAsync(item => item.CodigoComercio == codigoComercio);
         }
         public static async Task<IEnumerable<ComercioListado>> ListarComerciosAsync(this ZiPagoDBContext dbContext, ComercioFiltros comercioFiltros)
         {
 
-            var result = from comercios in dbContext.ComerciosZiPago.AsNoTracking()
+            var result = from comercios in dbContext.ComerciosZiPagoReg.AsNoTracking()
                          join comerciocuenta in dbContext.ComerciosCuentasZiPago.AsNoTracking()
-                            on comercios.IdComercioZiPago equals comerciocuenta.IdComercioZiPago
+                            on comercios.IdComercioZiPagoReg equals comerciocuenta.IdComercioZiPagoReg
                          join cuentabancaria in dbContext.CuentasBancariasZiPago.AsNoTracking()
                             on comerciocuenta.IdCuentaBancaria equals cuentabancaria.IdCuentaBancaria
                          join banco in dbContext.BancosZiPago.AsNoTracking()
@@ -376,8 +376,8 @@ namespace ZREL.ZiPago.Datos.Afiliacion
         }
 
         public static async Task<Int32> ObtenerCantidadComerciosPorUsuarioAsync(this ZiPagoDBContext dbContext, int idUsuarioZiPago) {
-            return await dbContext.ComerciosZiPago.Where(p => p.IdUsuarioZiPago == idUsuarioZiPago &&
-                                                                p.Activo == Constantes.strValor_Activo).CountAsync();
+            return await dbContext.ComerciosZiPagoReg.Where(p => p.IdUsuarioZiPago == idUsuarioZiPago &&
+                                                                 p.Activo == Constantes.strValor_Activo).CountAsync();
         }
 
     }

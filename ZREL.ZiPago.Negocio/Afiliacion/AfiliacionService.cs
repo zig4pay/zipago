@@ -90,9 +90,9 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
             return response;
         }
 
-        public async Task<ISingleResponse<ComercioZiPago>> ObtenerComercioZiPagoAsync(Logger logger, string codigoComercio)
+        public async Task<ISingleResponse<ComercioZiPagoReg>> ObtenerComercioZiPagoAsync(Logger logger, string codigoComercio)
         {
-            SingleResponse<ComercioZiPago> response = new SingleResponse<ComercioZiPago>();
+            SingleResponse<ComercioZiPagoReg> response = new SingleResponse<ComercioZiPagoReg>();
             logger.Info("[{0}] | ComercioZiPago: [{1}] | Inicio.", nameof(ObtenerComercioZiPagoAsync), codigoComercio);
             try
             {
@@ -103,7 +103,7 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
             catch (Exception ex)
             {
                 response.Model = null;
-                response.SetError(logger, nameof(ObtenerComercioZiPagoAsync), nameof(ComercioZiPago), ex);
+                response.SetError(logger, nameof(ObtenerComercioZiPagoAsync), nameof(ComercioZiPagoReg), ex);
             }
             return response;
         }
@@ -362,12 +362,12 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
                 {
                     foreach (ComercioCuentaZiPago item in request)
                     {
-                        ComercioZiPago comercio = new ComercioZiPago
+                        ComercioZiPagoReg comercio = new ComercioZiPagoReg
                         {
-                            CodigoComercio = item.ComercioZiPago.CodigoComercio.ToUpper(),
-                            IdUsuarioZiPago = item.ComercioZiPago.IdUsuarioZiPago,
-                            Descripcion = item.ComercioZiPago.Descripcion,
-                            CorreoNotificacion = item.ComercioZiPago.CorreoNotificacion,
+                            CodigoComercio = item.ComercioZiPagoReg.CodigoComercio.ToUpper(),
+                            IdUsuarioZiPago = item.ComercioZiPagoReg.IdUsuarioZiPago,
+                            Descripcion = item.ComercioZiPagoReg.Descripcion,
+                            CorreoNotificacion = item.ComercioZiPagoReg.CorreoNotificacion,
                             Estado = Constantes.EstadoComercio.PendienteDeActivar.ToString("d"),
                             Activo = Constantes.strValor_Activo,
                             FechaCreacion = DateTime.Now
@@ -381,7 +381,7 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
                             FechaCreacion = DateTime.Now                            
                         };
 
-                        comercioCuenta.ComercioZiPago = comercio;
+                        comercioCuenta.ComercioZiPagoReg = comercio;
                         comercioCuenta.CuentaBancariaZiPago = cuenta;
 
                         comercio.ComerciosCuentasZiPago.Add(comercioCuenta);

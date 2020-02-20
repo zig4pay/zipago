@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using ZREL.ZiPago.Sitio.Web.Models.Settings;
 
 namespace ZREL.ZiPago.Sitio.Web
@@ -25,16 +25,19 @@ namespace ZREL.ZiPago.Sitio.Web
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc(options => {
+                options.EnableEndpointRouting = false;
+            });                        
             services.Configure<WebSiteSettingsModel>(Configuration.GetSection("ZRELZiPagoWebApi"));
             services.Configure<WebSiteSettingsModel>(Configuration.GetSection("ZRELZiPagoPortalWeb"));
-            services.Configure<WebSiteSettingsModel>(Configuration.GetSection("GoogleReCaptcha"));            
+            services.Configure<WebSiteSettingsModel>(Configuration.GetSection("GoogleReCaptcha"));
+            services.AddControllersWithViews();
+            services.AddRazorPages();
             services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -46,10 +49,17 @@ namespace ZREL.ZiPago.Sitio.Web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            //app.UseRouting();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();            
+            app.UseCookiePolicy();
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapControllerRoute(
+            //        name: "default",
+            //        pattern: "{controller=Home}/{action=Index}/{id?}");
+            //});
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
