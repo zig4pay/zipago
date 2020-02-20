@@ -16,4 +16,10 @@
     <ProjectReference Include="..\ZREL.ZiPago.Negocio\ZREL.ZiPago.Negocio.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

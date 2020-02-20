@@ -1694,4 +1694,10 @@
     <ProjectReference Include="..\ZREL.ZiPago.Libreria\ZREL.ZiPago.Libreria.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>
