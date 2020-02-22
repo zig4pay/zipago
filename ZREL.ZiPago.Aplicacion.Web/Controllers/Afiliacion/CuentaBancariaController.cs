@@ -16,7 +16,7 @@ using ZREL.ZiPago.Aplicacion.Web.Models.Settings;
 using ZREL.ZiPago.Aplicacion.Web.Utility;
 using ZREL.ZiPago.Entidad.Afiliacion;
 using ZREL.ZiPago.Entidad.Comun;
-
+using ZREL.ZiPago.Entidad.Util;
 using ZREL.ZiPago.Libreria;
 
 namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
@@ -38,7 +38,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
         {
             Uri requestUrl;            
             CuentaBancariaViewModel model = new CuentaBancariaViewModel();
-            ResponseListModel<BancoZiPago> responseBanco;
+            ResponseListModel<EntidadGenerica> responseBanco;
             ResponseListModel<TablaDetalle> responseTD;
 
             try
@@ -47,8 +47,8 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
                 model.IdUsuarioZiPago = User.GetLoggedInUserId<int>();
 
                 requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.BancoZiPago_Listar));
-                responseBanco = await ApiClientFactory.Instance.GetListAsync<BancoZiPago>(requestUrl);
-                responseBanco.Model.Insert(0, new BancoZiPago { IdBancoZiPago = 0, NombreLargo = "Seleccione" });
+                responseBanco = await ApiClientFactory.Instance.GetListAsync<EntidadGenerica>(requestUrl);
+                responseBanco.Model.Insert(0, new EntidadGenerica { IdEntidad = 0, Descripcion = "Seleccione" });
                 model.Bancos = responseBanco.Model;
                     
                 requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.TablaDetalle_Listar) + Constantes.strCodTablaTipoCuenta);
@@ -149,7 +149,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
 
             Uri requestUrl;
             CuentaBancariaViewModel model = new CuentaBancariaViewModel();
-            ResponseListModel<BancoZiPago> responseBanco;
+            ResponseListModel<EntidadGenerica> responseBanco;
             ResponseListModel<TablaDetalle> responseTD;
 
             try
@@ -157,8 +157,8 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
                 model.IdUsuarioZiPago = User.GetLoggedInUserId<int>();
                     
                 requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.BancoZiPago_Listar));
-                responseBanco = await ApiClientFactory.Instance.GetListAsync<BancoZiPago>(requestUrl);
-                responseBanco.Model.Insert(0, new BancoZiPago { IdBancoZiPago = 0, NombreLargo = "Seleccione" });
+                responseBanco = await ApiClientFactory.Instance.GetListAsync<EntidadGenerica>(requestUrl);
+                responseBanco.Model.Insert(0, new EntidadGenerica { IdEntidad = 0, Descripcion = "Seleccione" });
                 model.Bancos = responseBanco.Model;
 
                 requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.TablaDetalle_Listar) + Constantes.strCodTablaTipoCuenta);

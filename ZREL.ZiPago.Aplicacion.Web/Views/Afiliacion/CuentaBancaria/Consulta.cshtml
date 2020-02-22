@@ -51,7 +51,7 @@
                                         <div class="form-group">
                                             <label for="idbancozipago" class="col-sm-1 control-label">Banco:</label>
                                             <div class="col-sm-2">
-                                                <select id="idbancozipago" name="idbancozipago" asp-items="@(new SelectList(Model.Bancos,"IdBancoZiPago", "NombreLargo"))" class="form-control"></select>
+                                                <select id="idbancozipago" name="idbancozipago" asp-items="@(new SelectList(Model.Bancos,"IdEntidad", "Descripcion"))" class="form-control"></select>
                                             </div>
 
                                             <label for="tipocuenta" class="col-sm-2 control-label">Tipo de Cta. Bancaria:</label>
@@ -124,14 +124,14 @@
                                                data-pagination-next-text="Siguiente">
                                             <thead>
                                                 <tr>
-                                                    <th data-field="Id" data-visible="false">Id</th>
-                                                    <th data-field="Banco">Banco</th>
-                                                    <th data-field="TipoCuenta">Tipo de Cuenta</th>
-                                                    <th data-field="TipoMoneda">Moneda</th>
-                                                    <th data-field="NumeroCuenta">Nro. de Cuenta</th>
-                                                    <th data-field="CCI">CCI</th>
-                                                    <th data-field="Estado">Estado</th>
-                                                    <th data-field="FechaCreacion" data-formatter="FormatearFecha">Fecha Registro</th>
+                                                    <th data-field="id" data-visible="false">Id</th>
+                                                    <th data-field="banco">Banco</th>
+                                                    <th data-field="tipoCuenta">Tipo de Cuenta</th>
+                                                    <th data-field="tipoMoneda">Moneda</th>
+                                                    <th data-field="numeroCuenta">Nro. de Cuenta</th>
+                                                    <th data-field="cci">CCI</th>
+                                                    <th data-field="estado">Estado</th>
+                                                    <th data-field="fechaCreacion" data-formatter="FormatearFecha">Fecha Registro</th>
                                                 </tr>
                                             </thead>
                                         </table>

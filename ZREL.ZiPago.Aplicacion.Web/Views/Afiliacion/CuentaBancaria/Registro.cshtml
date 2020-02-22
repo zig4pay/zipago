@@ -49,7 +49,7 @@
                                                         <label for="idbancozipago">Banco:</label><label class="text-red">&nbsp;*</label>
                                                     </div>
                                                     <div class="col-sm-3">
-                                                        <select id="idbancozipago" name="idbancozipago" asp-items="@(new SelectList(Model.Bancos,"IdBancoZiPago", "NombreLargo"))" class="form-control"></select>
+                                                        <select id="idbancozipago" name="idbancozipago" asp-items="@(new SelectList(Model.Bancos,"IdEntidad", "Descripcion"))" class="form-control"></select>
                                                     </div>
                                                 </div>
 

@@ -156,7 +156,7 @@ function VerificaExisteCuentaBancaria() {
         })
         .done(function (resp) {
             $.each(resp, function (i, field) {
-                if (i === "Mensaje") {
+                if (i === "mensaje") {
                     if (field === "Existe") {
                         $("#cuentabancariaexiste").show();
                     } else {

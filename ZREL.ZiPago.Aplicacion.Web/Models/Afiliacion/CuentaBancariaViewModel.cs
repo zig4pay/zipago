@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 using ZREL.ZiPago.Entidad.Comun;
+using ZREL.ZiPago.Entidad.Util;
 
 namespace ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion
 {
@@ -30,7 +31,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion
         [DataMember]
         public string Activo { get; set; }
 
-        public List<BancoZiPago> Bancos { get; set; }
+        public List<EntidadGenerica> Bancos { get; set; }
         public List<TablaDetalle> TipoCuentas { get; set; }
         public List<TablaDetalle> TipoMonedas { get; set; }
 

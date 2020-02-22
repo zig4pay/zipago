@@ -73,7 +73,7 @@
             $.getJSON("ListarCuentasBancarias", { idUsuarioZiPago: intIdUsuarioZiPago, idBancoZiPago: intIdBancoZiPago }, function (data) {
                 $("#cuentasxbanco").append($("<option>").val(0).text("Seleccione"));
                 $.each(data, function (i, item) {
-                    $("#cuentasxbanco").append($("<option>").val(item.IdCuentaBancaria).text(item.Descripcion));
+                    $("#cuentasxbanco").append($("<option>").val(item.idCuentaBancaria).text(item.descripcion));
                 });
             });
         });
@@ -119,7 +119,7 @@ function VerificaExisteComercio() {
         })
         .done(function (resp) {
             $.each(resp, function (i, field) {
-                if (i === "Mensaje") {
+                if (i === "mensaje") {
                     if (field === "Existe") {
                         $("#comercioexiste").show();
                     } else {
@@ -175,26 +175,28 @@ function Registrar() {
         })
         .done(function (resp) {
             var content = JSON.parse(resp);            
+
+            swal({
+                title: "Registro de Comercios",
+                text: content.hizoError ? "Ocurrio un error al registrar el Comercio. Por favor intentelo en unos minutos." : "Datos registrados correctamente.",
+                type: content.hizoError ? "error" : "success",
+                showCancelButton: false,
+                confirmButtonClass: "btn-default",
+                confirmButtonText: "Ok",
+                closeOnConfirm: false
+            }, function () {
+                window.location = "/Comercio/Index";
+            });
+
             if (!content.hizoError) {
                 LimpiarFormulario();
-                swal("Registro de Comercio", content.mensaje, "success");                
-                window.location = "/Comercio/Index";
-            } else {
-                swal({
-                    title: "Registro de Comercio",
-                    text: "Ocurrio un error al registrar los Comercios. Por favor intentelo en unos minutos.",
-                    type: "error",
-                    showCancelButton: false,
-                    confirmButtonClass: "btn-default",
-                    confirmButtonText: "Ok",
-                    closeOnConfirm: false
-                });
-            }            
+            }
+
         })
         .fail(function (err) {
             swal({
                 title: "Registro de Comercio",
-                text: "Ocurrio un error al registrar los Comercios. Por favor intentelo en unos minutos.",
+                text: "Ocurrio un error al registrar el Comercio. Por favor intentelo en unos minutos.",
                 type: "error",
                 showCancelButton: false,
                 confirmButtonClass: "btn-default",
