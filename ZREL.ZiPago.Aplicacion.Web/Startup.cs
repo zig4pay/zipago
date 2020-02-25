@@ -73,7 +73,7 @@ namespace ZREL.ZiPago.Aplicacion.Web
             }
 
             //app.UseRouting();
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
             //app.UseSession();

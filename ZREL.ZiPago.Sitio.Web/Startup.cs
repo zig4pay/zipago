@@ -50,16 +50,9 @@ namespace ZREL.ZiPago.Sitio.Web
                 app.UseHsts();
             }
             //app.UseRouting();
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapControllerRoute(
-            //        name: "default",
-            //        pattern: "{controller=Home}/{action=Index}/{id?}");
-            //});
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

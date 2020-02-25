@@ -35,7 +35,7 @@ namespace ZREL.ZiPago.Servicio.WebAPI
                 app.UseDeveloperExceptionPage();
             }            
                         
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 

@@ -53,3 +53,19 @@ input.error {
 .help-block {
     color: red;    
 }
+
+.tabla-tarifa {
+    border: 1px solid #C5C5C5 !important;
+}
+
+.tabla-tarifa-cabecera {
+    border: 1px solid #C5C5C5 !important;
+    background: #DBE5F1 !important;
+}
+
+.tabla-tarifa-fila {
+    border: 1px solid #DBDBDB !important;
+}
+
+
+
