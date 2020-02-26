@@ -67,7 +67,10 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
                         )
                     {
                         model.Clave2 = Criptografia.Encriptar(model.Clave2);
-                        var requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.UsuarioZiPago_Autenticar));                        
+                        var requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.UsuarioZiPago_Autenticar));
+
+                        logger.Info("[Aplicacion.Web.Controllers.SeguridadController.UsuarioAutenticar] | requestUrl: [{0}].", requestUrl.ToString());
+
                         response = await ApiClientFactory.Instance.PostAsync<UsuarioViewModel>(requestUrl, model);
 
                         if (response.Mensaje == "1")
@@ -124,7 +127,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
             {                
                 response.HizoError = true;
                 response.MensajeError = ex.ToString();
-                logger.Error("[{0}] | UsuarioViewModel: [{1}] | Excepcion: {2}.", nameof(UsuarioAutenticar), model.Clave1, ex.ToString());
+                logger.Error("[{0}] | UsuarioViewModel: [{1}] | Excepcion: {2} | Inner: {3}.", nameof(UsuarioAutenticar), model.Clave1, ex.ToString(), ex.InnerException.ToString());
                 ModelState.AddModelError("ErrorRegistro", ex.Message);
                 return RedirectToAction("UsuarioAutenticar", "Seguridad");
             }

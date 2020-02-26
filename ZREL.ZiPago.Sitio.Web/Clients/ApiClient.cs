@@ -16,8 +16,10 @@ namespace ZREL.ZiPago.Sitio.Web.Clients
 
         public ApiClient(Uri baseEndpoint)
         {
+            var httpClientHandler = new HttpClientHandler();            
             BaseEndpoint = baseEndpoint ?? throw new ArgumentNullException("baseEndpoint");
-            httpClient = new HttpClient();
+            httpClientHandler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; };
+            httpClient = new HttpClient(httpClientHandler);
         }
 
         public async Task<ResponseModel<T>> GetAsync<T>(Uri requestUrl)
@@ -26,7 +28,7 @@ namespace ZREL.ZiPago.Sitio.Web.Clients
             var response = await httpClient.GetAsync(requestUrl, HttpCompletionOption.ResponseHeadersRead);
             //response.EnsureSuccessStatusCode();
             var data = await response.Content.ReadAsStringAsync();
-            logger.Info("GetAsync: " + data.ToString());
+            //logger.Info("GetAsync: " + data.ToString());
             return JsonConvert.DeserializeObject<ResponseModel<T>>(data);
         }
 

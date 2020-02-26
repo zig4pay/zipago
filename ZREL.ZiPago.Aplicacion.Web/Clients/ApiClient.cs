@@ -16,8 +16,10 @@ namespace ZREL.ZiPago.Aplicacion.Web.Clients
 
         public ApiClient(Uri baseEndpoint)
         {
+            var httpClientHandler = new HttpClientHandler();
             BaseEndpoint = baseEndpoint ?? throw new ArgumentNullException("baseEndpoint");
-            httpClient = new HttpClient();
+            httpClientHandler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; };
+            httpClient = new HttpClient(httpClientHandler);
         }
 
         public async Task<ResponseModel<T>> GetAsync<T>(Uri requestUrl)
