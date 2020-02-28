@@ -31,11 +31,11 @@ namespace ZREL.ZiPago.Libreria.Mail
                     client.Authenticate(settings.Usuario, settings.Clave);
                     client.Send(message);
                     client.Disconnect(true);                    
-                }
+                }                
             }
             catch (Exception ex)
             {
-                respuesta = ex.ToString();
+                respuesta = ex.Message;
             }
             return respuesta;
         }
@@ -65,11 +65,11 @@ namespace ZREL.ZiPago.Libreria.Mail
                     client.Authenticate(settings.Usuario, settings.Clave);
                     client.Send(message);
                     client.Disconnect(true);                    
-                }
+                }                
             }
             catch (Exception ex)
             {
-                respuesta = ex.ToString();
+                respuesta = ex.Message;
             }
             return respuesta;
         }
@@ -111,11 +111,11 @@ namespace ZREL.ZiPago.Libreria.Mail
                     client.Authenticate(settings.Usuario, settings.Clave);
                     client.Send(message);
                     client.Disconnect(true);                    
-                }
+                }                
             }
             catch (Exception ex)
             {
-                respuesta = ex.ToString();
+                respuesta = ex.Message;
             }
             return respuesta;
         }

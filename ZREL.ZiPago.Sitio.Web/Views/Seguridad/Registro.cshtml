@@ -121,7 +121,7 @@
                                         @Html.ValidationMessage("ErrorRegistro", "", new { @class = "text-danger" })
                                     </strong>
                                 </div>
-                                <div class="form-group text-right">                                    
+                                <div class="form-group text-right">
                                     <button type="submit" id="btnRegistrar" class="btn text-white bg-button-acept">Registrar</button>
                                 </div>
                             </div>
@@ -1081,16 +1081,32 @@
     if (ViewBag.Incorrecto)
     {
         <script>
-            
+
             swal({
-                title: "Registro de Usuario",
+                title: "Registro de Usuario ZiPago",
                 text: "@ViewBag.Mensaje",
                 type: "@ViewBag.Tipo",
-                confirmButtonText: "OK",
+                showCancelButton: false,
                 confirmButtonClass: 'btn text-white bg-button-acept',
+                confirmButtonText: "Ok",
+                closeOnConfirm: false
             });
 
         </script>
     }
 
 }
+
+
+swal({
+    title: "Registro de Comercios",
+    text: content.hizoError ? "Ocurrio un error al registrar el Comercio. Por favor intentelo en unos minutos." : "Datos registrados correctamente.",
+    type: content.hizoError ? "error" : "success",
+    showCancelButton: false,
+    confirmButtonClass: "btn-default",
+    confirmButtonText: "Ok",
+    closeOnConfirm: false
+}, function () {
+    window.location = "/Comercio/Index";
+});
+

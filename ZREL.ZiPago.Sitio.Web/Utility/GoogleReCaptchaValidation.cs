@@ -1,8 +1,7 @@
-﻿using Newtonsoft.Json;
-using NLog;
-using System;
+﻿using System;
 using System.Net;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 using ZREL.ZiPago.Sitio.Web.Models.Response;
 
@@ -11,7 +10,7 @@ namespace ZREL.ZiPago.Sitio.Web.Utility
     public class GoogleReCaptchaValidation
     {
 
-        public async static Task<bool> ReCaptchaPassed(string gRecaptchaResponse, string secret, Logger logger)
+        public async static Task<bool> ReCaptchaPassed(string gRecaptchaResponse, string secret)
         {
             HttpClient httpClient = new HttpClient();
 
@@ -20,30 +19,30 @@ namespace ZREL.ZiPago.Sitio.Web.Utility
                 var res = httpClient.GetAsync($"https://www.google.com/recaptcha/api/siteverify?secret={secret}&response={gRecaptchaResponse}").Result;
                 if (res.StatusCode != HttpStatusCode.OK)
                 {
-                    logger.Error("Error al enviar request a Google ReCaptcha.");
+                    Log.InvokeAppendLogError("GoogleReCaptchaValidation.ReCaptchaPassed", "Error al enviar request a Google ReCaptcha.");                    
                     return false;
                 }
 
                 string JSONres = await res.Content.ReadAsStringAsync();
-                logger.Info("ReCaptchaPassed1: JSONres[" + JSONres + "]");
-
+                
                 ResponseGoogleReCaptcha response = new ResponseGoogleReCaptcha();
-                response = JsonConvert.DeserializeObject<ResponseGoogleReCaptcha>(JSONres);
-                logger.Info("ReCaptchaPassed2: JSONres[" + JSONres + "]");
+                response = JsonSerializer.Deserialize<ResponseGoogleReCaptcha>(JSONres);
+                Log.InvokeAppendLogError("GoogleReCaptchaValidation.ReCaptchaPassed", "Response.Content [" + JSONres + "]");
 
                 if (!response.Success)
                 {
+                    string errores = string.Join(" | ", response.Errors);
+                    Log.InvokeAppendLogError("GoogleReCaptchaValidation.ReCaptchaPassed", "Error(es): " + errores);
                     return false;
                 }
             }
             catch (Exception ex)
             {
-                logger.Error(ex.ToString);
+                Log.InvokeAppendLogError("GoogleReCaptchaValidation.ReCaptchaPassed", "Exception: " + ex.ToString());
                 return false;
             }
 
             return true;
-
         }
 
     }
