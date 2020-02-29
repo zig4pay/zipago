@@ -15,6 +15,12 @@ namespace ZREL.ZiPago.Sitio.Web.Clients
         private readonly HttpClient httpClient;
         private Uri BaseEndpoint { get; set; }
 
+        private JsonSerializerOptions jsonOptions = new JsonSerializerOptions{
+                                                            IgnoreNullValues = true,
+                                                            PropertyNameCaseInsensitive = true,
+                                                            WriteIndented = true
+                                                        };
+
         public ApiClient(Uri baseEndpoint)
         {
             var httpClientHandler = new HttpClientHandler();            
@@ -28,9 +34,9 @@ namespace ZREL.ZiPago.Sitio.Web.Clients
             Log.InvokeAppendLog("ApiClient.GetAsync", "requestUrl: [" + requestUrl.ToString() + "]");
             var response = await httpClient.GetAsync(requestUrl, HttpCompletionOption.ResponseHeadersRead);
             //response.EnsureSuccessStatusCode();
-            Log.InvokeAppendLog("ApiClient.GetAsync", "response: [" + JsonSerializer.Serialize(response) + "]");
+            Log.InvokeAppendLog("ApiClient.GetAsync", "response: [" + JsonSerializer.Serialize(response, jsonOptions) + "]");
             var data = await response.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<ResponseModel<T>>(data);
+            return JsonSerializer.Deserialize<ResponseModel<T>>(data, jsonOptions);
         }
 
         public async Task<string> GetJsonAsync(Uri requestUrl)
@@ -38,28 +44,28 @@ namespace ZREL.ZiPago.Sitio.Web.Clients
             Log.InvokeAppendLog("ApiClient.GetJsonAsync", "requestUrl: [" + requestUrl.ToString() + "]");
             var response = await httpClient.GetAsync(requestUrl, HttpCompletionOption.ResponseHeadersRead);            
             response.EnsureSuccessStatusCode();
-            Log.InvokeAppendLog("ApiClient.GetJsonAsync", "response: [" + JsonSerializer.Serialize(response) + "]");
+            Log.InvokeAppendLog("ApiClient.GetJsonAsync", "response: [" + JsonSerializer.Serialize(response, jsonOptions) + "]");
             var data = await response.Content.ReadAsStringAsync();
-            return JsonSerializer.Serialize(data);
+            return JsonSerializer.Serialize(data, jsonOptions);
         }
 
         public async Task<ResponseModel<T>> PostAsync<T>(Uri requestUrl, T content)
         {            
             Log.InvokeAppendLog("ApiClient.PostAsync", "requestUrl: [" + requestUrl.ToString() + "]");
             var response = await httpClient.PostAsync(requestUrl.ToString(), CreateHttpContent<T>(content));
-            Log.InvokeAppendLog("ApiClient.PostAsync", "response: [" + JsonSerializer.Serialize(response) + "]");            
+            Log.InvokeAppendLog("ApiClient.PostAsync", "response: [" + JsonSerializer.Serialize(response, jsonOptions) + "]");            
             var data = await response.Content.ReadAsStringAsync();            
-            return JsonSerializer.Deserialize<ResponseModel<T>>(data);
+            return JsonSerializer.Deserialize<ResponseModel<T>>(data, jsonOptions);
         }
 
         public async Task<string> PostJsonAsync<T>(Uri requestUrl, T content)
         {
             Log.InvokeAppendLog("ApiClient.PostJsonAsync", "requestUrl: [" + requestUrl.ToString() + "]");
             var response = await httpClient.PostAsync(requestUrl.ToString(), CreateHttpContent<T>(content));
-            Log.InvokeAppendLog("ApiClient.PostJsonAsync", "response: [" + JsonSerializer.Serialize(response) + "]");
+            Log.InvokeAppendLog("ApiClient.PostJsonAsync", "response: [" + JsonSerializer.Serialize(response, jsonOptions) + "]");
             response.EnsureSuccessStatusCode();
             var data = await response.Content.ReadAsStringAsync();
-            return JsonSerializer.Serialize(data);
+            return JsonSerializer.Serialize(data, jsonOptions);
         }
 
         public Uri CreateRequestUri(string relativePath, string queryString = "")
@@ -73,12 +79,8 @@ namespace ZREL.ZiPago.Sitio.Web.Clients
         }
 
         public HttpContent CreateHttpContent<T>(T content)
-        {
-            var options = new JsonSerializerOptions {
-                WriteIndented = true,
-                IgnoreNullValues = true                
-            };
-            var json = JsonSerializer.Serialize(content, options);
+        {            
+            var json = JsonSerializer.Serialize(content, jsonOptions);
             return new StringContent(json, Encoding.UTF8, "application/json");
         }
 

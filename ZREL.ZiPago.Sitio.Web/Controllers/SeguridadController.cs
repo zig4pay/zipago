@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using System;
@@ -19,7 +20,12 @@ namespace ZREL.ZiPago.Sitio.Web.Controllers
     {
 
         private readonly IConfiguration configuration;
-        private readonly IOptions<WebSiteSettingsModel> webSettings;        
+        private readonly IOptions<WebSiteSettingsModel> webSettings;
+        private readonly JsonSerializerOptions jsonOptions = new JsonSerializerOptions{
+                                                                    IgnoreNullValues = true,
+                                                                    PropertyNameCaseInsensitive = true,
+                                                                    WriteIndented = true
+                                                                 };
 
         public SeguridadController(IConfiguration configuration, IOptions<WebSiteSettingsModel> app)
         {
@@ -28,10 +34,11 @@ namespace ZREL.ZiPago.Sitio.Web.Controllers
             ApiClientSettings.ZZiPagoApiUrl = webSettings.Value.ZZiPagoApiUrl;
         }
 
-        [HttpGet]        
+        [HttpGet]
         public IActionResult UsuarioRegistrar()
         {            
             ViewData["ReCaptchaKey"] = webSettings.Value.SiteKey;
+            ViewData["ZZiPagoPortalUrl"] = webSettings.Value.SiteKey;
             return View("~/Views/Seguridad/Registro.cshtml");
         }
 
@@ -55,10 +62,9 @@ namespace ZREL.ZiPago.Sitio.Web.Controllers
                         model.Clave2 = Criptografia.Encriptar(model.Clave2);
                         model.AceptoTerminos = Constantes.strUsuarioZiPago_AceptoTerminos;
 
-                        var requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.UsuarioZiPago_Registrar));
-                        //response = await ApiClientFactory.Instance.PostAsync<UsuarioViewModel>(requestUrl, model);
+                        var requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.UsuarioZiPago_Registrar));                        
                         response = await ApiClientFactory.Instance.PostAsync(requestUrl, model);
-                        Log.InvokeAppendLog("SeguridadController.UsuarioRegistrar", "response: [" + JsonSerializer.Serialize(response) + "]");
+                        Log.InvokeAppendLog("SeguridadController.UsuarioRegistrar", "response: [" + JsonSerializer.Serialize(response, jsonOptions) + "]");
 
                         if (!response.HizoError)
                         {                            
@@ -66,9 +72,9 @@ namespace ZREL.ZiPago.Sitio.Web.Controllers
                             {
                                 EnviarCorreo(response.Model);
                                 ViewBag.Incorrecto = false;
-                                ViewBag.Mensaje = Constantes.strMensajeUsuarioRegistroCorrecto;
+                                ViewBag.Mensaje = string.Format(Constantes.strMensajeUsuarioRegistroCorrecto, response.Model.Clave1);
                                 ViewBag.Tipo = "success";
-                                Log.InvokeAppendLog("SeguridadController.UsuarioRegistrar", Constantes.strMensajeUsuarioRegistroCorrecto);
+                                Log.InvokeAppendLog("SeguridadController.UsuarioRegistrar", string.Format(Constantes.strMensajeUsuarioRegistroCorrecto, response.Model.Clave1));
                                 return View("~/Views/Seguridad/Registro.cshtml");
                                 //return Redirect(webSettings.Value.ZZiPagoPortalUrl);
                             }
@@ -92,7 +98,7 @@ namespace ZREL.ZiPago.Sitio.Web.Controllers
                     else
                     {
                         ViewBag.Incorrecto = true;
-                        ViewBag.MensajeError = Constantes.strMensajeErrorValidarCaptcha;
+                        ViewBag.Mensaje = Constantes.strMensajeErrorValidarCaptcha;
                         ViewBag.Tipo = "error";
                         Log.InvokeAppendLogError("SeguridadController.UsuarioRegistrar", "MensajeError: [" + Constantes.strMensajeErrorValidarCaptcha + "]");
                         return View("~/Views/Seguridad/Registro.cshtml");
@@ -101,7 +107,7 @@ namespace ZREL.ZiPago.Sitio.Web.Controllers
                 else
                 {
                     ViewBag.Incorrecto = true;
-                    ViewBag.MensajeError = Constantes.strMensajeDatosIncorrectos;
+                    ViewBag.Mensaje = Constantes.strMensajeDatosIncorrectos;
                     ViewBag.Tipo = "error";
                     Log.InvokeAppendLogError("SeguridadController.UsuarioRegistrar", "MensajeError: [" + Constantes.strMensajeDatosIncorrectos + "]");
                     return View("~/Views/Seguridad/Registro.cshtml");
@@ -110,16 +116,17 @@ namespace ZREL.ZiPago.Sitio.Web.Controllers
             catch (Exception ex)
             {
                 ViewBag.Incorrecto = true;
-                ViewBag.MensajeError = ex.Message;
+                ViewBag.Mensaje = ex.Message;
                 ViewBag.Tipo = "error";
-                Log.InvokeAppendLogError("SeguridadController.UsuarioRegistrar", "Exception: [" + ex.ToString() + "] - InnerException[" + ex.InnerException.ToString() + "]");
+                Log.InvokeAppendLogError("SeguridadController.UsuarioRegistrar", "Exception: [" + ex.ToString() + "]");
                 return View("~/Views/Seguridad/Registro.cshtml");
             }
 
         }
 
-        public IActionResult UsuarioAutenticar() {
-            return Redirect(webSettings.Value.ZZiPagoPortalUrl);
+        [HttpGet]
+        public IActionResult UsuarioAutenticar() {                            
+            return Redirect(webSettings.Value.ZZiPagoPortalUrl);            
         }
 
         private void EnviarCorreo(UsuarioViewModel usuario) {

@@ -24,15 +24,18 @@ namespace ZREL.ZiPago.Sitio.Web.Utility
                 }
 
                 string JSONres = await res.Content.ReadAsStringAsync();
-                
+                Log.InvokeAppendLog("GoogleReCaptchaValidation.ReCaptchaPassed", "Response.Content [" + JSONres + "]");
+
                 ResponseGoogleReCaptcha response = new ResponseGoogleReCaptcha();
                 response = JsonSerializer.Deserialize<ResponseGoogleReCaptcha>(JSONres);
-                Log.InvokeAppendLogError("GoogleReCaptchaValidation.ReCaptchaPassed", "Response.Content [" + JSONres + "]");
+                Log.InvokeAppendLogError("GoogleReCaptchaValidation.ReCaptchaPassed", "ResponseGoogleReCaptcha [" + JsonSerializer.Serialize(response) + "]");
 
                 if (!response.Success)
                 {
-                    string errores = string.Join(" | ", response.Errors);
-                    Log.InvokeAppendLogError("GoogleReCaptchaValidation.ReCaptchaPassed", "Error(es): " + errores);
+                    if (response.Errors != null) {
+                        string errores = string.Join(" | ", response.Errors);
+                        Log.InvokeAppendLogError("GoogleReCaptchaValidation.ReCaptchaPassed", "Error(es): " + errores);
+                    }                    
                     return false;
                 }
             }

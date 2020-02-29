@@ -10,6 +10,7 @@ namespace ZREL.ZiPago.Sitio.Web
 {
     public class Startup
     {
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -24,16 +25,16 @@ namespace ZREL.ZiPago.Sitio.Web
             {                
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
-            services.AddMvc(options => {
-                options.EnableEndpointRouting = false;
-            });                        
+            });            
             services.Configure<WebSiteSettingsModel>(Configuration.GetSection("ZRELZiPagoWebApi"));
             services.Configure<WebSiteSettingsModel>(Configuration.GetSection("ZRELZiPagoPortalWeb"));
-            services.Configure<WebSiteSettingsModel>(Configuration.GetSection("GoogleReCaptcha"));
+            services.Configure<WebSiteSettingsModel>(Configuration.GetSection("GoogleReCaptcha"));            
+            services.AddCors();
+            services.AddMvc(options => {
+                options.EnableEndpointRouting = false;
+            });
             services.AddControllersWithViews();
             services.AddRazorPages();
-            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,6 +54,7 @@ namespace ZREL.ZiPago.Sitio.Web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseCors();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

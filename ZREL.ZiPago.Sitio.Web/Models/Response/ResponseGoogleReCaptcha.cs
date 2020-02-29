@@ -1,20 +1,21 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Text.Json.Serialization;
 
 namespace ZREL.ZiPago.Sitio.Web.Models.Response
 {
     public class ResponseGoogleReCaptcha
     {
-        [JsonProperty(PropertyName = "success")]
+        [JsonPropertyName("success")]
         public bool Success { get; set; }
 
-        [JsonProperty(PropertyName = "challenge_ts")]
+        [JsonPropertyName("challenge_ts")]
         public DateTime ChallengeTimestamp { get; set; }
 
-        [JsonProperty(PropertyName = "hostname")]
+        [JsonPropertyName("hostname")]
         public string Hostname { get; set; }
 
-        [JsonProperty(PropertyName = "error-codes")]
+        [JsonPropertyName("error-codes")]
         public string[] Errors { get; set; }
     }
 }

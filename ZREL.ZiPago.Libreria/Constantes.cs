@@ -40,7 +40,7 @@
 
         //SEGURIDAD_USUARIO_REGISTRAR
         public const string strMensajeUsuarioIncorrecto = "El usuario o contraseña ingresados son incorrectos.";
-        public const string strMensajeUsuarioRegistroCorrecto = "Usuario registrado correctamente.";
+        public const string strMensajeUsuarioRegistroCorrecto = "Usuario {0} registrado correctamente.";
         public const string strMensajeUsuarioNoRegistrado = "El Usuario ingresado no se encuentra registrado.";
         public const string strMensajeUsuarioYaExiste = "El Id ZiPago {0} ya existe. Intente registrarse con otra cuenta de correo electronico.";
         public const string strMensajeUsuarioError = "Error al intentar registrar el usuario.";

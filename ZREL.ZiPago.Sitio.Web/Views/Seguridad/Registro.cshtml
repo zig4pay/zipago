@@ -1077,36 +1077,40 @@
 <script src='https://www.google.com/recaptcha/api.js'></script>
 
 @if (ViewBag.Incorrecto != null)
-{
-    if (ViewBag.Incorrecto)
-    {
-        <script>
+{    
+    <script>
 
-            swal({
-                title: "Registro de Usuario ZiPago",
-                text: "@ViewBag.Mensaje",
-                type: "@ViewBag.Tipo",
-                showCancelButton: false,
-                confirmButtonClass: 'btn text-white bg-button-acept',
-                confirmButtonText: "Ok",
-                closeOnConfirm: false
-            });
+        swal({
+            title: "Registro de Usuario ZiPago",
+            text: "@ViewBag.Mensaje",
+            type: "@ViewBag.Tipo",
+            showCancelButton: false,
+            confirmButtonClass: 'btn text-white bg-button-acept',
+            confirmButtonText: "Ok",
+            closeOnConfirm: false
+        },
+        function () {
+            //var url = "@ViewData["ZZiPagoPortalUrl"]";
+            window.location.replace("https://localhost:44397/");
 
-        </script>
-    }
+            //$.ajax({
+            //    url: 'UsuarioAutenticar/',
+            //    type: "GET"
+            //})
+            //.done()
+            //.fail(function (err) {
+            //    swal({
+            //        title: "Registro de Usuario ZiPago",
+            //        text: "Ocurrio un error al redireccionarlo a nuestro portal web. Por favor ingrese a .",
+            //        type: "info",
+            //        showCancelButton: false,
+            //        confirmButtonClass: 'btn text-white bg-button-acept',
+            //        confirmButtonText: "Ok",
+            //        closeOnConfirm: false
+            //    });
+            //});
 
+        });
+
+    </script>
 }
-
-
-swal({
-    title: "Registro de Comercios",
-    text: content.hizoError ? "Ocurrio un error al registrar el Comercio. Por favor intentelo en unos minutos." : "Datos registrados correctamente.",
-    type: content.hizoError ? "error" : "success",
-    showCancelButton: false,
-    confirmButtonClass: "btn-default",
-    confirmButtonText: "Ok",
-    closeOnConfirm: false
-}, function () {
-    window.location = "/Comercio/Index";
-});
-

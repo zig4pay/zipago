@@ -97,6 +97,15 @@
 
 });
 
+function PermitirSoloLetras(e) {
+    var regex = new RegExp("^[a-zA-Z \b%.]+$");
+    var key = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+    if (!regex.test(key)) {
+        e.preventDefault();
+        return false;
+    }
+}
+
 function LimpiarFormulario() {
     $('#codigocomercio').val('');    
     $('#descripcioncomercio').val('');
