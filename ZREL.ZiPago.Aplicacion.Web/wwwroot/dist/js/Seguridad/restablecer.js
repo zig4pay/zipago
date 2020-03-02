@@ -66,7 +66,7 @@
                 confirmButtonText: "Ok",
                 closeOnConfirm: false
             }, function () {
-                window.location = "https://localhost:44393/";                
+                $(location).attr('href', $('#jsparam4').val());
             });
             $('#jsparam1').val(false);
         }
@@ -82,8 +82,6 @@
             if (!VerificarCaptcha()) {
                 $('#errorCaptcha').show();
                 return false;
-            } else {
-                console.log($("#Clave1").val());
             }
         }
     });

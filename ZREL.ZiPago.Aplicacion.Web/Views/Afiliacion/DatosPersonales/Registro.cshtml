@@ -97,7 +97,7 @@
                                 <select id="tipodocidentidad" name="tipodocidentidad" asp-for="CodigoTipoDocumentoContacto" asp-items="@(new SelectList(Model.TipoDocIdentidad,"Valor", "Descr_Valor", Model.CodigoTipoDocumentoContacto))" class="form-control" style="width: 100%;"></select>
                             </div>
                             <div class="col-sm-2">
-                                <label for="numerodocumentocontacto">Numero de Doc. de Identidad:</label><label class="text-red">&nbsp;*</label>
+                                <label for="numerodocumentocontacto">Nro. de Doc. de Identidad:</label><label class="text-red">*</label>
                             </div>
                             <div class="col-sm-2">
                                 <input id="numerodocumentocontacto" name="numerodocumentocontacto" type="text" class="form-control" placeholder="Nro. de Doc. de Identidad" asp-for="NumeroDocumentoContacto">

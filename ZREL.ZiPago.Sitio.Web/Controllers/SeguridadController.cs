@@ -38,7 +38,6 @@ namespace ZREL.ZiPago.Sitio.Web.Controllers
         public IActionResult UsuarioRegistrar()
         {            
             ViewData["ReCaptchaKey"] = webSettings.Value.SiteKey;
-            ViewData["ZZiPagoPortalUrl"] = webSettings.Value.SiteKey;
             return View("~/Views/Seguridad/Registro.cshtml");
         }
 
@@ -74,6 +73,7 @@ namespace ZREL.ZiPago.Sitio.Web.Controllers
                                 ViewBag.Incorrecto = false;
                                 ViewBag.Mensaje = string.Format(Constantes.strMensajeUsuarioRegistroCorrecto, response.Model.Clave1);
                                 ViewBag.Tipo = "success";
+                                ViewBag.ZZiPagoPortalUrl = webSettings.Value.ZZiPagoPortalUrl;
                                 Log.InvokeAppendLog("SeguridadController.UsuarioRegistrar", string.Format(Constantes.strMensajeUsuarioRegistroCorrecto, response.Model.Clave1));
                                 return View("~/Views/Seguridad/Registro.cshtml");
                                 //return Redirect(webSettings.Value.ZZiPagoPortalUrl);

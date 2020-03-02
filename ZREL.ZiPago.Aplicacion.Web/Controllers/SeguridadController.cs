@@ -184,14 +184,15 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
                 responseGetJson = responseGetJson.Trim('"');
                 response = JsonConvert.DeserializeObject<ResponseModel<UsuarioZiPago>>(responseGetJson);                                
                 ViewData["HizoError"] = response.HizoError;
-
+                
                 var callbackurl = response.HizoError ? string.Empty : Url.Action(
                                                                             controller: "Seguridad",
                                                                             action: "Restablecer",
                                                                             values: new { code = response.Model.ClaveRecuperacion },
                                                                             protocol: Request.Scheme
                                                                         );
-                string respuestaEnvioMail = !string.IsNullOrWhiteSpace(callbackurl) ? EnviarCorreo(response.Model, callbackurl) : Constantes.strMensajeErrorEnvioEnlace;
+
+                string respuestaEnvioMail = !string.IsNullOrWhiteSpace(callbackurl) ? EnviarCorreo(response.Model, callbackurl) : response.MensajeError;
                 ViewData["Mensaje"] = respuestaEnvioMail.Trim().Length == 0 ? Constantes.strMensajeEnvioEnlace : respuestaEnvioMail;
             }
             catch (Exception ex)
@@ -324,24 +325,24 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers
         private string EnviarCorreo(UsuarioZiPago usuario, string callbackurl)
         {
 
-            string respuesta = "";
+            string respuesta;
             var logger = NLog.LogManager.GetCurrentClassLogger();
             Libreria.Mail.Manage mail = new Libreria.Mail.Manage();
             Libreria.Mail.Settings mailsettings = new Libreria.Mail.Settings();
-            string nombres = "";
+            string nombres;
             
             try
             {
-                //nombres = string.IsNullOrEmpty(usuario.Nombres) ?
-                //            usuario.NombresUsuario + " " + usuario.ApellidosUsuario :
-                //                usuario.Nombres + " " + usuario.ApellidoPaterno + " " + usuario.ApellidoMaterno;
+                nombres = string.IsNullOrEmpty(usuario.Nombres) ?
+                            usuario.NombresUsuario + " " + usuario.ApellidosUsuario :
+                                usuario.Nombres + " " + usuario.ApellidoPaterno + " " + usuario.ApellidoMaterno;
 
-                //configuration.GetSection("ZRELZiPagoMail").Bind(mailsettings);
-                //respuesta = mail.Enviar(usuario.NombresUsuario + " " + usuario.ApellidosUsuario,
-                //                        usuario.Clave1,
-                //                        configuration.GetValue<string>("ZRELZiPagoCuerpoMailRecuperar:Asunto"),
-                //                        configuration.GetValue<string>("ZRELZiPagoCuerpoMailRecuperar:Mensaje").Replace("usuario", nombres).Replace("callbackurl", callbackurl),
-                //                        mailsettings);
+                configuration.GetSection("ZRELZiPagoMail").Bind(mailsettings);
+                respuesta = mail.Enviar(usuario.NombresUsuario + " " + usuario.ApellidosUsuario,
+                                        usuario.Clave1,
+                                        configuration.GetValue<string>("ZRELZiPagoCuerpoMailRecuperar:Asunto"),
+                                        configuration.GetValue<string>("ZRELZiPagoCuerpoMailRecuperar:Mensaje").Replace("usuario", nombres).Replace("callbackurl", callbackurl),
+                                        mailsettings);
                 if (respuesta.Trim().Length > 0)
                     logger.Error("[Aplicacion.Web.Controllers.SeguridadController.EnviarCorreo] | UsuarioViewModel: [{0}] | Mensaje: {1}.", usuario.Clave1, respuesta);
             }
