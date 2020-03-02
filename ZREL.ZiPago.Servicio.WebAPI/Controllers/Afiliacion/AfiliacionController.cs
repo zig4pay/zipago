@@ -118,6 +118,24 @@ namespace ZREL.ZiPago.Servicio.WebAPI.Controllers.Afiliacion
             var response = await oIAfiliacionService.ObtenerCuentaBancariaZiPagoAsync(logger, cuentabancaria);
             return response.ToHttpResponse();
         }
+        
+        [HttpGet("{idCuentaBancaria}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        [Route("CuentaBancariaObtenerPorId/{idCuentaBancaria}")]
+        public async Task<IActionResult> CuentaBancariaObtenerPorIdAsync(int idCuentaBancaria)
+        {
+
+            Logger logger = LogManager.GetCurrentClassLogger();
+            logger.Info("[Servicio.WebAPI.Controllers.Afiliacion.AfiliacionController.CuentaBancariaObtenerPorIdAsync] | idCuentaBancaria: [{0}] | Inicio.", idCuentaBancaria.ToString());
+
+            var response = await oIAfiliacionService.ObtenerCuentaBancariaZiPagoPorIdAsync(logger, idCuentaBancaria);
+
+            return response.ToHttpResponse();
+
+        }
+
 
         [HttpPost]
         [ProducesResponseType(200)]

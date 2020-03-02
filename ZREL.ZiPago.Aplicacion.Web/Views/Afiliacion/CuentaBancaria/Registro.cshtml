@@ -49,7 +49,7 @@
                                                         <label for="idbancozipago">Banco:</label><label class="text-red">&nbsp;*</label>
                                                     </div>
                                                     <div class="col-sm-3">
-                                                        <select id="idbancozipago" name="idbancozipago" asp-items="@(new SelectList(Model.Bancos,"IdEntidad", "Descripcion"))" class="form-control"></select>
+                                                        <select id="idbancozipago" name="idbancozipago" asp-items="@(new SelectList(Model.Bancos,"IdEntidad", "Descripcion", Model.IdBancoZiPago))" class="form-control"></select>
                                                     </div>
                                                 </div>
 
@@ -58,13 +58,13 @@
                                                         <label for="codigotipocuenta">Tipo de Cuenta:</label><label class="text-red">&nbsp;*</label>
                                                     </div>
                                                     <div class="col-sm-3">
-                                                        <select id="codigotipocuenta" name="codigotipocuenta" asp-items="@(new SelectList(Model.TipoCuentas,"Valor", "Descr_Valor"))" class="form-control"></select>
+                                                        <select id="codigotipocuenta" name="codigotipocuenta" asp-items="@(new SelectList(Model.TipoCuentas,"Valor", "Descr_Valor", Model.CodigoTipoCuenta))" class="form-control"></select>
                                                     </div>
                                                     <div class="col-sm-2">
                                                         <label for="codigomoneda">Moneda:</label><label class="text-red">&nbsp;*</label>
                                                     </div>
                                                     <div class="col-sm-3">
-                                                        <select id="codigomoneda" name="codigomoneda" asp-items="@(new SelectList(Model.TipoMonedas,"Valor", "Descr_Valor"))" class="form-control"></select>
+                                                        <select id="codigomoneda" name="codigomoneda" asp-items="@(new SelectList(Model.TipoMonedas,"Valor", "Descr_Valor", Model.CodigoTipoMoneda))" class="form-control"></select>
                                                     </div>
                                                 </div>
 
@@ -73,13 +73,13 @@
                                                         <label for="numerocuenta">Numero de Cta. Bancaria:</label><label class="text-red">&nbsp;*</label>
                                                     </div>
                                                     <div class="col-sm-3">
-                                                        <input id="numerocuenta" name="numerocuenta" type="text" class="form-control" placeholder="Nro. de Cta. Bancaria" maxlength="20">
+                                                        <input id="numerocuenta" name="numerocuenta" type="text" class="form-control" placeholder="Nro. de Cta. Bancaria" asp-for="NumeroCuenta" maxlength="20">
                                                     </div>
                                                     <div class="col-sm-2">
                                                         <label for="cci">Codigo de Cta. Interbancario - CCI:</label><label id="labelCCI"  class="text-red"></label>
                                                     </div>
                                                     <div class="col-sm-3">
-                                                        <input id="cci" name="cci" type="text" class="form-control" placeholder="Codigo CCI" maxlength="20">
+                                                        <input id="cci" name="cci" type="text" class="form-control" placeholder="Codigo CCI" asp-for="CCI" maxlength="20">
                                                     </div>
                                                     <div class="col-sm-1" style="text-align:right">
                                                         <button type="button" id="btnLimpiar" class="btn btn-default">

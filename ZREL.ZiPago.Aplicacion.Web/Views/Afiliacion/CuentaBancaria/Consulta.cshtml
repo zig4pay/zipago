@@ -125,6 +125,7 @@
                                             <thead>
                                                 <tr>
                                                     <th data-field="id" data-visible="false">Id</th>
+                                                    <th data-field="idCuentaBancaria" data-visible="false">IdCuentaBancaria</th>
                                                     <th data-field="banco">Banco</th>
                                                     <th data-field="tipoCuenta">Tipo de Cuenta</th>
                                                     <th data-field="tipoMoneda">Moneda</th>
@@ -132,6 +133,8 @@
                                                     <th data-field="cci">CCI</th>
                                                     <th data-field="estado">Estado</th>
                                                     <th data-field="fechaCreacion" data-formatter="FormatearFecha">Fecha Registro</th>
+                                                    <th data-field="editar" data-align="center" data-formatter="editarFormatter">Operacion</th>
+                                                    @*<th data-field="editar" data-align="center" data-formatter="editarFormatter" data-events="editarEvents">Operacion</th>*@
                                                 </tr>
                                             </thead>
                                         </table>
@@ -143,18 +146,6 @@
 
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="alert alert-warning alert-dismissible">
-                <h4><i class="icon fa fa-warning"></i>Deseas modificar o eliminar tus Cuentas Bancarias registradas?</h4>
-                <h4>
-                    Por favor solicitalo a traves de nuestro <a href="https://zipago.zammad.com/" target="_blank">Servicio de Tickets ZiPago</a>.
-                    Para ello crea un ticket de tipo "Modificacion/Supresion de datos", el cual sera atendido a la brevedad.
-                </h4>
             </div>
         </div>
     </div>

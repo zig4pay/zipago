@@ -27,6 +27,7 @@
         public string AfiliacionZiPago_BancosPorUsuarioListar { get; set; }
         public string AfiliacionZiPago_CuentasBancariasListarResumen { get; set; }
         public string AfiliacionZiPago_CuentaBancariaObtener { get; set; }
+        public string AfiliacionZiPago_CuentaBancariaObtenerPorId { get; set; }
         public string AfiliacionZiPago_CuentasBancariasListar { get; set; }
         public string AfiliacionZiPago_CuentasBancariasRegistrar { get; set; }
         public string AfiliacionZiPago_ComerciosListar { get; set; }

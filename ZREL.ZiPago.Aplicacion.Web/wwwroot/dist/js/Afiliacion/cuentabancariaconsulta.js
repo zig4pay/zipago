@@ -56,3 +56,19 @@ function FormatearFecha(value) {
 
     return dia + '/' + mes + '/' + anio;
 }
+
+function editarFormatter(value, row, index) {
+    return [        
+        '<a class="btn btn-warning edit" asp-controller="CuentaBancaria" asp-action="Registrar" asp-route-id="row.idCuentaBancaria">',
+            '<i class="fa fa-edit"></i> Editar',
+        '</a >'
+    ].join('');
+}
+
+location.href = '@Url.Action("Main","Home")';
+
+//window.editarEvents = {
+//    'click .edit': function (e, value, row, index) {
+//        alert('You click like action, row: ' + JSON.stringify(row.idCuentaBancaria));
+//    }
+//};

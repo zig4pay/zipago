@@ -63,21 +63,25 @@
             }
         });
 
-        $.validator.addMethod("validaredad", function (value) {
-
+        $.validator.addMethod("validaredad", function (value) {            
             var hoy = new Date();
             var cumpleanos = new Date(value);
             var edad = hoy.getFullYear() - cumpleanos.getFullYear();
-            var m = hoy.getMonth() - cumpleanos.getMonth();
 
-            if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
-                edad--;
-            }
-
-            if (edad < 18) {
+            if (edad < 0 || edad === 0) {                
                 return false;
             } else {
-                return true;
+                var m = hoy.getMonth() - cumpleanos.getMonth();
+
+                if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
+                    edad--;
+                }
+                
+                if (edad < 18) {
+                    return false;
+                } else {
+                    return true;
+                }
             }
 
         }, "Para registrarse debe ser mayor de 18 años.");
@@ -93,7 +97,7 @@
         } else {
             var fecha = $('#fecha').val();
             $("#fechanacimiento").datepicker("update", fecha);
-            Deshabilitar();
+            //Deshabilitar();
         }
 
         if ($('#optPersonaJuridica').is(":checked")) {            
@@ -107,7 +111,8 @@
         $("#numeroruc").keypress(PermitirSoloNumeros);
         $("#numerodocumentocontacto").keypress(DeterminarTipoDato);
         $("#telefonofijo").keypress(SoloNumeroTelefonico);
-        $("#telefonomovil").keypress(SoloNumeroTelefonico);
+        $("#telefonomovil").keypress(SoloNumeroTelefonico);        
+        $("#nombres").keypress(PermitirSoloLetras);
         $("#apellidopaterno").keypress(PermitirSoloLetras);
         $("#apellidomaterno").keypress(PermitirSoloLetras);
         
@@ -414,7 +419,7 @@ function Registrar() {
             var content = JSON.parse(resp);
             if (!content.hizoError) {
                 $("#EstadoRegistro").val("R");
-                Deshabilitar();
+                //Deshabilitar();
                 swal("Registro de Datos Personales", content.mensaje, "success");
             } else {
                 swal({

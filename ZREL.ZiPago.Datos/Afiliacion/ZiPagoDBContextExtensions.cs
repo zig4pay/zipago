@@ -150,9 +150,7 @@ namespace ZREL.ZiPago.Datos.Afiliacion
 
         public static async Task<CuentaBancariaZiPago> ObtenerCuentaBancariaZiPagoPorIdAsync(this ZiPagoDBContext dbContext, int idCuentaBancaria)
         {
-            return await dbContext.CuentasBancariasZiPago.AsNoTracking().FirstOrDefaultAsync(item => item.IdCuentaBancaria == idCuentaBancaria 
-                                                                                                && item.Activo == Constantes.strValor_Activo
-                                                                                            );
+            return await dbContext.CuentasBancariasZiPago.AsNoTracking().FirstOrDefaultAsync(item => item.IdCuentaBancaria == idCuentaBancaria);
         }
 
         public static async Task<IEnumerable<BancoZiPago>> ListarBancosPorUsuarioAsync(this ZiPagoDBContext dbContext, int idUsuarioZiPago)
