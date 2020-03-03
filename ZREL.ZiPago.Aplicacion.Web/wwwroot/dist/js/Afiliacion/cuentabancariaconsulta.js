@@ -59,16 +59,15 @@ function FormatearFecha(value) {
 
 function editarFormatter(value, row, index) {
     return [        
-        '<a class="btn btn-warning edit" asp-controller="CuentaBancaria" asp-action="Registrar" asp-route-id="row.idCuentaBancaria">',
+        '<a class="btn btn-warning edit">',
             '<i class="fa fa-edit"></i> Editar',
         '</a >'
     ].join('');
 }
 
-location.href = '@Url.Action("Main","Home")';
-
-//window.editarEvents = {
-//    'click .edit': function (e, value, row, index) {
-//        alert('You click like action, row: ' + JSON.stringify(row.idCuentaBancaria));
-//    }
-//};
+window.editarEvents = {
+    'click .edit': function (e, value, row, index) {
+        //alert('You click like action, row: ' + JSON.stringify(row.idCuentaBancaria));
+        window.location = "/CuentaBancaria/Registrar/4";
+    }
+};

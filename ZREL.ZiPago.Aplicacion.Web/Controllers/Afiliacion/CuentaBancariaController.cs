@@ -34,7 +34,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> Index(int? idCuentaBancaria)
+        public async Task<IActionResult> Index()
         {
             Uri requestUrl;            
             CuentaBancariaViewModel model = new CuentaBancariaViewModel();            
@@ -62,27 +62,6 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
                 responseTD = await ApiClientFactory.Instance.GetListAsync<TablaDetalle>(requestUrl);
                 responseTD.Model.Insert(0, new TablaDetalle { Cod_Tabla = Constantes.strCodTablaTipoMoneda, Valor = "00", Descr_Valor = "Seleccione" });
                 model.TipoMonedas = responseTD.Model;
-
-                if (idCuentaBancaria != null)
-                {
-                    ResponseModel<CuentaBancariaZiPago> responseCuenta = new ResponseModel<CuentaBancariaZiPago>();
-                    requestUrl = ApiClientFactory.Instance.CreateRequestUri(
-                                    string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_CuentaBancariaObtenerPorId + idCuentaBancaria.ToString()));
-                    responseCuenta = await ApiClientFactory.Instance.GetAsync<CuentaBancariaZiPago>(requestUrl);
-
-                    if (responseCuenta != null)
-                    {
-                        model.IdCuentaBancaria = responseCuenta.Model.IdCuentaBancaria;
-                        model.IdUsuarioZiPago = responseCuenta.Model.IdUsuarioZiPago;
-                        model.IdBancoZiPago = responseCuenta.Model.IdBancoZiPago;
-                        model.NumeroCuenta = responseCuenta.Model.NumeroCuenta;
-                        model.CodigoTipoCuenta = responseCuenta.Model.CodigoTipoCuenta;
-                        model.CodigoTipoMoneda = responseCuenta.Model.CodigoTipoMoneda;
-                        model.CCI = responseCuenta.Model.CCI;
-                        model.Activo = responseCuenta.Model.Activo;
-                    }
-
-                }
 
                 return View("~/Views/Afiliacion/CuentaBancaria/Consulta.cshtml", model);
                 
@@ -164,10 +143,11 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
 
             return response;
         }
-        
-        [HttpGet]
+
+        [HttpGet("{idCuentaBancaria}")]
         [Authorize]
-        public async Task<IActionResult> Registrar()
+        [Route("CuentaBancaria/Registrar/{idCuentaBancaria}")]
+        public async Task<IActionResult> Registrar(int idCuentaBancaria)
         {
 
             Uri requestUrl;
@@ -193,6 +173,27 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
                 responseTD = await ApiClientFactory.Instance.GetListAsync<TablaDetalle>(requestUrl);
                 responseTD.Model.Insert(0, new TablaDetalle { Cod_Tabla = Constantes.strCodTablaTipoMoneda, Valor = "00", Descr_Valor = "Seleccione" });
                 model.TipoMonedas = responseTD.Model;
+
+                if (idCuentaBancaria > 0)
+                {
+                    ResponseModel<CuentaBancariaZiPago> responseCuenta = new ResponseModel<CuentaBancariaZiPago>();
+                    requestUrl = ApiClientFactory.Instance.CreateRequestUri(
+                                    string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_CuentaBancariaObtenerPorId + idCuentaBancaria.ToString()));
+                    responseCuenta = await ApiClientFactory.Instance.GetAsync<CuentaBancariaZiPago>(requestUrl);
+
+                    if (responseCuenta != null)
+                    {
+                        model.IdCuentaBancaria = responseCuenta.Model.IdCuentaBancaria;
+                        model.IdUsuarioZiPago = responseCuenta.Model.IdUsuarioZiPago;
+                        model.IdBancoZiPago = responseCuenta.Model.IdBancoZiPago;
+                        model.NumeroCuenta = responseCuenta.Model.NumeroCuenta;
+                        model.CodigoTipoCuenta = responseCuenta.Model.CodigoTipoCuenta;
+                        model.CodigoTipoMoneda = responseCuenta.Model.CodigoTipoMoneda;
+                        model.CCI = responseCuenta.Model.CCI;
+                        model.Activo = responseCuenta.Model.Activo;
+                    }
+
+                }
                 
                 ViewData["BancosAfiliados"] = webSettings.Value.BancosAfiliados_Codigos;
 

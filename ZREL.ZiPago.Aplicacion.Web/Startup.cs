@@ -92,7 +92,7 @@ namespace ZREL.ZiPago.Aplicacion.Web
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Seguridad}/{action=UsuarioAutenticar}");
+                    template: "{controller=Seguridad}/{action=UsuarioAutenticar}/{id?}");
             });
         }
     }
