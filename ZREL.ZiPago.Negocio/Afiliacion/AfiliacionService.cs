@@ -300,15 +300,40 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
             {
                 try
                 {
+                 
                     foreach (CuentaBancariaZiPago cuenta in cuentasBancarias)
                     {
-                        cuenta.Activo = Constantes.strValor_Activo;
-                        cuenta.FechaCreacion = DateTime.Now;
+                        if (cuenta.IdCuentaBancaria > 0) {
+
+                            DbContext.Attach(cuentasBancarias);
+
+                            DbContext.Entry(cuenta).Property("IdBancoZiPago").IsModified = true;
+                            DbContext.Entry(cuenta).Property("NumeroCuenta").IsModified = true;
+                            DbContext.Entry(cuenta).Property("CodigoTipoCuenta").IsModified = true;
+                            DbContext.Entry(cuenta).Property("CodigoTipoMoneda").IsModified = true;
+                            DbContext.Entry(cuenta).Property("CCI").IsModified = true;
+                            DbContext.Entry(cuenta).Property("Activo").IsModified = true;
+                            DbContext.Entry(cuenta).Property("FechaActualizacion").IsModified = true;
+
+                            cuenta.Activo = Constantes.strValor_Activo;
+                            cuenta.FechaActualizacion = DateTime.Now;
+                        }
+                        else
+                        {
+                            cuenta.FechaCreacion = DateTime.Now;
+                        }
+
                     }
 
-                    DbContext.CuentasBancariasZiPago.AddRange(cuentasBancarias);
-                    await DbContext.SaveChangesAsync();
-
+                    if (cuentasBancarias.ElementAt(0).IdCuentaBancaria > 0)
+                    {
+                        await DbContext.SaveChangesAsync();
+                    }
+                    else {
+                        DbContext.CuentasBancariasZiPago.AddRange(cuentasBancarias);
+                        await DbContext.SaveChangesAsync();
+                    }
+                    
                     txAsync.Commit();
                     response.Mensaje = Constantes.strRegistroRealizado;                    
 

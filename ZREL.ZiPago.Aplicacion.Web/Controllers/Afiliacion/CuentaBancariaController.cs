@@ -36,15 +36,15 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            Uri requestUrl;            
-            CuentaBancariaViewModel model = new CuentaBancariaViewModel();            
+            Uri requestUrl;
+            CuentaBancariaViewModel model = new CuentaBancariaViewModel();
             ResponseListModel<EntidadGenerica> responseBanco;
             ResponseListModel<TablaDetalle> responseTD;
 
 
 
             try
-            {                
+            {
 
                 model.IdUsuarioZiPago = User.GetLoggedInUserId<int>();
 
@@ -52,10 +52,10 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
                 responseBanco = await ApiClientFactory.Instance.GetListAsync<EntidadGenerica>(requestUrl);
                 responseBanco.Model.Insert(0, new EntidadGenerica { IdEntidad = 0, Descripcion = "Seleccione" });
                 model.Bancos = responseBanco.Model;
-                    
+
                 requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.TablaDetalle_Listar) + Constantes.strCodTablaTipoCuenta);
                 responseTD = await ApiClientFactory.Instance.GetListAsync<TablaDetalle>(requestUrl);
-                responseTD.Model.Insert(0, new TablaDetalle {Cod_Tabla = Constantes.strCodTablaTipoCuenta, Valor = "00", Descr_Valor = "Seleccione"});
+                responseTD.Model.Insert(0, new TablaDetalle { Cod_Tabla = Constantes.strCodTablaTipoCuenta, Valor = "00", Descr_Valor = "Seleccione" });
                 model.TipoCuentas = responseTD.Model;
 
                 requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.TablaDetalle_Listar) + Constantes.strCodTablaTipoMoneda);
@@ -64,16 +64,17 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
                 model.TipoMonedas = responseTD.Model;
 
                 return View("~/Views/Afiliacion/CuentaBancaria/Consulta.cshtml", model);
-                
+
             }
             catch (Exception ex)
             {
                 return View("~/Views/Seguridad/Login.cshtml");
-            }            
+            }
         }
 
         [HttpPost]
         [Authorize]
+        [Route("CuentaBancaria/Registrar/VerificarExistenciaCuentaBancaria/")]
         public async Task<JsonResult> VerificarExistenciaCuentaBancaria(CuentaBancariaZiPago cuentabancaria)
         {
             JsonResult response;
@@ -83,7 +84,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
             try
             {
                 logger.Info("[Aplicacion.Web.Controllers.Afiliacion.ComerciosController.VerificarExistenciaCuentaBancaria] | CuentaBancaria [{0}]", JsonConvert.SerializeObject(cuentabancaria));
-                requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_CuentaBancariaObtener));                
+                requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_CuentaBancariaObtener));
                 responseCuentaBancaria = await ApiClientFactory.Instance.PostAsync<CuentaBancariaZiPago>(requestUrl, cuentabancaria);
                 if (!responseCuentaBancaria.HizoError)
                 {
@@ -118,7 +119,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
                     CodigoTipoCuenta = codigoTipoCuenta,
                     CodigoTipoMoneda = codigoTipoMoneda,
                     NumeroCuenta = numeroCuenta,
-                    Activo = activo                   
+                    Activo = activo
                 };
 
                 requestUrl = ApiClientFactory.Instance.CreateRequestUri(
@@ -144,6 +145,47 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
             return response;
         }
 
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> Registrar()
+        {
+
+            Uri requestUrl;
+            CuentaBancariaViewModel model = new CuentaBancariaViewModel();
+            ResponseListModel<EntidadGenerica> responseBanco;
+            ResponseListModel<TablaDetalle> responseTD;
+
+            try
+            {
+                model.IdUsuarioZiPago = User.GetLoggedInUserId<int>();
+
+                requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.BancoZiPago_Listar));
+                responseBanco = await ApiClientFactory.Instance.GetListAsync<EntidadGenerica>(requestUrl);
+                responseBanco.Model.Insert(0, new EntidadGenerica { IdEntidad = 0, Descripcion = "Seleccione" });
+                model.Bancos = responseBanco.Model;
+
+                requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.TablaDetalle_Listar) + Constantes.strCodTablaTipoCuenta);
+                responseTD = await ApiClientFactory.Instance.GetListAsync<TablaDetalle>(requestUrl);
+                responseTD.Model.Insert(0, new TablaDetalle { Cod_Tabla = Constantes.strCodTablaTipoCuenta, Valor = "00", Descr_Valor = "Seleccione" });
+                model.TipoCuentas = responseTD.Model;
+
+                requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.TablaDetalle_Listar) + Constantes.strCodTablaTipoMoneda);
+                responseTD = await ApiClientFactory.Instance.GetListAsync<TablaDetalle>(requestUrl);
+                responseTD.Model.Insert(0, new TablaDetalle { Cod_Tabla = Constantes.strCodTablaTipoMoneda, Valor = "00", Descr_Valor = "Seleccione" });
+                model.TipoMonedas = responseTD.Model;
+
+                ViewData["BancosAfiliados"] = webSettings.Value.BancosAfiliados_Codigos;
+
+                return View("~/Views/Afiliacion/CuentaBancaria/Registro.cshtml", model);
+
+            }
+            catch (Exception)
+            {
+                return View("~/Views/Seguridad/Login.cshtml");
+            }
+
+        }
+
         [HttpGet("{idCuentaBancaria}")]
         [Authorize]
         [Route("CuentaBancaria/Registrar/{idCuentaBancaria}")]
@@ -156,9 +198,9 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
             ResponseListModel<TablaDetalle> responseTD;
 
             try
-            {                
+            {
                 model.IdUsuarioZiPago = User.GetLoggedInUserId<int>();
-                    
+
                 requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.BancoZiPago_Listar));
                 responseBanco = await ApiClientFactory.Instance.GetListAsync<EntidadGenerica>(requestUrl);
                 responseBanco.Model.Insert(0, new EntidadGenerica { IdEntidad = 0, Descripcion = "Seleccione" });
@@ -194,11 +236,11 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
                     }
 
                 }
-                
+
                 ViewData["BancosAfiliados"] = webSettings.Value.BancosAfiliados_Codigos;
 
                 return View("~/Views/Afiliacion/CuentaBancaria/Registro.cshtml", model);
-                
+
             }
             catch (Exception)
             {
@@ -209,6 +251,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
 
         [HttpPost]
         [Authorize]
+        [Route("CuentaBancaria/Registrar/RegistrarCuentasBancarias")]
         public async Task<JsonResult> RegistrarCuentasBancarias(List<CuentaBancariaZiPago> cuentasBancarias)
         {
             JsonResult response;
@@ -227,5 +270,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
             return response;
 
         }
+
+
     }
 }

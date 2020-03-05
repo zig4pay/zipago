@@ -116,14 +116,13 @@
         }
     });
 
-    $('#btnRegistrar').click(function () {
-        var $valid = $('#frmRegistro').valid();
-        $("#cuentabancariaexiste").hide();
-
-        if (!$valid) {
+    $('#btnRegistrar').click(function () {        
+        var $valid = $('#frmRegistro').valid();        
+        $("#cuentabancariaexiste").hide();        
+        if (!$valid) {            
             return false;
-        } else {                        
-            VerificaExisteCuentaBancaria();            
+        } else {
+            VerificaExisteCuentaBancaria();
         }
     });
 
@@ -145,16 +144,17 @@ function VerificaExisteCuentaBancaria() {
     CuentaBancaria.NumeroCuenta = $("#numerocuenta").val();    
     
     var DTO = { "cuentabancaria": CuentaBancaria };
-
+    
     $.ajax(
         {
             url: 'VerificarExistenciaCuentaBancaria/',
             type: "POST",
             data: DTO,
             datatype: 'json',
-            ContentType: 'application/json;utf-8'
+            ContentType: 'application/json;utf-8'            
         })
         .done(function (resp) {
+            console.debug("VerificaExisteCuentaBancaria - 1");
             $.each(resp, function (i, field) {
                 if (i === "mensaje") {
                     if (field === "Existe") {
@@ -170,14 +170,14 @@ function VerificaExisteCuentaBancaria() {
                             cancelButtonText: "No, cancelar",
                             closeOnConfirm: false
                         },
-                            function () {
+                            function () {                                
                                 Registrar();
                             });
                     }
                 }
             });
         })
-        .fail(function (err) {
+        .fail(function (err) {            
             swal({
                 title: "Registro de Cuenta Bancaria",
                 text: "Se ha producido un error al validar la Cuenta Bancaria, por favor intentelo en unos minutos.",
