@@ -67,7 +67,6 @@ function editarFormatter(value, row, index) {
 
 window.editarEvents = {
     'click .edit': function (e, value, row, index) {
-        //alert('You click like action, row: ' + JSON.stringify(row.idCuentaBancaria));
-        window.location = "/CuentaBancaria/Registrar/4";
+        window.location = "/CuentaBancaria/Registrar/" + row.idCuentaBancaria;
     }
 };

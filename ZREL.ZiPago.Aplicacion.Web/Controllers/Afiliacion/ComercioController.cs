@@ -93,7 +93,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
             JsonResult response;
             ResponseListModel<ComercioListado> responseComercio = new ResponseListModel<ComercioListado>();
             string responsePostJson;
-            Int32 totalRegistros = 0;
+            Int32 totalRegistros;
 
             try
             {

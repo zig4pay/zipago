@@ -34,7 +34,7 @@ namespace ZREL.ZiPago.Negocio.Contracts
 
         Task<IListResponse<CuentaBancariaListaResumida>> ListarCuentasBancariasResumenAsync(Logger logger, int idUsuarioZiPago, int idBancoZiPago);
 
-        Task<IResponse> RegistrarCuentasBancariasAsync(Logger logger, List<CuentaBancariaZiPago> cuentasBancarias);
+        Task<IResponse> RegistrarCuentasBancariasAsync(Logger logger, CuentaBancariaZiPago cuentaBancaria);
 
         Task<ISummaryResponse> ObtenerCantidadCuentasBancariasPorUsuarioAsync(Logger logger, int idUsuarioZiPago);
 

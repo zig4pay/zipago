@@ -288,52 +288,42 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
             return response;
         }
 
-        public async Task<IResponse> RegistrarCuentasBancariasAsync(Logger logger, List<CuentaBancariaZiPago> cuentasBancarias) {
+        public async Task<IResponse> RegistrarCuentasBancariasAsync(Logger logger, CuentaBancariaZiPago cuentaBancaria) {
 
-            int idUsuarioZiPago = cuentasBancarias.ElementAt(0).IdUsuarioZiPago;
+            int idUsuarioZiPago = cuentaBancaria.IdUsuarioZiPago;
 
             Response response = new Response();
-            logger.Info("[Negocio.Afiliacion.AfiliacionService.RegistrarCuentasBancariasAsync] | CuentasBancarias: [{0}] | Inicio.",
-                            JsonConvert.SerializeObject(cuentasBancarias));
+            logger.Info("[Negocio.Afiliacion.AfiliacionService.RegistrarCuentasBancariasAsync] | CuentaBancaria: [{0}] | Inicio.",
+                            JsonConvert.SerializeObject(cuentaBancaria));
 
             using (var txAsync = await DbContext.Database.BeginTransactionAsync())
             {
                 try
                 {
-                 
-                    foreach (CuentaBancariaZiPago cuenta in cuentasBancarias)
-                    {
-                        if (cuenta.IdCuentaBancaria > 0) {
+                                     
+                    if (cuentaBancaria.IdCuentaBancaria > 0) {
 
-                            DbContext.Attach(cuentasBancarias);
+                        DbContext.Attach(cuentaBancaria);
 
-                            DbContext.Entry(cuenta).Property("IdBancoZiPago").IsModified = true;
-                            DbContext.Entry(cuenta).Property("NumeroCuenta").IsModified = true;
-                            DbContext.Entry(cuenta).Property("CodigoTipoCuenta").IsModified = true;
-                            DbContext.Entry(cuenta).Property("CodigoTipoMoneda").IsModified = true;
-                            DbContext.Entry(cuenta).Property("CCI").IsModified = true;
-                            DbContext.Entry(cuenta).Property("Activo").IsModified = true;
-                            DbContext.Entry(cuenta).Property("FechaActualizacion").IsModified = true;
-
-                            cuenta.Activo = Constantes.strValor_Activo;
-                            cuenta.FechaActualizacion = DateTime.Now;
-                        }
-                        else
-                        {
-                            cuenta.FechaCreacion = DateTime.Now;
-                        }
-
+                        DbContext.Entry(cuentaBancaria).Property("IdBancoZiPago").IsModified = true;
+                        DbContext.Entry(cuentaBancaria).Property("NumeroCuenta").IsModified = true;
+                        DbContext.Entry(cuentaBancaria).Property("CodigoTipoCuenta").IsModified = true;
+                        DbContext.Entry(cuentaBancaria).Property("CodigoTipoMoneda").IsModified = true;
+                        DbContext.Entry(cuentaBancaria).Property("CCI").IsModified = true;
+                        DbContext.Entry(cuentaBancaria).Property("Activo").IsModified = true;
+                        DbContext.Entry(cuentaBancaria).Property("FechaActualizacion").IsModified = true;
+                        
+                        cuentaBancaria.FechaActualizacion = DateTime.Now;
+                    }
+                    else
+                    {                        
+                        cuentaBancaria.FechaCreacion = DateTime.Now;                    
+                        DbContext.CuentasBancariasZiPago.Add(cuentaBancaria);
                     }
 
-                    if (cuentasBancarias.ElementAt(0).IdCuentaBancaria > 0)
-                    {
-                        await DbContext.SaveChangesAsync();
-                    }
-                    else {
-                        DbContext.CuentasBancariasZiPago.AddRange(cuentasBancarias);
-                        await DbContext.SaveChangesAsync();
-                    }
-                    
+                    cuentaBancaria.Activo = Constantes.strValor_Activo;
+                    await DbContext.SaveChangesAsync();
+
                     txAsync.Commit();
                     response.Mensaje = Constantes.strRegistroRealizado;                    
 

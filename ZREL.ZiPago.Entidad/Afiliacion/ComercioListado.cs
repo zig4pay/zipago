@@ -6,6 +6,8 @@ namespace ZREL.ZiPago.Entidad.Afiliacion
     {
         public int Id { get; set; }
 
+        public int IdComercio { get; set; }
+
         public string Codigo { get; set; }
 
         public string Descripcion { get; set; }

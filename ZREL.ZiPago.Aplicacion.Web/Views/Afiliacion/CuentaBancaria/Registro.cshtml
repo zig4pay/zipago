@@ -43,7 +43,8 @@
                                         <div class="col-md-12">
                                             <form class="form-horizontal" id="frmRegistro" method="post">
                                                 <input id="idusuariozipago" name="idusuariozipago" type="hidden" asp-for="IdUsuarioZiPago" />
-                                                <input id="bancosafiliados" name="bancosafiliados" type="hidden" value="@ViewData["BancosAfiliados"]"/>
+                                                <input id="idcuentabancaria" name="idcuentabancaria" type="hidden" asp-for="IdCuentaBancaria" />
+                                                <input id="bancosafiliados" name="bancosafiliados" type="hidden" value="@ViewData["BancosAfiliados"]" />
                                                 <div class="form-group">
                                                     <div class="col-sm-2">
                                                         <label for="idbancozipago">Banco:</label><label class="text-red">&nbsp;*</label>
@@ -76,7 +77,7 @@
                                                         <input id="numerocuenta" name="numerocuenta" type="text" class="form-control" placeholder="Nro. de Cta. Bancaria" asp-for="NumeroCuenta" maxlength="20">
                                                     </div>
                                                     <div class="col-sm-2">
-                                                        <label for="cci">Codigo de Cta. Interbancario - CCI:</label><label id="labelCCI"  class="text-red"></label>
+                                                        <label for="cci">Codigo de Cta. Interbancario - CCI:</label><label id="labelCCI" class="text-red"></label>
                                                     </div>
                                                     <div class="col-sm-3">
                                                         <input id="cci" name="cci" type="text" class="form-control" placeholder="Codigo CCI" asp-for="CCI" maxlength="20">

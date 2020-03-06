@@ -147,6 +147,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
 
         [HttpGet]
         [Authorize]
+        [Route("CuentaBancaria/Registrar/")]
         public async Task<IActionResult> Registrar()
         {
 
@@ -157,6 +158,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
 
             try
             {
+                model.IdCuentaBancaria = 0;
                 model.IdUsuarioZiPago = User.GetLoggedInUserId<int>();
 
                 requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.BancoZiPago_Listar));
@@ -252,7 +254,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
         [HttpPost]
         [Authorize]
         [Route("CuentaBancaria/Registrar/RegistrarCuentasBancarias")]
-        public async Task<JsonResult> RegistrarCuentasBancarias(List<CuentaBancariaZiPago> cuentasBancarias)
+        public async Task<JsonResult> RegistrarCuentasBancarias(CuentaBancariaZiPago cuentaBancaria)
         {
             JsonResult response;
             Uri requestUrl;
@@ -260,7 +262,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
             try
             {         
                 requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_CuentasBancariasRegistrar));
-                response = Json(await ApiClientFactory.Instance.PostJsonAsync<List<CuentaBancariaZiPago>>(requestUrl, cuentasBancarias));
+                response = Json(await ApiClientFactory.Instance.PostJsonAsync<CuentaBancariaZiPago>(requestUrl, cuentaBancaria));
             }
             catch (Exception ex)
             {

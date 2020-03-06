@@ -85,7 +85,7 @@
 
                                             <div class="col-sm-2" style="text-align:right">
                                                 <button type="button" id="btnCancelar" name="btnCancelar" class="btn btn-default">
-                                                    <i class="fa fa-undo"></i>&nbsp;Limpiar
+                                                    <i class="fa fa-undo"></i>&nbsp;Limpiar Filtros
                                                 </button>
                                                 <button type="button" id="btnConsultar" name="btnConsultar" class="btn btn-primary">
                                                     <i class="fa fa-search"></i>&nbsp;Consultar
@@ -102,7 +102,7 @@
                                 <div class="box-header">                                    
                                     <h3 class="box-title">Comercios registrados:</h3>
                                     <a asp-controller="Comercio" asp-action="Registrar" class="btn btn-success pull-right">
-                                        <i class="fa fa-plus"></i>&nbsp;&nbsp;Agregar
+                                        <i class="fa fa-plus"></i>&nbsp;&nbsp;Nuevo
                                     </a>
                                 </div>
                                 <div class="box-body">
@@ -126,6 +126,7 @@
                                             <thead>
                                                 <tr>
                                                     <th data-field="id" data-visible="false">Id</th>
+                                                    <th data-field="idComercio" data-visible="false">IdComercio</th>
                                                     <th data-field="codigo">ID Comercio</th>
                                                     <th data-field="descripcion">Descripcion</th>
                                                     <th data-field="correoNotificacion">Correo de Notificacion</th>
@@ -136,6 +137,7 @@
                                                     <th data-field="cuentaBancaria">Nro. de Cuenta/CCI</th>
                                                     <th data-field="estado">Estado</th>
                                                     <th data-field="fechaCreacion">Fecha Registro</th>
+                                                    <th data-field="editar" data-align="center" data-formatter="editarFormatter" data-events="editarEvents">Operacion</th>
                                                 </tr>
                                             </thead>                                             
                                         </table>

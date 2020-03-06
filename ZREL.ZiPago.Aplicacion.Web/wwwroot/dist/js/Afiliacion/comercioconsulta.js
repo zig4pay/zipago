@@ -43,3 +43,17 @@ function ConsultarComercios() {
     });
 
 }
+
+function editarFormatter(value, row, index) {
+    return [
+        '<a class="btn btn-warning edit">',
+        '<i class="fa fa-edit"></i> Editar',
+        '</a >'
+    ].join('');
+}
+
+window.editarEvents = {
+    'click .edit': function (e, value, row, index) {
+        window.location = "/Comercio/Registrar/" + row.idComercio;
+    }
+};

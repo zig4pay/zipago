@@ -138,7 +138,8 @@ function LimpiarFormulario() {
 
 function VerificaExisteCuentaBancaria() {
 
-    var CuentaBancaria = new Object;
+    var CuentaBancaria = new Object();
+    CuentaBancaria.IdCuentaBancaria = $("#idcuentabancaria").val();
     CuentaBancaria.IdUsuarioZiPago = $("#idusuariozipago").val();
     CuentaBancaria.IdBancoZiPago = $("#idbancozipago").val();
     CuentaBancaria.NumeroCuenta = $("#numerocuenta").val();    
@@ -147,14 +148,13 @@ function VerificaExisteCuentaBancaria() {
     
     $.ajax(
         {
-            url: 'VerificarExistenciaCuentaBancaria/',
-            type: "POST",
+            method: "POST",            
+            url: 'https://localhost:44397/CuentaBancaria/Registrar/VerificarExistenciaCuentaBancaria/',
             data: DTO,
             datatype: 'json',
             ContentType: 'application/json;utf-8'            
         })
-        .done(function (resp) {
-            console.debug("VerificaExisteCuentaBancaria - 1");
+        .done(function (resp) {            
             $.each(resp, function (i, field) {
                 if (i === "mensaje") {
                     if (field === "Existe") {
@@ -190,31 +190,31 @@ function VerificaExisteCuentaBancaria() {
 
 function Registrar() {
 
-    var cuentas = new Array();
     var cuentaBancaria = new Object();
 
+    cuentaBancaria.IdCuentaBancaria = $("#idcuentabancaria").val();
     cuentaBancaria.IdUsuarioZiPago = $("#idusuariozipago").val();
     cuentaBancaria.IdBancoZiPago = $("#idbancozipago").val();    
     cuentaBancaria.CodigoTipoCuenta = $("#codigotipocuenta").val();    
     cuentaBancaria.CodigoTipoMoneda = $("#codigomoneda").val();    
     cuentaBancaria.NumeroCuenta = $("#numerocuenta").val();    
     cuentaBancaria.CCI = $("#cci").val();
-        
+    
     cuentas.push(cuentaBancaria);
     
-    var DTO = { 'cuentasBancarias': cuentas };
+    var DTO = { 'cuentaBancaria': cuentaBancaria };
 
     $.ajax(
     {
-        url: 'RegistrarCuentasBancarias/',
-        type: "POST",
+        method: "POST",
+        url: 'https://localhost:44397/CuentaBancaria/Registrar/RegistrarCuentasBancarias/',
         data: DTO,
         datatype: 'json',
         ContentType: 'application/json;utf-8'
     })
     .done(function (resp) {
         var content = JSON.parse(resp);
-
+        console.debug(content);
         swal({
             title: "Registro de Cuenta Bancaria",
             text: content.hizoError ? "Ocurrio un error al registrar las Cuentas Bancarias. Por favor intentelo en unos minutos." : "Datos registrados correctamente.",

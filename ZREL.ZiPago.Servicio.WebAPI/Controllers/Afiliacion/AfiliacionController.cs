@@ -177,7 +177,7 @@ namespace ZREL.ZiPago.Servicio.WebAPI.Controllers.Afiliacion
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
         [Route("CuentasBancariasRegistrar")]
-        public async Task<IActionResult> CuentasBancariasRegistrarAsync([FromBody] List<CuentaBancariaZiPago> request)
+        public async Task<IActionResult> CuentasBancariasRegistrarAsync([FromBody] CuentaBancariaZiPago request)
         {
             var logger = LogManager.GetCurrentClassLogger();
             logger.Info("[Servicio.WebAPI.Controllers.Afiliacion.AfiliacionController.CuentasBancariasRegistrarAsync] | CuentaBancariaZiPago: [{0}] | Inicio.", request.ToString());

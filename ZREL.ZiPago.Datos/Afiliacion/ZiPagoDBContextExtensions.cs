@@ -141,7 +141,7 @@ namespace ZREL.ZiPago.Datos.Afiliacion
 
         //Cuentas Bancarias
         public static async Task<CuentaBancariaZiPago> ObtenerCuentaBancariaZiPagoAsync(this ZiPagoDBContext dbContext, CuentaBancariaZiPago entidad)
-        {
+        {            
             return await dbContext.CuentasBancariasZiPago.AsNoTracking().FirstOrDefaultAsync(item => item.IdUsuarioZiPago == entidad.IdUsuarioZiPago &&
                                                                                                      item.IdBancoZiPago == entidad.IdBancoZiPago &&
                                                                                                      item.NumeroCuenta == entidad.NumeroCuenta 
@@ -340,6 +340,7 @@ namespace ZREL.ZiPago.Datos.Afiliacion
                          select new ComercioListado
                          {
                              Id = comercios.IdUsuarioZiPago,
+                             IdComercio = comercios.IdComercioZiPagoReg,
                              Codigo = comercios.CodigoComercio,
                              Descripcion = comercios.Descripcion,
                              CorreoNotificacion = comercios.CorreoNotificacion,
