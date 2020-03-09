@@ -16,7 +16,8 @@ namespace ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion
         public string Estado { get; set; }
         public string Activo { get; set; }
         public int CodigoCuenta { get; set; }
-        //public string Clave1 { get; set; }
+        public int IdBancoZiPago { get; set; }
+
         public List<BancoZiPago> Bancos { get; set; }
         
     }

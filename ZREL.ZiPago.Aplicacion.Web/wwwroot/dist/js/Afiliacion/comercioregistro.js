@@ -65,20 +65,47 @@
 
         $('#codigocomercio').keypress(PermitirSoloLetrasyNumeros);
 
-        $('#idbancozipago').on('change', function () {
-            var intIdUsuarioZiPago = $('#idusuariozipago').val();
-            var intIdBancoZiPago = $(this).val();
+        //$('#idbancozipago').on('change', function () {
+        //    var intIdUsuarioZiPago = $('#idusuariozipago').val();
+        //    var intIdBancoZiPago = $(this).val();
 
-            $("#cuentasxbanco").empty();
-            $.getJSON("ListarCuentasBancarias", { idUsuarioZiPago: intIdUsuarioZiPago, idBancoZiPago: intIdBancoZiPago }, function (data) {
-                $("#cuentasxbanco").append($("<option>").val(0).text("Seleccione"));
-                $.each(data, function (i, item) {
-                    $("#cuentasxbanco").append($("<option>").val(item.idCuentaBancaria).text(item.descripcion));
-                });
-            });
-        });
+        //    $("#cuentasxbanco").empty();
+        //    $.getJSON("ListarCuentasBancarias", { idUsuarioZiPago: intIdUsuarioZiPago, idBancoZiPago: intIdBancoZiPago }, function (data) {
+        //        $("#cuentasxbanco").append($("<option>").val(0).text("Seleccione"));
+        //        $.each(data, function (i, item) {
+        //            $("#cuentasxbanco").append($("<option>").val(item.idCuentaBancaria).text(item.descripcion));
+        //        });
+        //    });
+        //});
                 
     });
+
+    $(document).on('change', '[data-cascade-combo]', function (event) {
+
+        var id = $(this).attr('data-cascade-combo');
+        var url = $(this).attr('data-cascade-combo-source');
+        var paramName = $(this).attr('data-cascade-combo-param-name');
+
+        var data = {};
+        data[paramName] = id;
+
+        $.ajax({
+            url: url,
+            data: {
+                idUsuarioZiPago: $('#idusuariozipago').val(),
+                idBancoZiPago: $(this).val()
+            }
+        }).done(function (data) {
+            $(id).html('');            
+            $.each(data,
+                function (index, type) {
+                    var content = '<option value="' + type.value + '">' + type.text + '</option>';
+                    $(id).append(content);
+                });
+        });
+    });
+
+
 
     $('#btnLimpiar').click(function () {
         LimpiarFormulario();
@@ -94,7 +121,7 @@
         }
 
     });
-
+       
 });
 
 function PermitirSoloLetras(e) {
@@ -120,7 +147,7 @@ function VerificaExisteComercio() {
     
     $.ajax(
         {
-            url: 'VerificarExisteComercioZiPago/',
+            url: 'Registrar/VerificarExisteComercioZiPago/',
             type: "GET",
             data: DTO,
             datatype: 'json',
@@ -176,7 +203,7 @@ function Registrar() {
 
     $.ajax(
         {
-            url: 'Registrar/',
+            url: 'RegistrarComercio/',
             type: "POST",
             data: DTO,
             datatype: 'json',

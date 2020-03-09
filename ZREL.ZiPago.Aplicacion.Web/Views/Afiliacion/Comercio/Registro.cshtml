@@ -1,6 +1,8 @@
 ﻿@model ZREL.ZiPago.Aplicacion.Web.Models.Afiliacion.ComercioViewModel
 @{
     Layout = "_Layout";
+    var bancos = ViewBag.Bancos as List<SelectListItem>;
+    var cuentas = ViewBag.Cuentas as List<SelectListItem>;
     ViewData["Inicio"] = "";
     ViewData["Afiliacion"] = " active";
     ViewData["DatosPersonales"] = "";
@@ -89,18 +91,30 @@
                                                         <label for="idbancozipago">Banco:</label><label class="text-red">&nbsp;*</label>
                                                     </div>
                                                     <div class="col-sm-3">
-                                                        <select id="idbancozipago" name="idbancozipago" asp-items="@(new SelectList(Model.Bancos,"IdBancoZiPago", "NombreLargo"))" class="form-control"></select>
+                                                        @Html.DropDownListFor(x => x.IdBancoZiPago, bancos, new
+                                                        {
+                                                            @class = "form-control",
+                                                            style = "width: 100%;",
+                                                            id = "IdBancoZiPago",
+                                                            name = "IdBancoZiPago",
+                                                            data_cascade_combo = "#CodigoCuenta",
+                                                            data_cascade_combo_source = Url.Action("ListarCuentasBancarias", "Comercio"),
+                                                            data_cascade_combo_param_name = "idBancoZiPago"
+                                                        })
                                                     </div>
 
                                                     <div class="col-sm-1">
                                                         <label for="cuentasxbanco">Cta. Bancaria:</label><label class="text-red">&nbsp;*</label>
                                                     </div>
                                                     <div class="col-sm-4">
-                                                        <select id="cuentasxbanco" name="cuentasxbanco" class="form-control">
-                                                            <option value="0">Seleccione</option>
-                                                        </select>
+                                                        @Html.DropDownListFor(x => x.CodigoCuenta, cuentas, new
+                                                        {
+                                                            @class = "form-control",
+                                                            style = "width: 100%;",
+                                                            id = "CodigoCuenta",
+                                                            name = "CodigoCuenta",
+                                                        })
                                                     </div>
-
                                                     <div class="col-sm-1" style="text-align:right">
                                                         <button type="button" id="btnLimpiar" class="btn btn-default">
                                                             <i class="fa fa-eraser"></i>&nbsp;Limpiar

@@ -319,7 +319,6 @@ function DeterminarTipoDato(e) {
     }
 }
 
-
 function Deshabilitar() {
 
     $("[name='CodigoTipoPersona']").prop('disabled', true);
