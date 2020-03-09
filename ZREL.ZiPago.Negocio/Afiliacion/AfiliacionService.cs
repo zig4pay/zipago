@@ -109,9 +109,9 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
         }
 
 
-        public async Task<ISingleResponse<ComercioZiPagoReg>> ObtenerComercioZiPagoAsync(Logger logger, string codigoComercio)
+        public async Task<ISingleResponse<ComercioListado>> ObtenerComercioZiPagoAsync(Logger logger, string codigoComercio)
         {
-            SingleResponse<ComercioZiPagoReg> response = new SingleResponse<ComercioZiPagoReg>();
+            SingleResponse<ComercioListado> response = new SingleResponse<ComercioListado>();
             logger.Info("[{0}] | ComercioZiPago: [{1}] | Inicio.", nameof(ObtenerComercioZiPagoAsync), codigoComercio);
             try
             {

@@ -22,6 +22,8 @@ namespace ZREL.ZiPago.Entidad.Afiliacion
 
         public string MonedaCuentaBancaria { get; set; }
 
+        public int IdCuentaBancaria { get; set; }
+
         public string CuentaBancaria { get; set; }
 
         public string Estado { get; set; }

@@ -4,7 +4,6 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using NLog;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
