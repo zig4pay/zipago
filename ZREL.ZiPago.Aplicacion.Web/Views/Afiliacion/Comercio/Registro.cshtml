@@ -44,6 +44,7 @@
                                             <form class="form-horizontal" id="frmRegistro" method="post">
 
                                                 <input id="idusuariozipago" name="idusuariozipago" type="hidden" asp-for="IdUsuarioZiPago" />
+                                                <input id="idcomerciozipago" name="idcomerciozipago" type="hidden" asp-for="IdComercioZiPagoReg" />
 
                                                 <div class="form-group">
                                                     <label class="col-sm-2">Del Comercio:</label>
@@ -54,13 +55,13 @@
                                                         <label for="codigocomercio">ID Comercio:</label><label class="text-red">&nbsp;*</label>
                                                     </div>
                                                     <div class="col-sm-3">
-                                                        <input id="codigocomercio" name="codigocomercio" type="text" class="form-control text-uppercase" placeholder="Codigo del Comercio" maxlength="14">
+                                                        <input id="codigocomercio" name="codigocomercio" type="text" class="form-control text-uppercase" asp-for="CodigoComercio" placeholder="Codigo del Comercio" maxlength="14">
                                                     </div>
                                                     <div class="col-sm-2">
                                                         <label for="correonotificacion">Correo de Notificacion:</label><label class="text-red">&nbsp;*</label>
-                                                    </div>                                                    
+                                                    </div>
                                                     <div class="col-sm-3">
-                                                        <input id="correonotificacion" name="correonotificacion" type="text" class="form-control" asp-for="Clave1" placeholder="Correo electronico">
+                                                        <input id="correonotificacion" name="correonotificacion" type="text" class="form-control" asp-for="CorreoNotificacion" placeholder="Correo electronico">
                                                     </div>
                                                 </div>
 
@@ -73,9 +74,9 @@
                                                 <div class="form-group">
                                                     <div class="col-sm-2">
                                                         <label for="descripcioncomercio">Descripcion:</label><label class="text-red">&nbsp;*</label>
-                                                    </div>                                                    
+                                                    </div>
                                                     <div class="col-sm-8">
-                                                        <input id="descripcioncomercio" name="descripcioncomercio" type="text" class="form-control" placeholder="Descripcion del Comercio" maxlength="30">
+                                                        <input id="descripcioncomercio" name="descripcioncomercio" type="text" class="form-control" asp-for="Descripcion" placeholder="Descripcion del Comercio" maxlength="30">
                                                     </div>
                                                 </div>
 

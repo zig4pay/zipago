@@ -129,41 +129,10 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
 
             return response;            
         }
-
+                
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> Registrar()
-        {
-
-            Uri requestUrl;
-            ComercioViewModel model = new ComercioViewModel();
-            ResponseListModel<BancoZiPago> responseBanco;
-
-            try
-            {                
-                model.IdUsuarioZiPago = User.GetLoggedInUserId<int>();
-                model.Clave1 = User.GetLoggedInUserEmail();
-
-                requestUrl = ApiClientFactory.Instance.CreateRequestUri(
-                    string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_BancosPorUsuarioListar) +
-                    model.IdUsuarioZiPago.ToString()
-                    );
-                responseBanco = await ApiClientFactory.Instance.GetListAsync<BancoZiPago>(requestUrl);
-                responseBanco.Model.Insert(0, new BancoZiPago { IdBancoZiPago = 0, NombreLargo = "Seleccione" });
-
-                model.Bancos = responseBanco.Model;
-
-                return View("~/Views/Afiliacion/Comercio/Registro.cshtml", model);             
-            }
-            catch (Exception)
-            {
-                return View("~/Views/Seguridad/Login.cshtml");
-            }
-
-        }
-
-        [HttpGet]
-        [Authorize]
+        [Route("Comercio/Registrar/VerificarExistenciaCuentaBancaria/")]
         public async Task<JsonResult> VerificarExisteComercioZiPago(string strCodigoComercio)
         {
             JsonResult response;
@@ -191,6 +160,94 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
             }
 
             return response;
+        }
+
+        [HttpGet]
+        [Authorize]
+        [Route("Comercio/Registrar/")]
+        public async Task<IActionResult> Registrar()
+        {
+
+            Uri requestUrl;
+            ComercioViewModel model = new ComercioViewModel();
+            ResponseListModel<BancoZiPago> responseBanco;
+
+            try
+            {
+                model.IdUsuarioZiPago = User.GetLoggedInUserId<int>();
+                model.CorreoNotificacion = User.GetLoggedInUserEmail();
+
+                requestUrl = ApiClientFactory.Instance.CreateRequestUri(
+                    string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_BancosPorUsuarioListar) +
+                    model.IdUsuarioZiPago.ToString()
+                    );
+                responseBanco = await ApiClientFactory.Instance.GetListAsync<BancoZiPago>(requestUrl);
+                responseBanco.Model.Insert(0, new BancoZiPago { IdBancoZiPago = 0, NombreLargo = "Seleccione" });
+
+                model.Bancos = responseBanco.Model;
+
+                return View("~/Views/Afiliacion/Comercio/Registro.cshtml", model);
+            }
+            catch (Exception)
+            {
+                return View("~/Views/Seguridad/Login.cshtml");
+            }
+
+        }
+
+        [HttpGet]
+        [Authorize]
+        [Route("CuentaBancaria/Registrar/{idComercio}")]
+        public async Task<IActionResult> Registrar(int idComercio)
+        {
+
+            Uri requestUrl;
+            ComercioViewModel model = new ComercioViewModel();
+            ResponseListModel<BancoZiPago> responseBanco;
+
+            try
+            {
+                model.IdUsuarioZiPago = User.GetLoggedInUserId<int>();
+                model.CorreoNotificacion = User.GetLoggedInUserEmail();
+
+                requestUrl = ApiClientFactory.Instance.CreateRequestUri(
+                    string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_BancosPorUsuarioListar) +
+                    model.IdUsuarioZiPago.ToString()
+                    );
+                responseBanco = await ApiClientFactory.Instance.GetListAsync<BancoZiPago>(requestUrl);
+                responseBanco.Model.Insert(0, new BancoZiPago { IdBancoZiPago = 0, NombreLargo = "Seleccione" });
+
+                model.Bancos = responseBanco.Model;
+
+                if (idComercio > 0)
+                {
+                    ResponseModel<ComercioZiPagoReg> responseComercio = new ResponseModel<ComercioZiPagoReg>();
+                    requestUrl = ApiClientFactory.Instance.CreateRequestUri(
+                                    string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_ComercioObtener + idComercio.ToString()));
+                    responseComercio = await ApiClientFactory.Instance.GetAsync<ComercioZiPagoReg>(requestUrl);
+
+                    if (responseComercio != null)
+                    {
+                        model.Id = responseComercio.Model.IdCuentaBancaria;
+                        model.IdUsuarioZiPago = responseComercio.Model.IdUsuarioZiPago;
+                        model.IdBancoZiPago = responseCuenta.Model.IdBancoZiPago;
+                        model.NumeroCuenta = responseCuenta.Model.NumeroCuenta;
+                        model.CodigoTipoCuenta = responseCuenta.Model.CodigoTipoCuenta;
+                        model.CodigoTipoMoneda = responseCuenta.Model.CodigoTipoMoneda;
+                        model.CCI = responseCuenta.Model.CCI;
+                        model.Activo = responseCuenta.Model.Activo;
+                    }
+
+                }
+
+
+                return View("~/Views/Afiliacion/Comercio/Registro.cshtml", model);
+            }
+            catch (Exception)
+            {
+                return View("~/Views/Seguridad/Login.cshtml");
+            }
+
         }
 
         [HttpPost]
