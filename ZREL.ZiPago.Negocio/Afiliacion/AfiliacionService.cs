@@ -108,16 +108,33 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
             return response;
         }
 
-
-        public async Task<ISingleResponse<ComercioListado>> ObtenerComercioZiPagoAsync(Logger logger, string codigoComercio)
+        public async Task<ISingleResponse<ComercioZiPagoReg>> ObtenerComercioZiPagoAsync(Logger logger, string codigoComercio)
         {
-            SingleResponse<ComercioListado> response = new SingleResponse<ComercioListado>();
+            SingleResponse<ComercioZiPagoReg> response = new SingleResponse<ComercioZiPagoReg>();
             logger.Info("[{0}] | ComercioZiPago: [{1}] | Inicio.", nameof(ObtenerComercioZiPagoAsync), codigoComercio);
             try
             {
                 response.Model = await DbContext.ObtenerComercioZiPagoAsync(codigoComercio);
                 response.Mensaje = Constantes.strConsultaRealizada;
                 logger.Info("[{0}] | ComercioZiPago: [{1}] | Mensaje: [{2}].", nameof(ObtenerComercioZiPagoAsync), codigoComercio, response.Mensaje);
+            }
+            catch (Exception ex)
+            {
+                response.Model = null;
+                response.SetError(logger, nameof(ObtenerComercioZiPagoAsync), nameof(ComercioZiPagoReg), ex);
+            }
+            return response;
+        }
+
+        public async Task<ISingleResponse<ComercioListado>> ObtenerComercioZiPagoPorIdAsync(Logger logger, ComercioZiPagoReg entidad)
+        {
+            SingleResponse<ComercioListado> response = new SingleResponse<ComercioListado>();
+            logger.Info("[{0}] | ComercioZiPago: [{1}] | Inicio.", nameof(ObtenerComercioZiPagoAsync), entidad.IdComercioZiPagoReg.ToString());
+            try
+            {
+                response.Model = await DbContext.ObtenerComercioZiPagoPorIdAsync(entidad);
+                response.Mensaje = Constantes.strConsultaRealizada;
+                logger.Info("[{0}] | ComercioZiPago: [{1}] | Mensaje: [{2}].", nameof(ObtenerComercioZiPagoAsync), entidad.IdComercioZiPagoReg.ToString(), response.Mensaje);
             }
             catch (Exception ex)
             {

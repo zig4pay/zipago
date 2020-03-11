@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using NLog;
 using System;
 using System.Net.Http;
 using System.Text;

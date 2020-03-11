@@ -300,10 +300,15 @@ namespace ZREL.ZiPago.Datos.Afiliacion
                             .ToListAsync();                            
         }
 
-        public static async Task<ComercioListado> ObtenerComercioZiPagoAsync(this ZiPagoDBContext dbContext, string codigoComercio)
+        public static async Task<ComercioZiPagoReg> ObtenerComercioZiPagoAsync(this ZiPagoDBContext dbContext, string codigoComercio)
+        {
+            return await dbContext.ComerciosZiPagoReg.AsNoTracking().FirstOrDefaultAsync(item => item.CodigoComercio == codigoComercio);
+        }
+
+        public static async Task<ComercioListado> ObtenerComercioZiPagoPorIdAsync(this ZiPagoDBContext dbContext, ComercioZiPagoReg entidad)
         {
             var result = from comercios in dbContext.ComerciosZiPagoReg.AsNoTracking()
-                         join comerciocuenta in dbContext.ComerciosCuentasZiPago.AsNoTracking()                            
+                         join comerciocuenta in dbContext.ComerciosCuentasZiPago.AsNoTracking()
                             on new
                             {
                                 Key1 = comercios.IdComercioZiPagoReg,
@@ -317,7 +322,7 @@ namespace ZREL.ZiPago.Datos.Afiliacion
                          join cuentabancaria in dbContext.CuentasBancariasZiPago.AsNoTracking()
                             on comerciocuenta.IdCuentaBancaria equals cuentabancaria.IdCuentaBancaria
                          join banco in dbContext.BancosZiPago.AsNoTracking()
-                            on cuentabancaria.IdBancoZiPago equals banco.IdBancoZiPago                         
+                            on cuentabancaria.IdBancoZiPago equals banco.IdBancoZiPago
                          select new ComercioListado
                          {
                              Id = comercios.IdUsuarioZiPago,
@@ -326,15 +331,15 @@ namespace ZREL.ZiPago.Datos.Afiliacion
                              Descripcion = comercios.Descripcion,
                              CorreoNotificacion = comercios.CorreoNotificacion,
                              IdBancoZiPago = banco.IdBancoZiPago,
-                             IdCuentaBancaria = cuentabancaria.IdCuentaBancaria                         
+                             IdCuentaBancaria = cuentabancaria.IdCuentaBancaria                             
                          };
 
-            result = result.Where(p => p.Codigo == codigoComercio);
-            
+            result = result.Where(p => p.IdComercio == entidad.IdComercioZiPagoReg && p.Id == entidad.IdUsuarioZiPago);
+
             return await result.FirstOrDefaultAsync();
-            
+
         }
-                
+
         public static async Task<IEnumerable<ComercioListado>> ListarComerciosAsync(this ZiPagoDBContext dbContext, ComercioFiltros comercioFiltros)
         {
 

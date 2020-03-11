@@ -188,6 +188,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
             {
                 model.IdUsuarioZiPago = User.GetLoggedInUserId<int>();
                 model.CorreoNotificacion = User.GetLoggedInUserEmail();
+                model.IdComercioZiPagoReg = 0;
 
                 requestUrl = ApiClientFactory.Instance.CreateRequestUri(
                     string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_BancosPorUsuarioListar) +
@@ -205,7 +206,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
                 cuentas = new List<SelectListItem>();
                 cuentas.Insert(0, new SelectListItem { Value = "0", Text = "Seleccione" });
                 ViewBag.Cuentas = cuentas;
-
+                
                 return View("~/Views/Afiliacion/Comercio/Registro.cshtml", model);
             }
             catch (Exception)
@@ -215,56 +216,94 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
 
         }
 
-        //[HttpGet]
-        //[Authorize]
-        //[Route("Comercio/Registrar/{idComercio}")]
-        //public async Task<IActionResult> Registrar(int idComercio)
-        //{
+        [HttpGet("{idComercio}")]
+        [Authorize]
+        [Route("Comercio/Editar/{idComercio}")]
+        public async Task<IActionResult> Editar(int idComercio)
+        {
 
-        //    Uri requestUrl;
-        //    ComercioViewModel model = new ComercioViewModel();
-        //    ResponseListModel<BancoZiPago> responseBanco;
+            Uri requestUrl;
+            ComercioViewModel model = new ComercioViewModel();
+            ResponseListModel<BancoZiPago> responseBanco;
+            ResponseListModel<CuentaBancariaListaResumida> responseCuentas;
+            List<SelectListItem> bancos;
+            List<SelectListItem> cuentas;
+            ComercioZiPagoReg request;
 
-        //    try
-        //    {
-        //        model.IdUsuarioZiPago = User.GetLoggedInUserId<int>();
-        //        model.CorreoNotificacion = User.GetLoggedInUserEmail();
+            try
+            {
+                model.IdUsuarioZiPago = User.GetLoggedInUserId<int>();
+                
+                requestUrl = ApiClientFactory.Instance.CreateRequestUri(
+                    string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_BancosPorUsuarioListar) +
+                    model.IdUsuarioZiPago.ToString()
+                    );
+                responseBanco = await ApiClientFactory.Instance.GetListAsync<BancoZiPago>(requestUrl);
+                bancos = new List<SelectListItem>();
+                foreach (BancoZiPago item in responseBanco.Model)
+                {
+                    bancos.Add(new SelectListItem { Value = item.IdBancoZiPago.ToString(), Text = item.NombreLargo });
+                }
+                bancos.Insert(0, new SelectListItem { Value = "0", Text = "Seleccione" });
+                ViewBag.Bancos = bancos;
 
-        //        requestUrl = ApiClientFactory.Instance.CreateRequestUri(
-        //            string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_BancosPorUsuarioListar) +
-        //            model.IdUsuarioZiPago.ToString()
-        //            );
-        //        responseBanco = await ApiClientFactory.Instance.GetListAsync<BancoZiPago>(requestUrl);
-        //        responseBanco.Model.Insert(0, new BancoZiPago { IdBancoZiPago = 0, NombreLargo = "Seleccione" });
+                cuentas = new List<SelectListItem>();
+                cuentas.Insert(0, new SelectListItem { Value = "0", Text = "Seleccione" });
+                ViewBag.Cuentas = cuentas;
 
-        //        model.Bancos = responseBanco.Model;
+                if (idComercio > 0)
+                {
+                    string responseComercio;
+                    ResponseModel<ComercioListado> comercioListado = new ResponseModel<ComercioListado>();
 
-        //        if (idComercio > 0)
-        //        {
-        //            ResponseModel<ComercioListado> responseComercio = new ResponseModel<ComercioListado>();
-        //            requestUrl = ApiClientFactory.Instance.CreateRequestUri(
-        //                            string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_ComercioObtener + idComercio.ToString()));
-        //            responseComercio = await ApiClientFactory.Instance.GetAsync<ComercioListado>(requestUrl);
+                    request = new ComercioZiPagoReg
+                    {
+                        IdUsuarioZiPago = model.IdUsuarioZiPago,
+                        IdComercioZiPagoReg = idComercio
+                    };
+                    requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_ComercioObtenerPorId));
+                    responseComercio = await ApiClientFactory.Instance.PostJsonAsync<ComercioZiPagoReg>(requestUrl, request);
 
-        //            if (responseComercio != null)
-        //            {
-        //                model.IdComercioZiPagoReg = responseComercio.Model.IdComercio;
-        //                model.CodigoComercio = responseComercio.Model.Codigo;
-        //                model.CorreoNotificacion = responseComercio.Model.CorreoNotificacion;
-        //                model.Descripcion = responseComercio.Model.Descripcion;                        
-        //                model.IdBancoZiPago = responseComercio.Model.IdBancoZiPago;                        
-        //                model.CodigoCuenta = responseComercio.Model.IdCuentaBancaria;                        
-        //            }
-        //        }
+                    responseComercio = responseComercio.Replace("\\", string.Empty);
+                    responseComercio = responseComercio.Trim('"');
 
-        //        return View("~/Views/Afiliacion/Comercio/Registro.cshtml", model);
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return View("~/Views/Seguridad/Login.cshtml");
-        //    }
+                    comercioListado = JsonConvert.DeserializeObject<ResponseModel<ComercioListado>>(responseComercio);
 
-        //}
+                    if (!comercioListado.HizoError)
+                    {
+                        if (comercioListado.Model != null)
+                        {
+                            model.IdComercioZiPagoReg = comercioListado.Model.IdComercio;
+                            model.CodigoComercio = comercioListado.Model.Codigo;
+                            model.CorreoNotificacion = comercioListado.Model.CorreoNotificacion;
+                            model.Descripcion = comercioListado.Model.Descripcion;
+                            model.IdBancoZiPago = comercioListado.Model.IdBancoZiPago;
+                            model.CodigoCuenta = comercioListado.Model.IdCuentaBancaria;
+
+                            requestUrl = ApiClientFactory.Instance.CreateRequestUri(
+                                string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_CuentasBancariasListarResumen) + model.IdUsuarioZiPago.ToString() + "/" + comercioListado.Model.IdBancoZiPago.ToString()
+                                );
+                            responseCuentas = await ApiClientFactory.Instance.GetListAsync<CuentaBancariaListaResumida>(requestUrl);
+
+                            cuentas = new List<SelectListItem>();
+                            foreach (CuentaBancariaListaResumida item in responseCuentas.Model)
+                            {
+                                cuentas.Add(new SelectListItem { Value = item.IdCuentaBancaria.ToString(), Text = item.Descripcion });
+                            }
+                            cuentas.Insert(0, new SelectListItem { Value = "0", Text = "Seleccione" });
+                            ViewBag.Cuentas = cuentas;
+                        }
+                    }
+                }
+                
+                return View("~/Views/Afiliacion/Comercio/Registro.cshtml", model);
+            }
+            catch (Exception)
+            {
+                return View("~/Views/Seguridad/Login.cshtml");
+            }
+
+        }
 
         [HttpPost]
         [Authorize]
@@ -277,7 +316,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
             ComercioCuentaZiPago comercioCuenta;
             ComercioZiPagoReg comercio;
             CuentaBancariaZiPago cuentaBancaria;
-            string response = string.Empty;
+            string response;
             try
             {
                 foreach (ComercioZiPagoReg item in comercios)

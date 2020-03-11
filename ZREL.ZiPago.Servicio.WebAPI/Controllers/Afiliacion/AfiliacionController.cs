@@ -77,6 +77,19 @@ namespace ZREL.ZiPago.Servicio.WebAPI.Controllers.Afiliacion
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
+        [Route("ComercioObtenerPorId/")]
+        public async Task<IActionResult> ComercioObtenerPorIdAsync([FromBody] ComercioZiPagoReg comercio)
+        {
+            var logger = LogManager.GetCurrentClassLogger();
+            logger.Info("[Servicio.WebAPI.Controllers.Afiliacion.ComercioObtenerPorIdAsync] | CuentaBancaria: [0] | Inicio.", JsonConvert.SerializeObject(comercio));
+            var response = await oIAfiliacionService.ObtenerComercioZiPagoPorIdAsync(logger, comercio);
+            return response.ToHttpResponse();
+        }
+
+        [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
         [Route("Registrar")]
         public async Task<IActionResult> RegistrarAsync([FromBody] DatosPersonalesRequest request)
         {

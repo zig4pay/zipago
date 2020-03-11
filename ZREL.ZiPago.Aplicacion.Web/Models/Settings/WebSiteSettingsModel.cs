@@ -23,6 +23,7 @@
         public string AfiliacionZiPago_DatosPersonalesObtener { get; set; }
         public string AfiliacionZiPago_DomiciliosHistoricoListar { get; set; }
         public string AfiliacionZiPago_ComercioObtener { get; set; }
+        public string AfiliacionZiPago_ComercioObtenerPorId { get; set; }
         public string AfiliacionZiPago_Registrar { get; set; }
         public string AfiliacionZiPago_BancosPorUsuarioListar { get; set; }
         public string AfiliacionZiPago_CuentasBancariasListarResumen { get; set; }

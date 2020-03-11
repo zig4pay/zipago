@@ -65,25 +65,24 @@
 
         $('#codigocomercio').keypress(PermitirSoloLetrasyNumeros);
 
-        //$('#idbancozipago').on('change', function () {
-        //    var intIdUsuarioZiPago = $('#idusuariozipago').val();
-        //    var intIdBancoZiPago = $(this).val();
+        $('#CodigoCuenta').on('change', function () {            
+            var intIdCuentaBancaria = $(this).val();
+            console.debug(intIdCuentaBancaria);
+        });
 
-        //    $("#cuentasxbanco").empty();
-        //    $.getJSON("ListarCuentasBancarias", { idUsuarioZiPago: intIdUsuarioZiPago, idBancoZiPago: intIdBancoZiPago }, function (data) {
-        //        $("#cuentasxbanco").append($("<option>").val(0).text("Seleccione"));
-        //        $.each(data, function (i, item) {
-        //            $("#cuentasxbanco").append($("<option>").val(item.idCuentaBancaria).text(item.descripcion));
-        //        });
-        //    });
-        //});
-                
+        console.debug($("#idcomerciozipago").val());
+        if ($("#idcomerciozipago").val() > 0) {
+            $("[name='codigocomercio']").prop('disabled', true);
+        }
+        
     });
 
     $(document).on('change', '[data-cascade-combo]', function (event) {
 
         var id = $(this).attr('data-cascade-combo');
+        console.debug(id);
         var url = $(this).attr('data-cascade-combo-source');
+        console.debug(url);
         var paramName = $(this).attr('data-cascade-combo-param-name');
 
         var data = {};
@@ -104,8 +103,6 @@
                 });
         });
     });
-
-
 
     $('#btnLimpiar').click(function () {
         LimpiarFormulario();
@@ -136,8 +133,8 @@ function PermitirSoloLetras(e) {
 function LimpiarFormulario() {
     $('#codigocomercio').val('');    
     $('#descripcioncomercio').val('');
-    $('#idbancozipago').val(0);
-    $('#cuentasxbanco').val(0);
+    $('#IdBancoZiPago').val(0);
+    $('#CodigoCuenta').val(0);
 }
 
 function VerificaExisteComercio() {
@@ -196,7 +193,9 @@ function Registrar() {
     comercio.CodigoComercio = $("#codigocomercio").val();
     comercio.Descripcion = $("#descripcioncomercio").val();
     comercio.CorreoNotificacion = $("#correonotificacion").val();
-    comercio.CodigoCuenta = $("#cuentasxbanco").val();
+    comercio.CodigoCuenta = $("#CodigoCuenta").val();
+    console.debug("registrar");
+    console.debug($("#CodigoCuenta").val());
     comercios.push(comercio);
 
     var DTO = { 'comercios': comercios };
