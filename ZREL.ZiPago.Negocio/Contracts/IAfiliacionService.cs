@@ -42,7 +42,7 @@ namespace ZREL.ZiPago.Negocio.Contracts
 
         #region Comercios
 
-        Task<ISingleResponse<ComercioZiPagoReg>> ObtenerComercioZiPagoAsync(Logger logger, string codigoComercio);
+        Task<ISingleResponse<ComercioZiPagoReg>> ObtenerComercioZiPagoAsync(Logger logger, string codigoComercio, int idComercio);
 
         Task<ISingleResponse<ComercioListado>> ObtenerComercioZiPagoPorIdAsync(Logger logger, ComercioZiPagoReg entidad);
 
@@ -50,7 +50,7 @@ namespace ZREL.ZiPago.Negocio.Contracts
 
         Task<IListResponse<ComercioListado>> ListarComerciosAsync(Logger logger, ComercioFiltros comercioFiltros);
 
-        Task<IResponse> RegistrarComerciosAsync(Logger logger, List<ComercioCuentaZiPago> request);
+        Task<IResponse> RegistrarComercioAsync(Logger logger, ComercioCuentaZiPago request);
 
         Task<ISummaryResponse> ObtenerCantidadComerciosPorUsuarioAsync(Logger logger, int idUsuarioZiPago);
 

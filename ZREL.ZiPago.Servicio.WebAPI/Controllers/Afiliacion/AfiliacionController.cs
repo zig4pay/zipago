@@ -56,18 +56,18 @@ namespace ZREL.ZiPago.Servicio.WebAPI.Controllers.Afiliacion
 
         }
         
-        [HttpGet("{codigoComercio}")]
+        [HttpGet("{codigoComercio}/{idComercio}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        [Route("ComercioObtener/{codigoComercio}")]
-        public async Task<IActionResult> ComercioObtenerAsync(string codigoComercio)
+        [Route("ComercioObtener/{codigoComercio}/{idComercio}")]
+        public async Task<IActionResult> ComercioObtenerAsync(string codigoComercio, int idComercio)
         {
 
             var logger = LogManager.GetCurrentClassLogger();
             logger.Info("[{0}] | ComercioZiPago: [Obtener] | Inicio.", nameof(ComercioObtenerAsync));
 
-            var response = await oIAfiliacionService.ObtenerComercioZiPagoAsync(logger, codigoComercio);
+            var response = await oIAfiliacionService.ObtenerComercioZiPagoAsync(logger, codigoComercio, idComercio);
 
             return response.ToHttpResponse();
 
@@ -234,14 +234,13 @@ namespace ZREL.ZiPago.Servicio.WebAPI.Controllers.Afiliacion
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        [Route("ComerciosRegistrar")]
-        public async Task<IActionResult> ComerciosRegistrarAsync([FromBody] List<ComercioCuentaZiPago> request)
+        [Route("ComercioRegistrar")]
+        public async Task<IActionResult> ComercioRegistrarAsync([FromBody] ComercioCuentaZiPago request)
         {
-
             var logger = LogManager.GetCurrentClassLogger();
             logger.Info("[Servicio.WebAPI.Controllers.Afiliacion.AfiliacionController.ComerciosRegistrarAsync] | request: [{0}] | Inicio.",  JsonConvert.SerializeObject(request));
 
-            var response = await oIAfiliacionService.RegistrarComerciosAsync(logger, request);
+            var response = await oIAfiliacionService.RegistrarComercioAsync(logger, request);
 
             return response.ToHttpResponse();
         }

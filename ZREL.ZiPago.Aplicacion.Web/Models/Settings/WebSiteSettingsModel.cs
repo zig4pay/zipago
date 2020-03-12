@@ -32,7 +32,7 @@
         public string AfiliacionZiPago_CuentasBancariasListar { get; set; }
         public string AfiliacionZiPago_CuentasBancariasRegistrar { get; set; }
         public string AfiliacionZiPago_ComerciosListar { get; set; }
-        public string AfiliacionZiPago_ComerciosRegistrar { get; set; }
+        public string AfiliacionZiPago_ComercioRegistrar { get; set; }
         public string AfiliacionZiPago_CuentasBancariasObtenerCantidadPorUsuarioAsync { get; set; }
         public string AfiliacionZiPago_ComerciosObtenerCantidadPorUsuarioAsync { get; set; }
 

@@ -108,13 +108,13 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
             return response;
         }
 
-        public async Task<ISingleResponse<ComercioZiPagoReg>> ObtenerComercioZiPagoAsync(Logger logger, string codigoComercio)
+        public async Task<ISingleResponse<ComercioZiPagoReg>> ObtenerComercioZiPagoAsync(Logger logger, string codigoComercio, int idComercio)
         {
             SingleResponse<ComercioZiPagoReg> response = new SingleResponse<ComercioZiPagoReg>();
             logger.Info("[{0}] | ComercioZiPago: [{1}] | Inicio.", nameof(ObtenerComercioZiPagoAsync), codigoComercio);
             try
             {
-                response.Model = await DbContext.ObtenerComercioZiPagoAsync(codigoComercio);
+                response.Model = await DbContext.ObtenerComercioZiPagoAsync(codigoComercio, idComercio);
                 response.Mensaje = Constantes.strConsultaRealizada;
                 logger.Info("[{0}] | ComercioZiPago: [{1}] | Mensaje: [{2}].", nameof(ObtenerComercioZiPagoAsync), codigoComercio, response.Mensaje);
             }
@@ -402,7 +402,7 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
             return response;
         }
 
-        public async Task<IResponse> RegistrarComerciosAsync(Logger logger, List<ComercioCuentaZiPago> request)
+        public async Task<IResponse> RegistrarComercioAsync(Logger logger, ComercioCuentaZiPago request)
         {
             var response = new Response();            
             logger.Info("[ZREL.ZiPago.Negocio.Afiliacion.AfiliacionService.RegistrarComerciosAsync] | request: [{0}] | Inicio.", JsonConvert.SerializeObject(request));
@@ -411,25 +411,102 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
             {
                 try
                 {
-                    foreach (ComercioCuentaZiPago item in request)
+
+                    if (request.ComercioZiPagoReg.IdComercioZiPagoReg > 0)
                     {
+
+                        ComercioCuentaZiPago comercioCuentaOld = await DbContext.ComerciosCuentasZiPago.
+                                                                                    FirstOrDefaultAsync(
+                                                                                        p => p.IdComercioZiPagoReg == request.ComercioZiPagoReg.IdComercioZiPagoReg &&
+                                                                                             p.IdCuentaBancaria != request.CuentaBancariaZiPago.IdCuentaBancaria &&
+                                                                                             p.Activo == Constantes.strValor_Activo
+                                                                                    );
+
+                        if (comercioCuentaOld != null)
+                        {
+                            DbContext.Attach(comercioCuentaOld);
+
+                            DbContext.Entry(comercioCuentaOld).Property("Activo").IsModified = true;
+                            DbContext.Entry(comercioCuentaOld).Property("FechaActualizacion").IsModified = true;
+
+                            comercioCuentaOld.Activo = Constantes.strValor_NoActivo;
+                            comercioCuentaOld.FechaActualizacion = DateTime.Now;
+
+                            await DbContext.SaveChangesAsync();
+                        }
+                        
                         ComercioZiPagoReg comercio = new ComercioZiPagoReg
                         {
-                            CodigoComercio = item.ComercioZiPagoReg.CodigoComercio.ToUpper(),
-                            IdUsuarioZiPago = item.ComercioZiPagoReg.IdUsuarioZiPago,
-                            Descripcion = item.ComercioZiPagoReg.Descripcion,
-                            CorreoNotificacion = item.ComercioZiPagoReg.CorreoNotificacion,
+                            IdComercioZiPagoReg = request.ComercioZiPagoReg.IdComercioZiPagoReg,
+                            Descripcion = request.ComercioZiPagoReg.Descripcion,
+                            CorreoNotificacion = request.ComercioZiPagoReg.CorreoNotificacion,                            
+                            Activo = Constantes.strValor_Activo,
+                            FechaActualizacion = DateTime.Now
+                        };
+
+                        DbContext.Attach(comercio);
+
+                        DbContext.Entry(comercio).Property("Descripcion").IsModified = true;
+                        DbContext.Entry(comercio).Property("CorreoNotificacion").IsModified = true;
+                        DbContext.Entry(comercio).Property("Activo").IsModified = true;
+                        DbContext.Entry(comercio).Property("FechaActualizacion").IsModified = true;
+
+                        comercioCuentaOld = null;
+                        comercioCuentaOld = await DbContext.ComerciosCuentasZiPago.
+                                                                FirstOrDefaultAsync(
+                                                                    p => p.IdComercioZiPagoReg == request.ComercioZiPagoReg.IdComercioZiPagoReg &&
+                                                                         p.IdCuentaBancaria == request.CuentaBancariaZiPago.IdCuentaBancaria &&
+                                                                         p.Activo == Constantes.strValor_Activo
+                                                                );
+
+                        if (comercioCuentaOld == null)
+                        {
+                            //CuentaBancariaZiPago cuenta = await DbContext.CuentasBancariasZiPago.
+                            //                                                FirstOrDefaultAsync(
+                            //                                                    p => p.IdCuentaBancaria == request.CuentaBancariaZiPago.IdCuentaBancaria
+                            //                                                );
+
+                            ComercioCuentaZiPago comercioCuenta = new ComercioCuentaZiPago
+                            {
+                                IdCuentaBancaria = request.CuentaBancariaZiPago.IdCuentaBancaria,
+                                IdComercioZiPagoReg = request.ComercioZiPagoReg.IdComercioZiPagoReg,
+                                Activo = Constantes.strValor_Activo,
+                                FechaCreacion = DateTime.Now
+                            };
+
+                            //comercioCuenta.ComercioZiPagoReg = comercio;
+                            //comercioCuenta.CuentaBancariaZiPago = cuenta;
+                                                        
+                            DbContext.Add(comercioCuenta);
+                        }
+
+                        await DbContext.SaveChangesAsync();
+
+                    }
+                    else
+                    {
+                        int longitud = request.ComercioZiPagoReg.CodigoComercio.Length < 14 ? request.ComercioZiPagoReg.CodigoComercio.Length : 14;
+                        
+                        ComercioZiPagoReg comercio = new ComercioZiPagoReg
+                        {
+                            CodigoComercio = request.ComercioZiPagoReg.CodigoComercio.Substring(0, longitud).ToUpper(),
+                            IdUsuarioZiPago = request.ComercioZiPagoReg.IdUsuarioZiPago,
+                            Descripcion = request.ComercioZiPagoReg.Descripcion,
+                            CorreoNotificacion = request.ComercioZiPagoReg.CorreoNotificacion,
                             Estado = Constantes.EstadoComercio.PendienteDeActivar.ToString("d"),
                             Activo = Constantes.strValor_Activo,
                             FechaCreacion = DateTime.Now
                         };
 
-                        CuentaBancariaZiPago cuenta = await DbContext.CuentasBancariasZiPago.FirstOrDefaultAsync(p => p.IdCuentaBancaria == item.CuentaBancariaZiPago.IdCuentaBancaria);
-                        
+                        CuentaBancariaZiPago cuenta = await DbContext.CuentasBancariasZiPago.
+                                                                        FirstOrDefaultAsync(
+                                                                            p => p.IdCuentaBancaria == request.CuentaBancariaZiPago.IdCuentaBancaria
+                                                                        );
+
                         ComercioCuentaZiPago comercioCuenta = new ComercioCuentaZiPago
-                        {                            
+                        {
                             Activo = Constantes.strValor_Activo,
-                            FechaCreacion = DateTime.Now                            
+                            FechaCreacion = DateTime.Now
                         };
 
                         comercioCuenta.ComercioZiPagoReg = comercio;

@@ -143,7 +143,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
         [HttpGet]
         [Authorize]
         [Route("Comercio/Registrar/VerificarExisteComercioZiPago/")]
-        public async Task<JsonResult> VerificarExisteComercioZiPago(string strCodigoComercio)
+        public async Task<JsonResult> VerificarExisteComercioZiPago(string codigoComercio, int idComercio)
         {
             JsonResult response;
             Uri requestUrl;
@@ -152,7 +152,11 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
 
             try
             {
-                requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_ComercioObtener) + strCodigoComercio);
+                requestUrl = ApiClientFactory.Instance.CreateRequestUri(
+                                                            string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_ComercioObtener) + 
+                                                            codigoComercio + "/" +
+                                                            idComercio.ToString()
+                                                        );
                 logger.Info("Aplicacion.Web.Controllers.Afiliacion.ComerciosController.VerificarExisteComercioZiPago requestUrl [{0}]", requestUrl.ToString());
                 responseComercio = await ApiClientFactory.Instance.GetAsync<ComercioZiPagoReg>(requestUrl);
 
@@ -166,7 +170,7 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
             catch (Exception ex)
             {
                 response = Json("");
-                logger.Error("VerificarExisteComercioZiPago Error [0]", ex.ToString());
+                logger.Error("VerificarExisteComercioZiPago Error [{0}]", ex.ToString());
             }
 
             return response;
@@ -308,39 +312,27 @@ namespace ZREL.ZiPago.Aplicacion.Web.Controllers.Afiliacion
         [HttpPost]
         [Authorize]
         [Route("Comercio/RegistrarComercio/")]
-        public async Task<JsonResult> Registrar(List<ComercioZiPagoReg> comercios)
+        public async Task<JsonResult> Registrar(ComercioZiPagoReg comercio)
         {
             JsonResult responseJson;
-            Uri requestUrl;
-            List<ComercioCuentaZiPago> lstComercioCuenta = new List<ComercioCuentaZiPago>();
-            ComercioCuentaZiPago comercioCuenta;
-            ComercioZiPagoReg comercio;
+            Uri requestUrl;            
+            ComercioCuentaZiPago comercioCuenta;            
             CuentaBancariaZiPago cuentaBancaria;
             string response;
+
             try
             {
-                foreach (ComercioZiPagoReg item in comercios)
-                {
-                    comercio = new ComercioZiPagoReg{
-                        IdUsuarioZiPago = item.IdUsuarioZiPago,
-                        CodigoComercio = item.CodigoComercio,
-                        Descripcion = item.Descripcion,
-                        CorreoNotificacion = item.CorreoNotificacion
-                    };
+                cuentaBancaria = new CuentaBancariaZiPago{
+                    IdCuentaBancaria = comercio.CodigoCuenta
+                };
+                    
+                comercioCuenta = new ComercioCuentaZiPago {
+                    ComercioZiPagoReg = comercio,
+                    CuentaBancariaZiPago = cuentaBancaria
+                };
 
-                    cuentaBancaria = new CuentaBancariaZiPago{
-                        IdCuentaBancaria = item.CodigoCuenta
-                    };
-
-                    comercioCuenta = new ComercioCuentaZiPago {
-                        ComercioZiPagoReg = comercio,
-                        CuentaBancariaZiPago = cuentaBancaria
-                    };
-
-                    lstComercioCuenta.Add(comercioCuenta);
-                }
-                requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_ComerciosRegistrar));
-                response = await ApiClientFactory.Instance.PostJsonAsync<List<ComercioCuentaZiPago>>(requestUrl, lstComercioCuenta);
+                requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.AfiliacionZiPago_ComercioRegistrar));
+                response = await ApiClientFactory.Instance.PostJsonAsync<ComercioCuentaZiPago>(requestUrl, comercioCuenta);
                 response = response.ToString().Replace("\\", string.Empty);
                 response = response.Trim('"');
 

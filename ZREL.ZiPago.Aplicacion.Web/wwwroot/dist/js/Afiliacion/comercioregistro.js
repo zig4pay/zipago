@@ -66,11 +66,9 @@
         $('#codigocomercio').keypress(PermitirSoloLetrasyNumeros);
 
         $('#CodigoCuenta').on('change', function () {            
-            var intIdCuentaBancaria = $(this).val();
-            console.debug(intIdCuentaBancaria);
+            var intIdCuentaBancaria = $(this).val();            
         });
-
-        console.debug($("#idcomerciozipago").val());
+                
         if ($("#idcomerciozipago").val() > 0) {
             $("[name='codigocomercio']").prop('disabled', true);
         }
@@ -79,10 +77,8 @@
 
     $(document).on('change', '[data-cascade-combo]', function (event) {
 
-        var id = $(this).attr('data-cascade-combo');
-        console.debug(id);
-        var url = $(this).attr('data-cascade-combo-source');
-        console.debug(url);
+        var id = $(this).attr('data-cascade-combo');        
+        var url = $(this).attr('data-cascade-combo-source');        
         var paramName = $(this).attr('data-cascade-combo-param-name');
 
         var data = {};
@@ -139,12 +135,16 @@ function LimpiarFormulario() {
 
 function VerificaExisteComercio() {
 
-    var strCodigoComercio = $("#codigocomercio").val().trim();    
-    var DTO = { "strCodigoComercio": strCodigoComercio };
+    var codigoComercio = $("#codigocomercio").val().trim();    
+    var idComercio = $("#idcomerciozipago").val();    
+    var DTO = {
+        "codigoComercio": codigoComercio,
+        "idComercio": idComercio
+    };
     
     $.ajax(
         {
-            url: 'Registrar/VerificarExisteComercioZiPago/',
+            url: 'https://localhost:44397/Comercio/Registrar/VerificarExisteComercioZiPago/',
             type: "GET",
             data: DTO,
             datatype: 'json',
@@ -185,34 +185,29 @@ function VerificaExisteComercio() {
 }
 
 function Registrar() {
-
-    var comercios = new Array();
-    var comercio = new Object();
-        
+    
+    var comercio = new Object();    
     comercio.IdUsuarioZiPago = $('#idusuariozipago').val();
+    comercio.IdComercioZiPagoReg = $('#idcomerciozipago').val();
     comercio.CodigoComercio = $("#codigocomercio").val();
     comercio.Descripcion = $("#descripcioncomercio").val();
     comercio.CorreoNotificacion = $("#correonotificacion").val();
-    comercio.CodigoCuenta = $("#CodigoCuenta").val();
-    console.debug("registrar");
-    console.debug($("#CodigoCuenta").val());
-    comercios.push(comercio);
-
-    var DTO = { 'comercios': comercios };
-
+    comercio.CodigoCuenta = $("#CodigoCuenta").val();    
+    
+    var DTO = { 'comercio': comercio };
+    
     $.ajax(
         {
-            url: 'RegistrarComercio/',
+            url: 'https://localhost:44397/Comercio/RegistrarComercio/',
             type: "POST",
             data: DTO,
             datatype: 'json',
             ContentType: 'application/json; utf-8'
         })
         .done(function (resp) {
-            var content = JSON.parse(resp);            
-
+            var content = JSON.parse(resp);
             swal({
-                title: "Registro de Comercios",
+                title: "Registro de Comercio",
                 text: content.hizoError ? "Ocurrio un error al registrar el Comercio. Por favor intentelo en unos minutos." : "Datos registrados correctamente.",
                 type: content.hizoError ? "error" : "success",
                 showCancelButton: false,
