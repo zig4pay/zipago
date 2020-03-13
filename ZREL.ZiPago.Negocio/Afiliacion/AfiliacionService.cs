@@ -438,7 +438,7 @@ namespace ZREL.ZiPago.Negocio.Afiliacion
                             }
                             else
                             {                                
-                                item.Activo = Constantes.strValor_Activo;
+                                item.Activo = Constantes.strValor_NoActivo;
                                 item.FechaActualizacion = DateTime.Now;
                             }
 
