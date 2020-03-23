@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using ZREL.ZiPago.Sitio.Web.Models;
 
 namespace ZREL.ZiPago.Sitio.Web.Controllers
@@ -13,7 +9,7 @@ namespace ZREL.ZiPago.Sitio.Web.Controllers
 
         public IActionResult Index()
         {
-            return View("~/Views/Home/Index.cshtml");
+           return View("~/Views/Home/Index.cshtml");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

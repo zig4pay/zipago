@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using System;
@@ -36,8 +35,21 @@ namespace ZREL.ZiPago.Sitio.Web.Controllers
 
         [HttpGet]
         public IActionResult UsuarioRegistrar()
-        {            
-            ViewData["ReCaptchaKey"] = webSettings.Value.SiteKey;
+        {
+            try
+            {
+                ViewData["ReCaptchaKey"] = webSettings.Value.SiteKey;
+                ViewData["UrlSitioWeb"] = webSettings.Value.ZZiPagoSitioUrl;
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Incorrecto = true;
+                ViewBag.Mensaje = Constantes.strMensajeGeneralError;
+                ViewBag.Tipo = "error";
+                Log.InvokeAppendLogError("SeguridadController.UsuarioRegistrar",
+                                         "Exception [" + ex.ToString() + "] " +
+                                         "Inner Exception [" + (ex.InnerException.ToString()) + "]");                
+            }
             return View("~/Views/Seguridad/Registro.cshtml");
         }
 
@@ -61,12 +73,13 @@ namespace ZREL.ZiPago.Sitio.Web.Controllers
                         model.Clave2 = Criptografia.Encriptar(model.Clave2);
                         model.AceptoTerminos = Constantes.strUsuarioZiPago_AceptoTerminos;
 
-                        var requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.UsuarioZiPago_Registrar));                        
+                        var requestUrl = ApiClientFactory.Instance.CreateRequestUri(string.Format(CultureInfo.InvariantCulture, webSettings.Value.UsuarioZiPago_Registrar));
+                        Log.InvokeAppendLog("SeguridadController.UsuarioRegistrar", "requestUrl: [" + requestUrl + "]");
                         response = await ApiClientFactory.Instance.PostAsync(requestUrl, model);
                         Log.InvokeAppendLog("SeguridadController.UsuarioRegistrar", "response: [" + JsonSerializer.Serialize(response, jsonOptions) + "]");
 
                         if (!response.HizoError)
-                        {                            
+                        {
                             if (response.Mensaje == Constantes.RegistroUsuario.UsuarioRegistradoCorrectamente.ToString())
                             {
                                 EnviarCorreo(response.Model);
@@ -75,8 +88,7 @@ namespace ZREL.ZiPago.Sitio.Web.Controllers
                                 ViewBag.Tipo = "success";
                                 ViewBag.ZZiPagoPortalUrl = webSettings.Value.ZZiPagoPortalUrl;
                                 Log.InvokeAppendLog("SeguridadController.UsuarioRegistrar", string.Format(Constantes.strMensajeUsuarioRegistroCorrecto, response.Model.Clave1));
-                                return View("~/Views/Seguridad/Registro.cshtml");
-                                //return Redirect(webSettings.Value.ZZiPagoPortalUrl);
+                                return View("~/Views/Seguridad/Registro.cshtml");                               
                             }
                             else {
                                 ViewBag.Incorrecto = true;
@@ -89,7 +101,7 @@ namespace ZREL.ZiPago.Sitio.Web.Controllers
                         else
                         {
                             ViewBag.Incorrecto = true;
-                            ViewBag.Mensaje = response.MensajeError;
+                            ViewBag.Mensaje = Constantes.strMensajeGeneralError;
                             ViewBag.Tipo = "error";
                             Log.InvokeAppendLogError("SeguridadController.UsuarioRegistrar", "MensajeError: [" + response.MensajeError + "]");
                             return View("~/Views/Seguridad/Registro.cshtml");
@@ -116,7 +128,7 @@ namespace ZREL.ZiPago.Sitio.Web.Controllers
             catch (Exception ex)
             {
                 ViewBag.Incorrecto = true;
-                ViewBag.Mensaje = ex.Message;
+                ViewBag.Mensaje = Constantes.strMensajeGeneralError;
                 ViewBag.Tipo = "error";
                 Log.InvokeAppendLogError("SeguridadController.UsuarioRegistrar", "Exception: [" + ex.ToString() + "]");
                 return View("~/Views/Seguridad/Registro.cshtml");

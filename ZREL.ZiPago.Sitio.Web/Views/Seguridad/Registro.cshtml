@@ -1,15 +1,15 @@
 ﻿@model ZREL.ZiPago.Sitio.Web.Models.Seguridad.UsuarioViewModel
 
 @{
-    ViewData["Title"] = "ZiPago | Registro de Usuario";
-    ViewData["TitleNav"] = "Registro de Usuario";
+    ViewData["Title"] = "ZiPago | Afiliate Gratis";
+    ViewData["TitleNav"] = "Afiliate Gratis";
     Layout = "_LayoutSeguridad";
 }
 
 <div class="row" style="margin-left:0; margin-right:0;">
 
-    <div class="col-sm-3"></div>
-    <div class="col-sm-6">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8">
         <div class="card bg-white">
 
             <div class="card-body text-justify">
@@ -18,31 +18,30 @@
                     <div class="col-sm-1"></div>
                     <div class="col-sm-4">
                         <p class="text-justify">
-                            <h4><strong>Afiliate a ZiPago</strong></h4><br />
-                            Realice los siguientes pasos:
+                            <h4><strong>Af&iacute;liate a ZiPago</strong></h4><br />
+                            Realiza los siguientes pasos:
                             <br /><br />
-                            <ul>
-                                <li>
-                                    Abra una cuenta bancaria en el banco de su preferencia donde se abonarán sus pagos.<br />
-                                    Si ya tiene una, no necesita abrir una cuenta adicional.
-                                </li>
-                                <br />
-                                <li>Registrate como usuario de ZiPago en este formulario.</li>
-                                <br />
-                                <li>
-                                    ZiPago confirmará el registro de su(s) comercio(s) en un promedio de 24 horas <strong>(*)</strong>.
-                                    Desde ese momento, podrá recibir pagos de sus clientes.
-                                </li>
-                            </ul>
-                            <small><strong>(*)</strong> Aplica para días útiles, de lunes a viernes en horario de 9:00 AM a 5:00 PM.</small>
-                            <br /><br />
+                                  <ul>
+                                      <li>
+                                          Registrate como Usuario de ZiPago en este formulario.
+                                      </li>
+                                      <br />
+                                      <li>
+                                          Una vez registrado, ser&aacute;s dirigido a nuestro portal web en el cual deber&aacute;s completar la informaci&oacute;n solicitada.
+                                      </li>
+                                      <br />
+                                      <li>
+                                          ZiPago confirmará el registro de su(s) comercio(s) entre 24 y 48 horas.
+                                          Desde ese momento, podrás recibir pagos de sus clientes.
+                                      </li>
+                                  </ul>
+                            <br />
                             Si ya estas registrado, <strong><a asp-controller="Seguridad" asp-action="UsuarioAutenticar"> ingresa aqui</a></strong> con tu Id ZiPago.
                         </p>
-                        <br />
+                        <br />                        
                     </div>
                     <div class="col-sm-1"></div>
                     <div class="col-sm-5">
-
                         <form id="frmRegistro" asp-controller="Seguridad" asp-action="UsuarioRegistrar" method="post">
 
                             <div id="registroBox" style="margin-top:76px;">
@@ -50,6 +49,7 @@
                                     <label>Ingresa los siguientes datos:</label><br />
                                     <small class="text-danger">(*) Datos obligatorios.</small>
                                 </div>
+                                <input type="hidden" name="UrlSitioWeb" id="UrlSitioWeb" value="@ViewData["UrlSitioWeb"]" />
                                 <div class="form-group">
                                     <label for="clave1">@Html.DisplayNameFor(m => m.Clave1):</label><label class="text-danger">*</label>
                                     <div class="input-group">
@@ -121,9 +121,15 @@
                                         @Html.ValidationMessage("ErrorRegistro", "", new { @class = "text-danger" })
                                     </strong>
                                 </div>
-                                <div class="form-group text-right">
+
+                                <div class="row justify-content-center">
+                                    <button type="button" id="btnCancelar" class="btn text-white btn-secondary">Cancelar</button>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     <button type="submit" id="btnRegistrar" class="btn text-white bg-button-acept">Registrar</button>
                                 </div>
+
+                                
+
                             </div>
 
                             <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="ExtraLargeModalLabel" aria-hidden="true">
@@ -1066,7 +1072,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-3"></div>
+    <div class="col-sm-2"></div>
 
 </div>
 
@@ -1078,10 +1084,13 @@
 
 @if (ViewBag.Incorrecto != null)
 {    
-    <script>
+    <script charset="utf-8">
+
+        $('#errorCaptcha').show();
 
         swal({
                 title: "Registro de Usuario ZiPago",
+                html: true,
                 text: "@ViewBag.Mensaje",
                 type: "@ViewBag.Tipo",
                 showCancelButton: false,

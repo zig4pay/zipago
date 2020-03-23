@@ -25,7 +25,8 @@ namespace ZREL.ZiPago.Sitio.Web
             {                
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
-            });            
+            });
+            services.Configure<WebSiteSettingsModel>(Configuration.GetSection("ZRELZiPagoSitioWeb"));
             services.Configure<WebSiteSettingsModel>(Configuration.GetSection("ZRELZiPagoWebApi"));
             services.Configure<WebSiteSettingsModel>(Configuration.GetSection("ZRELZiPagoPortalWeb"));
             services.Configure<WebSiteSettingsModel>(Configuration.GetSection("GoogleReCaptcha"));            
@@ -49,8 +50,7 @@ namespace ZREL.ZiPago.Sitio.Web
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 //app.UseHsts();
-            }
-            //app.UseRouting();
+            }            
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();

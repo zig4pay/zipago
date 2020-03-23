@@ -8,7 +8,7 @@ namespace ZREL.ZiPago.Sitio.Web.Clients
     {
         private static Uri apiUri;
 
-        private static Lazy<ApiClient> restClient = new Lazy<ApiClient>(
+        private static readonly Lazy<ApiClient> restClient = new Lazy<ApiClient>(
                                                         () => new ApiClient(apiUri),
                                                         LazyThreadSafetyMode.ExecutionAndPublication
                                                     );

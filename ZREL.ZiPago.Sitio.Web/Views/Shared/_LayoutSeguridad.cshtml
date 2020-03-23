@@ -18,7 +18,9 @@
 
     <nav class="navbar sticky-top navbar-light bg-light">
         <span class="navbar-text mx-auto">
-            <img src="~/wp-content/uploads/2019/07/Imagotipo_ZiPago-118x75.png" width="118" height="75" alt="ZiPago">
+            <a asp-controller="Home" asp-action="Index">
+                <img src="~/wp-content/uploads/2019/07/Imagotipo_ZiPago-118x75.png" width="118" height="75" alt="ZiPago">
+            </a>           
             <span class="navbar-text mx-auto">
                 <h4 class="text-dark">
                     @ViewData["TitleNav"]

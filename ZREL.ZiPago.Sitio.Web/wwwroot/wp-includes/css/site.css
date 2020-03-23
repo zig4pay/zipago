@@ -27,6 +27,10 @@ li span {
     text-decoration: underline;
 }
 
+.bg-button-cancel {
+    background-color: #163758;
+}
+
 .bg-button-acept {
     background-color: #163758;
 }

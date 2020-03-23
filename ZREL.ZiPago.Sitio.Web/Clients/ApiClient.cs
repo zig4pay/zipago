@@ -14,7 +14,7 @@ namespace ZREL.ZiPago.Sitio.Web.Clients
         private readonly HttpClient httpClient;
         private Uri BaseEndpoint { get; set; }
 
-        private JsonSerializerOptions jsonOptions = new JsonSerializerOptions{
+        private readonly JsonSerializerOptions jsonOptions = new JsonSerializerOptions{
                                                             IgnoreNullValues = true,
                                                             PropertyNameCaseInsensitive = true,
                                                             WriteIndented = true
@@ -30,38 +30,39 @@ namespace ZREL.ZiPago.Sitio.Web.Clients
 
         public async Task<ResponseModel<T>> GetAsync<T>(Uri requestUrl)
         {
-            Log.InvokeAppendLog("ApiClient.GetAsync", "requestUrl: [" + requestUrl.ToString() + "]");
+            //Log.InvokeAppendLog("ApiClient.GetAsync", "requestUrl: [" + requestUrl.ToString() + "]");
             var response = await httpClient.GetAsync(requestUrl, HttpCompletionOption.ResponseHeadersRead);
-            //response.EnsureSuccessStatusCode();
-            Log.InvokeAppendLog("ApiClient.GetAsync", "response: [" + JsonSerializer.Serialize(response, jsonOptions) + "]");
+            
+            //Log.InvokeAppendLog("ApiClient.GetAsync", "response: [" + JsonSerializer.Serialize(response, jsonOptions) + "]");
             var data = await response.Content.ReadAsStringAsync();
+
             return JsonSerializer.Deserialize<ResponseModel<T>>(data, jsonOptions);
         }
 
         public async Task<string> GetJsonAsync(Uri requestUrl)
         {
-            Log.InvokeAppendLog("ApiClient.GetJsonAsync", "requestUrl: [" + requestUrl.ToString() + "]");
+            //Log.InvokeAppendLog("ApiClient.GetJsonAsync", "requestUrl: [" + requestUrl.ToString() + "]");
             var response = await httpClient.GetAsync(requestUrl, HttpCompletionOption.ResponseHeadersRead);            
             response.EnsureSuccessStatusCode();
-            Log.InvokeAppendLog("ApiClient.GetJsonAsync", "response: [" + JsonSerializer.Serialize(response, jsonOptions) + "]");
+            //Log.InvokeAppendLog("ApiClient.GetJsonAsync", "response: [" + JsonSerializer.Serialize(response, jsonOptions) + "]");
             var data = await response.Content.ReadAsStringAsync();
             return JsonSerializer.Serialize(data, jsonOptions);
         }
 
         public async Task<ResponseModel<T>> PostAsync<T>(Uri requestUrl, T content)
         {            
-            Log.InvokeAppendLog("ApiClient.PostAsync", "requestUrl: [" + requestUrl.ToString() + "]");
+            //Log.InvokeAppendLog("ApiClient.PostAsync", "requestUrl: [" + requestUrl.ToString() + "]");
             var response = await httpClient.PostAsync(requestUrl.ToString(), CreateHttpContent<T>(content));
-            Log.InvokeAppendLog("ApiClient.PostAsync", "response: [" + JsonSerializer.Serialize(response, jsonOptions) + "]");            
-            var data = await response.Content.ReadAsStringAsync();            
-            return JsonSerializer.Deserialize<ResponseModel<T>>(data, jsonOptions);
+            
+            //Log.InvokeAppendLog("ApiClient.PostAsync", "response: [" + JsonSerializer.Serialize(response, jsonOptions) + "]");                  
+            return JsonSerializer.Deserialize<ResponseModel<T>>(await response.Content.ReadAsStringAsync(), jsonOptions);
         }
 
         public async Task<string> PostJsonAsync<T>(Uri requestUrl, T content)
         {
-            Log.InvokeAppendLog("ApiClient.PostJsonAsync", "requestUrl: [" + requestUrl.ToString() + "]");
+            //Log.InvokeAppendLog("ApiClient.PostJsonAsync", "requestUrl: [" + requestUrl.ToString() + "]");
             var response = await httpClient.PostAsync(requestUrl.ToString(), CreateHttpContent<T>(content));
-            Log.InvokeAppendLog("ApiClient.PostJsonAsync", "response: [" + JsonSerializer.Serialize(response, jsonOptions) + "]");
+            //Log.InvokeAppendLog("ApiClient.PostJsonAsync", "response: [" + JsonSerializer.Serialize(response, jsonOptions) + "]");
             response.EnsureSuccessStatusCode();
             var data = await response.Content.ReadAsStringAsync();
             return JsonSerializer.Serialize(data, jsonOptions);

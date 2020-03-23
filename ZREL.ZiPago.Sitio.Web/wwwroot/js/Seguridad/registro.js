@@ -54,8 +54,8 @@
                 nombresusuario: "Por favor ingrese sus nombres.",
                 apellidosusuario: "Por favor ingrese sus apellidos.",
                 clave1: {
-                    required: "Por favor ingrese una cuenta de correo electrónica.",
-                    validarcorreo: "Por favor ingrese una cuenta de correo electrónica válida."
+                    required: "Por favor ingrese una cuenta de correo electrónico.",
+                    validarcorreo: "Por favor ingrese una cuenta de correo electrónico válido."
                 },
                 clave2: {
                     required: "Por favor ingrese una contraseña.",                    
@@ -76,11 +76,15 @@
         return false;
     });
 
+    $('#btnCancelar').click(function () {
+        $(location).attr('href', $('#UrlSitioWeb').val());
+    });
+
     $('#btnRegistrar').click(function () {
         var $valid = $('#frmRegistro').valid();
         $('#errorCaptcha').hide();
-        
-        if (!$valid) {                
+
+        if (!$valid) {
             return false;
         } else {
             if (!VerificarCaptcha()) {

@@ -2,8 +2,10 @@
 {
     public class WebSiteSettingsModel
     {
-        public string ZZiPagoApiUrl { get; set; }
+        public string ZZiPagoSitioUrl { get; set; }
 
+        public string ZZiPagoApiUrl { get; set; }
+        
         public string ZZiPagoPortalUrl { get; set; }
 
         //Seguridad        
