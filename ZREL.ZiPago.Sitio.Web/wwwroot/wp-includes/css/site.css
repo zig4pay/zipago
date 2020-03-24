@@ -71,5 +71,22 @@ input.error {
     border: 1px solid #DBDBDB !important;
 }
 
+.text-afiliate {
+    font-size:24px;   
+}
 
+.ul-afiliate {
+    list-style-type: none;
+    padding: 0px;
+    margin-left: 0px;
+    margin-right: 5px;
+}
 
+    .ul-afiliate li::before {
+        font-family: FontAwesome;
+        content: "\f046"; /* FontAwesome Unicode */
+        color: darkorange;
+        padding-right: 7px;
+        
+        font-size: 20px;
+    }

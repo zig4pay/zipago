@@ -12,42 +12,57 @@
     <div class="col-sm-8">
         <div class="card bg-white">
 
+            <div class="card-header">
+                <div class="row" style="margin-top: 15px !important; margin-bottom: 0px !important">
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-11">
+                        <a asp-controller="Home" asp-action="Index">
+                            <img src="~/wp-content/uploads/2019/07/Imagotipo_ZiPago-118x75.png" width="118" height="75" style="margin-left: -15px !important">
+                        </a>
+                        <strong class="text-afiliate">Af&iacute;liate Gratis a ZiPago</strong>
+                    </div>
+                </div>
+            </div>
+
             <div class="card-body text-justify">
 
                 <div class="row">
                     <div class="col-sm-1"></div>
                     <div class="col-sm-4">
-                        <p class="text-justify">
-                            <h4><strong>Af&iacute;liate a ZiPago</strong></h4><br />
+                        <p class="text-left">
                             Realiza los siguientes pasos:
-                            <br /><br />
-                                  <ul>
-                                      <li>
-                                          Registrate como Usuario de ZiPago en este formulario.
-                                      </li>
-                                      <br />
-                                      <li>
-                                          Una vez registrado, ser&aacute;s dirigido a nuestro portal web en el cual deber&aacute;s completar la informaci&oacute;n solicitada.
-                                      </li>
-                                      <br />
-                                      <li>
-                                          ZiPago confirmará el registro de su(s) comercio(s) entre 24 y 48 horas.
-                                          Desde ese momento, podrás recibir pagos de sus clientes.
-                                      </li>
-                                  </ul>
                             <br />
-                            Si ya estas registrado, <strong><a asp-controller="Seguridad" asp-action="UsuarioAutenticar"> ingresa aqui</a></strong> con tu Id ZiPago.
+                            <ul class="ul-afiliate">
+                                <li>
+                                    Abra una cuenta bancaria en uno de los siguientes bancos: BCP, BBVA, Interbank o Scotiabank donde se abonarán sus pagos. Si ya tiene una, no necesita abrir una cuenta adicional.
+                                </li>
+                                <br />
+                                <li>
+                                    Registrate como Usuario de ZiPago en este formulario.
+                                </li>
+                                <br />
+                                <li>
+                                 Una vez registrado, ser&aacute;s dirigido a nuestro portal web en el cual deber&aacute;s completar la informaci&oacute;n solicitada.
+                                </li>
+                                <br />
+                                <li>
+                                    ZiPago confirmará el registro de su(s) comercio(s) entre 24 y 48 horas.
+                                    Desde ese momento, podrás recibir pagos de sus clientes.
+                                </li>
+                            </ul>
+                            <br />
+                            Si ya estas registrado, <strong><a asp-controller="Seguridad" asp-action="UsuarioAutenticar"> ingresa aqu&iacute;</a></strong> con tu Id ZiPago.
                         </p>
-                        <br />                        
+                        <br />
                     </div>
                     <div class="col-sm-1"></div>
                     <div class="col-sm-5">
                         <form id="frmRegistro" asp-controller="Seguridad" asp-action="UsuarioRegistrar" method="post">
-
-                            <div id="registroBox" style="margin-top:76px;">
-                                <div class="form-group">
-                                    <label>Ingresa los siguientes datos:</label><br />
-                                    <small class="text-danger">(*) Datos obligatorios.</small>
+                            
+                            <div id="registroBox">
+                                <div class="form-group" style="padding-bottom: 0px !important;">
+                                    <label style="margin-bottom: 0px !important;">Ingresa los siguientes datos:</label>&nbsp;
+                                    <em class="text-danger" style="font-size:10px; padding-bottom: 0px;">(*) Datos obligatorios.</em>
                                 </div>
                                 <input type="hidden" name="UrlSitioWeb" id="UrlSitioWeb" value="@ViewData["UrlSitioWeb"]" />
                                 <div class="form-group">
@@ -128,7 +143,7 @@
                                     <button type="submit" id="btnRegistrar" class="btn text-white bg-button-acept">Registrar</button>
                                 </div>
 
-                                
+
 
                             </div>
 
