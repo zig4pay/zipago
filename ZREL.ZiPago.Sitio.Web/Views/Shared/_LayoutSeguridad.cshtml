@@ -11,33 +11,23 @@
     <meta name="msapplication-TileImage" content="https://www.zipago.pe/wp-content/uploads/2019/07/logo_favicon.png">
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.css">
     <link rel="stylesheet" href="~/dist/bootstrap-4.3.1-dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="~/dist/sweetalert/sweetalert.css"/>
+    <link rel="stylesheet" href="~/dist/sweetalert/sweetalert.css" />
+    <link rel="stylesheet" href="~/dist/spin/spin.css" />
     <link rel="stylesheet" href="~/wp-includes/css/site.css">
 </head>
 <body style="background-color:#FF6900;">
 
-    @*<nav class="navbar sticky-top navbar-light bg-light">
-        <span class="navbar-text mx-auto">
-            <a asp-controller="Home" asp-action="Index">
-                <img src="~/wp-content/uploads/2019/07/Imagotipo_ZiPago-118x75.png" width="118" height="75" alt="ZiPago">
-            </a>           
-            <span class="navbar-text mx-auto">
-                <h4 class="text-dark">
-                    @ViewData["TitleNav"]
-                </h4>
-            </span>
-        </span>
-    </nav>*@
-    <div class="row" style="margin-left:0; margin-right:0;">
+    @*<div class="row" style="margin-left:0; margin-right:0;">
         <br />
-    </div>
+    </div>*@
 
     @RenderBody()
 
-    <div class="row" style="margin-left:0; margin-right:0;">
+    @*<div class="row" style="margin-left:0; margin-right:0;">
         <br />
-    </div>
+    </div>*@
 
-    <script type='text/javascript' src='~/dist/bootstrap-4.3.1-dist/js/bootstrap.min.js'></script>    
+    <script type='text/javascript' src='~/dist/bootstrap-4.3.1-dist/js/bootstrap.min.js'></script>
+    <script type='text/javascript' src='~/dist/spin/spin.js'></script>
 </body>
 </html>

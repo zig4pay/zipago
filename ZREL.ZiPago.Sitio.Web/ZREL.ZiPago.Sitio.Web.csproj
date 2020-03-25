@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <Folder Include="Views\Seguridad\" />
+    <Folder Include="wwwroot\dist\spin\" />
     <Folder Include="wwwroot\dist\sweetalert\" />
   </ItemGroup>
 
